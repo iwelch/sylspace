@@ -1,0 +1,37 @@
+::EQVERSION:: 1.0 -- not used.
+
+::NAME::  Finance-Related Functions
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: net present value
+
+:I: $x=pr(10,20,30); $r=rseq(1,3)/10.0; $ANS=npv($r, 10, $x, 30)
+
+:Q: At an interest rate of $r, what is the net present value of $10 (today), $$x (next year) and $30 (in two years)?
+
+<p>Cheatsheet: The answer is $ANS.</p>
+
+:A: The answer is $ANS. 
+
+:E:
+
+
+
+:N: irr
+
+:I: $x1= (-1)*rseq(10,100,10); $x2= rseq(10,80,10); $x3= -$x1+rseq(10,80,10); $ANS=irr($x1,$x2,$x3)
+
+:Q: For cash flows of ($x1,$x2,$x3), what is the IRR?
+
+<p>(Cheatsheet: this one happens to be $ANS)</p>
+
+:A: The answer is $ANS.
+
+:E:
+
+::END::

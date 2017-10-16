@@ -1,0 +1,32 @@
+::EQVERSION:: 1.0 -- not used.
+
+::NAME::  Message Pages
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Introduction
+
+:M:
+
+  <p>This is a simple message.  html sequences work. For example, <b>bold</b>, <em>emphasis</em>, <tt>teletype</tt> and...</p>
+
+  <p>paragraphs...or even
+
+  <h4>h4 headers</h4>
+
+  <p>and lists
+
+  <ul>
+   <li>One</li>
+   <li>Two</li>
+  </ul>
+
+  <p>Warning: if you want to have a dollar expression that perl knows, such as &#36;_ , then you have to quote the dollar as '&amp;#36;'.
+
+:E:
+
+::END:: 

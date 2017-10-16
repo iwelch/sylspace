@@ -1,0 +1,38 @@
+::EQVERSION:: 1.0 -- not used.
+
+################################################################
+
+::NAME::  Header Information
+
+::INSTRUCTOR:: Ivo Welch
+
+::AUTHOR:: Ivo Welch
+
+::EMAIL:: ivo.welch@gmail.com
+
+::CREATED:: October 2015 by Ivo Welch
+
+::VERSION:: 1.1
+
+::AREA:: General / Introduction
+
+   The AREA field is free-form.  Please use '/' and hierarchies, such as
+	Math / Calculus / Introduction / Differences
+	Finance / Corporate Finance / Net Present Value
+	Biology / Molecular Genetics / Telomeres
+
+::COMMENT::
+
+################################################################
+
+::START::
+
+:N: Introduction
+
+:M:
+
+<p>As you can see, most of the header information is not currently used.  The system does pick out the equiz name (for a nicer reminder, shown in some locations) and the author when displaying the quiz.  The rest will be used in the future.</p>
+
+:E:
+
+::END:: 

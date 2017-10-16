@@ -1,0 +1,80 @@
+::EQVERSION:: 1.0 -- not used.
+
+::NAME::  Various Mathematics
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: perl
+
+:M: <p>Most functions are simply available perl.  So, functions like sqrt, log, etc. work. just as you would expect them to.  You can also define your own functions (even with arrays, if need be).</p>
+
+<p>This particular quiz shows both typesetting math for html browser display (courtesy of <a href="http://www.mathjax.org">mathjax</a>), and the ability to define your own math equiz functions.
+
+<p>All calculations have to happen in the :I: section.  All variables begin with a dollar sign.  The answer to each question <em>must</em> be in the special variable $ANS .
+
+:E:
+
+################################################################
+
+:N: Math example
+
+:I: $x= rseq(1,100); $y= rseq(1,100); $ANS= sqrt( ($y+$x)/(log(1+$y) ) )
+
+:Q: This is a math example to show latex-style equations. X=$x is a random integer number between 1 and 10. Inline math uses the "backslash-parentheses" notation to start and stop math expressions, because dollar signs are just too common and are better not abused as math delimiters:  \( y=\sqrt{\frac{$y+$x}{\log(1+$y)}} \).  In outline form,
+\[ y=\sqrt{\frac{$y+$x}{\log(1+$y)}} \]
+The preceding was just entertainment.  If you want to calculate it, the answer here is $ANS.
+
+:A: The answer can also have math.  For example, \[ \frac{$x}{$y} = $ANS \].
+
+:T: 20
+
+:E: 
+
+################################################################
+
+:N: useful predefined functions
+
+:I: $x7= round(ln(2.0), 7); $ANS=$x7
+
+:Q: We define <tt>ln</tt> as an additional abbreviation for the natural log (just as log()).  We define <tt>round</tt> to round numbers.  Here, the answer is $x7;
+
+<pre>
+   x7= round(ln(2.0), 7); ANS=$x7
+</pre>
+
+:A: The answer is $ANS
+
+:E:
+
+################################################################
+
+:N: defining your own function
+
+:I: sub log10 { return log($_[0])/log(10); };  $ANS=log10(10000)
+
+:Q: The log 10 of 10000 is $ANS;
+
+<pre>
+   sub log10 { return log(&#36;_[0])/log(10); };  &#36;ANS=$ANS=log10(10000);
+</pre>
+
+:A: The answer is $ANS
+
+:E:
+
+################################################################
+
+:N: explanation
+
+:M:
+
+  <p>Please note that in writing the last question, I had to quote the dollar symbol in the explanation (posting) of the function as &amp;#36;&mdash;or else, equiz would have recognized it as perl's symbol for the current line (which is '&amp;#36_').  Most of the time, but not all the time, you can use the dollar just fine, as in $a (because we have no $a variable defined in our init section).
+
+:E:
+
+::END:: 
+

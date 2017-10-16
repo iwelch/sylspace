@@ -1,0 +1,33 @@
+::EQVERSION:: 1.0 -- not used.
+
+::NAME::  Multiple choice question
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Multiple Choice Questions
+
+:I: $x= rseq(1,100); $y= rseq(1,100); $ANS= (($x)<33.3) ? 1 : (($x+$y)<66.7) ? 2  : 3;
+
+:Q: Multiple choices usually end with a ternary operator, such as
+
+  <pre style="code">
+         &#36;ANS = (&#36;x&lt;33.3) ? 1 : (&#36;x&lt;66.7) ? 2 : 3
+  </pre>
+
+  to select the right answer.  In this case, the correct choice is $ANS .
+
+:C: A is true, because $x<33.3 | B is true because 33.3<$x<66.7 | C is true because 66.7<$x<=100
+
+:A: Your third correct answer should be {$ANS}.
+
+:D: Way Too Easy
+
+:T: 30
+
+:E: 
+
+::END:: 

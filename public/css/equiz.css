@@ -1,0 +1,93 @@
+/*
+body {  font-family: 'Lucida Bright', Georgia, serif; }
+body {  font-family: monospace; }
+*/
+
+h1 { letter-spacing: 0px; }
+
+/*body.guest { background-color:khaki; }*/
+body.instructor { background-color:#d5f9ed; }
+body.student { background-color:white; }
+
+/*table.hdr span.gravatar img { border: 1px solid #5a698b; }table.hdr span.gravatarbottom { background-color:white; font-size:120%; } */
+
+table.hdr { font-size:100%; }
+table.hdr span.hdruid { font-size:80%; text-align:left; }
+table.hdr span.hdrfid { font-size:300%; line-height:100% }
+
+.top-buffer { margin-top:50px; }
+
+.vertical-align { display: flex; align-items: center; }
+.text-center { text-align:center; }
+
+tr.published { color: darkblue; font-weight:bold; }
+tr.unpublished { color: lightblue;  }
+
+table#filebrowser {
+    font-size:125%;
+    border-spacing: 12px 0px;
+    border-collapse: separate;
+}
+
+table td.c {
+    text-align:center;
+}
+table th.c {
+    text-align:center;
+}
+
+table th.r,td.r {
+    text-align:right;
+}
+
+table th.l,td.l {
+    text-align:left;
+}
+
+td.int {
+    text-align:right;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+dl.faq dd { float: left; margin-bottom: 20px; }
+dl.faq dt { clear: both; }
+
+textarea.eqm { background-color:lightgray; }
+textarea.eqq { background-color:#fafad2; }
+h2.eqq { color:blue; }
+
+dl.msgisdel { color:gray; }
+dd.msgisdel { text-decoration:line-through; }
+
+footer { margin:0em; padding:0em; }
+
+/* div.msgarea { margin-top:-1em; } */
+
+.table-nonfluid {
+    width: auto !important;
+    margin-left:10%;
+/*    margin-right:auto; */
+}
+
+div.ltweet {
+    padding: 2em;
+}

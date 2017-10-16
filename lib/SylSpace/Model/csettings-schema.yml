@@ -1,0 +1,59 @@
+---
+-
+  defaults:
+    required: 0
+    public: 0
+    placeholder: you choose
+    maxsize: 63
+    readonly: 0
+-
+  coursesecret:
+    required: 0
+    placeholder: pick something strange and hand out in first class session.  required to register.
+    regex: ^[a-zA-Z0-9 ]*$
+-
+  cemail:
+    public: 1
+    required: 0
+    placeholder: e.g., course432@myuni.com
+    htmltype: email
+    regex: ^[a-zA-Z0-9\.\_]+\@[a-zA-Z0-9\.]+$
+-
+  uniname:
+    required: 1
+    public: 1
+    placeholder: e.g., UCLA
+-
+  unicode:
+    public: 1
+    placeholder: e.g., Finance 101
+-
+  anothersite:
+    public: 1
+    placeholder: e.g., http://ucla.edu/courses/430.html
+    htmltype: url
+    required: 0
+-
+  department:
+    public: 1
+    placeholder: e.g., Anderson Finance
+-
+  subject:
+    public: 1
+    placeholder: e.g., Introductory Corporate Finance
+-
+  meetroom:
+    public: 1
+    placeholder: e.g., B301
+-
+  meettime:
+    public: 1
+    placeholder: e.g., W 9:00-11:50
+-
+  domainlimit:
+    placeholder: unused for now, could restrict registerable emails
+-
+  hellomsg:
+    public: 1
+    placeholder: e.g., please come to the first class session to get the course secret
+    maxsize: 160

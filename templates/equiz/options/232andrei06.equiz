@@ -1,0 +1,84 @@
+::EQVERSION:: 1.0 -- not used.
+
+::INSTRUCTOR:: TBA
+
+::CREATED:: 2012-2017
+
+::AUTHOR:: Daniel Andrei
+
+::NAME::  Preliminary Quiz: I
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Call price
+:Q: What is the price of a $$K strike call? Assume S = $$S, sigma = 0.25, r = 0.06, the stock pays no dividend and the option expires in 45 days?
+:I: $s=rseq(3500,4000); $S=$s/100; $K=rseq(35,40); $d1=(log($S/$K)+(0.06+0.5*0.25^2)*(45/365))/(0.25*sqrt(45/365)); $d2=$d1-0.25*sqrt(45/365); $ANS=$S*CumNorm($d1)-$K*exp(-0.06*(45/365))*CumNorm($d2)
+:A: We first calculate d1 = (log($S/$K)+(0.06+0.5*0.25^2)*(45/365))/(0.25*sqrt(45/365)) = $d1 and d2 = $d1-0.25*sqrt(45/365) = $d2. <p> It follows that c = $S*N($d1)-$K*exp(-0.06*(45/365))*N($d2) = $$ANS
+:E:
+
+:N: Put price
+:Q: What is the price of a $$K strike put? Assume S = $$S, sigma = 0.32, r = 0.04, the stock pays a 1.0% continuous dividend and the option expires in 110 days?
+:I: $s=rseq(2800,3200); $S=$s/100; $K=rseq(28,32); $d1=(log($S/$K)+(0.04-0.01+0.5*0.32^2)*(110/365))/(0.32*sqrt(110/365)); $d2=$d1-0.32*sqrt(110/365); $ANS=$K*exp(-0.04*(110/365))*CumNorm(-$d2)-$S*exp(-0.01*(110/365))*CumNorm(-$d1)
+:A: We first calculate d1 = (log($S/$K)+(0.04-0.01+0.5*0.32^2)*(110/365))/(0.32*sqrt(110/365)) = $d1 and d2 = $d1-0.32*sqrt(110/365) = $d2. <p> It follows that p = $K*exp(-0.04*(110/365))*N(-$d2)-$S*exp(-0.01*(110/365))$N(-$d1) = $$ANS
+:E:
+
+:N: Put delta
+:Q: What is the delta on a $$K strike put? Assume S = $$S, sigma = 0.35, r = 0.06, the stock pays a 2.0% continuous dividend and the option expires in 40 days?
+:I: $s=rseq(2400,2600); $S=$s/100; $K=rseq(24,26); $d1=(log($S/$K)+(0.06-0.02+0.5*0.35^2)*(40/365))/(0.35*sqrt(40/365)); $ANS=-exp(-0.02*(40/365))*CumNorm(-$d1)
+:A: We have d1 = (log($S/$K)+(0.06-0.02+0.5*0.35^2)*(40/365))/(0.35*sqrt(40/365)) = $d1 and hence delta = -exp(-0.02*(40/365))*N(-$d1) = $ANS
+:E:
+
+:N: Option gamma
+:Q: Assume that a $$K strike call has a 3.0% continuous dividend, sigma=$V, r = 0.06 and 60 days from expiration. What is the gamma for a stock price movement from $48.00 to $49.00?
+:I: $K=rseq(50,53);$v=rseq(25,30); $V=$v/100; $d1=(log(48/$K)+(0.06-0.03+0.5*$V^2)*(60/365))/($V*sqrt(60/365));$ANS=(exp(-0.03*(60/365))*Norm($d1))/(48*$V*sqrt(60/365))
+:A: We have d1 = (log(48/$K)+(0.06-0.03+0.5*$V^2)*(60/365))/($V*sqrt(60/365))=$d1 and hence gamma = (exp(-0.03*(60/365))*N'($d1))/(48*$V*sqrt(60/365)) = $ANS.
+:E:
+
+:N: Option vega
+:Q: Assume that a $$K strike call has a 1.5% continuous dividend, r = 0.05 and the stock price is $$S. If the option has 45 days until expiration, what is the vega given a shift in volatility from 33.0% to
+34.0%?
+:I: $K=rseq(53,57); $s=rseq(5300,5700); $S=$s/100; $d1=(log($S/$K)+(0.05-0.015+0.5*0.33^2)*(45/365))/(0.33*sqrt(45/365)); $ANS=$S*exp(-0.015*(45/365))*Norm($d1)*sqrt(45/365)/100
+:A: We first calculate d1 = (log($S/$K)+(0.05-0.015+0.5*0.33^2)*(45/365))/(0.33*sqrt(45/365))=$d1. We thus have vega for a percentage point change is = $S*exp(-0.015*(45/365))*N'($d1)*sqrt(45/365)/100 = $ANS
+:E:
+
+:N: Call theta
+:Q: Assume that a $$K strike call has a 2.0% continuous dividend, r = 0.05, sigma=0.36, and the stock price is $$S. What is the theta of the option as the expiration time declines from 60 to 50 days? 
+:I: $K=rseq(58,62), $s=rseq(5800,6200); $S=$s/100; $d1=(log($S/$K)+(0.05-0.02+0.5*0.36^2)*(60/365))/(0.36*sqrt(60/365)); $d2=$d1-0.36*sqrt(60/365); $t=0.02*$S*exp(-0.02*(60/365))*CumNorm($d1)-0.05*$K*exp(-0.05*(60/365))*CumNorm($d2)-($K*exp(-0.05*(60/365))*Norm($d2)*0.36)/(2*sqrt(60/365)); $ANS=$t*10/365
+:A: We first calculate d1=(log($S/$K)+(0.05-0.02+0.5*0.36^2)*(60/365))/(0.36*sqrt(60/365))=$d1 and d2=$d1-0.36*sqrt(60/365)=$d2. <p> We then calculate the annualized theta as 0.02*$S*exp(-0.02*(60/365))*CumNorm($d1)-0.05*$K*exp(-0.05*(60/365))*CumNorm($d2)-($K*exp(-0.05*(60/365))*Norm($d2)*0.36)/(2*sqrt(60/365))=$t. <p> Finally, the ten-day theta is given by $t*10/365 = $ANS
+:E:
+
+:N: Call rho
+:Q: Assume that a $$K strike call has a 1.0% continuous dividend, 90 days until expiration, sigma=0.36 and stock
+price of $$S. Using rho, what is change in option value as the interest rate changes from 6.0% to 5.0% and everything else stays the same?
+:I: $K=rseq(73,77); $s=rseq(7300,7700); $S=$s/100; $d1=(log($S/$K)+(0.06-0.01+0.5*0.36^2)*(90/365))/(0.36*sqrt(90/365)); $d2=$d1-0.36*sqrt(90/365); $rho=(90/365)*$K*exp(-0.06*(90/365))*CumNorm($d2); $ANS=-0.01*$rho
+:A: We have d1 = (log($S/$K)+(0.06-0.01+0.5*0.36^2)*(90/365))/(0.36*sqrt(90/365)) = $d1 and d2 = $d1-0.36*sqrt(90/365) = $d2. <p> It follows that rho is (90/365)*$K*exp(-0.06*(90/365))*N($d2) = $rho and the change in option value is -0.01*$rho=$ANS
+:E:
+    
+:N: Delta hedge position
+:Q: What is the total dollar cost to create a delta hedge position against a 200 short call position?
+Assume calls are priced at $$C, the delta is $d, and stock price is $73.00.
+:I: $c=rseq(415,445); $C=$c/100; $D=rseq(750,770); $d=$D/1000; $ch=-200*$d; $pos=-$ch; $sh=$pos*73; $ANS=$sh-200*$C
+:A: A $1 change in the stock price changes the value of the call position by -200*$d=$$ch. Thus we need a position of $pos shares. This is at a cost of $pos*73 = $$sh. <p> Thus the total cost of the position is $sh-200*$C=$$ANS
+:E:
+
+:N: Delta hedge profit/loss
+:Q: Assume S = $33.00, sigma = $V , r = 0.06, dividend = 0.01. You short 100 $$K strike calls at 68 days until
+expiration. Under a delta hedge position, what is your overnight profit/loss if the stock rises to
+$34.50? Ignore interest.
+:I: $v=rseq(30,36);$V=$v/100; $K=rseq(33,37); $d10=(log(33/$K)+(0.06-0.01+0.5*$V^2)*(68/365))/($V*sqrt(68/365)); $d20=$d10-$V*sqrt(68/365); $c0=33*exp(-0.01*(68/365))*CumNorm($d10)-$K*exp(-0.06*(68/365))*CumNorm($d20); $del1=exp(-0.01*(68/365))*CumNorm($d10);$pos=-$del1*-100; $d11=(log(34.50/$K)+(0.06-0.01+0.5*$V^2)*(67/365))/($V*sqrt(67/365)); $d21=$d11-$V*sqrt(67/365); $c1=34.50*exp(-0.01*(67/365))*CumNorm($d11)-$K*exp(-0.06*(67/365))*CumNorm($d21); $cp=100*($c0-$c1); $sp=$pos*(34.50-33); $ANS=$cp+$sp
+:A: We need to price the option on each day. For day 0, we have d1 = (log(33/$K)+(0.06-0.01+0.5*$V^2)*(68/365))/($V*sqrt(68/365)) = $d10, d2 =$d10-$V*sqrt(68/365) = $d20 and hence c0 =33*exp(-0.01*(68/365))*CumNorm($d10)-$K*exp(-0.06*(68/365))*CumNorm($d20) = $c0. <p> One day later we have d1 = (log(34.50/$K)+(0.06-0.01+0.5*$V^2)*(67/365))/($V*sqrt(67/365))=$d11, d2=$d11-$V*sqrt(67/365)=$d21 and c1=34.50*exp(-0.01*(67/365))*CumNorm($d11)-$K*exp(-0.06*(67/365))*CumNorm($d21)=$c1. <p> The delta at day 0 is exp(-0.01*(68/365))*N($d10) and hence the stock position required to delta hedge is -100*-$del1 = $pos. <p> It follows that the overnight call profit/loss is 100*($c0-$c1)=$cp and the overnight stock profit/loss is $pos*(34.50-33)=$sp.<p> Hence the overnight profit/loss is $cp+$sp=$ANS
+:E:
+
+:N: Short put position profit/loss
+:Q: Assume that a $50 strike put pays a 2.0% continuous dividend, r = 0.07, sigma = 0.25 , and the stock price is $$S0. What is the profit, per share, for a short put position if the option expires in 60 days and the price rises to $$S1 after 5 days?
+:I: $S0=rseq(47,49), $S1=rseq(50,52); $d10=(log($S0/50)+(0.07-0.02+0.5*0.25^2)*(60/365))/(0.25*sqrt(60/365)); $d20=$d10-0.25*sqrt(60/365); $p0=50*exp(-0.07*(60/365))*CumNorm(-$d20)-$S0*exp(-0.02*(60/365))*CumNorm(-$d10); $d11=(log($S1/50)+(0.07-0.02+0.5*0.25^2)*(55/365))/(0.25*sqrt(55/365)); $d21=$d11-0.25*sqrt(55/365); $p1=50*exp(-0.07*(55/365))*CumNorm(-$d21)-$S1*exp(-0.02*(55/365))*CumNorm(-$d11); $ANS=$p0-$p1
+:A: We need the put price for 60 days until maturity and 55 days until maturity. For 60 days, we have d1=(log($S0/50)+(0.07-0.02+0.5*0.25^2)*(60/365))/(0.25*sqrt(60/365))=$d10; d2=$d10-0.25*sqrt(60/365)=$d20 and p=50*exp(-0.07*(60/365))*N(-$d20)-$S0*exp(-0.02*(60/365))*N(-$d10)=$$p0. <p> For 55 days, we have d1=(log($S1/50)+(0.07-0.02+0.5*0.25^2)*(55/365))/(0.25*sqrt(55/365))=$d11; d2=$d11-0.25*sqrt(55/365)=$d21 and p=50*exp(-0.07*(55/365))*N(-$d21)-$S1*exp(-0.02*(55/365))*N(-$d11)=$$p1. <p> Thus the profit/loss per share is $p0-$p1=$$ANS
+:E:
+
+
+
+::END::

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title> <%= $title %> </title>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" type="text/css" property="href" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" property="href" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <!-- local iaw scripts -->
+
+    <link rel="stylesheet" href="/css/sylspace.css"  />
+
+    <link rel="stylesheet" href="/css/input.css"  />
+    <link rel="stylesheet" href="/css/equiz.css" />
+    <link rel="stylesheet" href="/css/dropzone.css" />
+    <script src="/js/dropzone.js"></script>
+  </head>
+
+
+  <body style="background-color:<%= stash('bgcolor') || 'white' %>">
+
+    <div class="container-fluid" id="headbardraw">
+
+      <nav id="w0" class="navbar-inverse navbar-fixed-top navbar">
+	<div class="container-fluid" id="nbh">
+	  <div class="navbar-header">
+      <%== ($ENV{SYLSPACE_onlocalhost}) ? '<span style="background-color:yellow">LOCALHOST</a>' : ''; %>
+
+	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse"><span class="icon-bar"></span></button>
+	    <a class="navbar-brand" href="/"><b><%= $self->req->url->to_abs . " -- " .$ENV{SYLSPACE_sitename} %>: <%= $self->session->{uemail}||"no email yet" %> </b></a>
+	  </div> <!-- navbar-header -->
+	  <div id="w0-collapse" class="collapse navbar-collapse">
+	    <ul id="w1" class="navbar-nav navbar-right nav">
+              <%== stash('toprightexit') || '<li><a href="/auth/goclass"> <i class="fa fa-sign-out"></i> Exit Course </a></li>' %>
+              <!-- (($self->req->url->subdomain() =~ m{\bauth\b}) ?
+	          '<a href="/logout"> <i class="fa fa-sign-out"></i> LOG OFF </a>' :
+	          '<a href="http://auth.'.$self->req->url->domain().'/auth/goclass"> <i class="fa fa-sign-out"></i> Exit Course </a>')
+              -->
+	    </ul>
+	  </div><!-- w0-collapse -->
+	</div> <!--container:nbh -->
+      </nav><!--w0-->
+
+      <header>
+
+	<div class="jumbotron" style="background-color:<%= stash('fgcolor') || 'yellow' %>">
+
+          <%== ($self->session->{flash}->{message}) ?
+	  '<div class="alert alert-success" role="alert">'.($self->session->{flash}->{message}).'</div>' :
+	  '<div class="alert" role="alert">&nbsp;</div>'; %>
+
+	  <table class="hdr" style="color:white">
+	    <tr>
+	      <td> <a href="/"> <span class="gravatar">
+                    <i class="fa fa-university fa-5x" aria-hidden="true" style="color:white"></i>
+		</span> </a> &nbsp;&nbsp;
+	      </td>
+	      <td> <h1> <%= $title %> </h1>  </td>  </tr>
+	  </table>
+	</div> <!-- jumbotron -->
+
+      </header>
+
+    </div> <!--container-fluid:headbardraw-->
+
+
+    <div class="container" id="body">
+
+      <%= content %>
+
+      <footer>
+	<div class="container" id="gohomeorup" style="margin-left:0em">
+	  <hr />
+          <a class="btn btn-default" href="/"> <i class="fa fa-home"></i> home</a>
+          <a class="btn btn-default" href=".."> <i class="fa fa-arrow-up"></i> up</a>
+          &nbsp;
+          <a class="btn btn-default" href="/aboutus"> <i class="fa fa-legal"></i> about us</a> &nbsp;
+          <a class="btn btn-default" href="/auth/goclass"> <i class="fa fa-sign-out"></i> exit course </a>
+          <a class="btn btn-danger" href="/logout"> <i class="fa fa-power-off"></i> logout user </a>
+	</div> <!--container:gohomeorup -->
+
+        <p style="font-size:x-small;padding:1em;margin:1em;">Please notify <a href="mailto:ivo.welch@gmail.com?subject=security+breach+on+<%= $ENV{SYLSPACE_sitename}%>">ivo welch</a> immediately if you discover an exploitable security bug that would allow unauthorized extraction of data.</p>
+      </footer>
+
+
+    </div> <!--container:body-->
+
+  </body>
+</html>

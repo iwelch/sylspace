@@ -1,0 +1,738 @@
+::EQVERSION:: 1.0 -- not used.
+
+################################################################
+::NAME::  Welch, MBA Final, 2015
+
+::INSTRUCTOR:: Ivo Welch
+
+::CREATED:: December 2015
+
+::VERSION:: 1.0 -- not used
+
+::AREA:: Finance / Corporate Finance  and  Finance / Options
+
+
+################################################################################################################################
+
+::START::
+
+:N: Notes
+
+:M: This is a translation of the final for Ivo Welch's Anderson MBA 430 course in Winter 2015, coded into equiz.  Although the entire book was fair game, the emphasis was on capital structure and options.
+
+:E:
+
+
+
+:N: Q1 430-2015 Final, Binomial
+
+:I: $s0=rseq(53,55); $sd=rseq(48,52); $su=rseq(58,62); $cd=3; $cu=7; $rf=0;
+    $delta= ($cu-$cd)/($su-$sd); $b = ($cu-$delta*$su)/(1+$rf);
+    $ANS= $delta*$s0 + $b
+
+:Q: Assume the risk-free interest rate is $rf.  The stock worth $$s0 today can go either to $$sd or $$su, with equal probability in a binomial process.  What is the price of an option that promises to pay $$cd if the stock falls (to $$sd), and $$cu if the stock increases to $$su?
+
+:A: You are solving for delta and b two equations and two unknowns:
+\[ \delta \cdot u\cdot s_0 + b\cdot(1+r_f) = c_{u} \Rightarrow \delta \cdot $su + b\cdot(1+$rf) = $cu \] 
+\[ \delta \cdot d\cdot s_0 + b\cdot(1+r_f) = c_{d} \Rightarrow \delta \cdot $sd + b\cdot(1+$rf) = $cd \] 
+Thus,
+\[ \delta = \frac{c_u - c_d}{s_u - s_d} =  \frac{$cu-$cd}{$su-$sd} = $delta \]
+\[ b = \frac{c_u - \delta\cdot s_u}{1+r_f} =  \frac{$cu-$delta\cdot\$$su}{1+$rf} = \$$b \]
+and
+\[ c_0 = \delta\cdot s_0 + b = $delta\cdot\$$s0 + (\$$b) \approx \$$ANS \]
+
+:E:
+
+
+:N: Q2 430-2015 Final, Black-Scholes
+
+:I: $S=rseq(45,55); $S0= $S; $lvol=pr(0.3,0.4,0.5); $sigma=$lvol; $tw=13; $t=$tw/52; $rf=0.03; $K=rseq(58,62);
+    $pvk= $K*exp(-$rf*$t);
+    $d1 = ( log($S/$K) + ($rf+$lvol^2/2)*$t ) / ( $lvol * $t^0.5 );
+    $d2 = $d1 - $lvol * $t**0.5;
+    $ANS = $S * CumNorm($d1) - $K * exp( -$rf * $t ) * CumNorm($d2);
+
+
+:Q: Black-Scholes:  Price a <em>European put</em> option on a stock without dividends if S=$$S, the implied log-volatility of the stock is $lvol per year (which is the standard deviation, not the variance!), the expiration is in $tw weeks, the continuously compounded risk-free rate per annum is $rf, and the strike price is $$K.  No dividends.  52 weeks per annum.  Show your work&mdash;writing down the answer alone gets you no credit.
+
+:A:
+  \[ d_1 =  \frac{\log_N\big[ S_0/PV(K) \big]}{(\sigma\cdot\sqrt{t})} + \frac{1}{2} \cdot (\sigma\cdot\sqrt{t}) =
+     \frac{\log_N\big[ $S0/$K \big]}{($sigma\cdot\sqrt{$t})} + \frac{1}{2} \cdot ($sigma\cdot\sqrt{$t}) \approx $d1 \]
+
+  \[ d_2 = d_1 - \sigma\cdot\sqrt{t} = $d1 - $sigma\cdot\sqrt{$t} \approx $d2 \]
+
+  \[ BS = S\cdot N(d_1) + PV(K)\cdot N(d_2) = \$$S0\cdot N($d1) + PV(\$$K)\cdot N($d2) \approx \$$ANS \]
+
+:E:
+
+
+:N: Q3 430-2015 Final, Comparative Statics S
+
+:I: $ANS=2
+
+:Q: What is the comparative static of the B-S model of the <em>European Put</em> with respect to S?
+
+:C: positive|negative|can be either
+
+:A: negative.  puts are worth less when the stock price goes up
+
+:E:
+
+
+:N: Q3 430-2015 Final, Comparative Statics K
+
+:I: $ANS=1
+
+:Q: What is the comparative static of the B-S model of the <em>European Put</em> with respect to K?
+
+:C: positive|negative|can be either
+
+:A: positive.  puts are worth more when the stock price goes down
+
+:E:
+
+
+:N: Q3 430-2015 Final, Comparative Statics t
+
+:I: $ANS=1
+
+:Q: What is the comparative static of the B-S model of the <em>European Put</em> with respect to t?
+
+:C: positive|negative|can be either
+
+:A: positive.  puts are worth more when there is more time to expiration.
+
+:E:
+
+
+:N: Q3 430-2015 Final, Comparative Statics sigma
+
+:I: $ANS=1
+
+:Q: What is the comparative static of the B-S model of the <em>European Put</em> with respect to volatility?
+
+:C: positive|negative|can be either
+
+:A: positive. puts are worth more when there is more volatility
+
+:E:
+
+
+:N: Q4 430-2015 Final, True-False
+
+:I: $ANS=1
+
+:Q: Is the Black-Scholes formula is essentially the same as valuing a European call option without dividends with a binomial tree?
+
+:C: true|false|na
+
+:A: yes.  B-S is an asymptotic case with infinitely many periods to expiration
+
+:E:
+
+
+:N: Q4 430-2015 Final, True-False
+
+:Q: If the stock pays no dividends, can we use the Black-Scholes formula and put-call parity to infer the value of an American put?
+
+:C: true|false|na
+
+:I: $ANS=2
+
+:A: no.  this is because you may want to exercise before expiration.
+
+:E:
+
+
+:N: Q4 430-2015 Final, True-False
+
+:I: $ANS=1
+
+:Q: Even if investors disagree on the appropriate value of the underlying stock (i.e., on its expected rate of return), they could still agree on the value of a European Put option.
+
+:C: true|false|na
+
+:A: true. disagreement would have been reflected in the underlying price.
+
+:E:
+
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: A perfect market is a necessary condition for an efficient market.
+
+:C: true|false|na
+
+:I:    $ANS=2
+
+:A: false. efficient markets only say to use the information.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: A perfect market is a sufficient condition for an efficient market.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: true. when the market is perfect, market forces will drive it to be efficient.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: An equal-weighted portfolio is easier to maintain&mdash;requiring less trading&mdash;than a value-weighted portfolio.
+
+:C: true|false|na
+
+:I:    $ANS=2
+
+:A: false. an ew pfio needs to sell stocks that go up and buy stocks that go down
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: In a perfect market, the expected borrowing rate is equal to the expected lending rate.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: true. this is the big advantage of a perfect market.  otherwise, the value of the asset depends on the wealth of the holder.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: If there is inflation in an otherwise perfect capital market, then the decision whether to adopt a project depends on the identity of the project owner.
+
+:C: true|false|na
+
+:I:    $ANS=2
+
+:A: false. inflation would be priced and agreed.  it is not a perfect-market violation.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: A publicly traded stock can have an expected rate of return below the risk-free rate if the CAPM is true, provided the risk-free rate and the equity-premium are both positive.
+
+:C: true|false|na
+
+:I: $ANS=1
+
+:A: This is possible, but very rare, however.
+
+:E:
+
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: Dividends have a better personal recipient tax-treatment than interest payments in the U.S.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: true. they face a lower statutory tax rate.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: Dividends have a better corporate income tax-treatment than interest.
+
+:C: true|false|na
+
+:I:    $ANS=2
+
+:A: false.  they 
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: From a perspective of extracting the cash flows for an NPV analysis, the depreciation figure from the income statement can substitute well for the depreciation figure from the cash-flow statement.
+
+:C: true|false|na
+
+:I: $ANS=2
+
+:A: False. some depreciation is rolled into COGS and SGA.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: The announcement of a new dividend would almost surely raise any firm's stock price.
+
+:C: true|false|na
+
+:I: $ANS=2
+
+:A: False. Many firms have negative responses.  This is due to high variability.  The average response is often positive.  :E:
+Theoretically, if paying dividends means foregoing good projects, this is what we would expect.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: If there are no synergies or externalities between two merging firms, the combined cost of capital should be the value-weighted average of its two constituent cost of capitals.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: see class example.  otherwise, merging two stocks in your portfolio would create or destroy value.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: If there are no synergies or externalities between two merging firms, the combined P/E ratio should be the value-weighted average of its two constituent P/E ratios.
+
+:C: true|false|na
+
+:I:    $ANS=2
+
+:A: see class example.  it can be anything.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: If everything is priced appropriately in a perfect market, then there is no surplus for buyers or sellers.
+
+:C: true|false|na
+
+:I: $ANS=2
+
+:A: false. only the last (most marginal) buyer or seller gets no surplus.  everyone else inframarginal does.
+
+:E:
+
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: "Double taxation of dividends" means that firm profits are taxed first at the firm level and then the taxed profits are taxed yet again at the individual level.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: true. in the U.S., you may get partial tax credit at a personal level.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: <em>Prudent Man Rules</em> prohibit many institutional investors from holding stocks that pay dividends, because dividends are double-taxed.
+
+:C: true|false|na
+
+:I:    $ANS=2
+
+:A: false.  they prohibit many against holding non-dividend paying stocks.  this is an anachronism.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: As it is for owners of (plain) equity options, volatility is usually a good thing for owners of real options.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: true. this means the option holder really gets a lot in the upside, but relatively less (negative) in the downside.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: In Working Capital (WC) calculations, receivable and payables play opposite roles.  Inventories are similar to accounts receivables in WC.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: true. inventories and accounts receivables are both treated (somewhat) like money in the bank.
+
+:E:
+
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: Shareholder value maximization means that firms should maximize P/E ratios.
+
+:C: true|false|na
+
+:I:    $ANS=2
+
+:A: false.  uggh.
+
+:E:
+
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: Shareholder value maximization is really the same as firm value maximization.
+
+:C: true|false|na
+
+:I:  $ANS=2
+
+:A: false. managers can often increase shareholder value by abrogating debt obligations.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: Shareholder value maximization can induce managers to take negative NPV projects.
+
+:C: true|false|na
+
+:I: $ANS=1
+
+:A: true, if negative NPV projects also happen to increase volatility a lot.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: The owners of the firm today internalize the costs if they choose inferior corporate charters and capital structures.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: true.  if they are expected to make bad choices in the future, they will get less money today.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: From an information perspective, equity investors are always (weakly) better off if the firm pays out cash in the form of share repurchases rather than in the form of dividends.
+
+:C: true|false|na
+
+:I:    $ANS=2
+
+:A: false.  it is from a tax perspective that equity investors are better off.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: From a tax perspective, equity investors are always (weakly) better off if the firm pays out cash in the form of share repurchases rather than in the form of dividends.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: true.  if the previous question was not hint enough...
+
+:E:
+
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: A firm in the 30% tax bracket that suddenly and unexpectedly announces that it will increase its leverage by $1 billion forever should see additional PV of its corporate income tax savings to account for a value increase of (a little) less than $300 million.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: True.  I should be a little <em>under</em> is because we discount with the debt rate here.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: In the real imperfect world, managers can consider investment and financing decisions separately.
+
+:C: true|false|na
+
+:I:   $ANS=2
+
+:A:  False.  This is the case only in an Modigliani-Miller world.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: Managers experience the influence of Modigliani-Miller violations (other than corporate income taxes) through the costs of capital of debt and equity that they face.  This is why they should still care about these effects, even though there are no terms for them in the WACC and APV formulas.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: true. they do not change the formula, but they change the inputs.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: A positive average rate of return over a few years means that your portfolio has made money.
+
+:C: true|false|na
+
+:I:   $ANS=2
+
+:A: false. the average is arithmetic.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: Can it happen that firms cannot take positive-NPV projects in the future because they have debt?
+
+:C: true|false|na
+
+:I: $ANS=1
+
+:A: true.  usually through covenants.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: Can it happen that firms cannot take negative-NPV projects in the future because they have debt?
+
+:C: true|false|na
+
+:I: $ANS=1
+
+:A: True.  usually through covenants.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: Assume that a firm that is worth $20B will get into financial distress if it has debt and the firm value falls below $2B.  The probability if this happening is 10%.  If it does, customers will flee, which will cost it 5% of its business.  In counterbalancing the benefits of debt, should the firm use 5% as its expected cost of bankruptcy that today?
+
+:C: true|false|na
+
+:I: $ANS=2
+
+:A: False.  0.5%, not 5%.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: The presence of debt can, on the margin, reduce firm value when it increase (managers' and owners') moral hazard.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: true.  managers can be led to take bad projects when they can expropriate creditors to increase shareholder value.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: The presence of debt can, on the margin, reduce firm value by increasing debt hangover issues.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: true.  this creates a moral hazard.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: The presence of debt can, on the margin, increase firm value by increasing hold-up concerns.
+
+:C: true|false|na
+
+:I:    $ANS=2
+
+:A: false.  debt often reduces holdup concerns.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: The presence of equity can, on the margin, often increase firm value by reducing the relative personal income taxes your funders have to provide.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: true.  debt decrease corporate income taxes, but increase personal income taxes.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: The cost of debt is its quoted interest rate but only in a perfect market.
+
+:C: true|false|na
+
+:I:    $ANS=2
+
+:A: false. expected.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: If the CEO knows about the firm's (confidential) projects that investors know little about, e.g., that the projects are less risky or better, this can in effect mean that the <em>promised</em> interest rate can turn into the firm's cost of capital, rather than the <em>expected</em> interest rate that investors calculate.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: true.  this is a perfect-market violation, and it requires delicate care for capital-budgeting cases.  it drives a wedge between current and future shareholders.  who should a manager care for more?
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: Many if not most pro-formas use the CAPM as the cost of capital even though there is very little scientific evidence to support the use of the CAPM for such purposes.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: true.  the CAPM has at best mixed empirical support, and at worst can be considered completely rejected.  sad but true.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: An arbitrage is always better than a great bet.
+
+:C: true|false|na
+
+:I:    $ANS=2
+
+:A: false.  this is the case only if the arbitrage is scalable.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: When an analyst has had a positive abnormal performance, it is a sign of market inefficiency.
+
+:C: true|false|na
+
+:I:    $ANS=2.
+
+:A: false.  it is only when the expected abnormal performance is positive that this is the case.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: An event study usually assumes that the market is efficient.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: true.  it means that stock markets respond fully and immediately to all news.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: The value of firms' cash flows in the "mature" terminal value phase of a pro-forma is really not separate from but depends on the firm's cash flows in the "growth" phase.
+
+:C: true|false|na
+
+:I:    $ANS=1
+
+:A: true.  so better get them right!
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: Finance analysis usually does not display much sophistication in the terminal value estimation.  This is a problem because usually much of the value of firms sits in the mature phase of the business far down the line.  It's just that we don't know how to assess it much better.
+
+:C: true|false|na
+
+:I: $ANS=1
+
+:A: true.  we need smart business people, not mechanical finance people.
+
+:E:
+
+
+:N: Q 430-2015 Final True-False
+
+:Q: Most pro-formas use the CAPM as the cost of capital even though there is very little scientific evidence to support the use of the CAPM for such purposes.
+
+:C: true|false|na
+
+:I: $ANS=1
+
+:A: true.  the CAPM simply sucks.
+
+:E:
+
+:N: Omitted
+
+:M:
+  There were three more questions that we did not code in equiz:
+
+  <ol>
+  <li> What is the worst problem with using P/E comparables?  In 3 sentence or less, how can you remedy this? A: the 1/x problem.
+  <li> Name three important reasons why debt can be cheaper than equity (relative to its perfect-market value).
+  <li> Name three important reasons why equity can be cheaper than debt (relative to its perfect-market value).
+  </ol>
+
+:E:
+
+::END::

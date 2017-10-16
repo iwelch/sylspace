@@ -1,0 +1,267 @@
+::EQVERSION:: 1.0 -- not used.
+
+################################################################
+::NAME::  Equiz &mdash; The Advanced Tutorial
+
+::INSTRUCTOR:: Ivo Welch
+
+::AUTHOR:: Ivo Welch
+
+::EMAIL:: ivo.welch@gmail.com -- not used.  may help with future credit
+
+::CREATED:: October 2015 by Ivo Welch -- not used
+
+::VERSION:: 1.1 -- not used
+
+::AREA:: General / Introduction
+
+   The AREA field is free-form.  Please use '/' and hierarchies, such as
+	Math / Calculus / Introduction / Differences
+	Finance / Corporate Finance / Net Present Value
+	Biology / Molecular Genetics / Telomeres
+
+::COMMENT:: This is a longer comment.  The preamble is done.  Now come the questions.  Everything in a comment is, of course, ignored.
+
+
+################################################################
+
+::START::
+
+:N: Introduction
+
+:M:
+
+  <p>This tutorial can teach you in 5 minutes how to create your own equizzes. It also provides a convenient starting template for writing new equizzes.  Creating your own equizzes with student-specific values is so easy that it takes longer to explain it than it takes to show it to you.  So let us show you how.
+
+  <p>Let's start with a first simple question.  Explanations of how this question is designed will follow.
+
+:E:
+
+################
+
+
+:N: A simple algorithmic question 
+:I: $x= rseq(10,20); $ANS= $x+1
+:Q: This is the first question.  X=$x is a random integer number between 10 and 20.  Please calculate $x+1 and enter it as your answer.
+:A: When done, your students will be shown this long explanation, which can also use any of your variables.  So, here, the first correct answer adding 1 to $x should be $ANS.
+:T: 10
+:E: 
+
+################
+
+:N: First Question Explanation
+
+:M: 
+
+  <p>So, how was this first question written?
+
+  <p>Questions are defined by tags, which must be at the start of a line.  (Indent them with a space and they no longer work.  Also, watch out that you don't accidentally start a line with a code when you do not mean to.)</p>
+
+  <p>Each question (or message) starts with a name (prefix '<code>:N:</code>') and ends with an '<code>:E:</code>'.  It then contains an initialization section ('<code>:I:</code>') to compute, the question text itself ('<code>:Q:</code>') with can depend on computed values, a long answer ('<code>:A:</code>') that can provide an explanation for the student, and optional hints to the student about time ('<code>:T:</code>') and difficulty ('<code>:D:</code>') level.</p>
+
+  <p>In the initialization (<code>:I:</code>) section, algebra works as you would it expect it.  For example, to initialize variable $x with a random integer value between 5 and 10, then set $y to $x plus 5, and finally assign the square to $ANS, you would write
+
+  <pre class="code">:I:   $x= rseq(5,10); $y=$x+5; $ANS=$y^2</pre>
+
+  <p>(<code>rseq()</code> is a predefined function, which here chooses a random integer between 5 and 10.  Statements are separated with semicolons.  Variable names start with dollar signs.)
+
+  <p>Then, in your question or long answer section, if you want to refer to your $y variable, just embed it, as in <code>your intermediate answer is $y, and then...blah blah</code>.  Of course, you had to have defined the $y variable in your init section first, or it will remain as $y.  (And, if you want to use the text string $us, then please do not define $us as a variable in your init section!)
+
+  <p>So, here is the source for the first question:
+
+  <pre class="code">
+   :N: A simple algorithmic question 
+   :I: $x= rseq(10,20); $ANS= $x+1
+   :Q: This is the first question.  X=$x is a random integer number between 10 and 20.
+       Please calculate $x+1 and enter it as your answer.
+   :A: When done, your students will be shown this long explanation,
+          which can also use any of your variables.
+          So, here, the first correct answer adding 1 to $x should be $ANS.
+   :T: 10
+   :E: 
+  </pre>
+  and because in this message the tags are indented, they are not treated as instructions.
+
+  <p>Go back to the question to see how it looked.  Then go on.</p>
+:E:
+
+################
+
+:N: This Message Explanation
+
+:M:
+
+  <p>But how did we add the long explanation on the previous page (with gray background)?  Or, for that matter, how are we adding the explanation on this page?</p>
+
+  <p>It turns out that it wasn't a question, at all.  You can also add interceding messages, e.g., to introduce future questions.  This is actually what we (ab)used here.  Messages begin with an <code>:M:</code> and must be closed with an <code>:E:</code>, just like questions.
+
+  <p>So, this is how this page started:
+
+  <pre class="code">
+   :N: This Message Explanation
+   :M:
+       &lt;p&gt; But how did we ...
+   :E:
+  </pre>
+
+  <p style="padding-left:2em">...on to the next question, which will show off some more capabilities.
+
+:E:
+
+
+################
+
+:N: Multiple Variables, Math, and Formatting Control in Questions
+
+:Q: This is the second question.  It shows a calculation that involves two (random) variables, and it shows how you can control the rounding of displayed numbers.  (The default number of digits printed attempts to be smart at formatting numbers.)  X={$x:8} <i>(see the 8 digits? this was accomplished using &#123;&#36;x:8&#125; instead of &#36;x)</i> is a random integer number between 1 and 100.  Y={$y:4} <i>(see the 4 digits?...made by &#123;&#36;y:4&#125;)</i> is another random integer number, this one between 10 and 20. What is \[ \frac{ {$x:2} }{ {$y:1} } \] <p><i>(PS: see the 2 and 1 digits?)</i>?
+
+:I: $x= rseq(1,100); $y= rseq(10,20); $ANS= ($x/$y)
+:A: Your second correct answer should be \[ \frac{$x}{$y} = $ANS \].
+:T: 20
+:P: 0.0001
+:E: 
+
+################
+
+:N: How did we do the preceding?
+
+:M:
+
+<pre class="code">
+  :N: Multiple Variables, Math, and Formatting Control in Questions
+
+  :Q: This is the second question.  It shows a calculation that involves two (random) variables, and it shows how you can control the rounding of displayed numbers.  (The default number of digits attempts to be smart at formatting numbers.)  X={$x:8} &lt;i&gt;(see the 8 digits? It was accomplished using &#123;&#36;x:8&#125; instead of &#123;&#36;x&#125;)&lt;/i&gt; is a random integer number between 1 and 100.  Y={$y:4} &lt;i&gt;(see the 4 digits?...made by &#123;&#36;y:4&#125;)&lt;/i&gt; is another random integer number, this one between 10 and 20. What is \[ \frac{ {$x:2} }{ {$y:1} } \] &lt;p&gt;&lt;i&gt;(PS: see the 2 and 1 digits?)&lt;/i&gt;?
+
+  :I: $x= rseq(1,100); $y= rseq(10,20); $ANS= ($x+$y)
+  :A: Your second correct answer should be \[ \frac{$x}{$y} = $ANS \].
+  :T: 20
+  :P: 0.0001
+  :E: 
+</pre>
+
+Note how we are mixing equiz variables, html markup, and LaTeX markup.
+
+:E:
+
+################
+
+:N: Multiple Choice Questions
+
+:Q:
+  <p>This is the third question.  It shows
+    <ul>
+     <li> how you can inform your students how difficult your question is (use <code>:D:</code>);</li>
+     <li> a multiple choice question.</li>
+    </ul>
+
+  <p>Your multiple choice answer (i.e., $ANS) must evaluate to 1 if the first answer is correct, 2 if the second is correct, and so on.  Typically, you would use something like
+  <pre style="code">
+         &#36;ANS = (&#36;x&lt;50) ? 1 : (&#36;x&lt;100) ? 2 : 3
+  </pre>
+  to select the right answer.  (This is based on the simple if-then-else ternary conditional statement syntax that is common in C, java, perl, etc.)
+
+  <p>Now, here it goes: <br />&nbsp;<br /> You have one wallet with X=$$x.  <i>(Note the dollar sign prefix.)</i>  Y=$$y is another random integer number between 1 and 100.  If $$x+$$y is less than $100, then please choose 'A'.  Otherwise, choose 'B'.  Never choose 'C'.
+
+:I: $x= rseq(1,100); $y= rseq(1,100); $ANS= ( ($x+$y) < 100) ? 1 : 2
+
+:C: A could be true | B might be true | C is never true
+:A: Your third correct answer should be {$ANS}.
+:D: Way Too Easy
+:T: 30
+:E: 
+
+################
+
+:N: Summary of Features
+
+:M:
+
+  <h4>Complete Source</h4>
+
+  <p>Please download the source file for this tutorial.  Search for tutorial.equiz .
+
+  <h4>Built-In Mathematics</h4>
+
+  <p>The calculator language is mostly perl-like, which in turn is mostly...calculator-like.  Separate statements with semi-colons.  Some additional functions have been predefined for your convenience: </p>
+
+  <ul style="font-size:small">
+  <li class="myown"> <code>rseq( 50, 100 )</code> chooses a random number between 50 and 100. The optional third argument is the increment.  (rseq will be the most common predefined function that you will use.)</li> 
+  <li class="myown"> <code>pr( 1,4,10 )</code> picks randomly either 1, 4, or 10. </li> 
+  <li class="myown"> <code>mean( 1,2,3,4,5 )</code> computes the mean.  the series is comma separated (here, 3). </li> 
+  <li class="myown"> <code>var( 1,2,3,4,5 )</code> returns the variance (here, 2). </li> 
+  <li class="myown"> <code>sd( 1,2,3,4,5 )</code> returns the standard deviation (here, 1.414). </li> 
+  <li class="myown"> <code>min( 1,2,3,4,5 )</code> returns the minimum (here, 1).</li> 
+  <li class="myown"> <code>max( 1,2,3,4,5 )</code> returns the maximum (here, 5).</li> 
+  <li class="myown"> <code>BlackScholes( $S, $X, $T, $r, $sd )</code> returns the Black-Scholes value. </li> 
+  <li class="myown"> <code>CumNorm( 0 )</code> returns the cumulative normal distribution value (here, 0.5). </li> 
+  <li class="myown"> <code>ln( $x )</code> returns the natural log of $x. </li> 
+  <li class="myown"> <code>pv(0.1, 10, 20)</code> returns the (net) present value, 10/1.1 + 20/1.1^2 (here, about 25.62). </li> 
+  <li class="myown"> <code>npv(0.1, -10, 20)</code> returns the (net) present value, -10 + 20/1.1^1 (here, about 8.18). </li> 
+  <li class="myown"> <code>irr(-10, 20, 30)</code> returns the IRR. </li> 
+  <li class="myown"> <code>round( 1.2345, 2 )</code> rounds an expression, here returning 1.23. </li> 
+  </ul>
+
+  <p>It is possible to define your own function (with up to three parameters), such as
+
+  <pre class="code">
+    function myfun($x,$y) { return ($x+sqr($y)); };
+    $x=rseq(1,10); $x=rseq(5,10);  ANS=myfun($x,$y);
+  </pre>
+
+  <p>There is a ternary conditional operator:
+  <pre class="code">
+     $ANS = ($x > $y) ? 1 : 2;
+  </pre>
+  which means that the answer is 1 if $x is greater than $y, and 2 otherwise.
+
+  <p>For math display, we use mathjax.  Alas, be careful.  This is the web. (The www is more like "evolution" than "clean design.") We are combining four languages (Equiz, HTML, Javascript, and LaTeX), and they all have their own ideas of escape characters.   Because the dollar sign is too common, we did turn off the dollar sign (&#36;) for LaTeX math.  Instead, you have to use <code>&#92;&#8203;&#40; \frac{\sqrt{x}}{2} &#92;&#8203;&#41;</code> for inline math (yielding \( \frac{\sqrt{x}}{2} \)), and <code>&#92;&#8203;&#91; y = \frac{\sqrt{x}}{2} &#92;&#8203;&#93;</code> for block math, yielding
+\[ y = \frac{\sqrt{x}}{2} \]
+These two backslash-paren sequences are fortunately unusual enough in html that they will bite you only rarely.  Most of the time, everything works just as you would expect.  Because equiz dollar variables (like &#36;x) are processed away way before mathjax ever appears on the scene, the equiz+mathjax combination also works just as you would expect: you can use equiz variables in math.
+
+
+  <h4>Control of Required Precision in Answer</h4>
+
+  The <code>:P:</code> field is used to describe unusual accuracy needs (e.g., 0.001, which means the answer has to be within 0.001).
+
+
+  <h4>More Features and Notes</h4>
+
+  <p>Most likely you won't need a lot of the stuff that is explained next.  But it gives you extra flexibility, so it won't hurt you to scan it quickly.
+
+  <ul> 
+
+    <li>Don't put too many questions into each .quiz file.  Instead, create multiple equizzes.  Your students cannot save the state of their equiz and return the following day.  It also reduces frustration if they hit "refresh" by accident.  Your students should be able to finish everything in one session, say one hour.</li>
+
+    <li>The answer that the equiz system will check must always be in a variable named '$ANS'.  The <code>:A:</code> is the tag for just a long explanation of the answer (that explains the answer in detail after the equiz has been submitted).</li>
+
+    <li>Questions (<code>:Q:</code>), long answers (<code>:A:</code>), and messages (<code>:M:</code>) can include HTML formatting (which is why you see lists, boldfacing, etc., here).  Thus, you must escape the less-than sign character (&lt;) with <code>&amp;lt;</code>; the greater-than sign character (&gt;) with <code>&amp;gt;</code>; and the ampersand character (<code>&amp;</code>) with <code>&amp;amp;</code>.  Note that you can insert html quite liberall.  (For example, you could even render your equiz non-functional by inserting a <code>&lt;/form&gt;</code>.  Please don't.  You are not only an instructor, but you are also just screwing yourself up.)</li>
+
+    <li>Answers are either numeric or choice.  We do not allow text or math answers, because it is often the case that there are many ways to express correct answers.  Our advice is for instructors to craft questions with multiple choice answers, instead.</li>
+
+    <li>If you want to use html heading tags, please start them at level h4.  h1 is used for the logo at the top; h2 is used for the name of your equiz; h3 is used for the section names (here 'Summary of Features'). h4 are your own.  It is what we used for 'More Features and Notes' above.  If this looks too small for you, you can restyle it yourself with css.</li>
+
+  </ul>
+
+  <p>If you are having difficulties with the system, please let <a href="ivo.welch@gmail.com">me</a> know.  The system is still new, so it would not surprise us if you found a bug.   If you still have questions or something was unclear, please email <a href="mailto:ivo.welch@gmail.com">ivo welch</a>.  If we don't respond within 3 days, chances are that your email was stuck in my spam filter, and you probably want to try again.
+
+  <p>Advanced: You can change the formatting of your messages and equizzes with .css and javascript files.  Contact us if you are interested.
+
+  <h4>Debugging</h4>
+
+  <p>Debugging CGI and web scripts is notoriously difficult.  Equiz is no exception.  We have very simple advice for you&mdash;start with templates that you know work, and then change them step by step.  If something fails, remove everything extraneous and write the simplest single question that still has the problem.  Distill it until it goes away.  Then add back.
+
+  <h4>Copyright, Licensing, and Credit</h4>
+
+   <p>By using this system, you must agree to the two following conditions:
+    <ol>
+      <li> You do not post questions that are copyrighted by someone else.  (Note that textbooks retain copyright to their study-guide questions, so please do not copy them unless you have explicit permission to do so.)
+      <li> You give us permissions to reuse and recombine your questions in other equizzes.
+    </ol>
+   Our goal is to provide testbanks which reuse and improve questions over time.  We may allow other instructors to wiki-edit questions in the future.  Eventually, we want to have many, many questions in many different areas for instructor reuse.  Dealing with differences across instructors would be too difficult.  If you do not like these two conditions, you should not use our equiz system.
+
+:E:
+
+
+::END:: 
+
+Everything after the end is ignored.

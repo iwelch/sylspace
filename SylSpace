@@ -1,0 +1,167 @@
+#!/usr/bin/env perl
+use lib 'lib';
+use Mojolicious::Lite; ## strict, warnings, utf8 and Perl 5.10
+
+plugin 'Mojolyst' => {controllers => 'SylSpace::Controller'};
+plugin 'RenderFile';
+plugin 'browser_detect';
+
+use Data::Dumper;
+
+if ($ENV{HYPNOTOAD_APP}) {  $ENV{MOJO_REUSE}= 'syllabus.space'; }
+
+(defined($ENV{MOJO_REUSE})) or die "very weird running environment without MOJO_REUSE.  are you starting SylSpace w/o mojo or direct??\n: ".(Dumper \%ENV);
+## $0 = MOJO_EXE = /Users/ivo/syllabus.space/syllabus.space/SylSpace
+(defined($ENV{MOJO_EXE})) or die "very weird running environment without MOJO_EXE.";
+
+use FindBin;
+use Socket;
+
+(my $pgmname= $0) =~ s{.*/}{};  ## usually SylSpace
+
+$ENV{SYLSPACE_sitepath}= $FindBin::Bin;  ## /Users/ivo/syllabus.space/syllabus.space/
+
+($ENV{SYLSPACE_appname}= $0) =~ s{.*/}{};  ## SylSpace, from executable command
+($ENV{SYLSPACE_sitename}= $ENV{MOJO_REUSE}) =~ s/:.*//g;  ## syllabus.test, from Mojo
+
+($ENV{SYLSPACE_sitename} eq 'localhost') and die "\nyou cannot use localhost, because we need subdomins for testing.  please use syllabus.test instead.\n";
+$ENV{SYLSPACE_siteip}= inet_ntoa(inet_aton($ENV{SYLSPACE_sitename}));  ## 127.0.0.1
+$ENV{SYLSPACE_onlocalhost}= ($ENV{SYLSPACE_siteip} eq '127.0.0.1');
+
+my $configfname= "$ENV{SYLSPACE_sitepath}/$pgmname-Secrets.conf";
+
+if ($ENV{SYLSPACE_onlocalhost}) {
+  ($ENV{SYLSPACE_sitename} eq 'syllabus.test') or die "please test only on syllabus.test";
+  my $etclines= `grep syllabus.test /etc/hosts`;
+  ($etclines =~ /corpfin.syllabus.test/m) or die "\n\nFor local testing, please add at the end of /etc/hosts the following: \n\n127.0.0.1 syllabus.test auth.syllabus.test corpfin.syllabus.test\n\n\n";
+} else {
+  (-e $configfname) or die "you need a $configfname config file in non-local operation\n"
+}
+
+################
+
+$ENV{SYLSPACE_siteacolor}='AntiqueWhite'; $ENV{SYLSPACE_jumboacolor}='darkgreen';
+$ENV{SYLSPACE_siteicolor}=$ENV{SYLSPACE_sitescolor}='white';
+$ENV{SYLSPACE_jumboscolor}='darkblue'; $ENV{SYLSPACE_jumboicolor}='darkred';
+
+
+################################################################################################################################
+## unfortunately, you have to be connected to the correct diretory; I think Mojolyst does not work otherwise
+################################################################################################################################
+
+if (-e $configfname) {
+
+  (-e $configfname) or die "\nFATAL: no authentication secrets config file '$configfname'\n";
+  (-l $configfname) or die "\nFATAL: authentication secrets config file '$configfname' is in the github'ed  directory, not a link.  fix this security risk!\n";
+
+  print STDERR "\n$0: good: your authentication secrets is $configfname, which is a symlink to ".readlink($configfname)."\n";
+
+  ##  # working:
+  ##  plugin 'Config';
+  ##  my $credentials = app->plugin('Config')->{oauth};
+
+  my $credentials= plugin 'Config' => { file => $configfname };
+
+  (defined($credentials)) or die "internal error: I cannot read the credentials information from the config file $configfname\n";
+  (defined($credentials->{oauth})) or die "internal error: I cannot read the oauth field information from the config file $configfname\n";
+
+  if (my $google = $credentials->{oauth}->{google}) {
+    my ($key, $secret) = @$google;
+
+    print STDERR "[enabling google authentication]\n";
+
+    plugin 'Web::Auth' => (
+			   module      => 'Google',
+			   key         => $key,
+			   secret      => $secret,
+			   scope       => 'email',
+			   on_finished => \&SylSpace::Controller::AuthAuthenticator::google,
+			  );
+  }
+
+  if (my $github = $credentials->{oauth}->{github}) {
+    my ($key, $secret) = @$github;
+
+    print STDERR "[enabling github authentication]\n";
+
+    plugin 'Web::Auth' => (
+			   module      => 'Github',
+			   key         => $key,
+			   secret      => $secret,
+			   on_finished => \&SylSpace::Controller::AuthAuthenticator::github,
+			  );
+  }
+
+  if (my $facebook = $credentials->{oauth}->{facebook}) {
+    my ($key, $secret) = @$facebook;
+
+    print STDERR "[enabling facebook authentication]\n";
+
+    plugin 'Web::Auth' => (
+			   module      => 'Facebook',
+			   key         => $key,
+			   secret      => $secret,
+			   scope       => 'email',
+			   on_finished => \&SylSpace::Controller::AuthAuthenticator::facebook
+			  );
+  }
+
+  $ENV{SYLSPACE_haveoauth}= 1;
+}
+
+
+################################################################################################################################
+## http://user.course.$ENV{SYLSPACE_sitename} -> $ENV{SYLSPACE_sitename}
+## http://$ENV{'sitename'} -> $ENV{'sitename'}
+
+*Mojo::URL::domainonly = sub {
+  return $ENV{SYLSPACE_sitename};
+};
+
+*Mojo::URL::domainport = sub {
+  my $port= shift->port;
+  defined($ENV{SYLSPACE_sitename}) or die "internal error: no site";
+  (defined($port)) or return $ENV{SYLSPACE_sitename};
+  return $ENV{SYLSPACE_sitename}.':$port';
+};
+
+
+## http://user.course.$ENV{SYLSPACE_sitename} -> user.course
+## http://$ENV{SYLSPACE_sitename} -> undef
+*Mojo::URL::subdomain = sub {
+  my $crequrl= shift;
+  my $fulldomain= $crequrl->to_abs->host;
+  ($fulldomain =~ /(.*)\.localhost$/) and return $1;
+  my @f= split(/\./, $fulldomain);
+  (@f) or return '';  ## never
+  pop(@f); pop(@f);   ## (pop(@f) =~ /localhost$/) or pop(@f);  ## hehe --- pop again
+  ($#f>=0) or return '';
+  return join('.', @f);
+};
+
+
+################################################################################################################################
+use Perl6::Slurp;
+
+my $vardir="/var/sylspace";
+
+my @pwsecret=slurp("$vardir/secrets.txt");
+app->secrets( \@pwsecret );  ## the first one encodes, the others are usable; maybe rotate by day
+app->config(hypnotoad => { listen => ['http://'.$ENV{'SYLSPACE_sitename'}.':80'] }); ## hypnotoad is serious and never on localhost
+
+use File::Glob ':bsd_glob';
+my @users= (bsd_glob("$vardir/users/*\@*"));
+((scalar @users) >= 1) or die "you need at least one known users in $vardir/users, not $#users\n";
+my @courses=(scalar glob("$vardir/courses/*"));
+((scalar @courses) >= 1) or die "you need at least one known course in $vardir/courses, not $#courses\n";
+
+if ($ENV{'SYLSPACE_onlocalhost'}) {
+  print STDERR "$0: *** localhost mode only --- logging out may not work correctly\n";
+  print STDERR "$0: *** CHROME cannot be used in localhostmode, because it resolves 127.0.0.1 differently\n";
+}
+
+print STDERR "$0: Starting $ENV{SYLSPACE_appname} now on $ENV{MOJO_REUSE}\n";
+
+app->sessions->cookie_domain( '.'.$ENV{SYLSPACE_sitename} );
+
+app->start();

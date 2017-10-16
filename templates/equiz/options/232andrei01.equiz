@@ -1,0 +1,79 @@
+::EQVERSION:: 1.0 -- not used.
+
+::INSTRUCTOR:: TBA
+
+::CREATED:: 2012-2017
+
+::NAME::  Preliminary Quiz: I
+
+::AUTHOR:: Daniel Andrei
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Forward price I
+:Q: What is the price of a one year forward contract on a $$S stock with dividend yield $D% when the interest rate is 6%
+:I: $S=rseq(48,52); $D=rseq(7,9); $d=$D/100; $ANS=$S*exp(0.06-$d)
+:A: The forward price is F = $S*exp((0.06-$d)*1) = $$ANS
+:E:
+
+:N: Forward price II 
+:Q: The S&R index spot price is $$S, the risk-free rate is $R% and the dividend yield on the index is 0. What is the no-arbitrage forward price for delivery in 9 months?
+:I: $S=rseq(1050,1150); $R=rseq(4,8); $r=$R/100; $ANS=$S*exp(($r-0)*(9/12))
+:A: The forward price is F = $S*exp(($r-0)*(9/12)) = $$ANS
+:E:
+
+:N: Notional value
+:Q: Suppose the S&P 500 index futures price is currently $$S. You wish to purchase $n contracts on margin. What is the notional value of your position?
+:I: $S=rseq(1150,1250); $n=rseq(2,8); $ANS=$S*$n*250 
+:A: Since each index point is worth $250, the notional value is $S*$n*250 = $$ANS
+:E:
+
+:N: Initial margin
+:Q: Suppose the S&P 500 index futures price is currently $$S. You wish to purchase $n contracts on margin. Assuming a $M% initial margin, what is the value of the initial margin?
+:I: $S=rseq(1150,1250); $n=rseq(2,8); $M=rseq(8,12); $m=$M/100; $P=$S*$n*250; $ANS=$P*$m
+:A: The notional value is P = $S*$n*250 =$$P. <p> Thus the initial margin is $P*$m = $ANS
+:E:
+
+:N: Currency forward
+:Q: The current exchange rate between Germany and Japan is $e euros per yen. The euro-denominated risk-free rate is $G% and the yen-denominated risk-free rate is 1%. What is the 6-month euro/yen forward price?
+:I: $E=rseq(2,4), $e=$E/100; $G=rseq(3,6); $g=$G/100; $ANS=$e*exp(($g-0.01)*(6/12))
+:A: The forward price is F = $e*exp(($g-0.01)*(6/12)) = $$ANS
+:E:
+
+:N: Lease rate I
+:Q: Given a continuously compounded risk-free rate of $R% annually, at what lease rate (in %) will forward prices equal the current commodity price?
+:I: $R=rseq(2,5); $r=$R/100; $ANS=$R
+:A: The pricing formula is F=S*exp(($r-lease rate)*T). Thus for F=S, we require the lease rate to be $R%
+:E:
+
+:N: Lease rate II
+:Q: Suppose the gold sport price is $$S/oz, the 1-year forward price is $310.686, and the continuously compounded risk-free rate is $R%. What is the lease rate?
+:I: $S=rseq(300,310); $R=rseq(3,6); $r=$R/100; $ANS=$r-ln(310.686/$S)/1
+:A: We can simply rearrange the pricing formula to solve for the lease rate. The lease rate is $r-ln(310.686/$S)/1 = $ANS
+:E:
+
+:N: Forward rate agreement I
+:Q: Suppose that in order to hedge interest rate risk on your borrowing, you enter into an FRA that will guarantee a $ER1% effective annual interest rate for 1 year on $500,000. On the date you borrow the $500,000, the actual interest rate is $AR1%. Determine the dollar settlement of the FRA assuming settlement occurs on the date the loan is initiated.
+:I: $ER=rseq(40,60); $ER1=$ER/10; $er=$ER/1000; $AR=rseq(40,60); $AR1=$AR/10; $ar=$AR/1000; $ANS=($ar-$er)/(1+$ar)*500000
+:A: The dollar settlement is ($ar-$er)/(1+$ar)*500,000 = $$ANS
+:E:
+
+:N: Forward rate agreement II
+:Q: Suppose that in order to hedge interest rate risk on your borrowing, you enter into an FRA that will guarantee a $ER1% effective annual interest rate for 1 year on $500,000. On the date you borrow the $500,000, the actual interest rate is $AR1%. Determine the dollar settlement of the FRA assuming settlement occurs on the date the loan is repaid.
+:I: $ER=rseq(40,60); $ER1=$ER/10; $er=$ER/1000; $AR=rseq(40,60); $AR1=$AR/10; $ar=$AR/1000; $ANS=($ar-$er)*500000
+:A: The dollar settlement is ($ar-$er)*500,000 = $$ANS
+:E:
+
+:N: Eurodollar contract
+:Q: Suppose the September Eurodollar futures contract has a price of $F. You plan to borrow $50m for 3 months in September at LIBOR, and you intend to use the Eurodollar contract to hedge your borrowing rate. Assuming the true 3-month LIBOR is 1% in September, what is the settlement in dollars at expiration of the futures contract? (Ignore daily marking-to-market on the futures contract).
+:I: $FF=rseq(960,970); $F=$FF/10; $FR=(100-$F)/400; $C=50/(1+$FR); $ANS=($F-(100-4))*100*25*$C
+:A: The implied 3-month LIBOR rate is (100-$F)/400=$FR. The tailed position is 50/(1+$FR)=$C shorted contracts. <p> The annualized actual rate is 1%*4=4%. Our $C short forwards pay ($F-(100-4))*100*25*$C = $$ANS. <p> Thus the settlement is $$ANS in September.
+:E:
+
+
+
+::END::

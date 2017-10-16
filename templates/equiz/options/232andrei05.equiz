@@ -1,0 +1,86 @@
+::EQVERSION:: 1.0 -- not used.
+
+::INSTRUCTOR:: TBA
+
+::CREATED:: 2012-2017
+
+::AUTHOR:: Daniel Andrei
+
+::NAME::  Preliminary Quiz: I
+
+################################################################
+
+::START::
+
+
+:N: 1-Period Call Option I
+:Q: A non-dividend paying stock is selling for $32.70. The strike price on a European call, maturing in $x months, is $35. The possible stock prices at the end of $x months are $$Su and $$Sd. Yearly interest rates are 6.0%, continuously compounded. What is the value of u?
+:I: $x = rseq(3,14); $Su = rseq(38,40); $Sd = rseq(28,30); $ANS = $Su/32.7
+:A: The answer is u = $Su/32.7 = $ANS.
+:E:
+
+
+:N: 1-Period Call Option II
+:Q: A non-dividend paying stock is selling for $32.70. The strike price on a European call, maturing in $x months, is $35. The possible stock prices at the end of $x months are $$Su and $$Sd. Yearly interest rates are 6.0%, continuously compounded. What is the value of d?
+:I: $x = rseq(3,14); $Su = rseq(38,40); $Sd = rseq(28,30); $ANS = $Sd/32.7
+:A: The answer is d = $Sd/32.7 = $ANS.
+:E:
+
+
+:N: 1-Period Call Option III
+:Q: A non-dividend paying stock is selling for $32.70. The strike price on a European call, maturing in $x months, is $35. The possible stock prices at the end of $x months are $$Su and $$Sd. Yearly interest rates are 6.0%, continuously compounded. What is the risk-neutral probability of the stock price going up?
+:I: $x = rseq(3,14); $Su = rseq(38,40); $Sd = rseq(28,30); $u = $Su/32.7; $d = $Sd/32.7; $ANS = (exp(0.06*$x/12)-$d)/($u-$d)
+:A: We have u = $Su/32.7 = $u and d = $Sd/32.7 = $d. Thus, p* = (exp(0.06*$x/12)-d)/(u-d) = $ANS
+:E:
+
+
+:N: 1-Period Call Option IV
+:Q: A non-dividend paying stock is selling for $32.70. The strike price on a European call, maturing in $x months, is $35. The possible stock prices at the end of $x months are $$Su and $$Sd. Yearly interest rates are 6.0%, continuously compounded. What is the option price?
+:I: $x = rseq(3,14); $Su = rseq(38,40); $Sd = rseq(28,30); $u = $Su/32.7; $d = $Sd/32.7; $p = (exp(0.06*$x/12)-$d)/($u-$d); $ANS = exp(-0.06*$x/12)*$p*($Su-35)
+:A: We have u = $Su/32.7 = $u and d = $Sd/32.7 = $d. Thus, p* = (exp(0.06*$x/12)-$d)/($u-$d) = $p and C = exp(-0.06*$x/12)*$p*($Su-35) = $ANS
+:E:
+
+
+:N: 1-Period Call Option V
+:Q: A non-dividend paying stock is selling for $32.70. The strike price on a European call, maturing in $x months, is $35. The possible stock prices at the end of $x months are $$Su and $$Sd. Yearly interest rates are 6.0%, continuously compounded. What is &#916 (number of shares in the replicating portfolio) for the European call?
+:I: $x = rseq(3,14); $Su = rseq(38,40); $Sd = rseq(28,30); $Cu = $Su-35; $ANS = ($Cu-0)/($Su-$Sd)
+:A: We have &#916 = ($Cu-0)/($Su-$Sd) = $ANS
+:E:
+
+
+:N: 1-Period Call Option VI
+:Q: A non-dividend paying stock is selling for $32.70. The strike price on a European call, maturing in $x months, is $35. The possible stock prices at the end of $x months are $$Su and $$Sd. Yearly interest rates are 6.0%, continuously compounded. What is B (the dollar amount in borrowing or lending in the replicating portfolio) for the European call?
+:I: $x = rseq(3,14); $Su = rseq(38,40); $Sd = rseq(28,30); $Cu = $Su-35; $delta = ($Su-35)/($Su-$Sd); $ANS = exp(-0.06*$x/12)*($Cu - $delta*$Su) 
+:A: We have Delta = ($Cu-0)/($Su-$Sd) = $delta, and B = exp(-0.06*$x/12)*($Cu-$delta*$Su) = $ANS.
+:E:
+
+
+:N: Arbitrage strategy
+:Q: A non-dividend paying stock is selling for $$S. The strike price on a call, maturing in 6 months, is $45. The possible stock prices at the end of 6 months are $35 and $49. Yearly interest rates are 5.0%, continuously compounded. Given an underpriced option, what are the short sale proceeds in an arbitrage strategy?
+:I: $x = rseq(3600,4800); $S = $x/100; $Cu = 49-45; $delta = ($Cu-0)/(49-35); $ANS = $delta*$S
+:A: We have Delta = ($Cu-0)/(49-35) = $delta. Consequently, shorting $delta shares of stock yields $delta*$S=$ANS.
+:E:
+
+:N: 2-Period binomial tree
+:Q: A stock is selling for $$S. Interest rates are $r and the returns on the stock have a standard
+deviation of $s. What is the forecasted stock price after up moves over 6 months, assuming two periods of 3 months each?
+:I: $x = rseq(5000,5500); $S = $x/100; $rp = rseq(3,8); $r = $rp/100; $sp = rseq(15,25); $s = $sp/100;  $y = ($r-0)*0.25 + $s*sqrt(0.25); $u = exp($y); $ANS = $S*$u*$u
+:A: We have u = exp(($r-0)*0.25+$s*sqrt(0.25)) = $u and Suu = $S*$u*$u = $ANS
+:E:
+
+:N: 2-Period Put Option 
+:Q: Using a binomial tree, what is the price of a $40 strike 6-month European put option, using 3 month intervals
+as the time period? Assume the following data: S = $S, r = $r and standard deviation = $s.
+:I: $x=rseq(3600,4000); $S=$x/100; $rp=rseq(3,7); $r=$rp/100; $sp=rseq(30,35); $s=$sp/100; $u = exp(($r-0)*0.25+$s*sqrt(0.25)); $d=exp(($r-0)*0.25-$s*sqrt(0.25)); $p=(exp(($r-0)*0.25)-$d)/($u-$d);  $Suu=$S*$u*$u; $Sud=$S*$u*$d; $Sdd=$S*$d*$d; $uu=40-$Suu; $ud=40-$Sud; $dd=40-$Sdd; $Puu=max($uu,0); $Pud=max($ud,0); $Pdd=max($dd,0);$ANS=exp(-$r*0.25*2)*($Puu*$p*$p+$Pud*2*$p*(1-$p)+$Pdd*(1-$p)*(1-$p))
+:A: We have u = exp(($r-0)*0.25+$s*sqrt(0.25)) = $u and d = exp(($r-0)*0.25-$s*sqrt(0.25)) = $d. Risk neutral probability of an up move is p = (exp(($r-0)*0.25)-$d)/($u-$d) = $p. Furthermore, Suu=$S*$u*$u=$Suu, Sud=$S*$u*$d=$$Sud and Sdd=$S*$d*$d=$$Sdd. It follows that Puu=max(40-$Suu,0)=$$Puu, Pud=max(40-$Sud,0)=$$Pud and Pdd=max(40-$Sdd,0)=$$Pdd. Finally, we obtain P = exp(-$r*0.25*2)*($Puu*$p*$p+$Pud*2*$p*(1-$p)+$Pdd*(1-$p)*(1-$p))=$$ANS
+:E:
+
+:N: 2-Period American Put Option 
+:Q: Using a binomial tree, what is the price of a $45 strike 1-year American put option, using 6 month intervals
+as the time period? Assume the following data: S = $S, r = $r and standard deviation = $s.
+:I: $x=rseq(4600,5000); $S=$x/100; $rp=rseq(3,7); $r=$rp/100; $sp=rseq(25,35); $s=$sp/100; $u = exp(($r-0)*0.5+$s*sqrt(0.5)); $d=exp(($r-0)*0.5-$s*sqrt(0.5)); $p=(exp(($r-0)*0.5)-$d)/($u-$d);  $Suu=$S*$u*$u; $Sud=$S*$u*$d; $Sdd=$S*$d*$d; $Su=$S*$u; $Sd=$S*$d; $uu=45-$Suu; $ud=45-$Sud; $dd=45-$Sdd; $Puu=max($uu,0); $Pud=max($ud,0); $Pdd=max($dd,0); $ue=45-$Su; $de=45-$Sd; $udisc=exp(-($r-0)*0.5)*($p*$Puu+(1-$p)*$Pud); $ddisc=exp(-($r-0)*0.5)*($p*$Pud+(1-$p)*$Pdd); $Pu=max($ue,$udisc); $Pd=max($de,$ddisc); $disc0=exp(-($r-0)*0.5)*($p*$Pu+(1-$p)*$Pd); $early0=45-$S; $ANS=max($disc0,$early0)
+:A: We have u = exp(($r-0)*0.5+$s*sqrt(0.5)) = $u and d = exp(($r-0)*0.5-$s*sqrt(0.5)) = $d. Risk neutral probability of an up move is p = (exp(($r-0)*0.5)-$d)/($u-$d) = $p. <p> Furthermore, Suu=$S*$u*$u=$Suu, Sud=$S*$u*$d=$$Sud and Sdd=$S*$d*$d=$$Sdd. In addition, Su=$S*$u=$$Su and Sd=$Sd*$d=$$Sd. <p> It follows that; Puu=max(45-$Suu,0)=$$Puu, Pud=max(45-$Sud,0)=$$Pud and Pdd=max(45-$Sdd,0)=$$Pdd. Pu=max(45-$Su,exp(-($r-0)*0.5)*($p*$Puu+(1-$p)*$Pud)=$$Pu and Pd=max(45-$Sd,exp(-($r-0)*0.5)*($p*$Pud+(1-$p)*$Pdd)=$$Pd. <p> It follows that P=max(45-$S,exp(-($r-0)*0.5)*($p*$Pu+(1-$p)*$Pd)) = $ANS
+:E:
+ 
+
+::END::

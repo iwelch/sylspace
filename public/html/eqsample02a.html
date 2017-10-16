@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title> take an equiz </title>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" type="text/css" property="href" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" property="href" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <!-- local iaw scripts -->
+
+    <link rel="stylesheet" href="/css/sylspace.css"  />
+
+    <link rel="stylesheet" href="/css/input.css"  />
+    <link rel="stylesheet" href="/css/equiz.css" />
+    <link rel="stylesheet" href="/css/dropzone.css" />
+    <script src="/js/dropzone.js"></script>
+  </head>
+
+
+  <body style="background-color:white">
+
+    <div class="container-fluid" id="headbardraw">
+
+      <nav id="w0" class="navbar-inverse navbar-fixed-top navbar">
+	<div class="container-fluid" id="nbh">
+	  <div class="navbar-header">
+      
+
+	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse"><span class="icon-bar"></span></button>
+	    <a class="navbar-brand" href="/"><b>http://intro.corpfin.syllabus.space/equizrender?f=02a-tvm.equiz -- syllabus.space: nonfunctional@gmail.com </b></a>
+	  </div> <!-- navbar-header -->
+	  <div id="w0-collapse" class="collapse navbar-collapse">
+	    <ul id="w1" class="navbar-nav navbar-right nav">
+              <li><a href="/auth/goclass"> <i class="fa fa-sign-out"></i> Exit Course </a></li>
+              <!-- (($self->req->url->subdomain() =~ m{\bauth\b}) ?
+	          '<a href="/logout"> <i class="fa fa-sign-out"></i> LOG OFF </a>' :
+	          '<a href="http://auth.'.$self->req->url->domain().'/auth/goclass"> <i class="fa fa-sign-out"></i> Exit Course </a>')
+              -->
+	    </ul>
+	  </div><!-- w0-collapse -->
+	</div> <!--container:nbh -->
+      </nav><!--w0-->
+
+      <header>
+
+	<div class="jumbotron" style="background-color:darkblue">
+
+          <div class="alert" role="alert">&nbsp;</div>
+
+	  <table class="hdr" style="color:white">
+	    <tr>
+	      <td> <a href="/"> <span class="gravatar">
+                    <i class="fa fa-university fa-5x" aria-hidden="true" style="color:white"></i>
+		</span> </a> &nbsp;&nbsp;
+	      </td>
+	      <td> <h1> take an equiz </h1>  </td>  </tr>
+	  </table>
+	</div> <!-- jumbotron -->
+
+      </header>
+
+    </div> <!--container-fluid:headbardraw-->
+
+
+    <div class="container" id="body">
+
+      
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM-CHTML"></script>
+    <script type="text/javascript"       src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML-full"></script>
+
+  <script type="text/javascript" src="/js/eqbackend.js"></script>
+  <link href="/css/eqbackend.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="/css/input.css" media="screen" rel="stylesheet" type="text/css" />
+
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Register.StartupHook("TeX Jax Ready",function () {
+    MathJax.InputJax.TeX.Definitions.number =
+      /^(?:[0-9]+(?:,[0-9]{3})*(?:\.[0-9]*)*|\.[0-9]+)/
+    });
+  </script>
+
+<main>
+
+ <!-- Quiz: 02a-tvm.equiz -->
+
+
+
+    <!-- created by eqbackend.pl:RenderEquiz.pm -->
+
+    <div class="eqheader">
+      <div class="eqauthor"> N/A </div>
+      <div class="eqname"> Welch, Chapter 2, Present Value (A) </div>
+      <div class="eqversion"> 1.01 -- not used </div>
+      <div class="eqgenerated"> Thu Aug 17 21:34:25 2017 = 1503005665 </div>
+      <div class="eqintro"> <p> (The equiz numbers refer to the chapter in Welch, Edition 4.)
+      <p style="font-size:small">(Always quote percents as decimal [unless specifically requested otherwise].  That is, for 5%, please answer 0.05 and not 5.)</p> </div> <!-- eqintro -->
+    </div> <!--eqheader-->
+
+    <!-- now come the equiz questions -->
+
+    <div class="equiz">
+
+      <div class="container">
+
+        <form method="post" class="quizform" action="http://intro.corpfin.syllabus.space/equizgrade">
+
+         
+
+<!-- - - - - - - - - - - - - - - SUBPAGE 1 - - - - - - - - - - - - - - --> 
+		<div class="subpage" id="SPC1"> <div class="qname"><span class="qnum" id="qcSPC1">1</span> Q02.1</div>
+              <div class="qstn" id="C1">
+                <p class="qstnid" id="I1" style="hidden">1</p>
+                <p class="qstnname" id="N1">Q02.1</p>
+                <p class="qstntext" id="TXT1">You may invest in a project that will return $1,800.  If the total holding rate of return is 0.11 (i.e., 11.0%), how much would you have to invest today?</p>
+<input type="hidden" name="N-1" value="U2FsdGVkX18xNDE1MTYxN4g/bx5x2/44
+" />
+<input type="hidden" name="Q-1" value="U2FsdGVkX18xNDE1MTYxN5ufkizlhHgJBg8AYDnNfG7Zr4tXhJyvC5R3ntMTRt+PVjaV5Rtrt8Zd
+sMxqlhuZ6WP0zowt/+a62zfItqmNEan9/sIj49hAS32qX/zwsGJoyF2f7VW4snCGh/lVqFaRLSIB
+1ns5h30KFL68ezFl0EV6MfVBiv25TblG0RQjh0kAYAE5siKFP3HfGY9/9nT4umixqgeIcYQQQppl
+p5Whu+c=
+" />
+<input type="hidden" class="encrypted" name="A-1" value="U2FsdGVkX18xNDE1MTYxN8iIIpi2eQWu1o5Y1DDnr8sqxeXc7LyaNWrpRSjDDOCEH4/20W9D2LbB
+z+MerwBtYsit/DBXBr8nCucYpQ5s2SaokKpScPZUyJH3sZoRlLV4XN7nPVG/ngSTaOUForSdhKNC
+6RUyXm7tbGJjX32np1OaPF4vXwhbkz4kYQSREOB1+uwoAzxq6bQX6jzTU3My3mrnwTuWxwHJ/MZ8
+rGlsivxyn/nStYMnaka49FEhbBsA8YieOTf1Npo4NmIIvh6dgA==
+" />
+<input type="hidden" class="encrypted" name="S-1" value="U2FsdGVkX18xNDE1MTYxN4pDFQM1H6YI8+FZVjXBOjg=
+" />
+<input type="hidden" class="encrypted" name="P-1" value="U2FsdGVkX18xNDE1MTYxN4Gh806Mm1iR
+" />
+		<p class="eqinputnum" id="NC1">Your Answer:&nbsp;&nbsp;&nbsp; <input class="eqinputnum foo" required type="number" step="any" size="8" name="q-stdnt-1" /><br />
+			<span style="font-size:smaller">(enter only numbers [digits, minus, period])</span></p>
+		<p class="qstnprec" id="P1">&plusmn;1</p>
+		<p class="qstntime" id="T1">1</p>
+		</div> <!-- qstn 1 -->
+
+		</div> <!--subpage--> 
+
+
+<!-- - - - - - - - - - - - - - -  SUBPAGE 1 - - - - - - - - - - - - - - --> 
+
+
+<!-- - - - - - - - - - - - - - - SUBPAGE 2 - - - - - - - - - - - - - - --> 
+		<div class="subpage" id="SPC2"> <div class="qname"><span class="qnum" id="qcSPC2">2</span> Q02.2</div>
+              <div class="qstn" id="C2">
+                <p class="qstnid" id="I2" style="hidden">2</p>
+                <p class="qstnname" id="N2">Q02.2</p>
+                <p class="qstntext" id="TXT2">You may purchase a stock for $36.  It will pay a dividend of $3.  If you sell it for $38 just after collecting the dividend, what is your total rate of return?</p>
+<input type="hidden" name="N-2" value="U2FsdGVkX18xNDE1MTYxN0CADIrJA6l3
+" />
+<input type="hidden" name="Q-2" value="U2FsdGVkX18xNDE1MTYxN5ufkizlhHgJLAl3NZ3j7AbOXHe8+M9McvsZsQMQyz6Chd7TqfukvoTA
+CSiqJjMF6/UHesIZsm6J2guxUPDpg0yWeeYTSKZD6g0kp0om+aI1U24gOmtsan4QM9aoDqtprLlv
+eBJPxnJouH6ev/5FBIOBDj5EgcHcCjHbyEeTSHxzms9syIXTHaT8RqINddyIxnn2V6Ve45vlyKgK
+n3gJlGs=
+" />
+<input type="hidden" class="encrypted" name="A-2" value="U2FsdGVkX18xNDE1MTYxN4u0v1XfOYEtFe4DcldELMAy3YCsUXYJBEQClx2eseeFHzm2fnxl/VFu
+1hb88qQQrRZFrgXOM2poKqGC92jddu0b9RJQc9winQd1bqa1JfaiLPS0ioql5pM+PBh7ptO9s/+B
+ddImJi/UCPGkXWNkYV31Iq06O1804lVd4IbbU8ymyoEQP1P3xXw3OJ6ptex72CRyVE2W22fIZFl9
+iQ7Q4S7ZUZ+gtun2+g==
+" />
+<input type="hidden" class="encrypted" name="S-2" value="U2FsdGVkX18xNDE1MTYxN6D0FBZuju68U0ZjlB9zTf8=
+" />
+		<p class="eqinputnum" id="NC2">Your Answer:&nbsp;&nbsp;&nbsp; <input class="eqinputnum foo" required type="number" step="any" size="8" name="q-stdnt-2" /><br />
+			<span style="font-size:smaller">(enter only numbers [digits, minus, period])</span></p>
+		<p class="qstntime" id="T2">2</p>
+		</div> <!-- qstn 2 -->
+
+		</div> <!--subpage--> 
+
+
+<!-- - - - - - - - - - - - - - -  SUBPAGE 2 - - - - - - - - - - - - - - --> 
+
+
+<!-- - - - - - - - - - - - - - - SUBPAGE 3 - - - - - - - - - - - - - - --> 
+		<div class="subpage" id="SPC3"> <div class="qname"><span class="qnum" id="qcSPC3">3</span> Q02.3</div>
+              <div class="qstn" id="C3">
+                <p class="qstnid" id="I3" style="hidden">3</p>
+                <p class="qstnname" id="N3">Q02.3</p>
+                <p class="qstntext" id="TXT3">You may purchase a stock for $51.  It will pay a guaranteed dividend of $1.  If you sell it for $55 after collecting the dividend, then what is your (dollar) capital gain (or loss)?</p>
+<input type="hidden" name="N-3" value="U2FsdGVkX18xNDE1MTYxN1M9AHzDGneh
+" />
+<input type="hidden" name="Q-3" value="U2FsdGVkX18xNDE1MTYxN5ufkizlhHgJLAl3NZ3j7AbOXHe8+M9McmLowh6h9rq8Q3kwFVxwhOsu
+yeySpIaQT17nh1a3j1nWZuJGN+hTu7sNfFhfk7EEFsfBjZ3D4hpZWLq10PlMvgb67e4DYOXbejCd
+hU0uGPUsQuYRtnZq0KCvhVFMqgfv5i27bnBXzq4lC22RHq2dpk1RsGuCHGP3+RQB4ZTetUcXIsvy
+cmgOGg68mzU45iz4Qg1Cllxd4XjN/MS7lDUGwSM=
+" />
+<input type="hidden" class="encrypted" name="A-3" value="U2FsdGVkX18xNDE1MTYxNwNhH2YF6jPLQlhduyEQMlRl9eGcJ1XkF4ifhp1hEgPeSW//lN1tpqKa
+O3fnCMU7jktWEcKnUYRevqRGqpkx8AlDKQ2aAMNK3vPkbaNDPLRweTIMOyz6rYX1NaOudD1icu6q
+qrwu3lgSk+BEXcXL7TIWAajPkZUqYQ++Yklqy/fktNs3pj0aI9g=
+" />
+<input type="hidden" class="encrypted" name="S-3" value="U2FsdGVkX18xNDE1MTYxN2xsl+/0Eo+2
+" />
+		<p class="eqinputnum" id="NC3">Your Answer:&nbsp;&nbsp;&nbsp; <input class="eqinputnum foo" required type="number" step="any" size="8" name="q-stdnt-3" /><br />
+			<span style="font-size:smaller">(enter only numbers [digits, minus, period])</span></p>
+		<p class="qstntime" id="T3">2</p>
+		</div> <!-- qstn 3 -->
+
+		</div> <!--subpage--> 
+
+
+<!-- - - - - - - - - - - - - - -  SUBPAGE 3 - - - - - - - - - - - - - - --> 
+
+
+<!-- - - - - - - - - - - - - - - SUBPAGE 4 - - - - - - - - - - - - - - --> 
+		<div class="subpage" id="SPC4"> <div class="qname"><span class="qnum" id="qcSPC4">4</span> Q02.4</div>
+              <div class="qstn" id="C4">
+                <p class="qstnid" id="I4" style="hidden">4</p>
+                <p class="qstnname" id="N4">Q02.4</p>
+                <p class="qstntext" id="TXT4">If an asset costs $870 and returns $1,070 in 6 years, then what rate of return <em>per year</em> does it offer?</p>
+<input type="hidden" name="N-4" value="U2FsdGVkX18xNDE1MTYxNxMW2Y1uwBY8
+" />
+<input type="hidden" name="Q-4" value="U2FsdGVkX18xNDE1MTYxN22UP1vcc7M9eqG2Ls9PL22U1p8fhXjy0sUHfdpL01fBNX+vbvTs7zAY
+FeFIWrFAu414K8XAtHGzFjlxOeZFE8X9P66H2fOFi+jUQjszIQZwUl+b72xOpM09NYJCMeBmBwcB
+Pj1C5arc3ijyi9lvYhk=
+" />
+<input type="hidden" class="encrypted" name="A-4" value="U2FsdGVkX18xNDE1MTYxN6tgPNKCFKk+omCeeYYzLPQ6ZShjMRDzZDZhKfcZfiFuUvUCRXgv9FRU
+omk8c4pQYkcTqkasc44bP2nT1uoHtcupShj6TTLUoWJxBL0+CPvTCvfxcJZB3OTG6F9M3S3ilXs/
+6/mOb+ullgS9oSsdm2nSQcCy5VkesLReWt9kCH+sTkqmbKuzP040c41nZcn5CUt1rFaQcUOqO+O7
+zRfuPcJ5AjdVfNOPQziokcilmJc43cvnG0ZEA2Qw6WqJFWXcDG7JioticrYc2n33vBU4l7AEKYKc
+IpBXeb7yW3ed+QM7
+" />
+<input type="hidden" class="encrypted" name="S-4" value="U2FsdGVkX18xNDE1MTYxNwMFT5Pmyp4Pa+ef8PJUOm8=
+" />
+		<p class="eqinputnum" id="NC4">Your Answer:&nbsp;&nbsp;&nbsp; <input class="eqinputnum foo" required type="number" step="any" size="8" name="q-stdnt-4" /><br />
+			<span style="font-size:smaller">(enter only numbers [digits, minus, period])</span></p>
+		<p class="qstntime" id="T4">3</p>
+		</div> <!-- qstn 4 -->
+
+		</div> <!--subpage--> 
+
+
+<!-- - - - - - - - - - - - - - -  SUBPAGE 4 - - - - - - - - - - - - - - --> 
+
+
+<!-- - - - - - - - - - - - - - - SUBPAGE 5 - - - - - - - - - - - - - - --> 
+		<div class="subpage" id="SPC5"> <div class="qname"><span class="qnum" id="qcSPC5">5</span> Q02.5</div>
+              <div class="qstn" id="C5">
+                <p class="qstnid" id="I5" style="hidden">5</p>
+                <p class="qstnname" id="N5">Q02.5</p>
+                <p class="qstntext" id="TXT5">If you buy a Certificate of Deposit (CD) with $1,000 today, offering a true annual holding rate of return of 4.5%, how much will you have in 17 years?</p>
+<input type="hidden" name="N-5" value="U2FsdGVkX18xNDE1MTYxN7923p1ETU7H
+" />
+<input type="hidden" name="Q-5" value="U2FsdGVkX18xNDE1MTYxN4HFjClZAU6ofTRmMhFbmx3YSdlNGRkGUPrcWQgKUPX5YgtsVOTqZU9W
+aAtvn0Q2rnr609Ot1kfXreKNrt5XYrvEleXHSeD2P9+50R8j6p0JICzmFg6RbLZFZXMEjHsqg77V
+r1sEQERnuKasQvKUE5VfIybaNKIkjiQsHtCU/WwhLBByjK7eqdFwN5kTxRXUdi6QfDqWgJPd
+" />
+<input type="hidden" class="encrypted" name="A-5" value="U2FsdGVkX18xNDE1MTYxN2spiYArsRY2d9cRqqSxgff31zeDWXNY+fRSZHpwlv7QgmqzMHESNEBf
+ENsMELTVJeGXesjWbUc3Oq2S7C1+WnRXifjSwZLuWk6/QwvCvTThR01/N27XG72f59PHHvgvh5+a
+Dp50+LRi
+" />
+<input type="hidden" class="encrypted" name="S-5" value="U2FsdGVkX18xNDE1MTYxN75BfByb3GJi4MWatwEpzTw=
+" />
+<input type="hidden" class="encrypted" name="P-5" value="U2FsdGVkX18xNDE1MTYxN7w+Ira2LjSt
+" />
+		<p class="eqinputnum" id="NC5">Your Answer:&nbsp;&nbsp;&nbsp; <input class="eqinputnum foo" required type="number" step="any" size="8" name="q-stdnt-5" /><br />
+			<span style="font-size:smaller">(enter only numbers [digits, minus, period])</span></p>
+		<p class="qstnprec" id="P5">&plusmn;0.5</p>
+		<p class="qstntime" id="T5">3</p>
+		</div> <!-- qstn 5 -->
+
+		</div> <!--subpage--> 
+
+
+<!-- - - - - - - - - - - - - - -  SUBPAGE 5 - - - - - - - - - - - - - - --> 
+
+
+<!-- - - - - - - - - - - - - - - SUBPAGE 6 - - - - - - - - - - - - - - --> 
+		<div class="subpage" id="SPC6"> <div class="qname"><span class="qnum" id="qcSPC6">6</span> Q02.6</div>
+              <div class="qstn" id="C6">
+                <p class="qstnid" id="I6" style="hidden">6</p>
+                <p class="qstnname" id="N6">Q02.6</p>
+                <p class="qstntext" id="TXT6">If you buy a CD with $8,000 today, offering a guaranteed 0.06 (=6.0%) quoted annual interest rate, compounded <em>monthly</em>, how much money will you have in 17 years?</p>
+<input type="hidden" name="N-6" value="U2FsdGVkX18xNDE1MTYxN/MfzOy0rcDL
+" />
+<input type="hidden" name="Q-6" value="U2FsdGVkX18xNDE1MTYxN4HFjClZAU6oAmvGVx4tlSExX9gKbQYEtQEiWPtizEZ+Hvo0e12drbwX
+nrN1lxKLilcVwhKRKjrElagXUjVH4l/T/wxGtdeDzqoCMiR4/ZdFBmuHA8/isA+fBf/tUZr0ohmG
+Yk3AN7ctcun6EjWe1QcFyuZnjhzFWVYu4uHt9zeE4Np69NxlrBOj7dnp1VxMzH+3OKp6IBH5x1Wk
+h1onsDb7FPGLBjeBpGn0Kmd8ldhh
+" />
+<input type="hidden" class="encrypted" name="A-6" value="U2FsdGVkX18xNDE1MTYxN5N67Ph0cwChXmeGbfFboZ++8z3qXpTeEKZ+pkRzSZCBBet+DZSYuMlr
+BpQ8Ay8EB9YQVY6fgMfot/khyhmV3g8Tid9p2bX9CaR3HtxLb9VhMRX+0/638g/VwlWQqBvu3EhW
+mske6AFhiJ5mLtQRbebM0HNgddRhBok68MrWNgPtiprS3He8bNtUblFimRMxzfuzIwT1FzBNFBX5
+5JgkuJjb2zlF00yLG4Lkd4yupQ3gXB0U0eHs/YmLnGKOKEi/cnELB0WkBdX7y8lIjT2PMWQWPcib
+xtWsE3bO6Tiz4sziCOUoXkVev93mlVtfw6sNBjvJB6bb7ypn0xnH/lQhNXvBPa7FPphuZz8Pe4cc
+MkTdnOx/hoGaW4n5HNa1VSmMSbhqYXiL3AKOqBEV6QH1gviSIVixJBINpaliympCECP8mK8vi9Bj
+mBIxuyqm/EQjDH4WDyjAp94KlIOwrhIPabTk5OHeppYNxwCHXKyKF+v+VzWxb9WdccWnM+zJgoKJ
+FhSnLV7dCc36fGtavHLpYG+7zmwzVxtZeYZsnOC1GLl6
+" />
+<input type="hidden" class="encrypted" name="S-6" value="U2FsdGVkX18xNDE1MTYxN3BP+Dk417SD+jROTrgODuo=
+" />
+<input type="hidden" class="encrypted" name="P-6" value="U2FsdGVkX18xNDE1MTYxN7w+Ira2LjSt
+" />
+		<p class="eqinputnum" id="NC6">Your Answer:&nbsp;&nbsp;&nbsp; <input class="eqinputnum foo" required type="number" step="any" size="8" name="q-stdnt-6" /><br />
+			<span style="font-size:smaller">(enter only numbers [digits, minus, period])</span></p>
+		<p class="qstnprec" id="P6">&plusmn;0.5</p>
+		<p class="qstntime" id="T6">4</p>
+		</div> <!-- qstn 6 -->
+
+		</div> <!--subpage--> 
+
+
+<!-- - - - - - - - - - - - - - -  SUBPAGE 6 - - - - - - - - - - - - - - --> 
+
+
+<!-- - - - - - - - - - - - - - - SUBPAGE 7 - - - - - - - - - - - - - - --> 
+		<div class="subpage" id="SPC7"> <div class="qname"><span class="qnum" id="qcSPC7">7</span> Q02.7</div>
+              <div class="qstn" id="C7">
+                <p class="qstnid" id="I7" style="hidden">7</p>
+                <p class="qstnname" id="N7">Q02.7</p>
+                <p class="qstntext" id="TXT7">If a bank savings account with $5,000 will be worth $7,000 in 16 years, and if the interest rate is constant, what is the interest rate quote that the bank would post in its window?  (Assume 365 days/year.)</p>
+<input type="hidden" name="N-7" value="U2FsdGVkX18xNDE1MTYxNzuGr66LQxFV
+" />
+<input type="hidden" name="Q-7" value="U2FsdGVkX18xNDE1MTYxN2vAvoLrWVPmcnd/rdMCd/A3fs2MyZfsIIRI6bYLxtHnjpCUWMvP2JtA
+Z9zUeiX52z+2k4qf0RJGdTxidtHTkhP2azuX4SZerdE/hJwXUtIHeUeSyzWSR8rEEV9qa3TNIMpL
+3rHp71dfF1lzFDwalcrtz5xSEXS6Vz4k9XHSXgrKJUFN4+DrXmrl9L+YPo5aGKpqzBo1iLz/uudW
+E1TVKsaDg+jNEZygJHQJVMlKKVsiKxS7f939CUfL1o7ytWmP0J+it6ZVlXFey1bZ4znrdhA=
+" />
+<input type="hidden" class="encrypted" name="A-7" value="U2FsdGVkX18xNDE1MTYxN1qhFFwbEocajP3c3Ftk2RapAP1ECytpTjwwfNDg1M0E9v4jQ/1bJNDK
+ZFm++WtS1yhe/eDZqgjXomTNK8ANXGfwxHN7t0X3hIJ2OK1m0S3NyXNjRh7ILowOZ7J0PvjURhVG
+YYLZQF/8UjhxNfjjFja/543sc2QheMVWzNi+BwArk2+45ZtfiMgMNesD2dYsIrRS1Pi3CnI71+o7
+pJEwSiNIdpvO/KN6j1mkcg+h14EsYK2//IK229FsK5BBmiFX3Nwi99yqg6F/qI4k/dAOR1k7ebrF
+e/uMBxrgTteRF6/ymjO6jAnsXjivNP6fH+VNUv8UMWXArY+yEsnencySLwvJpQXtXOkNLl7lLkXG
+aNWOoZvQPirytN/q16TeddUEVF4DzleXR3ZpkKZ1oQYRz1TH/FtHqF06CLX7qZ4n/CNfNUOlW9Ra
+K+hDxL174clNBd1WNOYhImRo6u2Uz4HzEmEf3+GBb5desGkr1aetRx35SwbPNQQajLTOx9+GobPa
++HNcPEQhIQUFxaCJSgQmesGbyZOUH9AJTufZHTSlLRMl
+" />
+<input type="hidden" class="encrypted" name="S-7" value="U2FsdGVkX18xNDE1MTYxNwuo6O2MYoRW/p8XmmFERZY=
+" />
+		<p class="eqinputnum" id="NC7">Your Answer:&nbsp;&nbsp;&nbsp; <input class="eqinputnum foo" required type="number" step="any" size="8" name="q-stdnt-7" /><br />
+			<span style="font-size:smaller">(enter only numbers [digits, minus, period])</span></p>
+		<p class="qstntime" id="T7">4</p>
+		</div> <!-- qstn 7 -->
+
+		</div> <!--subpage--> 
+
+
+<!-- - - - - - - - - - - - - - -  SUBPAGE 7 - - - - - - - - - - - - - - --> 
+
+
+<!-- - - - - - - - - - - - - - - SUBPAGE 8 - - - - - - - - - - - - - - --> 
+		<div class="subpage" id="SPC8"> <div class="qname"><span class="qnum" id="qcSPC8">8</span> Q02.8</div>
+              <div class="qstn" id="C8">
+                <p class="qstnid" id="I8" style="hidden">8</p>
+                <p class="qstnname" id="N8">Q02.8</p>
+                <p class="qstntext" id="TXT8">You opened a CD account 10 years ago, and the account now has a balance of $12,000.  You only made one deposit on the day you opened the account, and never withdrew or deposited again.  What was the amount of the original deposit if you collected a constant 8.0% quoted annual rate, compounded monthly?</p>
+<input type="hidden" name="N-8" value="U2FsdGVkX18xNDE1MTYxN10zslyELYDt
+" />
+<input type="hidden" name="Q-8" value="U2FsdGVkX18xNDE1MTYxN5yJw3KiH0sewc5Ql/WJgGWuAg8+AALWrUwPxr9ogw8USujJithv6yL9
+M5K/HY1gLvVIf7XKTIY2Zfp6ufA+kafVRRbCbZcppUPScXrEAto65GSpQTrbowjBqVECIl5QLbWZ
+Gmavq7HdxP3GopWwoIKtxRdEe1qmS0FLcBHZcPKfktLhJTTiLQxII2IuxHWEu9iHZrE1LvBObfTh
+VWv+4LgphQ9Y8g90IXUL8BBvj9x1ROUSahRmI54htIxwE2gyrBFnY/OR8LalQBgfTrSOWw1DnGtG
+QhJkNcDCBODGWnCCQNx9e2XMkJWRO1V06Yc+f3MsjuWVmHJfPixwOKxD+VcyJlJYWVMK/rKIqroq
+AwOFj60Wk0vQiW6gvuTBajmr5NlqgkQ9fVGG1DZrjhZQpJs=
+" />
+<input type="hidden" class="encrypted" name="A-8" value="U2FsdGVkX18xNDE1MTYxNxpNedP1cGUAcOVfkEgtWyRHDG3/ovkVf0M8LWHDLej9JSxbwaq7x41n
+tEspH8Zvmktpyn2YLTV6XppZY6B8FbL6N9DagSXpuMddQNe3fsD1JMyynL0kUcL4WcEf/Y5Zp6DZ
+edulNaQvqb+Y7Nl1K5cQVmTsgvvkyg6C60CMKbdp/sYcCgV5SQiaGYA+Iw+D07hcPp74++jkp79y
+DGe9Cycu2qsVAtozP2wQwjZyb1DbCO5yGjng2VWyn92Lpoc0qoL28tl+ZoKewketoaJpmYo9Rsq9
+Xkxe5AQVa2mcrugk
+" />
+<input type="hidden" class="encrypted" name="S-8" value="U2FsdGVkX18xNDE1MTYxNyreYPG5k4GhogTIMsw/gZM=
+" />
+<input type="hidden" class="encrypted" name="P-8" value="U2FsdGVkX18xNDE1MTYxN7w+Ira2LjSt
+" />
+		<p class="eqinputnum" id="NC8">Your Answer:&nbsp;&nbsp;&nbsp; <input class="eqinputnum foo" required type="number" step="any" size="8" name="q-stdnt-8" /><br />
+			<span style="font-size:smaller">(enter only numbers [digits, minus, period])</span></p>
+		<p class="qstnprec" id="P8">&plusmn;0.5</p>
+		<p class="qstntime" id="T8">3</p>
+		</div> <!-- qstn 8 -->
+
+		</div> <!--subpage--> 
+
+
+<!-- - - - - - - - - - - - - - -  SUBPAGE 8 - - - - - - - - - - - - - - --> 
+
+
+<!-- - - - - - - - - - - - - - - SUBPAGE 9 - - - - - - - - - - - - - - --> 
+		<div class="subpage" id="SPC9"> <div class="qname"><span class="qnum" id="qcSPC9">9</span> Q02.9</div>
+              <div class="qstn" id="C9">
+                <p class="qstnid" id="I9" style="hidden">9</p>
+                <p class="qstnname" id="N9">Q02.9</p>
+                <p class="qstntext" id="TXT9">A savings account quotes an effective interest rate of 0.11 (i.e., effective APY = 11.0%) per year.  How many <b>basis points</b> would you earn per week on a balance in this account?  (Assume 52.15 weeks per year.)</p>
+<input type="hidden" name="N-9" value="U2FsdGVkX18xNDE1MTYxNxYQp/Mu1n0+
+" />
+<input type="hidden" name="Q-9" value="U2FsdGVkX18xNDE1MTYxNzq48gP58ERMgNEnh60CU28/v+QBKb4G1Jo8IRP0dP7YC8LjDVCaA5XP
+ck7jk/Wj6aD2PMLkFYgBb/Ne3+TxZZWqLgWsPYeDL06LolQN5XspjwMNCatEjCEObmLUZnpDdfWY
+boy4naaT/pWnwOTCsCHq92siEQUx0++eZS1PDKVgkpLU/6sjODT4OE5EZyr7kJHAYcBUSRpGXBk2
+ZKl0o0t0WUgKz3he533JyZCAiyDl+eywmWsz4QhJ8OdTvDGM0o3S1htz+Ane9+TohWSzAx32vW6z
+ZfLH9A==
+" />
+<input type="hidden" class="encrypted" name="A-9" value="U2FsdGVkX18xNDE1MTYxN+lqa4Di8xIScyURlYoTgjEp6bG3lc/VZU4ogBpOr6OJq9eKYSok3cyr
+qXABL4YcjbbNL+hfPEKG4FujNc8I1ch5WfuIbFgRv9RZgmGTbL6yVCRaeVgDvm1yGe76NOR1AWbY
+LhMoKIIdXq8YriRzBDH0SiH/ZtYKbXdtdIlG8kcQjxYrFN2Tkg20zI88YV9T3weSnbW6sBBPPgba
+Nc1R1XQ=
+" />
+<input type="hidden" class="encrypted" name="S-9" value="U2FsdGVkX18xNDE1MTYxN5VpwjNFrr4pCghiF16SeDU=
+" />
+<input type="hidden" class="encrypted" name="P-9" value="U2FsdGVkX18xNDE1MTYxNyCdmxRGjWGp
+" />
+		<p class="eqinputnum" id="NC9">Your Answer:&nbsp;&nbsp;&nbsp; <input class="eqinputnum foo" required type="number" step="any" size="8" name="q-stdnt-9" /><br />
+			<span style="font-size:smaller">(enter only numbers [digits, minus, period])</span></p>
+		<p class="qstnprec" id="P9">&plusmn;0.1</p>
+		<p class="qstntime" id="T9">3</p>
+		</div> <!-- qstn 9 -->
+
+		</div> <!--subpage--> 
+
+
+<!-- - - - - - - - - - - - - - -  SUBPAGE 9 - - - - - - - - - - - - - - --> 
+
+
+<!-- - - - - - - - - - - - - - - SUBPAGE 10 - - - - - - - - - - - - - - --> 
+		<div class="subpage" id="SPC10"> <div class="qname"><span class="qnum" id="qcSPC10">10</span> Q02.10</div>
+              <div class="qstn" id="C10">
+                <p class="qstnid" id="I10" style="hidden">10</p>
+                <p class="qstnname" id="N10">Q02.10</p>
+                <p class="qstntext" id="TXT10">For a $100,000 deposit, a bank offers two choices: <ul> <li> Account A pays interest at a true annual holding rate of return of 5% each year, i.e., compounding annually. </li> <li> Account B pays a simple non-compounding annual interest rate of 5% per year (for a total interest rate of 25.0%), but pays a one-time bonus of $5,000 at the end of 5 years. </li> </ul>   What is the final value of account A minus the final value of account B?</p>
+<input type="hidden" name="N-10" value="U2FsdGVkX18xNDE1MTYxNz1uXKFfUaSq
+" />
+<input type="hidden" name="Q-10" value="U2FsdGVkX18xNDE1MTYxNwMPHdRgmumrW2Xse2I9vX2YDH4mNficZTQJF7JLAXlOKgVD3GjpwNWf
+K65/hcsK5DnFLGvsAnEUoGv/YuLuuCV2qHA0DD9eYNQUNwFjDPh2u7PSOtBah3VDueiHFyRmrHIW
+jef9wceUBwhNfxMgYWrRx/qIGm82KqIfpbfN9v4+Ks4k3oWR0u73VfX7hGORGOij7yFNpWa9EA8n
+I/HpOFYZW1if5G2y0vlnnN+HMVPMzyZOQfZ0/vgAVECAlbPYeEOKPbraVjHJ/ZP4ytoWAKNyHmoC
+fnWQk56L957TlW4HsQOCgg9uBnD4cWlKmyczlq8P2oD/Dsj90XILF3pTkTTusVDSDNPGd+cWzX82
+HRxU33ByXOxxXCIJYXEPQFSSh1e7HGM0GxbQYMyHHIIMhUThM+FNdjWDZzumZ/eYzpRcA0oCJJyS
+QxqF4LZhkXD9Wf0M5UuPLijp9fyFP5vm+Wjc0AqKiiPV50LLlj5Tupmd/UsyrYcDqbrAfFg6DUg0
+29GxB10mLhU/y24TbMm3dyTmwVW/uybCT9YRq5BUVWTTu5ipVK1Tri+dkCKHWLzE7CreTginZZSa
+jYSVfBgT34g=
+" />
+<input type="hidden" class="encrypted" name="A-10" value="U2FsdGVkX18xNDE1MTYxN7TGXaKxe3Ww0g3GopTM8yaeSRz241cGAgiM9Kfk2Pi3CzRZxe8qjXZ0
+x1iNk7lRCOhpSV23VeUSnXmkSR9/YPChbuqHQ9KrHmiGosb4bLY1tPul3K/lPIbNme5o5o1t5A7Q
+UMcB+26Rx/squucqjR9hXGe7s3KCVzXIbsTyTXiXjsBfmK+T8NIDOpducxXyS3oeR3XCcM9/Nm9v
+UfrlByPiz8/FlAs7oi99VbGgQH2jcUYtdtgixFSQBOR4+jlhWl2jYiV3Hi/00MX2X98XoEQ8qwLe
+Z6I/SGXLOXg6puxnoq2twfWx6b0pZi7pOsx8iNpV+ntf8bhLqDlVaN9vUBLJvc9zuEHFzdYZB/mM
+pydyUVGOyk8SU5PKU/3zwaDtc8EK9JWkRjSv/Mh18H9EjTmpa4X+1kmz1Q==
+" />
+<input type="hidden" class="encrypted" name="S-10" value="U2FsdGVkX18xNDE1MTYxNzcC1OzzD2fQWh5itAXfMeA=
+" />
+<input type="hidden" class="encrypted" name="P-10" value="U2FsdGVkX18xNDE1MTYxN4Gh806Mm1iR
+" />
+		<p class="eqinputnum" id="NC10">Your Answer:&nbsp;&nbsp;&nbsp; <input class="eqinputnum foo" required type="number" step="any" size="8" name="q-stdnt-10" /><br />
+			<span style="font-size:smaller">(enter only numbers [digits, minus, period])</span></p>
+		<p class="qstnprec" id="P10">&plusmn;1</p>
+		<p class="qstntime" id="T10">2</p>
+		</div> <!-- qstn 10 -->
+
+		</div> <!--subpage--> 
+
+
+<!-- - - - - - - - - - - - - - -  SUBPAGE 10 - - - - - - - - - - - - - - --> 
+
+
+         <input type="hidden" class="encrypted" name="confidential" value="U2FsdGVkX18xNDE1MTYxNw8bo849CbXkukH0RPJ/oXxYC/x/9s3OkzKuFAHPUU09900ch0K7RaLC
+yAn08Wd1AHMq5JA2/dA5XJrBq6T3G2BitiRC3hcdhxBlZTIwvBtQtES7PZH8adPoWi+nHuc+gF72
+tZBPYWzTlSwvSMxqiS5nwC5rCXFBS0RyBTnICVQ0+Uc5+o6fEswrAuVfNLj79VJvsFKM4feBLPGA
+qRNTW+Axzi029g0c7NPYciDXskMlyXsye+fmi+IMIFx2oiI0RBHexT9v7OE1aN0jY3NDvokY13iU
+3GmIf8+x6ivdff1QWVX2uLiNN96Lh1iKtLKOfxropaljCQhMzPkeivwgaqw=
+" />
+
+         <input type="hidden" name="ntime" value="1503005665" />
+
+           <div class="quizsubmitbutton">
+              <input type="submit" class="quizsubmitbutton" name="submit" value="Submit and Grade my Answers" /><br />
+           </div><!--quizsubmitbutton-->
+
+        </form>
+
+       </div><!--container-->
+
+    <hr />
+
+    <div class="eqps"> <p> (This quiz is not functional.  Please register and log in to take equizzes.)</div>
+
+    </div><!--class="equiz"-->
+
+
+</main>
+
+
+      <footer>
+	<div class="container" id="gohomeorup" style="margin-left:0em">
+	  <hr />
+          <a class="btn btn-default" href="/"> <i class="fa fa-home"></i> home</a>
+          <a class="btn btn-default" href=".."> <i class="fa fa-arrow-up"></i> up</a>
+          &nbsp;
+          <a class="btn btn-default" href="/aboutus"> <i class="fa fa-legal"></i> about us</a> &nbsp;
+          <a class="btn btn-default" href="/auth/goclass"> <i class="fa fa-sign-out"></i> exit course </a>
+          <a class="btn btn-danger" href="/logout"> <i class="fa fa-power-off"></i> logout user </a>
+	</div> <!--container:gohomeorup -->
+
+        <p style="font-size:x-small;padding:1em;margin:1em;">Please notify <a href="mailto:ivo.welch@gmail.com?subject=security+breach+on+syllabus.space">ivo welch</a> immediately if you discover an exploitable security bug that would allow unauthorized extraction of data.</p>
+      </footer>
+
+
+    </div> <!--container:body-->
+
+  </body>
+</html>

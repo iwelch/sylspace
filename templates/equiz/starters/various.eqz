@@ -1,0 +1,124 @@
+::EQVERSION:: 1.0 -- not used.
+
+################################################################
+::NAME::  various different questions
+
+::START::
+
+################################################################
+
+:N: Introduction
+
+:M:
+
+  <p>This file contains a collection of starter questions that you can
+  modify.  To see the question source, please click on the filename in
+  the equiz browser.  Study the source.  The source shows how you can
+  use html code, tags, math, etc.
+
+  <p>Change the name of this file to your task.  Then edit the
+  questions to your delight.  If your equiz fails compiling, the right
+  way to debug it is to remove the question and try again, until you
+  locate the error.
+
+  <p>When you want your students to see your equiz, do not forget to make
+  it public.
+
+:E:
+
+################################################################
+
+:N: A simple algorithmic question 
+
+:I: $x= rseq(10,20); $y=$x+1; $ANS= $y+1
+
+:Q: The rseq() function is used to (have equiz) pick a random integer
+    between a starting and an ending value.  You must assign the final
+    answer into the $ ANS variable.
+
+    <p>In this question, X=$x was a random integer number between 10 and
+    20.  $ y was $ x plus 1.  And the answer was $ y + 1.  So, please
+    calculate &#36;x+2=<b>$x+2</b> and enter it as your answer.
+
+    <p>The :T: tag suggests a time to your students.  The :D: tag suggests
+    a difficulty level.</p>
+
+:A: When done, your students will see your long explanation, which can also use
+ your variables.  So, here, the first correct answer should be {$ANS}.
+
+:T: 1
+
+:D: Easy
+
+:E: 
+
+################################################################
+
+:N: Two Random Variables
+
+:I: $x= rseq(1,10)/10; $y= rseq(100,1000)/7; $ANS= ($x+$y)
+
+:Q: We show two (random) variables.  What is $x+{$y:4}?  Note the
+    different rounding in the display for x and y.  (As a cheat,
+    the answer will be $ANS.)
+
+:A: Your second correct answer should be {$ANS}.
+
+:E: 
+
+################################################################
+
+:N: A Multiple Choice Question
+
+:I: $x= rseq(1,100); $y= rseq(1,100); $ANS= ( ($x+$y) < 100) ? 1 : 2
+
+:Q: We show a multiple-choice question.  Usually, the last I statement
+    is a conditional (ternary) statement, that maps answers to 1,2,...
+
+    If ${$x}+${$y} is less than $100, then please choose 'A'.
+     Otherwise, choose 'B'.  Never choose 'C'.
+
+    The choices begin with 1, and are separated by vertical bars.
+
+:C: A could be true | B might be true | C is never true
+
+:A: Your third correct answer should be {$ANS}.
+
+:E: 
+
+################################################################
+
+:N: A Math Display Question
+
+:I: $x= rseq(2,10); $ANS= $x
+
+:Q: This question shows off math typesetting.
+
+    Please calculate \( |\sqrt{$x^2}| \), which in math display outline
+    form is displaysed as
+    \[ |\sqrt{$x^2}| \]
+
+:A: This was just the number {$x} itself.
+
+:E: 
+
+
+################################################################
+
+:N: Required Precision
+
+:I: $x= 2.0 ; $ANS= sqrt($x)
+
+:Q: This question shows required precision.  Calculate 
+    Please calculate \( \sqrt{ $x } \) to 0.00001 precision.
+
+:A: This is {$ANS:8}.
+
+:P: 0.000001
+
+:E: 
+
+::END:: 
+
+Everything after the end is ignored.
+	

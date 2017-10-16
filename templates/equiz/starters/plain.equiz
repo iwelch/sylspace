@@ -1,0 +1,57 @@
+::EQVERSION:: 1.0 -- not used.
+
+::NAME::  Plain Starter
+
+################################################################
+
+::START::
+
+################################################################
+
+
+:N: A plain algorithmic question 
+
+:I: $x= rseq(10,20); $ANS= sqrt($x)
+
+:Q:  Tags must appear at the start of the line, otherwise they are just text.  All calcuations must appear in the <code>:I:</code> tag.  The <code>:N:</code> tag is the name of the question.  The <code>:Q:</code> tag gives the question itself.  The <code>:A:</code> tag is the answer.  Use the <code>:P:</code> tag to set the required precision in the answer.  Use curly brackets with colon digit notation for display, e.g., {$ANS:8}, {$ANS:4}, or {$ANS:1} parentheses.  Use the <code>:T:</code> tag to suggest time, and the <code>:D:</code> tag to suggest difficulty.
+
+<p>New paragraphs begin with html tags.  Calculate the squareroot of $x, \( \sqrt{X}=\sqrt{$x}=? \).
+
+:A: When done, your students will be shown this long explanation, which can also use any of your variables.  So, here, the answer to sqrt($x), in math \( \sqrt{$x} \) is $ANS, or in math outline form
+\[ \sqrt{$x}= $ANS \]
+
+:P: 0.001
+
+:D: easy
+
+:T: 2
+
+:E: 
+
+
+:N: The message
+
+:M:
+
+	<pre>
+	:N: A plain algorithmic question 
+
+	:I: $x= rseq(10,20); $ANS= sqrt($x)
+
+	:Q:  Tags must appear at the start of the line, otherwise they are just text.  All calcuations must appear in the <code>:I:</code> tag.  The <code>:N:</code> tag is the name of the question.  The <code>:Q:</code> tag gives the question itself.  The <code>:A:</code> tag is the answer.  Use the <code>:P:</code> tag to set the required precision in the answer.  Use curly brackets with colon digit notation for display, e.g., {$ANS:8}, {$ANS:4}, or {$ANS:1} parentheses.  Use the <code>:T:</code> tag to suggest time, and the <code>:D:</code> tag to suggest difficulty.
+
+	<p>New paragraphs begin with html tags.  Calculate the squareroot of $x, \( \sqrt{X}=\sqrt{$x}=? \).
+
+	:A: When done, your students will be shown this long explanation, which can also use any of your variables.  So, here, the answer to sqrt($x), in math \( \sqrt{$x} \) is $ANS, or in math outline form
+	\[ \sqrt{$x}= $ANS \]
+
+	:P: 0.001
+
+	:D: easy
+
+	:T: 2
+	</pre>
+
+:E:
+
+::END:: 

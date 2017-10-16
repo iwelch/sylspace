@@ -1,0 +1,47 @@
+::EQVERSION:: 1.0 -- not used.
+
+::INSTRUCTOR:: TBA
+
+::CREATED:: 2012-2017
+
+::AUTHOR:: Daniel Andrei
+
+::NAME::  Preliminary Quiz: II
+
+################################################################
+
+::START::
+
+################################################################
+
+
+:N: Effective return (increase)
+:Q: Suppose that over 1 year a stock price increases from $$S0 to $$S1. Over the subsequent year it falls back to $$S0. What is the effective return over the first year (in percentage points)?
+:I: $S0 = rseq(50,150); $S1=2*$S0; $ANS=($S1-$S0)/$S0 * 100
+:A: Effective return = ($$S1-$$S0)/$$S0 = $ANS%
+:E:
+
+
+:N: Continuously compounded return (increase)
+:Q: Suppose that over 1 year a stock price increases from $$S0 to $$S1. Over the subsequent year it falls back to $$S0. What is the continuously compounded return over the first year (in percentage points)?
+:I: $S0 = rseq(50,150); $S1=2*$S0; $ANS=ln($S1/$S0) * 100
+:A: Continuously compounded return = ln($$S1/$$S0) = $ANS%
+:E:
+
+
+:N: Effective return (decrease)
+:Q: Suppose that over 1 year a stock price increases from $$S0 to $$S1. Over the subsequent year it falls back to $$S0. What is the effective return over the second year (in percentage points)?
+:I: $S0 = rseq(50,150); $S1=2*$S0; $ANS=($S0-$S1)/$S1 * 100
+:A: Effective return = ($$S0-$$S1)/$$S1 = $ANS%
+:E:
+
+
+:N: Continuously compounded return (decrease)
+:Q: Suppose that over 1 year a stock price increases from $$S0 to $$S1. Over the subsequent year it falls back to $$S0. What is the continuously compounded return over the second year (in percentage points)?
+:I: $S0 = rseq(50,150); $S1=2*$S0; $ANS=ln($S0/$S1) * 100
+:A: Continuously compounded return = ln($$S0/$$S1) = $ANS%
+:E:
+
+
+
+::END::

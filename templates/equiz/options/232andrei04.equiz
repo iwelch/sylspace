@@ -1,0 +1,91 @@
+::EQVERSION:: 1.0
+
+################################################################
+::NAME::  
+
+::INSTRUCTOR:: TBA
+
+::CREATED:: 2012-2017
+
+::AUTHOR:: Daniel Andrei
+
+::AREA:: Options and Derivatives
+
+::EMAIL:: daniel.andrei@anderson.ucla.edu
+
+################################################################
+
+::START::
+
+:N: Commission I
+:Q: What is the cost of $x shares of Jiffy, Inc. stock given that the bid and ask prices are $$b and $$a,
+and a $$c commission per transaction exists?
+:I: $x=rseq(90,110); $bp=rseq(3100,3300); $b=$bp/100; $ap=rseq(3325,3525); $a=$ap/100; $cp=rseq(1400,1600); $c=$cp/100; $ANS=$x*$a+$c
+:A: The cost is $x*$a+$c = $$ANS
+:E:
+
+:N: Commission II
+:Q: Assume that you open a $x share short position in Jiffy, Inc. common stock at the bid and ask prices of
+$$b1 and $$a1. When you close your position, the bid and ask prices are $$b2 and $$a2. If you pay a
+commission rate of 0.5%, calculate your profit on the short investment.
+:I: $x=rseq(90,110); $bp1=rseq(3200,3300); $b1=$bp1/100; $ap1=rseq(3325,3425); $a1=$ap1/100; $bp2=rseq(3200,3300); $b2=$bp2/100; $ap2=rseq(3325,3425); $a2=$ap2/100; $S=$x*$b1-$x*$b1*0.005; $B=$x*$a2+$x*$a2*0.005; $ANS = $S-$B
+:A: The proceeds from sale of stock are S = $x*$b1-$x*$b1*0.005=$S. Buying the stock requires a payment of B=$x*$a2+$x*$a2*0.005=$B. Thus the profit (loss) is $$ANS
+:E:
+
+:N: Short forward
+:Q:The spot price of the market index is $$x. A 3-month forward contract on this index is priced at
+$$F. What is the profit to a short forward position if the spot price of the market index rises to $$x2
+by the expiration date?
+:I: $x=rseq(800,900); $F=rseq(930,950); $x2=rseq(910,930); $ANS=$F-$x2
+:A: The profit (loss) is $F-$x2=$ANS
+:E:
+
+:N: Long call option
+:Q: The spot price of the market index is $$x. After 3 months the market index is priced at $$x2.
+An investor has a long call option on the index at a strike price of $$K and with maturity of 3 months. After 3 months what is the investor's payoff?
+:I: $x=rseq(900,950); $x2=rseq(910,1000); $K=rseq(900,950); $d=$x2-$K; $ANS=max(0,$d)
+:A: The payoff is max($x2-$K,0) = $ANS
+:E:
+
+:N: Long put with premium
+:Q: The spot price of the market index is $$x. After 3 months the market index is priced at $$x2. The
+annual continuously compounded rate of interest is 4.8%. The premium on the long put, with an
+exercise price of $$K, is $$c. What is the profit at expiration for the long put?
+:I: $x=rseq(900,910); $x2=rseq(870,930); $K=rseq(900,950); $c=rseq(7,10); $fp=$c*exp(0.048*(1/4)); $d=$K-$x2; $ANS=max($d,0)-$fp
+:A: The future value of the premium is $c*exp(0.048*(1/4)) = $fp. Thus the profit (loss) is max($K-$x2,0)-$fp=$ANS
+:E:
+
+:N: Long call with premium I
+:Q: The premium on a long term call option on the market index with an exercise price of $$K is $$c
+when originally purchased. After 6 months the position is closed and the index spot price is $$x. If continuously compounded interest rates are 0.5 % per month, what is the call payoff?
+:I: $K=rseq(920,970); $c=rseq(10,14); $x=rseq(930,1000); $d=$x-$K; $ANS=max($d,0)
+:A: The call payoff is max($x-$K,0) = $$ANS
+:E:
+
+:N: Long call with premium II
+:Q: The premium on a call option on the market index with an exercise price of $$K is $9.30 when
+originally purchased. After 2 months the position is closed and the index spot price is $$x. If continuously compounded interest rates are $r% per month, what is the call profit?
+:I: $K=rseq(1000,1050); $x=rseq(1100,1150); $r1=rseq(2,8); $r=$r1/10; $d=$x-$K; $ar=$r*12; $fp=9.30*exp(($ar/100)*(1/6)); $ANS=max($d,0)-$fp
+:A: The annual interest rate is r = $r*12 = $ar%. The future value of the premium is prem = 9.30*exp(($ar/100)*(1/6))=$fp. It follows that this profit (loss) is max($x-$K,0)-$fp = $$ANS
+:E:
+
+:N: Buy index and long put
+:Q: A strategy consists of buying a market index product at $$x and longing a put on the index with a strike of $$K. If the put premium is $$p and interest rates are 0.5% per month, what is the profit at expiration (in 6 months) if the market index is $$x2?
+:I: $x=rseq(800,900); $x2=rseq(800,810); $K=rseq(810,900); $p=rseq(15,25); $ar=0.5*12; $d=$K-$x2;$i=max($d,0)+$x2; $o=($x+$p)*exp(($ar/100)*0.5); $ANS=$i-$o
+:A: Proceeds from exercising put are $x2+max($K-$x2,0) = $$i. The cost is ($x+$p)*exp(($ar/100)*0.5)=$$o. Thus the profit is $i-$o = $$ANS
+:E:
+
+:N: Put-call parity
+:Q: A market index product currently is valued at $$x and a put option with strike $$K has a premium of $$p. What is the estimated price of a call option with an exercise price of $$K? Both options have maturities of 6 months and interest rates are 0.5% per month.
+:I: $x=rseq(800,900), $K=rseq(800,810), $p=rseq(15,25); $ANS=$p+$x-$K*exp(-0.06*0.5)
+:A: Use the put-call parity relationship. We have c = $p+$x-$K*exp(-0.06*0.5) = $$ANS
+:E:
+
+:N: Bullish call spread
+:Q: An investor purchases a call option with an exercise price of $$K1 for $$c1. The same investor sells a call on the same security with an exercise price of $$K2 for $$c2. At expiration, 3 months later, the stock price is $$x. All other things being equal and given a continuously compounded annual interest rate of 4.0%, what is the profit or loss to the investor after 3 months?
+:I: $K1=rseq(50,59), $K2=rseq(61,70), $cp1=rseq(25,30), $c1=$cp1/10, $cp2=rseq(20,24), $c2=$cp2/10, $x=rseq(60,75);$d1=$x-$K1;$d2=$x-$K2; $call1=max($d1,0),$call2=max($d2,0);$ANS =  $call1-$c1*exp(0.04*0.25)-$call2+$c2*exp(0.04*0.25);
+:A: The payoff from the buying the call is max($x-$K1,0) = $$call1. The payoff from selling the second call is max(-($x-$K2),0)=$$call2. Hence the profit is  $call1-$c1*exp(0.04*0.25)-$call2+$c2*exp(0.04*0.25) = $$ANS
+:E:
+
+
+::END::

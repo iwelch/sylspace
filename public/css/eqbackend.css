@@ -1,0 +1,147 @@
+/* edited Dec 15 */
+
+body { margin:2em; }
+
+div.quizblock { color:black; padding-top:1ex;padding-bottom:1ex; }
+
+
+div.eqheader { padding:1em; background-color:#fafad2; }
+
+div.eqauthor { color:darkblue; }
+.eqauthor::before { content: "Quiz Author: "; font-weight:bold; }
+
+div.eqname { color:darkblue; }
+.eqname::before { content: "Quiz Name: "; font-weight:bold; }
+
+div.eqversion { color:darkblue; }
+.eqversion::before { content: "Quiz Version: "; font-weight:bold; }
+
+div.eqgenerated { color:darkblue; }
+.eqgenerated::before { content: "Quiz Served Up: "; font-weight:bold; }
+
+div.eqintro { color:darkblue; padding:1em; }
+.eqintro::before { content: "Introduction: "; font-weight:bold; }
+
+div.eqps { color:darkblue; }
+.eqps::before { content: "Postscript: "; font-weight:bold; }
+
+
+div.equiz { margin-right:12em; }
+
+div.subpage {
+    border-radius: 25px;
+    border: 2px solid black;
+    padding: 1%;
+    margin: 1%;
+    width: 90%;
+}
+
+
+div.qmsg {
+    border-radius: 25px;
+    border: 2px solid darkgray;
+    padding: 1%;
+    width: 90%;
+    background-color:lightgray;
+}
+
+div.qstn {
+    border-radius: 25px;
+    border: 2px solid red;
+    padding: 1%;
+    width: 90%;
+    background-color:#fafad2;
+}
+
+
+div.qname::before {
+    content: "P ";
+    font-weight:bold;
+}
+
+span.qnum {
+    margin-right:1ex;
+    font-weight:bold;
+}
+
+div.qname {
+    text-align:left;
+    font-size:large;
+}
+
+p.qstnname { display:none; visibility:hidden; }
+p.qstnname::before {
+    content: "EQ Name: ";
+    font-weight:bold;
+    visibility:hidden;
+}
+
+p.qstnanwer { color:yellow; font-size:xx-large; }
+p.qstnanswer::before {
+    content: "EQ Long Answer Explanation: ";
+    font-weight:bold;
+}
+
+p.qstnid { display:none; visibility:hidden; }
+p.qstnid::before {
+    content: "EQ ID: ";
+    font-weight:bold;
+    visibility:hidden;
+}
+
+p.qstntext::before {}
+    content: "EQ Text: ";
+    font-weight:bold;
+}
+
+p.qstnprec { background-color:red; }
+
+p.qstnprec::before {
+    content: "Required Answer Precision: ";
+    font-size:small;
+}
+
+
+div.qstntext {
+     color: red;
+}
+
+div.qmsg {
+    color: darkblue;
+}
+
+p.qstntime::before {
+    content: "Suggested Time: ";
+    font-size:small;
+}
+p.qstntime::after {
+    content: " min. ";
+}
+
+p.qstndiff::before {
+    content: "Difficulty: ";
+    font-size:small;
+}
+
+
+p.eqinputnum::before {
+    content: "Please Answer: ";
+    font-weight:bold;
+}
+
+input.eqinputnum {}
+
+ol.eqchoice {}
+li.eqchoice {}
+
+div.quizsubmitbutton {
+    padding:1em; text-align:center; margin-left:auto; margin-right:auto;
+}
+input.quizsubmitbutton {
+    padding:1em; background-color:orange; font-weight:bold; font-size:x-large; text-align:center; margin-left:auto; margin-right:auto;
+}
+
+pre.code {  margin-left:20px; color:black; font-family:monospace; }
+code { color:black; font-family:monospace; }
+
+(* .subpage {    display:none;    border:1px solid #0076BA;    height:25%;    width:50%; } *)

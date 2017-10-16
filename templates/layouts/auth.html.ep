@@ -1,0 +1,9 @@
+%layout 'sylspace';
+
+<%
+   $self->stash( bgcolor => $ENV{SYLSPACE_siteacolor}, fgcolor => $ENV{'SYLSPACE_jumboacolor'}, homeurl => '/auth',
+                 toprightexit => '<li><a href="/logout"> <i class="fa fa-sign-out"></i> LOG OFF </a></li>'
+);
+%>
+
+<%= content %>

@@ -1,0 +1,136 @@
+::EQVERSION:: 1.0 -- not used.
+
+::NAME::  Some Statistics Questions
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: intro
+
+:M:
+
+   <p>The answers in these quizzes, if you want one, is always 0.
+
+:E:
+
+################################################################
+
+:N: rseq
+
+:I: $x= rseq(1, 100, 0.25); $y= rseq(1, 100, 0.25); $ANS=0
+
+:Q: rseq() may well be the most frequent function to use.  It pulls exactly one random number from a list of choices, defined as rseq(start,end,increment).  The third argument is optional, and defaults to 1 (i.e., to draw integers).  In this example, we are drawing two numbers but with an increment of 0.25:  <b>$x</b> and <b>$y</b> .
+
+<pre>
+	&#36;x= rseq(1, 100, 0.25); &#36;y= rseq(1, 100, 0.25)
+</pre>
+
+:A: 0 is nothing to explain
+
+:E:
+
+################################################################
+
+:N: pr
+
+:I: $x= pr(22,33,144,-12); $ANS=0
+
+:Q: pr() chooses an entry at random from a list.  For example, $x.
+
+<pre>
+   &#36;x= pr(22,33,144,-12); 
+</pre>
+
+:A: 0 is nothing to explain
+
+:E:
+
+################################################################
+
+:N: mean
+
+:I:  $a= 1; $b=2; $c=3; $d=4; $m1= mean($a); $m2= mean($a,$b); $m3= mean($a,$b,$c); $m4= mean($a,$b,$c,$d); $ANS=0
+
+:Q: mean() calculates the mean over any number of entries
+
+<pre>
+  &#36;a= $a; &#36;b=$b; &#36;c=$c; &#36;d=$d;
+  m1= mean($a); m2= mean($a,$b); m3= mean($a,$b,$c); m4= mean($a,$b,$c,$d);
+</pre>
+
+:A: 0 is nothing to explain
+
+:E:
+
+################################################################
+
+:N: var
+
+:I:  $a= 1; $b=2; $c=3; $d=4; $m1= var($a); $m2= var($a,$b); $m3= var($a,$b,$c); $m4= var($a,$b,$c,$d); $ANS=0
+
+:Q: var() calculates the sample variance over any number of entries
+
+<pre>
+  &#36;a= $a; &#36;b=$b; &#36;c=$c; &#36;d=$d;
+  m1= var($a); m2= var($a,$b); m3= var($a,$b,$c); m4= var($a,$b,$c,$d);
+</pre>
+
+:A: 0 is nothing to explain
+
+:E:
+
+################################################################
+
+:N: sd
+
+:I:  $a= 1; $b=2; $c=3; $d=4; $m1= sd($a); $m2= sd($a,$b); $m3= sd($a,$b,$c); $m4= sd($a,$b,$c,$d); $ANS=0
+
+:Q: sd() calculates the sample standard deviation over any number of entries
+
+<pre>
+  &#36;a= $a; &#36;b=$b; &#36;c=$c; &#36;d=$d;
+  m1= sd($a); m2= sd($a,$b); m3= sd($a,$b,$c); m4= sd($a,$b,$c,$d);
+</pre>
+
+:A: 0 is nothing to explain
+
+:E:
+
+################################################################
+
+:N: min and max
+
+:I: $x1=rseq(1,100), $x2=rseq(1,100); $min=min($x1,$x2); $max=max($x1,$x2); $ANS= 0
+
+:Q: The min() function (of just two numbers) is $min, the max is $max
+
+<pre>
+	&#36;x1=rseq(1,100), &#36;x2=rseq(1,100); &#36;min=min($x1,$x2); &#36;max=max($x1,$x2); $ANS= 0
+</pre>
+
+:A: 0 is nothing to explain
+
+:E:
+
+################################################################
+
+:N: normal distribution 
+
+:I:  $x= rseq(-2,2,0.5);  $p=Norm($x); $c= CumNorm($x); $ANS=0
+
+:Q: We calculate a value for x= $x.  The normal probability density function, n($x), is $p.  The cumulative normal function, N($x) is $c.  
+
+<pre>
+  &#36;x= rseq(-2,2,0.5);  &#36;p=Norm($x)=$p; &#36;c= CumNorm($x)=$c;
+</pre>
+
+:A: 0 is nothing to explain
+
+:E:
+
+################################################################
+
+::END::

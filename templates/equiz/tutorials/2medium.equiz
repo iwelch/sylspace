@@ -1,0 +1,105 @@
+::EQVERSION:: 1.0 -- not used.
+
+################################################################
+::NAME::  Equiz &mdash; The Medium Tutorial
+
+::INSTRUCTOR:: Ivo Welch
+
+::AUTHOR:: Ivo Welch
+
+::EMAIL:: ivo.welch@gmail.com -- not used.  may help with future credit
+
+::CREATED:: October 2015 by Ivo Welch -- not used
+
+::COMMENT:: This is a longer comment.  The preamble is done.  Now come the questions.  Everything in a comment is, of course, ignored.
+
+::GRADENAME:: eq2medium
+
+################################################################
+
+::START::
+
+:N: Introduction
+
+:M:
+
+  <p>This tutorial can teach you in 5 minutes how to create your own equizzes. It also provides a convenient starting template for writing new equizzes.  Creating your own equizzes with student-specific values is so easy that it takes longer to explain it than it takes to show it to you.  So let us show you how.
+
+  <p>Let's start with a first simple question.  Explanations of how this question is designed will follow.
+
+:E:
+
+################
+
+
+:N: A simple algorithmic question 
+:I: $x= rseq(10,20); $ANS= $x+1
+:Q: This is the first question.  X=$x is a random integer number between 10 and 20.  Please calculate $x+1 and enter it as your answer.
+:A: When done, your students will be shown this long explanation, which can also use any of your variables.  So, here, the first correct answer adding 1 to $x should be $ANS.
+:T: 10
+:E: 
+
+################
+
+:N: First Question Explanation
+
+:M: 
+
+  <p>So, how was this first question written?
+
+  <p>Questions are defined by tags, which must be at the start of a line.  (Indent them with a space and they no longer work.  Also, watch out that you don't accidentally start a line with a code when you do not mean to.)</p>
+
+  <p>Each question (or message) starts with a name (prefix '<code>:N:</code>') and ends with an '<code>:E:</code>'.  It then contains an initialization section ('<code>:I:</code>') to compute, the question text itself ('<code>:Q:</code>') with can depend on computed values, a long answer ('<code>:A:</code>') that can provide an explanation for the student, and optional hints to the student about time ('<code>:T:</code>') and difficulty ('<code>:D:</code>') level.</p>
+
+  <p>In the initialization (<code>:I:</code>) section, algebra works as you would it expect it.  For example, to initialize variable $x with a random integer value between 5 and 10, then set $y to $x plus 5, and finally assign the square to $ANS, you would write
+
+  <pre class="code">:I:   $x= rseq(5,10); $y=$x+5; $ANS=$y^2</pre>
+
+  <p>(<code>rseq()</code> is a predefined function, which here chooses a random integer between 5 and 10.  Statements are separated with semicolons.  Variable names start with dollar signs.)
+
+  <p>Then, in your question or long answer section, if you want to refer to your $y variable, just embed it, as in <code>your intermediate answer is $y, and then...blah blah</code>.  Of course, you had to have defined the $y variable in your init section first, or it will remain as $y.  (And, if you want to use the text string $us, then please do not define $us as a variable in your init section!)
+
+  <p>So, here is the source for the first question:
+
+  <pre class="code">
+   :N: A simple algorithmic question 
+   :I: $x= rseq(10,20); $ANS= $x+1
+   :Q: This is the first question.  X=$x is a random integer number between 10 and 20.
+       Please calculate $x+1 and enter it as your answer.
+   :A: When done, your students will be shown this long explanation,
+          which can also use any of your variables.
+          So, here, the first correct answer adding 1 to $x should be $ANS.
+   :T: 10
+   :E: 
+  </pre>
+  and because in this message the tags are indented, they are not treated as instructions.
+
+  <p>Go back to the question to see how it looked.  Then go on.</p>
+:E:
+
+################
+
+:N: This Message Explanation
+
+:M:
+
+  <p>But how did we add the long explanation on the previous page (with gray background)?  Or, for that matter, how are we adding the explanation on this page?</p>
+
+  <p>It turns out that it wasn't a question, at all.  You can also add interceding messages, e.g., to introduce future questions.  This is actually what we (ab)used here.  Messages begin with an <code>:M:</code> and must be closed with an <code>:E:</code>, just like questions.
+
+  <p>So, this is how this page started:
+
+  <pre class="code">
+   :N: This Message Explanation
+   :M:
+       &lt;p&gt; But how did we ...
+   :E:
+  </pre>
+
+  <p style="padding-left:2em">...on to the next question, which will show off some more capabilities.
+
+:E:
+
+::END:: 
+
+Everything after the end is ignored.

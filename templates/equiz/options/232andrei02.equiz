@@ -1,0 +1,38 @@
+::EQVERSION:: 1.0 -- not used.
+
+::INSTRUCTOR:: TBA
+
+::CREATED:: 2012-2017
+
+::NAME::  Preliminary Quiz: I
+
+::AUTHOR:: Daniel Andrei
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Buying a stock
+:Q: ABC stock has a bid price of $$bid and an ask price of $$ask. Assume that the brokerage fee is quoted as 0.3% of the bid or ask price. What amount will you pay to buy 100 shares?
+:I: $s = rseq(4000,4500); $bid=$s/100; $ask=$bid+0.1; $ANS=($ask * 100)*(1+0.003)
+:A: ($$ask*100)*(1+0.003) = $$ANS
+:E:
+
+
+:N: Selling a stock
+:Q: ABC stock has a bid price of $$bid and an ask price of $$ask. Assume that the brokerage fee is quoted as 0.3% of the bid or ask price. What amount will you receive for selling 100 shares?
+:I: $s = rseq(4000,4500); $bid=$s/100; $ask=$bid+0.1; $ANS=($bid * 100)*(1-0.003)
+:A: ($$bid*100)*(1-0.003) = $$ANS
+:E:
+
+
+:N: Round-trip transaction
+:Q: ABC stock has a bid price of $$bid and an ask price of $$ask. Assume that the brokerage fee is quoted as 0.3% of the bid or ask price. Suppose you buy 100 shares, then immediately sell 100 shares. What is your round-trip transaction cost?
+:I: $s = rseq(4000,4500); $bid=$s/100; $ask=$bid+0.1; $buy=($ask * 100)*(1+0.003); $sell=($bid * 100)*(1-0.003); $ANS=$buy-$sell
+:A: You pay ($$ask*100)*(1+0.003) = $$buy. You receive ($$bid*100)*(1-0.003) = $$sell. The round-trip transaction cost is $$buy - $$sell = $$ANS
+:E:
+
+
+::END::

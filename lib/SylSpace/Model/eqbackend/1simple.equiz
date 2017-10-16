@@ -1,0 +1,27 @@
+::EQVERSION:: 1.0 -- not used.
+
+################################################################
+::NAME::  Equiz &mdash; The Simple Tutorial
+
+::INSTRUCTOR:: Ivo Welch
+
+::AUTHOR:: Ivo Welch
+
+::EMAIL:: ivo.welch@gmail.com
+
+################################################################
+
+::START::
+
+################
+
+:N: A simple algorithmic question 
+:I: $x= rseq(10,20); $ANS= $x+1
+:Q: This is the first question.  X=$x is a random integer number between 10 and 20.  Please calculate $x+1 and enter it as your answer.
+:A: When done, your students will be shown this long explanation, which can also use any of your variables.  So, here, the first correct answer adding 1 to $x should be $ANS.
+:T: 10
+:E: 
+
+::END:: 
+
+Everything after the end is ignored.

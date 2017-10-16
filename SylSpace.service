@@ -1,0 +1,18 @@
+[Unit]
+Description=SylSpace
+Requires=network.target
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+SyslogIdentifier=SylSpace
+PIDFile=/home/ivo/bitsyllabus/syllabus.space/hypnotoad.pid
+ExecStart=/home/ivo/bitsyllabus/syllabus.space/start-hypnotoad.sh
+ExecStop=/home/ivo/bitsyllabus/syllabus.space/stop-hypnotoad.sh
+ExecReload=/home/ivo/bitsyllabus/syllabus.space/start-hypnotoad.sh
+
+[Install]
+WantedBy=multi-user.target
+
+## copy into /lib/systemd/system/
