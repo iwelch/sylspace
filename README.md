@@ -23,14 +23,14 @@ These steps are for a plain ubuntu server.
 
 	you now should have a lot of files in the sylspace directory, which you can `$ ls`
 
-* sudo bash
+* `$ sudo bash`
 
-	we have to do a lot of steps as superuser, so we may as well start with this.
+	we have to do a lot of steps as superuser, so we may as well fire up a shell to execute the many commands below:
 
-	- `# cpanm --installdeps .`  # (takes a while; check that there are no errors! you can run it twice to check)
+	- `# cpanm --installdeps .`
 
 	  this instructs perl to install all the cpan modules that sylspace needs.  make sure that there are no errors
-	  in this step.  if there are, you will suffer endless pain later on.
+	  in this step.  if there are, you will suffer endless pain later on.  warning: this step may take 10 minutes.
 
 	- `# echo "127.0.0.1 syllabus.test corpfin.syllabus.test corpfin.test.syllabus.test syllabus.test.syllabus.test auth.syllabus.test" >> /etc/hosts`
 
@@ -44,17 +44,19 @@ These steps are for a plain ubuntu server.
 	
 	  this builds a nice starter site for test purposes.  for example, it creates a corpfin website (in /var/courses/corpfin/) that the webapp will recognize as a corporate finance website.
 
-	- `# updatedb`   # runserver.pl can now self-detect location
+	- `# updatedb`
 
-	  we want runserver.pl to be able to locate 'sylspace/SylSpace`, whereever you may have installed it.  this is best done by the unix utility `updatedb` with companion `locate`. 
+	  we want runserver.pl to be able to locate 'sylspace/SylSpace`, whereever you may have installed it.  runserver.pl uses the unix utility `locate`, which depends on you having run updatedb at least once.
 
-	- `sudo chown -R yourusername .`
+	- `# chown -R yourusername .`
 
-	  this makes it easy to change files for experimentation later on without having to be su.
+	  this makes it easy to edit sylspace programs without having to be su.
 
-	- `# perl runserver.pl`    # smart enough to figure out whether it is running on syllabus.space domain (where it should use hypnotoad).
+	- `# perl runserver.pl`
 
-	  finally, we are ready to run the webapp.
+	   runserver.pl is smart enough to figure out whether it is running on syllabus.space domain (where it should use hypnotoad) or on another computer (where there is only local test user authentication and the tester wants to see what URLs are being requested on the terminal).
+
+
 
 now point your firefox (not chrome!) browser to `http://syllabus.test`.  when you are done, go back to the terminal and ^C out of runserver.pl .
 
