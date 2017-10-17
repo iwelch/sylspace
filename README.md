@@ -235,30 +235,23 @@ Each file corresponds to a URL.  Typically, a file such as `AuthGoclass` (note c
 * Uploadsave.pm
 
 
-fixupcamel.pl* was used to complain about misnamings inconsistenties.  mkurl.pl was used to generate a skeleton for a new url.
-
-
 
 ### ./lib/SylSpace/Model:  The Workhorse.
 
-* **mkstartersite.t** : usually first program invoked after initsylspace.pl
+* **mkstartersite.t** : usually used only once as the first program invoked after **initsylspace.pl**.
 
-* Controller.pm : all html drawing
-* Model.pm : the main model functions
+* Controller.pm : all html-output related utility routines that are used many times over.
+* Model.pm : many of the main model functions, excepting Files, and Grades. For example, user management, sitebackup, bio, messages, tweeting, equiz interface
 * Files.pm : storing and retrieving homeworks, equizzes, and files
-* Files.t
 * Grades.pm : storing and retrieving grades
-* Grades.t
 * Utils.pm : many common routines (e.g., globbing, file reading, etc.)
-* Utils.t
 * Webcourse.pm : creating and removing a new course, used in addsite.pl
 * addsite.pl  : CLI to add a new site with instructor
+
 * mkmessysite.t : for playing with functionality.  more extensive than mkstartersite.t
 
 * csettings-schema.yml  : what course information is required and what it must satisfy
 * usettings-schema.yml  : what biographical information is required and what it must satisfy
-
-* V4.pm : various scribblings for the next version
 
 
 ### ./lib/SylSpace/Model/eqbackend:
@@ -343,7 +336,6 @@ this directory contains some example equizzes here for testing
 
 #### ./public/images:
 * bullseye.png
-* equiz-avatars.zip
 * mickey.png
  
 #### ./public/js:
@@ -370,7 +362,7 @@ this directory contains some example equizzes here for testing
 * 1simple.equiz
 * 2medium.equiz
 * 3advanced.equiz
-* 4final-mba-2015.equiz
+* 4final-mba-2015.equiz  --- needs checking
 
 
 #### ./templates/equiz/starters:
@@ -410,11 +402,12 @@ this directory contains some example equizzes here for testing
 * 15-comparables.equiz
 * 16-capstruct-intro.equiz
 * 17-capstruct-more.equiz
+
+the following were for playing around:
+
 * eqformat.pl
-* final-mba-2015.equiuiz
+* final-mba-2015.equiuiz --- needs fixing
 * guidelines.txt
-* unclean/
-* x@
 
 
 #### ./templates/equiz/options:
