@@ -34,7 +34,7 @@ These steps are for a plain ubuntu server.
 
 	- `# echo "127.0.0.1 syllabus.test corpfin.syllabus.test corpfin.test.syllabus.test syllabus.test.syllabus.test auth.syllabus.test" >> /etc/hosts`
 
-	  what we really would like to do is to tell the computer that '*.syllabus.test' is not on the internet, but on localhost.  alas, the standard unix name resolver is too stupid to allow this.
+	  what we really would like to do is to tell the computer that '*.syllabus.test' is not on the internet, but on localhost.  alas, the standard unix name resolver is too stupid to allow this.  A better way to accomplish this is to use a local name resolver like dnsmasq, but the installation of this is more complex.
 
 	- `# perl initsylspace.pl -f`
 
@@ -63,15 +63,17 @@ now point your firefox (not chrome!) browser to `http://syllabus.test`.  when yo
 
 ### Real Operation
 
-For real production operation on syllabus.space (or similar), rather than local testing and development at syllabus.test, you also should create a file containing secrets so that the Google, Facebook, and Paypal Authentications work.
+Real operation means a system that works (for now only) on syllabus.space and that has Google etc. authentication of remote Internet users enabled.  For testing and experimentation purposes, you almost surely do not want this.
 
-	<somewhere-else>/SylSpace-Secrets.conf --- SylSpace's working email and your OAUTH facilities
+To enable remote authentication, create a file containing the proper set of secrets that the Google, Facebook, and Paypal Authentications need.  This can be a headeach.  The `SylSpace-Secrets.template` file tries to give some guidance.  You need a file
 
-with your private authentication secrets, and link to it in your main SylSpace directory.
+	<somewhere-else-outside-the-git-tree>/SylSpace-Secrets.conf
 
-    # ln -s <somewhere-else>/SylSpace-Secrets.conf mysylspacedir/SylSpace-Secrets.conf
+which contains your private authentication secrets (for oauth, google, paypal, gmail, etc).  Next, you need to link this into the correct spot:
 
-The contents of the SylSpace-Secrets.conf file are illustrated in SylSpace-Secrets.template .  Edit and rename!  Thereafter, you should see google login buttons.
+    # ln -s <somewhere-else-outside-the-git-tree>/SylSpace-Secrets.conf <absolute mysylspacedir>/sylspace/SylSpace-Secrets.conf
+
+Again, the contents of the SylSpace-Secrets.conf file are illustrated in SylSpace-Secrets.template .  You can edit and rename the template!  Once installed and one you make a few changes in runserver.pl and SylSpace (which assume that you want to run production on hostname syllabus-space and testing on all other hosts), you should see working google/github/facebook login buttons and the email authentication alternative.
 
 
 ## Automatic (Re-) Start
@@ -84,7 +86,7 @@ For automatic start on boot and restart on crash in the real production hypnotoa
 
 ## Developing
 
-SylSpace is written in Mojolicious.
+SylSpace is written in perl Mojolicious.
 
 The `SylSpace` top-level executable initializes a variety of global features and then starts the app loop.
 
