@@ -8,14 +8,19 @@ Due to the outdated three-year-old 5.18.2 version of perl still running on MacOS
 
 ### Basic Steps:
 
-- on ubuntu, sudo apt install git cpanminus make gcc
+* on ubuntu, `sudo apt install git cpanminus make gcc`
+
+  to download, you need git.  to install mojolicious, you need cpanminus, make, and gcc.
 
 * mkdir mysylspacedir ; cd mysylspacedir
 
-    this is where we will create all the files.  you can change this to anything you like.
+    in this example, mysylspacedir is the directory in which we install our webapp.  you can change this to anything you like.
 
-* git clone https://github.com/iwelch/syllabus.space
-* cd syllabus.space
+* git clone https://github.com/iwelch/sylspace
+
+  - you now should have a lot of files in mysylspace.
+
+* cd sylspace
 * sudo bash
 *   cpanm --installdeps .  # (takes a while; check that there are no errors! you can run it twice to check)
 *   echo "127.0.0.1 syllabus.test corpfin.syllabus.test corpfin.test.syllabus.test syllabus.test.syllabus.test auth.syllabus.test" >> /etc/hosts
