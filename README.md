@@ -41,7 +41,7 @@ These steps are for a plain ubuntu server.
 
 	- `# cd Model; perl mkstartersite.pl ; cd ..`
 	
-	  this builds a nice starter site for test purposes.  for example, it creates a corpfin website (in /var/courses/corpfin/) that the webapp will recognize as a corporate finance website.
+	  this builds a nice starter site for test purposes.  for example, it creates a corpfin website (in /var/sylspace/courses/corpfin/) that the webapp will recognize as a corporate finance website.
 
 	- `# updatedb`
 
