@@ -11,6 +11,9 @@ Due to the outdated three-year-old 5.18.2 version of perl still running on MacOS
 - on ubuntu, sudo apt install git cpanminus make gcc
 
 * mkdir mysylspacedir ; cd mysylspacedir
+
+    this is where we will create all the files.  you can change this to anything you like.
+
 * git clone https://github.com/iwelch/syllabus.space
 * cd syllabus.space
 * sudo bash
@@ -23,7 +26,7 @@ Due to the outdated three-year-old 5.18.2 version of perl still running on MacOS
 *   updatedb   # runserver.pl can now self-detect location
 *   perl runserver.pl    # smart enough to figure out whether it is running on syllabus.space domain (where it should use hypnotoad).
 
-
+you may also want to make yourself (and not root) the primary owner, which you can do with `cd mysylspacedir ; sudo chown -R yourusername .`
 now point your firefox browser to `http://syllabus.test`.  (do not use Chrome!).  when you are done, ^C out of runserver.pl .
 
 
