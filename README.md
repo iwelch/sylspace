@@ -4,7 +4,7 @@ course management software on syllabus.space
 
 ## Installation
 
-Due to the outdated three-year-old 5.18.2 version of perl still running on MacOS, we do not recommend it.  If you need to install syllabus.space on osx, first learn brew and install a newer perl first.
+Due to the outdated three-year-old 5.18.2 version of perl still running on MacOS, we do not recommend it.  If you need to install syllabus.space on osx, first learn brew and install a newer perl.
 
 ### Basic Steps:
 
@@ -16,16 +16,15 @@ These steps are for a plain ubuntu server.
 
 * `$ mkdir mysylspacedir ; cd mysylspacedir`
 
-	in this example, mysylspacedir is the directory in which we install our webapp.  you can change this to anything you like.
-	because all of sylspace will sit in its own directory, you could even omit this step altogether.
+	in this example, mysylspacedir is the directory in which the webapp will be installed.  you can change this to anything you like.  because all of sylspace will be cloned into its own subdirectory, you could even omit this step altogether.
 
 * `$ git clone https://github.com/iwelch/sylspace ; cd sylspace`
 
-	you now should have a lot of files in the sylspace directory, which you can `$ ls`
+	you now should have a lot of files in the mysylspacedir/sylspace directory, which you can inspect with `$ ls`.
 
 * `$ sudo bash`
 
-	we have to do a lot of steps as superuser, so we may as well fire up a shell to execute the many commands below:
+	you have to do a lot of steps as superuser, so you may as well fire up a bash shell to execute the many commands below:
 
 	- `# cpanm --installdeps .`
 
@@ -34,11 +33,11 @@ These steps are for a plain ubuntu server.
 
 	- `# echo "127.0.0.1 syllabus.test corpfin.syllabus.test corpfin.test.syllabus.test syllabus.test.syllabus.test auth.syllabus.test" >> /etc/hosts`
 
-	  what we really would like to do is to tell the computer that '*.syllabus.test' is not on the internet, but on localhost.  alas, the standard unix name resolver is too stupid to allow this.  A better way to accomplish this is to use a local name resolver like dnsmasq, but the installation of this is more complex.
+	  ideally, the server should resolve all '*.syllabus.test' not to the internet, but to localhost.  alas, the standard unix name resolver is too stupid to allow this.  A better way to accomplish this is to use a local name resolver like dnsmasq, but the installation of this is more complex.
 
 	- `# perl initsylspace.pl -f`
 
-	  this builds the basic storage hierarchy in /var/, such as /var/courses, /var/users, etc.
+	  this builds the basic storage hierarchy in /var/sylspace/, such as /var/sylspace/courses, /var/sylspace/users, /var/sylspace/templates/, etc.
 
 	- `# cd Model; perl mkstartersite.pl ; cd ..`
 	
@@ -46,7 +45,7 @@ These steps are for a plain ubuntu server.
 
 	- `# updatedb`
 
-	  we want runserver.pl to be able to locate 'sylspace/SylSpace`, whereever you may have installed it.  runserver.pl uses the unix utility `locate`, which depends on you having run updatedb at least once.
+	  runserver.pl uses `locate sylspace/SylSpace` to detect where it is installed, so it needs you to run updatedb at least once.
 
 	- `# chown -R yourusername .`
 
