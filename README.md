@@ -49,7 +49,7 @@ These steps are for a plain ubuntu server.
 
 	- `# chown -R yourusername .`
 
-	  this makes it easy to edit sylspace programs without having to be su.
+	  this will make it easier later to edit sylspace programs without having to be su.  this step is not necessary.
 
 	- `# perl runserver.pl`
 
@@ -57,7 +57,7 @@ These steps are for a plain ubuntu server.
 
 
 
-now point your firefox (not chrome!) browser to `http://syllabus.test`.  when you are done, go back to the terminal and ^C out of runserver.pl .
+now open your firefox (not chrome!) browser and point it to `http://syllabus.test`.  when you are done, click back on your terminal window and ^C out of runserver.pl .
 
 
 ### Real Operation
@@ -93,7 +93,9 @@ Each webpage ("controller") sits in its own `Controller/*.pm` file, which you ca
 
 Almost every controller uses functionality that is in the model, which is in `Model/*.pm`.  (The directory also contains some course initialization programs, such as `mkinstructor.pl` or `mksite.pl`.)
 
-The quiz evaluator is completely separate and laid out into `Model/eqbackend`.
+The equiz evaluator is completely separate and laid out into `Model/eqbackend`.
+
+All equizzes that come with the system are in `templates/equiz/`
 
 All default quizzes that course instructors can copy into their own home directories are in `templates/equiz/` .
 
@@ -106,11 +108,7 @@ All default quizzes that course instructors can copy into their own home directo
 ### The Top Level
 
 * **initsylspace.pl**
-:	the most important file.  initializes the `/var` hierarchy
-
-* cpanfile
-:	describes all required perl modules.  Use as `cpanm --installdeps .` in this directory.  (cpanlist just lists them.)
-
+:	the most important file.  initializes the `/var/sylspace` hierarchy
 
 * **SylSpace**
 :	The Main Executable
@@ -121,26 +119,21 @@ All default quizzes that course instructors can copy into their own home directo
 
 The rest are also useful.
 
+* cpanfile
+:	describes all required perl modules.  Used only once during installation as `cpanm --installdeps .` in this directory.  (cpanlist just lists them.)
+
+
 * SylSpace-Secrets.conf@
 :	A symlink to outside the hierarchy to keep secrets
 
 * SylSpace-Secrets.template
-:	Illustrating how the secret file should look like
+:	Illustrates how the secret file should look like
 
 * SylSpace.service
 :	The systemd service file, to be copied into /lib/systemd/system/ for automatic (re-)start
 
-* SylSpace.t*
-:	Beginning to learn how to write GUI tests.  Not working
-
-* hosts
-:	a variety of hostnames used in the startersite and messysite
-
-* nginx-config
-:	untested config file for nginx.  on my server, I deinstall all other webservers and just run hypnotoad
-
 * start-hypnotoad.sh@
-:	link to runserver.pl
+:	just a link to runserver.pl
 
 * stop-hypnotoad.sh*
 :	reminder how to stop hypnotoad
