@@ -31,7 +31,7 @@ my $iemail= $bioinstructor{email};
 
 note '################ website creation';
 
-my @courselist=qw(corpfin.test syllabus.test);
+my @courselist=qw(corpfin syllabus);
 
 foreach (@courselist) {  ok( _webcoursemake($_), "created $_ site" ); ok( instructornewenroll($_, $iemail), "created $iemail as instructor for $_" ); }
 

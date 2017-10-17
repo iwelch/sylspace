@@ -8,31 +8,55 @@ Due to the outdated three-year-old 5.18.2 version of perl still running on MacOS
 
 ### Basic Steps:
 
-* on ubuntu, `sudo apt install git cpanminus make gcc`
+These steps are for a plain ubuntu server.
 
-  to download, you need git.  to install mojolicious, you need cpanminus, make, and gcc.
+* `$ sudo apt install git cpanminus make gcc`
 
-* mkdir mysylspacedir ; cd mysylspacedir
+	to download, you need git.  to install mojolicious, you need cpanminus, make, and gcc.
 
-    in this example, mysylspacedir is the directory in which we install our webapp.  you can change this to anything you like.
+* `$ mkdir mysylspacedir ; cd mysylspacedir`
 
-* git clone https://github.com/iwelch/sylspace
+	in this example, mysylspacedir is the directory in which we install our webapp.  you can change this to anything you like.
+	because all of sylspace will sit in its own directory, you could even omit this step altogether.
 
-  - you now should have a lot of files in mysylspace.
+* `$ git clone https://github.com/iwelch/sylspace ; cd sylspace`
 
-* cd sylspace
+	you now should have a lot of files in the sylspace directory, which you can `$ ls`
+
 * sudo bash
-*   cpanm --installdeps .  # (takes a while; check that there are no errors! you can run it twice to check)
-*   echo "127.0.0.1 syllabus.test corpfin.syllabus.test corpfin.test.syllabus.test syllabus.test.syllabus.test auth.syllabus.test" >> /etc/hosts
-*   perl initsylspace.pl -f
-*   cd Model
-*   perl mkstartersite.pl
-*   cd ..
-*   updatedb   # runserver.pl can now self-detect location
-*   perl runserver.pl    # smart enough to figure out whether it is running on syllabus.space domain (where it should use hypnotoad).
 
-you may also want to make yourself (and not root) the primary owner, which you can do with `cd mysylspacedir ; sudo chown -R yourusername .`
-now point your firefox browser to `http://syllabus.test`.  (do not use Chrome!).  when you are done, ^C out of runserver.pl .
+	we have to do a lot of steps as superuser, so we may as well start with this.
+
+	- `# cpanm --installdeps .`  # (takes a while; check that there are no errors! you can run it twice to check)
+
+	  this instructs perl to install all the cpan modules that sylspace needs.  make sure that there are no errors
+	  in this step.  if there are, you will suffer endless pain later on.
+
+	- `# echo "127.0.0.1 syllabus.test corpfin.syllabus.test corpfin.test.syllabus.test syllabus.test.syllabus.test auth.syllabus.test" >> /etc/hosts`
+
+	  what we really would like to do is to tell the computer that '*.syllabus.test' is not on the internet, but on localhost.  alas, the standard unix name resolver is too stupid to allow this.
+
+	- `# perl initsylspace.pl -f`
+
+	  this builds the basic storage hierarchy in /var/, such as /var/courses, /var/users, etc.
+
+	- `# cd Model; perl mkstartersite.pl ; cd ..`
+	
+	  this builds a nice starter site for test purposes.  for example, it creates a corpfin website (in /var/courses/corpfin/) that the webapp will recognize as a corporate finance website.
+
+	- `# updatedb`   # runserver.pl can now self-detect location
+
+	  we want runserver.pl to be able to locate 'sylspace/SylSpace`, whereever you may have installed it.  this is best done by the unix utility `updatedb` with companion `locate`. 
+
+	- `sudo chown -R yourusername .`
+
+	  this makes it easy to change files for experimentation later on without having to be su.
+
+	- `# perl runserver.pl`    # smart enough to figure out whether it is running on syllabus.space domain (where it should use hypnotoad).
+
+	  finally, we are ready to run the webapp.
+
+now point your firefox (not chrome!) browser to `http://syllabus.test`.  when you are done, go back to the terminal and ^C out of runserver.pl .
 
 
 ### Real Operation
