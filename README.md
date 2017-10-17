@@ -113,14 +113,14 @@ All default quizzes that course instructors can copy into their own home directo
 * **SylSpace**
 :	The Main Executable
 
-* runserver.pl*
+* runserver.pl
 :	smartly starts the server, depending on the hostname, with hypnotoad or morbo
 
 
 The rest are also useful.
 
 * cpanfile
-:	describes all required perl modules.  Used only once during installation as `cpanm --installdeps .` in this directory.  (cpanlist just lists them.)
+:	describes all required perl modules.  Used only once during installation as `cpanm --installdeps .`
 
 
 * SylSpace-Secrets.conf@
@@ -132,10 +132,10 @@ The rest are also useful.
 * SylSpace.service
 :	The systemd service file, to be copied into /lib/systemd/system/ for automatic (re-)start
 
-* start-hypnotoad.sh@
+* start-hypnotoad.sh
 :	just a link to runserver.pl
 
-* stop-hypnotoad.sh*
+* stop-hypnotoad.sh
 :	reminder how to stop hypnotoad
 
 * FUTURE.md
