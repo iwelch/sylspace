@@ -1,6 +1,8 @@
 
 MORE IMPORTANT
 
+- easier dns automation for testing, directing all *syllabus.test to localhost via dnsmasq or alike
+
 - check appropriate expiration of email link
 
 - check that drag-and-drop works for file area with multiple upload
