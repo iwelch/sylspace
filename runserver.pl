@@ -14,7 +14,7 @@ my $isosx= (-d "/Users/ivo");
 
 ($isproduction && $isosx) and die "iaw: please do not run the syllabus.space domain on an osx host.\n";
 
-my @apphome= grep { $_ =~ /SylSpace$/ } `locate syllabus.space/SylSpace`;
+my @apphome= grep { $_ =~ /SylSpace$/ } `locate sylspace/SylSpace`;
 ## flunks somehow:
 ##  @apphome = grep { (-x $_) } @apphome;
 @apphome = grep { $_ !~ m{\/\.[a-z]}i } @apphome;  ## a hidden directory in path, e.g., .sync or .git
@@ -34,7 +34,7 @@ chdir($workdir) or die "failed to change directory to $workdir: $!\n";
 
 if ($isproduction) {
 
-  print STDERR "$0: Running full production hypnotoad server for syllabus.space.  To stop:
+  print STDERR "$0: Running full production hypnotoad server for sylspace.  To stop:
 	kill -QUIT `cat hypnotoad.pid` gracefully (or -TERM), or
 	/usr/local/bin/hypnotoad -s ./SylSpace)\n\t\tPS: morbo -v -m production ./SylSpace -l http://syllabus.space for testing\n";
   echosystem("/usr/local/bin/hypnotoad -f ./SylSpace");  ## do not '&', or it fails in systemd SylSpace.service !

@@ -53,7 +53,7 @@ These steps are for a plain ubuntu server.
 
 	- `# perl runserver.pl`
 
-	   runserver.pl is smart enough to figure out whether it is running on syllabus.space domain (where it should use hypnotoad) or on another computer (where there is only local test user authentication and the tester wants to see what URLs are being requested on the terminal).
+	   runserver.pl is smart enough to figure out whether it is running on http://*.syllabus.space domain (where it should use hypnotoad) or on another computer (where there is only local test user authentication and the tester wants to see what URLs are being requested on the terminal).
 
 
 
@@ -62,7 +62,7 @@ now open your firefox (not chrome!) browser and point it to `http://syllabus.tes
 
 ### Real Operation
 
-Real operation means a system that works (for now only) on syllabus.space and that has Google etc. authentication of remote Internet users enabled.  For testing and experimentation purposes, you almost surely do not want this.
+Real operation means a system that works (for now only) on http://*.syllabus.space (detected by hostname syllabus-space) and that has Google etc. authentication of remote Internet users enabled.  For testing and experimentation purposes, you almost surely do not want this.
 
 To enable remote authentication, create a file containing the proper set of secrets that the Google, Facebook, and Paypal Authentications need.  This can be a headeach.  The `SylSpace-Secrets.template` file tries to give some guidance.  You need a file
 

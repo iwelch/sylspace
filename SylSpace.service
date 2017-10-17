@@ -7,10 +7,10 @@ After=network.target
 Type=simple
 Restart=always
 SyslogIdentifier=SylSpace
-PIDFile=/home/ivo/bitsyllabus/syllabus.space/hypnotoad.pid
-ExecStart=/home/ivo/bitsyllabus/syllabus.space/start-hypnotoad.sh
-ExecStop=/home/ivo/bitsyllabus/syllabus.space/stop-hypnotoad.sh
-ExecReload=/home/ivo/bitsyllabus/syllabus.space/start-hypnotoad.sh
+PIDFile=/home/ivo/bitsyllabus/sylspace/hypnotoad.pid
+ExecStart=/home/ivo/bitsyllabus/sylspace/start-hypnotoad.sh
+ExecStop=/home/ivo/bitsyllabus/sylspace/stop-hypnotoad.sh
+ExecReload=/home/ivo/bitsyllabus/sylspace/start-hypnotoad.sh
 
 [Install]
 WantedBy=multi-user.target
