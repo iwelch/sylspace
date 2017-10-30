@@ -1,4 +1,8 @@
 #!/usr/bin/env perl
+
+## this file is part of sylspace, released under the AGPL, 2016, authored by ivo welch, ucla.
+## one additional condition requires the prominent posting of the name (sylspace) and the author.
+
 use strict;
 use warnings;
 use common::sense;

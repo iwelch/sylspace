@@ -72,7 +72,7 @@ which contains your private authentication secrets (for oauth, google, paypal, g
 
     # ln -s <somewhere-else-outside-the-git-tree>/SylSpace-Secrets.conf <absolute mysylspacedir>/sylspace/SylSpace-Secrets.conf
 
-Again, the contents of the SylSpace-Secrets.conf file are illustrated in SylSpace-Secrets.template .  You can edit and rename the template!  Once installed and one you make a few changes in runserver.pl and SylSpace (which assume that you want to run production on hostname syllabus-space and testing on all other hosts), you should see working google/github/facebook login buttons and the email authentication alternative.
+Again, the contents of the SylSpace-Secrets.conf file are illustrated in SylSpace-Secrets.template .  You can edit and rename the template!  Once installed and one you make a few changes in runserver.pl and SylSpace (which assume that you want to run production on hostname syllabus-space and testing on all other hosts), you should see working google/github/facebook login buttons and the email authentication alternative.  You may also need to symlink SylSpace-Secrets.conf to SylSpace.conf (not sure why!).
 
 
 ## Automatic (Re-) Start

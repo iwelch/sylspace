@@ -1,5 +1,8 @@
 package EQ::Quiz;
 
+## this file is part of sylspace, released under the AGPL, 2016, authored by ivo welch, ucla.
+## one additional condition requires the prominent posting of the name (sylspace) and the author.
+
 use v5.20;
 
 use strict;
