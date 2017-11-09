@@ -88,15 +88,33 @@ __DATA__
 
   <dt>How should I get started with the equiz language and administration to create and post equizzes?</dt>
 
-  <dd>You can read the <a href="/aboutus">Introduction</a> first.  However, equiz should be so simple that experimentation may save you the 10 minutes reading that this introduction would take. <p>A quick taste of an algorithmic equiz for the student is
+  <dd>You can read the <a href="/aboutus">Introduction</a> first.  However, equiz should be so simple that experimentation may save you the 10 minutes reading that this introduction would take.  In the equiz center, just go to the bottom and load the existing "starter" and/or "tutorial" templates. and then look at them (they appear in the directory.
+
+  <p>A typical equiz question would be written into a file and look as follows:
+
+  <table class="table table-sm">
+   <tr> <td> <pre> :N: my first question: how to add! </pre> </td> <td> the name of the question (printed at the top). </td> </tr>
+   <tr> <td> <pre> :I: $x= rseq(1,10); $y= 2+$x       </pre> </td> <td> draw a random variable from 1 to 10, and assign it to x.  assign 2+x to y. </td> </tr>
+   <tr> <td> <pre> :Q: What is 2+$x ?                 </pre> </td> <td> ask the student this question, rendered.  could be rendered as <pre>What is 2+5 ?</pre> </td> </tr>
+   <tr> <td> <pre> :A: The answer to 2+$x is $y.      </pre> </td> <td> after the student has answered, explain the correct answer. </td> </tr>
+   <tr> <td> <pre> :T: 1  </pre> </td> <td> Advise the student that this question should take about 1 minute to answer </td> </tr>
+   <tr> <td> <pre> :P: 0.01 </pre> </td> <td> Accept answers within plus or minus 0.01 of the correct answer (optional) </td> </tr>
+   <tr> <td> <pre> :E: </pre> </td> <td> End the question </td> </tr>
+  </table>
+
+  <p>A taste of how more complex algorithmic equizzes can look like, with fancy math and entire explanation pages, may be found here:
   <ul>
-  <li> Source: In the <a href="starters/">starters</a>, you can find the <a href="starters/blackscholes.equiz">blackscholes.equiz</a> source that you (the instructor) would write. </li>
-  <li> Question Render: <a href="/starters/bs-sample-render.png">what students are asked</a> </li>
-  <li> Solution Render:  <a href="/starters/bs-sample-answer.png">what students are shown after.</a> </li>
+  <li> Question Render: here is <a href="/html/bs-sample-render.png">what students are asked</a> </li>
+  <li> Solution Render:  here is <a href="/html/bs-sample-answer.png">what students are shown after.</a> </li>
   </ul>
+  Now comes the quasi-complex part, the writing of the question.  If you know latex, this is much easier, because equizzes use latex syntax.
+  <ul>
+  <li> Source: here is the <a href="/html/blackscholes.equiz">blackscholes.equiz</a> source that you (the instructor) would write. </li>
+  </ul>
+
   </dd>
 
-  
+
   <dt>How should I get started with the rest of the web class management?</dt>
 
   <dd>Look at it.  It should be self-explanatory.  If it is not, I have failed.</dd>
