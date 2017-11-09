@@ -86,7 +86,7 @@ __DATA__
     </div> <!--row-->
   </div> <!--formgroup-->
 
-  <p> To learn more about equizzes, please read the <a href="/staticintro.html"> intro </a>, and copy the set of sample templates into your directory for experimentation and examples.  </p>
+  <p> To learn more about equizzes, please read the <a href="/aboutus"> intro </a>, and copy the set of sample templates into your directory for experimentation and examples.  </p>
 
 
 </main>

@@ -52,7 +52,7 @@ __DATA__
 <p>Please create a file <tt style="background-color:white">$var/tmp/magictoken</tt> that contains two lines:
 
 <pre>
-   now: your current email id
+   ip: the IP address from which you will browse
    then: who you want to become
 </pre>
 

@@ -17,6 +17,8 @@ our @EXPORT_OK=qw(
   hwsetdue hwlisti hwlists hwreadi hwreads hwwrite hwdelete
   answerlists answerread answerwrite answerlisti answercollect answerhashs
 
+  finddue ispublic
+
   longfilename
 
   cptemplate rmtemplates listtemplates
@@ -144,7 +146,7 @@ sub _basereads( $course, $filename, $equizspecial=0) {
   $course= _checksfilenamevalid($course);
   _checksfilenamevalid($filename);
   my $lfnm="$var/courses/$course/instructor/files/$filename";
-  (time() >= _finddue( $lfnm )) and die "sorry, but there is no (longer) $lfnm";
+  (time() >= finddue( $lfnm )) and die "sorry, but there is no (longer) $lfnm";
   if (!$equizspecial) { ($filename =~ /\.equiz/) and die "sorry, but we never show off equiz source to students"; }
   (-l $lfnm) and $lfnm= readlink($lfnm);
   return slurp $lfnm;
@@ -280,7 +282,7 @@ sub rmtemplates( $course ) {
     my $pointsto = readlink($_);
     if ($pointsto =~ m{$var/templates/}) { unlink($_) or die "cannot remove template link: $!\n"; ++$count; }
   }
-  _cleandeadlines($course);
+  _cleanalldeadlines($course); # still needs to be written below --- yanni!
   return $count;
 }
 
@@ -313,16 +315,19 @@ sub filesetdue( $course, $filename, $when ) {
   return _deepsetdue( $when, "$var/courses/$course/instructor/files/$filename");
 }
 
+sub _cleanalldeadlines( $course ) {
+  $course= _confirmsudoset( $course );
+  # to be written and tested
+  ... # --- yanni
+}
+
 #
-# sub _ispublic( $course, $sfilename ) {
-#   _cleandeadlines( $course, $sfilename );
-#   my @gf= bsd_glob("$var/courses/$course/public/$sfilename.DEADLINE.*");
-#   (@gf) or return 0;
-#   ($#gf<=0) or die "ispublic is written for one file only";
-#   (-e $gf[0]) or die "internal error: $gf[0] does not exist!";
-#   $gf[0] =~ s{.*DEADLINE\.([0-9]+)}{$1};
-#   return $gf[0];
-# }
+
+sub ispublic( $course, $sfilename ) {
+  (-e "$var/courses/$course/public/$sfilename") or return 0;
+  return (finddue("$var/courses/$course/public/$sfilename")>time());
+}
+
 # 
 # 
 # sub publicfiles( $course, $uemail, $mask ) {
@@ -370,7 +375,7 @@ sub _deeplisti( $globdir, $globfilename ) {
     ($parms{sfilename}= $_) =~ s{.*/}{};
     $parms{filelength}= -s $_;
     $parms{mtime}= ((stat($_))[9]);
-    $parms{duetime}= _finddue($_);
+    $parms{duetime}= finddue($_);
     (_findanswer($_)) and $parms{answer}= _findanswer($_);
     push(@filelist, \%parms);
   }
@@ -388,7 +393,7 @@ sub _deepsetdue( $epoch, $lfilename ) {
 }
 
 
-sub _finddue( $lfilename ) {
+sub finddue( $lfilename ) {
   ((-l $lfilename) || (-e $lfilename)) or die "cannot read due date for non-existing file $lfilename";
 
   my @duelist= bsd_glob("$lfilename\~due=*");

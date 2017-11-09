@@ -38,7 +38,7 @@ use base 'Exporter';
 	    );
 
 use lib '../..';
-use SylSpace::Model::Files qw(eqreadi eqreads longfilename);
+use SylSpace::Model::Files qw(eqreadi eqreads longfilename finddue);
 
 ################
 use strict;
@@ -371,7 +371,7 @@ sub hassyllabus( $course ) {
   (defined($s)) or $s= (bsd_glob("$var/courses/$course/instructor/files/syllabus*.*"));
   (defined($s)) or return undef;
   $s =~ s{.*/}{};
-  return (_ispublic( $course, $s )) ? $s : undef;
+  return (finddue($s)) ? $s : undef;    ## still needs to be tested checked --- yanni!  should be one function, working on both long names and course/shortnames
 }
 
 
@@ -411,10 +411,14 @@ sub studentlist( $course ) {
 sub tokenmagic( $uemail ) {
   (-e "$var/tmp/magictoken") or return undef;
   my @lines= slurp("$var/tmp/magictoken");
-  $lines[0] =~ s{^now\:\s*}{}; chomp($lines[0]); # =~ s{\s*[\r\n]*}{}ms;
-  $lines[1] =~ s{^then\:\s*}{}; chomp($lines[1]); # =~ s{\s*[\r\n]*}{}ms;
-  (lc($lines[0]) eq lc($uemail)) or die "bad token magic file email.  you are '$uemail', not '$lines[0]'";
-  (_checkemailexists($lines[1])) or die "you cannot possibly turn yourself into an invalid email of $lines[1]";
+  $lines[0] =~ s{^ip\:\s*}{}; chomp($lines[0]); # =~ s{\s*[\r\n]*}{}ms;
+  $lines[1] =~ s{^(then|user|uemail)\:\s*}{}; chomp($lines[1]); # =~ s{\s*[\r\n]*}{}ms;
+
+  my $browserip= $ENV{SYLSPACE_siteip} || "99.99.99.99";
+
+  ($browserip eq $lines[0]) or die "bad site ip.  you are on ip $browserip, and not on '$lines[0]'";
+  _checkemailexists( $lines[1] );  ## will complain if the user does not exist
+
   unlink("$var/tmp/magictoken");
   return $lines[1];
 }

@@ -81,42 +81,42 @@ __DATA__
 
 
   <dt>Do I need to run SylSpace on my own webserver?</dt>
-  
+
   <dd>No.  Instructors can get accounts on syllabus.space for their classes.  Please contact <a href="mailto:ivo.welch@gmail.com">ivo welch</a>.  The advantage is zero setup costs.  The disadvantage is <b>no</b> guarantees.   (Even google has had downtime on occasions!  Incidentally, other websites typically also do not offer guarantees.)  If you run your site on syllabus.space (rather than on your own web server), you must have some flexibility and tolerance for issues.</dd>
-  
+
   
 
   <dt>How should I get started with the equiz language and administration to create and post equizzes?</dt>
-  
-  <dd>You can read the <a href="staticintro.html">Introduction</a> first.  However, equiz should be so simple that experimentation may save you the 10 minutes reading that this introduction would take. <p>A quick taste of an algorithmic equiz for the student is
+
+  <dd>You can read the <a href="/aboutus">Introduction</a> first.  However, equiz should be so simple that experimentation may save you the 10 minutes reading that this introduction would take. <p>A quick taste of an algorithmic equiz for the student is
   <ul>
   <li> Source: In the <a href="starters/">starters</a>, you can find the <a href="starters/blackscholes.equiz">blackscholes.equiz</a> source that you (the instructor) would write. </li>
   <li> Question Render: <a href="/starters/bs-sample-render.png">what students are asked</a> </li>
   <li> Solution Render:  <a href="/starters/bs-sample-answer.png">what students are shown after.</a> </li>
   </ul>
   </dd>
-  
+
   
   <dt>How should I get started with the rest of the web class management?</dt>
-  
+
   <dd>Look at it.  It should be self-explanatory.  If it is not, I have failed.</dd>
-  
-  
+
+
   <dt>What is my "course-secret"?</dt>
-  
+
   <dd>You can set it yourself in the <a href="/instructor/cioform">course settings</a>.  It allows an instructor to limit access to students who know the course secret.  Usually, the instructor tells students in the first class.</dd>
-  
-  
+
+
   <dt>Why does SylSpace not require or store passwords?</dt>
-  
+
   <dd>Because we rely on email-address-based authentication via other services, in particular google and facebook.  If the linked google account becomes compromised, so will be the access to syllabus.space.  This is less bad than it sounds, because most websites have a password recovery feature that is also compromised when the email (google) account is compromised.  Put simply, you are toast if you lose control of your email account.</dd>
-  
-  
+
+
   <dt>How can I post a syllabus for my students?</dt>
-  
+
   <dd>Upload a <u>syllabus.pdf</u> and/or <u>syllabus.html</u> file.  A <a href="/html/ifaq/syllabus.html">basic html syllabus is here</a>, my <a href="/html/ifaq/syllabus-sophisticated.html">more sophisticated syllabus is here</a>.  Here is a <a href="/html/ifaq/syllabus-sophisticated.png">snapshot</a> of how it looks for my students.  To start writing your own syllabus, right-click on the syllabus when it has rendered, save as (html) source, and start editing it to your like. <!-- If you want to use this, you have two format choices:  please download the html code (by clicking on view source in your browser), strip everything up to and including the <b>&lt;body&gt;</b> and after the <b>&lt;/body&gt;</b>, and upload this as syllabus.html as your file. --> </dd>
-  
-  
+
+
   <dt>Why can my students not see my files (or equizzes or syllabus or homeworks or ...)?</dt>
 
   <dd>Did you publish them?  Are the students enrolled in your course?  To see which class they are enrolled in, ask them to report to you what they see on the left top of their browser in the black bar.</dd>
@@ -173,7 +173,7 @@ __DATA__
 
   <dt>Can I write my own equizzes?  Can I make changes?</dt>
 
-  <dd>Yes!  This is the whole point.  We have an <a href="/staticintro.html">intro</a> and a lot of sample files.</dd>
+  <dd>Yes!  This is the whole point.  We have an <a href="/aboutus">intro</a> and a lot of sample files.</dd>
 
 
   <dt>Why can my filenames not contain unusual characters?</dt>
