@@ -23,7 +23,7 @@ get '/instructor/hwmore' => sub {
   my $hwname=  $c->req->query_params->param('f');
   (defined($hwname)) or die "need a filename for hwmore.\n";
 
-  $c->stash( detail => hwlisti($course),
+  $c->stash( detail => hwlisti($course, $hwname),
 	     studentuploaded => answerlisti($course, $hwname),  ## please search for f=fname here below
 	     fname => $hwname,
 	     tzi => tzi( $c->session->{uemail} ) );
