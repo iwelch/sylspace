@@ -31,7 +31,7 @@ my $iemail= $bioinstructor{email};
 
 note '################ website creation';
 
-my @courselist=qw(corpfin syllabus);
+my @courselist=qw(corpfin syllabus.test);	# in README echo ... there's no syllabus.syllabus.test
 
 foreach (@courselist) {  ok( _webcoursemake($_), "created $_ site" ); ok( instructornewenroll($_, $iemail), "created $iemail as instructor for $_" ); }
 
@@ -106,7 +106,7 @@ foreach my $fnm (bsd_glob("../../../templates/equiz/corpfinintro/*.equiz")) {
 
 my $ssshtml="syllabus-sophisticated.html";
 my $sshtml= "../../../public/html/ifaq/$ssshtml"; ok( -e $sshtml, "have $ssshtml" );
-ok(  filewritei($courselist[0], $ssshtml, scalar slurp($sshtml)), 'writing $ssshtml' );
+ok(  filewritei($courselist[0], $ssshtml, scalar slurp($sshtml)), "writing $ssshtml" );
 ok( filesetdue($courselist[0], $ssshtml, time()+$MONTH), "publish $ssshtml");
 
 ok( filesetdue($courselist[1], 'hw1.txt', time()+$MONTH), "publish hw1.txt open for 1 month");
