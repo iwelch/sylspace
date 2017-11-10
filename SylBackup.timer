@@ -1,0 +1,12 @@
+[Unit]
+Description=Runs SylBackup every 10 minutes
+
+[Timer]
+OnBootSec=10min
+OnUnitActiveSec=10min
+Unit=SylBackup.service
+
+[Install]
+WantedBy=multi-user.target
+
+## copy this timer and the service to /lib/systemd/system/

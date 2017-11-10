@@ -1,0 +1,8 @@
+[Unit]
+Description=SylBackup
+
+[Service]
+ExecStart=/home/ivo/bitsyllabus/sylspace/SylBackup
+
+## copy this service and the timer to /lib/systemd/system/
+## make sure the backup script is in the right spot, too.
