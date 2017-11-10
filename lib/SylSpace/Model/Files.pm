@@ -85,7 +85,7 @@ sub filedelete( $course, $filename ) { return _basedelete( $course, $filename );
 
 ################################################################
 sub hwsetdue( $course, $hwname, $epoch ) { return filesetdue( $course, $hwname, $epoch ); }
-sub hwlisti( $course ) { return _baselisti( $course, "hw*" ); }
+sub hwlisti( $course, $hwname="hw*" ) { return _baselisti( $course, $hwname ); }
 sub hwlists( $course ) { return _baselists( $course, "hw*" ); }  ## from the students
 sub hwreadi( $course, $hwname ) { ($hwname =~ /^hw/) or die "hwreadi: '$hwname' must start with hw\n"; return _basereadi( $course, $hwname ); }
 sub hwreads( $course, $hwname ) { ($hwname =~ /^hw/) or die "hwreads: '$hwname' must start with hw\n"; return _basereads( $course, $hwname ); }
