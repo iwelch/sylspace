@@ -75,7 +75,7 @@ sub longfilename( $course, $sfilename ) {
 
 
 ################################################################
-sub filelisti( $course ) { return _baselisti($course, '!other'); }
+sub filelisti( $course, $filename='!other' ) { return _baselisti($course, $filename); }
 sub filelists( $course ) { return _baselists($course, '!other'); }
 sub filereadi( $course, $filename ) { return _basereadi( $course, $filename ); }
 sub filereads( $course, $filename ) { return _basereads( $course, $filename ); }
