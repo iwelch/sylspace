@@ -209,11 +209,12 @@ sub rlc { return scalar @{$_[0]}; }
 ################
 sub _burpnew( $lfilename, $contents ) {
   $lfilename= ($lfilename || "$var/general.log");
-  open( my $FOUT, ">", $lfilename ); print $FOUT $contents; close($FOUT); return length($contents);
+  open( my $FOUT, ">", $lfilename ) or die "cannot write to $lfilename: $!\n"; print $FOUT $contents; close($FOUT); return length($contents);
 }
+
 sub _burpapp( $lfilename, $contents ) {
   $lfilename= ($lfilename || "$var/general.log");
-  open( my $FOUT, ">>", $lfilename ); print $FOUT $contents; close($FOUT); return length($contents);
+  open( my $FOUT, ">>", $lfilename ) or die "cannot write to $lfilename: $!\n"; print $FOUT $contents; close($FOUT); return length($contents);
 }
 
 

@@ -18,57 +18,73 @@ use Test2::Plugin::DieOnFail;
 
 ## for testing
 my $iemail='instructor@gmail.com';
-my $s1email='student1@gmail.com';
-my $s2email='student2@gmail.com';
-my $s3email='noone@gmail.com';
-
-my @course=qw (mfe.welch mba.welch year.course.instructor.university intro.corpfin);
+my $s2email='student@gmail.com';
 
 use lib '../..';
 
-use SylSpace::Model::Files qw(answercollect cptemplate eqlisti eqwrite hwwrite filewritei filedelete eqsetdue hwsetdue filesetdue filelisti filelists filereads answerlists answerwrite);
+use SylSpace::Model::Files qw(answerdelete answercollect cptemplate eqlisti eqwrite eqreadi hwwrite filewritei filedelete eqsetdue hwsetdue filesetdue filelisti filelists filereads answerlists answerwrite);
+
+use SylSpace::Model::Webcourse qw( _webcourseremove _webcoursemake _webcourselist );
+
+use SylSpace::Model::Model qw(userexists usernew userenroll);
 
 ################################################################################################################################
 
+my $coursenametestfile= 'testfilecourse';
+
 SylSpace::Model::Utils::_setsudo();  ## special purpose!
+
+_webcourseremove($coursenametestfile);
+ok( _webcoursemake($coursenametestfile), "fixing up a test course named '$coursenametestfile' for file testing" );
+(userexists($s2email)) or usernew($s2email);  ## not tested
+ok( userenroll( $coursenametestfile, $s2email ), "enrolled $s2email into $coursenametestfile" );
 
 note '
 ################ file storage and retrieval system
 ';
 
+my $templatename= 'tutorials';
+my $onequizname='2medium.equiz';
 
-ok( cptemplate( 'intro.corpfin', 'corpfinintro' ), "copied all corpfinintro files to course 'intro.corpfin'" );
 
-my $filelist= eqlisti( 'intro.corpfin');
+ok( cptemplate( $coursenametestfile, $templatename ), "copied all $templatename files to course '$coursenametestfile'" );
+
+my $filelist= eqlisti( $coursenametestfile );
 foreach my $onefile (@{$filelist}) {
-  ok( eqsetdue( 'intro.corpfin', $onefile->{sfilename}, time()+24*60*60*365*10) , "setdue on equiz $onefile->{sfilename} to much later" );
+  ok( eqsetdue( $coursenametestfile , $onefile->{sfilename}, time()+24*60*60*365*10) , "setdue on equiz $onefile->{sfilename} to much later" );
 }
 
-my $e2n= "2medium.equiz"; ok( -e $e2n, "have local test file '2medium.equiz' for use in Model subdir" );
-ok( eqwrite($course[0], $e2n, scalar slurp($e2n))>=0, 'writing $e2n' );
+my $eqcontents= eqreadi( $coursenametestfile, $onequizname );
+ok( (length($eqcontents)>0), "read a nice file $onequizname with good stuff in it\n" );
+open(my $FOUT, ">", $onequizname); print $FOUT $eqcontents; close($FOUT);
 
-ok( hwwrite($course[0], 'hw1.txt', "please do the first homework\n")>=0, 'writing hw1.txt');
-ok( hwwrite($course[0], 'hw2.txt', "please do the second homework.  it is longer.\n")>=0, 'writing hw2.txt');
 
-ok( filewritei($course[0], 'syllabus.txt', "<h2>please read this syllabus</h2>\n")>=0, 'writing syllabus.txt' );
-ok( filewritei($course[0], 'other.txt', "please do this syllabus\n")>=0, 'writing other.txt' );
+ok( -e $onequizname, "have downloaded local equiz test file '$onequizname' for experimentation in local directory now" );
+
+ok( eqwrite($coursenametestfile, $onequizname, scalar slurp($onequizname))>=0, 'writing $onequizname' );
+
+ok( hwwrite($coursenametestfile, 'hw1.txt', "please do the first homework\n")>=0, 'writing hw1.txt');  ## note that all homeworks are fed from here, not from the file system!
+ok( hwwrite($coursenametestfile, 'hw2.txt', "please do the second homework.  it is longer.\n")>=0, 'writing hw2.txt');
+
+ok( filewritei($coursenametestfile, 'syllabus.txt', "<h2>please read this syllabus</h2>\n")>=0, 'writing syllabus.txt' );
+ok( filewritei($coursenametestfile, 'other.txt', "please do this syllabus\n")>=0, 'writing other.txt' );
 
 ####
-like( dies { hwsetdue($course[0], 'hw0.txt', time()+10000); }, qr/due/, 'cannot publish non-existing file hw0.txt' );
+like( dies { hwsetdue($coursenametestfile, 'hw0.txt', time()+10000); }, qr/due/, 'cannot publish non-existing file hw0.txt' );
 
-ok( hwsetdue($course[0], 'hw1.txt', time()+100000), 'published hw1.txt');
-like( dies { hwsetdue($course[0], 'hw2.txt', time()-100); }, qr/useless/,  "unpublished hw2 by setting expiry to be behind us" );
+ok( hwsetdue($coursenametestfile, 'hw1.txt', time()+100000), 'published hw1.txt');
+like( dies { hwsetdue($coursenametestfile, 'hw2.txt', time()-100); }, qr/useless/,  "unpublished hw2 by setting expiry to be behind us" );
 
-ok( filesetdue($course[0], 'other.txt', time()+100000), 'published other.txt' );
-ok( filesetdue($course[0], 'syllabus.txt', time()+100000), 'published syllabus.txt' );
-ok( filesetdue($course[0], 'other.txt', 0), 'unpublished other.txt' );
-ok( filesetdue($course[0], 'other.txt', 0), 'harmless unpublished again' );
+ok( filesetdue($coursenametestfile, 'other.txt', time()+100000), 'published other.txt' );
+ok( filesetdue($coursenametestfile, 'syllabus.txt', time()+100000), 'published syllabus.txt' );
+ok( filesetdue($coursenametestfile, 'other.txt', 0), 'unpublished other.txt' );
+ok( filesetdue($coursenametestfile, 'other.txt', 0), 'harmless unpublished again' );
 
-my $npub= rlc( my $ilist= filelisti($course[0]));
+my $npub= rlc( my $ilist= filelisti($coursenametestfile));
 
 ok( $npub == 2, "instructor owns $npub files, which should be 2 (other.txt and syllabus.txt)" );
 
-my $publicstruct=filelists($course[0]);
+my $publicstruct=filelists($coursenametestfile);
 
 $npub= rlc($publicstruct);
 ok( $npub == 1, "student should see 1 published file (syllabus.txt), actually saw $npub" );
@@ -77,36 +93,54 @@ ok( $npub == 1, "student should see 1 published file (syllabus.txt), actually sa
 ok( $publicstring !~ m{other.txt}, "published still contains other.txt, even though it is not posted" );
 ok( $publicstring =~ m{syllabus\.txt}, "syllabus.txt is still posted.  good" );
 
-ok( filereads( $course[0], 'syllabus.txt'), "student can read syllabus.txt 2" );
-like( dies { filereads( $course[0], 'other.txt') }, qr/sorry, /, "student cannnot read unpublished other.txt" );
-like( dies { filereads( $course[0], 'blahother.txt') }, qr/cannot read/, "student cannot read unexisting file" );
+ok( filereads( $coursenametestfile, 'syllabus.txt'), "student can read syllabus.txt 2" );
+like( dies { filereads( $coursenametestfile, 'other.txt') }, qr/sorry, /, "student cannnot read unpublished other.txt" );
+like( dies { filereads( $coursenametestfile, 'blahother.txt') }, qr/cannot read/, "student cannot read unexisting file" );
 
-ok( filesetdue($course[0], 'other.txt', 0), "unpublish 'other.txt' by setdue ");
-ok( filesetdue($course[0], 'hw1.txt', time()+100000), "publish 'hw1.txt' by setdue ");
+ok( filesetdue($coursenametestfile, 'other.txt', 0), "unpublish 'other.txt' by setdue ");
+ok( filesetdue($coursenametestfile, 'hw1.txt', time()+100000), "publish 'hw1.txt' by setdue ");
 
 ## now we do student responses to homeworks
 
 SylSpace::Model::Utils::_unsetsudo();
 
-my $s2ac= rlc(answerlists( $course[0], $s2email ));
+my $s2ac= rlc(answerlists( $coursenametestfile, $s2email ));
 ok( ($s2ac==0)||($s2ac==1), "$s2email has not yet uploaded anything -- correct" );
 
-like(dies { answerlists( $course[0], $s2email, 'hw1.txt' ) }, qr/cannot read due/, "death on bad direct attempt" );
+like(dies { answerlists( $coursenametestfile, $s2email, 'hw1.txt' ) }, qr/cannot read due/, "death on bad direct attempt" );
 
-like(dies { answerwrite($course[0], $s2email, 'hwneanswer.txt', "I have done hwne text\n", 'hwne.txt') },
+like(dies { answerwrite($coursenametestfile, $s2email, 'hwneanswer.txt', "I have done hwne text\n", 'hwne.txt') },
      qr/not posted/, 'charlie cannot answer nonexisting hw hwne.txt');
 
-ok( answerwrite($course[0], $s2email, 'hw1.txt', 'hw1answer.txt', "I have done hw1 text\n")>=0, "$s2email answered hw1.txt");
+ok( answerwrite($coursenametestfile, $s2email, 'hw1.txt', 'hw1first.txt', "I have done hw1 text\n")>=0, "$s2email answered hw1.txt");
 
-my $sanswers=answerlists( $course[0], $s2email );
+my $sanswers=answerlists( $coursenametestfile, $s2email );
 ok( (rlc($sanswers)==1), "$s2email should have submitted exactly one homework!" );
+ok( ($sanswers->[0]->{sfilename} eq 'hw1first.txt'), "checked that student answer hw1first.txt was uploaded." );
+
+like(dies { answerwrite($coursenametestfile, $s2email, 'hw1.txt', 'hw1second.txt', "changed my mind on hw1\n") }, qr/already/, "cannot upload a second answer to same homework" );
+
+like(dies { answerdelete($coursenametestfile, $s2email, 'hw1.txt', 'hwnotexist') }, qr/nonexisting/, "cannot delete a nonexisting homework answer" );
+
+ok( answerdelete($coursenametestfile, $s2email, 'hw1.txt', 'hw1first.txt')==0, "we managed to wipe the old answer");
+
+ok( answerwrite($coursenametestfile, $s2email, 'hw1.txt', 'hw1second.txt', "changed my mind on hw1\n"), "now we could upload a new answer" );
+
+my $sanswers=answerlists( $coursenametestfile, $s2email );
+ok( ($sanswers->[0]->{sfilename} eq 'hw1second.txt'), "we have uploaded hw1second.txt!  it is good!" );
+
+#like(dies { answerwrite($coursenametestfile, $s2email, 'hwneanswer.txt', "I have done hwne text\n", 'hwne.txt') },
+#     qr/not posted/, 'charlie cannot answer nonexisting hw hwne.txt');
+
 
 SylSpace::Model::Utils::_setsudo();
 
-my $ofzipname=answercollect($course[0], 'hw1.txt');
+my $ofzipname=answercollect($coursenametestfile, 'hw1.txt');
 ok( $ofzipname =~ /zip/, "collected properly submitted hw1 answer for $s2email" );
 
-ok( filedelete( $course[0], $ofzipname ), "deleted zip file\n" );
+ok( filedelete( $coursenametestfile, $ofzipname ), "deleted zip file\n" );
+
+_webcourseremove($coursenametestfile);
 
 done_testing();
 

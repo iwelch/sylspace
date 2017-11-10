@@ -8,7 +8,7 @@ package SylSpace::Model::Webcourse;
 use base 'Exporter';
 @ISA = qw(Exporter);
 
-@EXPORT_OK= qw( _webcoursemake _webcourseshow _webcourseremove);
+@EXPORT_OK= qw( _webcoursemake _webcourseshow _webcourseremove _webcourselist );
 
 ################################################################
 
@@ -80,11 +80,13 @@ sub _webcourseshow($course) {
 }
 
 
-## for drastic debugging, this removes all webcourses!  it should never be called from the web.
+## for drastic debugging, this removes all webcourses!  it should never be called from the web.  it's ok if the course does not exist
 sub _webcourseremove($course) {
   ## can we add a test whether we are running under Mojolicious and abort if we are?
+  ($course =~ m{\.\.}) and die "ok, wcremove is not safe, but '$course' is ridiculous";
   ($course =~ m{/}) and die "ok, wcremove is not safe, but '$course' is ridiculous";
-  (($course eq "*") || ($course =~ m{\w[\w\.\-]*/})) or die "ok, wcrm is not safe, but '$course' is ridiculous";
+  ( ($course =~ /\*/) && ($0 !~ /mk.*site\.t/) ) and die "ok, wcrm is not safe, but '$course' is ridiculous.  only allowed in mkstartersite.t";
+
   my $nremoved=0;
   foreach (bsd_glob("$var/courses/$course")) {
     $_= lc($_);
@@ -94,13 +96,23 @@ sub _webcourseremove($course) {
     ++$nremoved;
   }
 
-  if ($course eq "*") {
+  #if ($course eq "*") {
     # system("rm -rf $var/categories/list $var/categories/*/list $var/categories/*/*/list $var/categories/*/*/*/list $var/categories/*/*/*/*/list");
     # system("rm -rf $var/users/*/posted/*");
     # system("rm -rf $var/users/*/balance=*");
     # system("rm -rf $var/users/*/transactions.txt");
-  }
+  #}
 
   return $nremoved;
 }
 
+sub _webcourselist() {
+  my @list;
+  foreach (bsd_glob("$var/courses/*")) {
+    $_= lc($_);
+    (-e $_) or next;
+    s{^$var/courses/}{};
+    push(@list, $_);
+  }
+  return \@list;
+}

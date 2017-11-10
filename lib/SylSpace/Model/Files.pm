@@ -15,7 +15,7 @@ our @EXPORT_OK=qw(
   eqsetdue eqlisti eqlists eqwrite eqreads eqreadi
   filesetdue filelisti filelists filereadi filereads filewritei filedelete fileexistsi fileexistss
   hwsetdue hwlisti hwlists hwreadi hwreads hwwrite hwdelete
-  answerlists answerread answerwrite answerlisti answercollect answerhashs
+  answerlists answerread answerwrite answerlisti answercollect answerhashs answerdelete
 
   finddue ispublic
 
@@ -198,19 +198,51 @@ sub answerread( $course, $uemail, $ansname ) {
 }
 
 sub answerwrite( $course, $uemail, $hwname, $ansname, $anscontents ) {
+
   $course= _checksfilenamevalid( $course );
   $uemail= _checkemailvalid($uemail);
+
   (-e "$var/courses/$course/$uemail/") or die "answerwrite: $uemail is not enrolled in $course";
 
-  _checksfilenamevalid($ansname);
+  _checksfilenamevalid($ansname);  ## will die!
   _checksfilenamevalid($hwname);
+
+  # the F@#! perl bsd_glob does not understand that it should return undef if file does not exist
+  # it does so only if the filename contains '*'.  so, we test with -e
   (-e bsd_glob("$var/courses/$course/instructor/files/$hwname"))
     or die "instructor has not posted a homework starting with $hwname";
+
+  my $existing= bsd_glob("$var/courses/$course/$uemail/files/*\=$hwname");
+  (defined($existing)) and
+   die "you already have an uploaded homework named '$existing' for homework '$hwname'.  please delete first.";
+
   my $rv= _maybeoverwrite( "$var/courses/$course/$uemail/files/$ansname", $anscontents );
+
   touch( "$var/courses/$course/$uemail/files/$ansname~answer=$hwname" );
 
   return $rv;
 }
+
+
+sub answerdelete( $course, $uemail, $hwname, $answername ) {
+  $course= _checksfilenamevalid( $course );
+  $uemail= _checkemailvalid($uemail);
+  _checksfilenamevalid($hwname);
+  _checksfilenamevalid($answername);  ## will die!
+
+  ($hwname =~ /^hw/) or die "hwdelete: '$hwname' must start with hw\n";
+  my $existing1=bsd_glob("$var/courses/$course/$uemail/files/$answername\~answer\=$hwname");
+  (-e $existing1) or die "you cannot delete a nonexisting file '$existing1'\n".`ls $var/courses/$course/$uemail/files/`;
+  my $existing2=bsd_glob("$var/courses/$course/$uemail/files/$answername");
+  (-e $existing2) or die "you cannot delete a nonexisting file '$existing2'\n".`ls $var/courses/$course/$uemail/files/`;
+
+  unlink($existing1) or die "failed to delete file $existing1.\n";
+  unlink($existing2) or die "failed to delete file $existing2.\n";
+
+  return 0;
+}
+
+
 
 sub answerlisti( $course, $hwname ) {
   $course= _checksfilenamevalid( $course );
@@ -246,6 +278,7 @@ sub answercollect( $course, $hwname ) {
 }
 
 
+
 ################################################################
 ## TEMPLATES
 ################################################################
@@ -264,7 +297,7 @@ sub cptemplate( $course, $templatename ) {
   (-e "$var/templates/$templatename") or die "no template $templatename";
 
   my $count=0;
-  foreach (bsd_glob("$var/templates/$templatename/*")) {
+  foreach (bsd_glob("$var/templates/$templatename/*.equiz")) {
     (my $sname= $_) =~ s{.*/}{};
     (-e "$var/courses/$course/instructor/files/$sname") and next;  ## skip if already existing
     symlink($_, "$var/courses/$course/instructor/files/$sname") or die "cannot symlink $_ to $var/courses/$course/instructor/files/$sname: $!\n";
@@ -416,7 +449,6 @@ sub _findanswer( $lfilename ) {
 ## this is a safe backup-and-replace function
 sub _maybeoverwrite( $lfilename, $contents ) {
   (-e $lfilename) or return _burpnew( $lfilename, $contents );
-
   _burpnew( "$lfilename.new", $contents );
 
   use File::Compare;

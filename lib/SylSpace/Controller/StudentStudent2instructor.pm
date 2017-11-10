@@ -23,6 +23,6 @@ get '/student/student2instructor' => sub {
 
   unmorphstudent2instructor($course, $c->session->{uemail});
 
-  return $c->flash( message => "student unmorphed back to instructor" )->redirect_to('/instructor');
+  return $c->flash( message => "student unmorphed back to instructor.  please avoid back button now." )->redirect_to('/instructor');
 };
 

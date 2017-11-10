@@ -23,7 +23,7 @@ get '/instructor/instructor2student' => sub {
 
   morphinstructor2student($course, $c->session->{uemail});
 
-  return $c->flash( message => "instructor morphed into student" )->redirect_to('/student');
+  return $c->flash( message => "instructor morphed into student.  do not use the back button&mdash; as a student, you no longer have good instructor access!" )->redirect_to('/student');
 };
 
 1;

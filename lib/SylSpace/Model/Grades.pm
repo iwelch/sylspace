@@ -90,8 +90,10 @@ sub gradesashash( $course, $uemail=undef ) {
   my (%col, %row, $gradecell, $timestamp);
   foreach (@gradelist) {
     s/[\r\n]//;
+    (defined($_)) or die "something is wrong.  I do not see a line in gradelist.\n";
     my ($uem, $tskn, $grd, $tma)=split(/\t/, $_);
-    ($tma >= 1493749426) or die "corrupted homework file!\n";
+    (defined($tma)) or die "something is wrong.  In '$_', I cannot find a good timestamp as the fourth field";
+    ($tma >= 1493749426) or die "corrupted homework file. time is $tma, which is long ago!\n";
 
     $col{$uem}= $uem; ## unregistered students can have homeworks, so no check against registered list
     $row{$tskn}= $tskn;
