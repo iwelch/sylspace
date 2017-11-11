@@ -16,16 +16,22 @@ use autodie;
 my $isproduction= (`hostname` =~ /syllabus-space/m);
 my $isosx= (-d "/Users/ivo");
 
-($isproduction && $isosx) and die "iaw: please do not run the syllabus.space domain on an osx host.\n";
+my @apphome;
+if ($isosx) {
+  ($isproduction && $isosx) and die "iaw: please do not run the syllabus.space domain on an osx host.\n";
+  ((-e 'SylSpace') && (-x 'SylSpace')) or die "on macos, you must be in the local directory in which SylSpace lives!";
+  @apphome= (`pwd`);
+} else {
+  @apphome= grep { $_ =~ /SylSpace$/ } `locate sylspace/SylSpace`;  ## locate sylspace/SylSpace works on linux, but not macos
 
-my @apphome= grep { $_ =~ /SylSpace$/ } `locate sylspace/SylSpace`;
-## flunks somehow:
-##  @apphome = grep { (-x $_) } @apphome;
-@apphome = grep { $_ !~ m{\/\.[a-z]}i } @apphome;  ## a hidden directory in path, e.g., .sync or .git
+  @apphome = grep { $_ !~ m{\/\.[a-z]}i } @apphome;  ## a hidden directory in path, e.g., .sync or .git
+  ## @apphome = grep { $_ =~ m{sylspace\/SylSpace$} } @apphome;  ## we have very specific ideas of how we like this one
 
-((scalar @apphome)>1) and die "Ambiguous SylSpace locations:\n\t".join(" ", @apphome).
-  "\nPlease test on non-production servers, not on the same server.\n";
-((scalar @apphome)<1) and die "Cannot locate executable SylSpace.\n";
+  ((scalar @apphome)>1) and die "Ambiguous SylSpace locations:\n\t".join(" ", @apphome).
+    "\nPlease test on non-production servers, not on the same server.\n";
+  ((scalar @apphome)<1) and die "Cannot locate executable SylSpace on $^O:: '".`locate sylspace/SylSpace`."'\n";
+}
+
 
 chomp($apphome[0]);
 (my $workdir= $apphome[0]) =~ s{\/SylSpace$}{};
