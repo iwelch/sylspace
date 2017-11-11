@@ -42,7 +42,9 @@ get '/auth/userenrollsavenopw' => sub {
   my $coursename= $c->req->query_params->param('course');
 
   (defined($coursename)) or die "wtf";
-  (defined(getcoursesecret($coursename))) and die "sorry, but course $coursename requires a secret";
+  my $actualsecret=getcoursesecret($coursename);
+  print STDERR "UESNPW: $actualsecret\n";
+  (defined($actualsecret)) and die "sorry, but this course $coursename has a secret, so you cannot enroll without it!";
 
   userenroll($coursename, $c->session->{uemail});
 

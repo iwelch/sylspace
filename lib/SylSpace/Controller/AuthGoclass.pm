@@ -178,8 +178,51 @@ sub coursebuttonsentry {
 }
 
 
-
+################################################################
 sub coursebuttonsenroll {
+  my ($self, $courselist, $email)= @_;
+
+  my @courselist= keys %{$courselist};
+
+  (@courselist) or return "<p>No courses available.</p>";
+
+  ## users want a sort by subdomain name first, then subsubdomain, then ...
+  ## websites names are in reverse order
+
+  my @singledomcourse = grep { $_ !~ m{\.} } @courselist;
+
+  my $rs="";
+  foreach my $g (sort @singledomcourse) {
+
+    sub imbtn {
+      my ( $maintext, $subtext, $displaylist, $coursehassecret )= @_;
+      my $url= ($coursehassecret) ? '/auth/userenrollform?c='.$maintext : '/auth/userenrollsavenopw?course='.$maintext ;
+      my $faicon=  ($coursehassecret) ? '<i class="fa fa-lock"></i> ': '<i class="fa fa-circle-o"></i> ';
+      return "  ".btnblock($url, $faicon.$maintext, $subtext, 'btn-default', 'w' );
+    }
+
+    $rs .= imbtn( $g, 'singleton', $g, $courselist->{$g} )."\n";
+  }
+
+  $rs .= "
+      <form name=\"selectcourse\" method=\"get\" action=\"/auth/userenrollform\" class=\"form\"> 
+      <div class=\"input-group\">
+        <span class=\"input-group-addon\">Course Name: <i class=\"fa fa-square\"></i></span>
+        <input class=\"form-control\" placeholder=\"coursename, e.g., welch-mfe101-2017.ucla\" name=\"c\" type=\"text\" required />
+      </div>
+      <div class=\"input-group\">
+        <button class=\"btn btn-default\" type=\"submit\" value=\"submit\">Select a course by its full name</button>
+      </div>
+
+      </form>
+    ";
+
+  $rs .= qq(\t</div>\n);
+
+  return $rs;
+}
+################################################################
+sub coursebuttonsenrollshowall_unused {
   my ($self, $courselist, $email)= @_;
 
   my @courselist= keys %{$courselist};
@@ -210,7 +253,7 @@ sub coursebuttonsenroll {
   foreach my $g (sort keys %group) {
     my @displaylist= @{$group{$g}};
 
-    sub imbtn {
+    sub noimbtn {
       my ( $maintext, $subtext, $displaylist, $coursehassecret )= @_;
       my $url= ($coursehassecret) ? '/auth/userenrollform?c='.$maintext : '/auth/userenrollsavenopw?course='.$maintext ;
       my $icon=  ($coursehassecret) ? '<i class="fa fa-lock"></i> ': '<i class="fa fa-circle-o"></i> ';
