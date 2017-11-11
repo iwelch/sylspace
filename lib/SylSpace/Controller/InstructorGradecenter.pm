@@ -133,7 +133,7 @@ __DATA__
   sub showgrades {
     my $all = shift;
     my $rs= "<thead> <tr> <th>Student</th>";
-    foreach (@{$all->{hw}}) { $rs.= "<th> <a href=\"gradesave?taskn=$_\">$_</a> </th>"; }
+    foreach (@{$all->{hw}}) { $rs.= "<th> <a href=\"gradeform?taskn=$_\">$_</a> </th>"; }
     $rs.= "</tr> </thead>\n<tbody>\n";
 
     foreach my $st (@{$all->{uemail}}) {
