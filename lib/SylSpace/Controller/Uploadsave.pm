@@ -42,7 +42,7 @@ post '/uploadsave' => sub {
     seclog( $c->tx->remote_address, $course, 'instructor ', $c->session->{uemail}." uploaded ". $filename );  ## student uploads are public
     $referto= "/instructor/${infiletype}center";
 
-    ($filename eq "") and return $c->flash(message=>"please select a file first!")->redirect_to("/hwcenter");
+    ($filename eq "") and return $c->flash(message=>"please select a file first!")->redirect_to("/instructor/hwcenter");
 
     ($filename =~ /^syllabus\./i) and filesetdue( $course, $filename, time()+60*60*24*365 );  ## special rule: make syllabus available for 1 year
     ($filename =~ /^faq\./i) and filesetdue( $course, $filename, time()+60*60*24*365 );  ## special rule: make syllabus available for 1 year
@@ -53,6 +53,7 @@ post '/uploadsave' => sub {
     defined($hwmatch) or die "uploadsave error: what hw are you trying to answer??";
     defined($filename) or die "uploadsave error: what is your filename??";
     defined($filecontents) or die "uploadsave error: what are your filecontents??";
+    ($filename eq "") and return $c->flash(message=>"please select a file first!")->redirect_to("/student/hwcenter");
 
     my $result= eval { answerwrite($course, $c->session->{uemail}, $hwmatch, $filename, $filecontents) };
     $@ and die "Problem $result Writing Answer : '$@'  Course: $course
