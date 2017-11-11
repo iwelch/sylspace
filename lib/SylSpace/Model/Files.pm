@@ -211,7 +211,19 @@ sub answerwrite( $course, $uemail, $hwname, $ansname, $anscontents ) {
   # it does so only if the filename contains '*'.  so, we test with -e
   (-e bsd_glob("$var/courses/$course/instructor/files/$hwname"))
     or die "instructor has not posted a homework starting with $hwname";
+  
+  ########################################
+  #my @existing= bsd_glob("$var/courses/$course/$uemail/files/*\=$hwname");
 
+#  if (defined($existing[0])) {
+	#my $oldanswer = $existing[0];
+	#$oldanswer =~ s{.*\/}{}g;
+	#$oldanswer =~ s{\~.*$}{};
+	#answerdelete($course, $uemail, $hwname, $oldanswer);
+#}
+   
+####die "you already have an uploaded homework named '$existing[0]' for homework '$hwname'.  please delete first.";
+##########################################
   my $existing= bsd_glob("$var/courses/$course/$uemail/files/*\=$hwname");
   (defined($existing)) and
    die "you already have an uploaded homework named '$existing' for homework '$hwname'.  please delete first.";
