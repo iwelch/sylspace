@@ -91,7 +91,7 @@ note '################ initial files';
 ok( filewritei($courselist[1], 'hw1.txt', "please do this first homework\n"), 'writing hw1.txt');
 ok( filewritei($courselist[1], 'syllabus.txt', "<h2>please read this simple txt syllabus</h2>\n"), 'writing syllabus.txt' );
 
-ok( cptemplate($courselist[0], 'corpfinintro'), "cannot copy corpfin template" );
+#ok( cptemplate($courselist[0], 'corpfinintro'), "cannot copy corpfin template" );
 
 
 ok( cptemplate($courselist[1], 'starters'), "cannot copy starters template" );
@@ -99,10 +99,10 @@ ok( cptemplate($courselist[1], 'tutorials'), "cannot copy tutorials template" );
 
 ####
 my $MONTH = 60*60*24*30;
-foreach my $fnm (bsd_glob("../../../templates/equiz/corpfinintro/*.equiz")) {
-  $fnm =~ s{.*/}{};
-  ok( filesetdue($courselist[0], $fnm, time()+$MONTH), "publish $fnm");
-}
+#foreach my $fnm (bsd_glob("../../../templates/equiz/corpfinintro/*.equiz")) {
+  #$fnm =~ s{.*/}{};
+  #ok( filesetdue($courselist[0], $fnm, time()+$MONTH), "publish $fnm");
+#}
 
 my $ssshtml="syllabus-sophisticated.html";
 my $sshtml= "../../../public/html/ifaq/$ssshtml"; ok( -e $sshtml, "have $ssshtml" );
