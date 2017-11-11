@@ -39,7 +39,7 @@ These steps are for a plain ubuntu server.
 
 	  this builds the basic storage hierarchy in /var/sylspace/, such as /var/sylspace/courses, /var/sylspace/users, /var/sylspace/templates/, etc.
 
-	- `# cd Model; perl mkstartersite.pl ; cd ..`
+	- `# cd Model/; perl mkstartersite.t ; cd ..`
 	
 	  this builds a nice starter site for test purposes.  for example, it creates a corpfin website (in /var/sylspace/courses/corpfin/) that the webapp will recognize as a corporate finance website.
 
