@@ -12,6 +12,8 @@ use SylSpace::Model::Model qw(sudo);
 use SylSpace::Model::Grades qw(gradesashash gradesasraw);
 use SylSpace::Model::Controller qw(global_redirect  standard);
 
+use Data::Dumper;
+
 ################################################################
 
 get '/instructor/gradedownload' => sub {
@@ -44,9 +46,43 @@ get '/instructor/gradedownload' => sub {
     return $s;
   }
 
+  ## the following two functions should be refactored, and potentially also output the full line (unused info)
+  
+  sub fbestscore {
+    my @lines=split(/\n/, gradesasraw( $_[0] ) );
+
+    my %best;
+    foreach (@lines) {
+      my @fields= split(/\t/, $_);
+      my $id = $fields[0].",".$fields[1];
+      my $score = ($fields[2] =~ /([0-9]+)\s*\/\s*[0-9]+/) ? $1 : (-99);
+      ((!exists($best{$id})) || ($best{$id} < $score)) and $best{$id}= $score;
+    }
+    my $s="student,task,grade\n";
+    foreach (sort keys %best) { $s .= $_.",   ".$best{$_}."\n"; }
+    return $s;
+  }
+
+  sub ftimescore {
+    my @lines=split(/\n/, gradesasraw( $_[0] ) );
+
+    my %best;
+    foreach (@lines) {
+      my @fields= split(/\t/, $_);
+      my $id = $fields[0].",".$fields[1];
+      my $score = ($fields[2] =~ /([0-9]+)\s*\/\s*[0-9]+/) ? $1 : (-99);
+      $best{$id}= $score;
+    }
+    my $s="student,task,grade\n";
+    foreach (sort keys %best) { $s .= $_.",   ".$best{$_}."\n"; }
+    return $s;
+  }
+
   my $sf= $c->req->query_params->param('sf');
-  ($sf eq "w") and return $c->render(text => wide( $course ), format => 'csv');
-  return $c->render(text => flong( $course ), format => 'csv');
+  return ($sf eq "w") ? $c->render(text => wide( $course ), format => 'csv') :
+    ($sf eq "l") ? $c->render(text => flong( $course ), format => 'csv') :
+    ($sf eq "b") ? $c->render(text => fbestscore( $course ), format => 'csv') :
+    ($sf eq "t") ? $c->render(text => ftimescore( $course ), format => 'csv') : $c->render(text => "fatal format error in IGD.  what is $sf?");
   die "sorry, what format is $sf supposed to be?";
 };
 

@@ -118,12 +118,15 @@ __DATA__
   <hr />
 
 
-   <div class="row">
-  <div class="col-md-2"><%== btn('/instructor/gradedownload?f=csv&sf=l', 'Download Long CSV') %> </div>
-  <div class="col-md-2"><%== btn('/instructor/gradedownload?f=csv&sf=w', 'Download Wide CSV') %> </div>
+  <div class="row">
+  <b>CSV Downloads</b> <br />
+  <%== btn('/instructor/gradedownload?f=csv&sf=l', 'Long') %>
+  <%== btn('/instructor/gradedownload?f=csv&sf=w', 'Wide') %>
+  <%== btn('/instructor/gradedownload?f=csv&sf=b', 'Best Only') %>
+  <%== btn('/instructor/gradedownload?f=csv&sf=t', 'Latest Only') %>
   </div>
 
-  <p style="font-size:x-small">The long view also contains repeated entries, changes, time stamps, etc.</p>
+  <p style="font-size:x-small">The long view also contains repeated entries, changes, time stamps, etc.  The wide view gives only the latest score.  The best and latest views are in long format, but give -99 for non-numerical grades.  (For complete information and clarification, use the long view.)</p>
 
 </main>
 
