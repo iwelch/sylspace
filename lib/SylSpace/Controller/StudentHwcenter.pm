@@ -89,7 +89,7 @@ __DATA__
 	my $uploaded;
 	if (defined($answer)) {
 	print "\n\nerror after this?\n\n";
-	$uploaded= qq(<a href="/student/ownfileview?f=$answer">$answer</a><br />).btn("/student/answerdelete?f=$answer&task=$fname", 'delete', 'btn-xs btn-danger');
+	$uploaded= qq(<a href="/student/ownfileview?f=$answer">$answer</a><br />).btn("/student/answerdelete?f=$answer&task=$fname", 'delete me', 'btn-xs btn-danger');
 	print "\n\n$answer answer \n\n$fname  task\n\n";
 	#$uploaded=qq(<a href="/student/ownfileview?f=$answer">$answer</a><br /><input type="button" value="delete" onClick="deleteoldanswer(1)" class="btn btn-xs btn-danger">);
 	print "\n\n$uploaded\n\n";

@@ -21,6 +21,8 @@ get '/student/quickinfo' => sub {
 
   my $instructorlist= instructorlist( $course );
 
+  (defined($instructorlist)) or $instructorlist= [ "no instructor defined" ];
+
   $c->stash( cioread => cioread($course), requestsyllabus => hassyllabus($course), instructorlist => $instructorlist  );
 };
 
@@ -40,7 +42,7 @@ __DATA__
 <h1>Quick Course Facts</h1>
 
   <table class="table" style="width: auto !important; margin: 2em;">
-    <tr> <th> Instructor(s) </th> <td> <%= join(" ", @$instructorlist) %> </td> </tr>
+    <tr> <th> Instructor(s) </th> <td> <%= join(" ", @{$instructorlist}) %> </td> </tr>
     <tr> <th> Subject Matter </th> <td> <%= $cioread->{subject} %> </td> </tr>
     <tr> <th> Course Code </th> <td> <%= $cioread->{unicode} %> </td> </tr>
     <tr> <th> Department </th> <td> <%= $cioread->{department} %> </td> </tr>
