@@ -57,7 +57,8 @@ __DATA__
   <p>You should name your answer file to start with the homework file name, too.  For example, if the homework is named 'hwa1.txt', name your answer file something like 'hwa1-johndoe-answer.pdf' (no spaces or weird characters, please).</p>
 </main>
 
-  <%
+
+<%
   sub filehash2string {
     my ($filehashptr, $answerhashs)= @_;
     (defined($filehashptr)) or return "";
@@ -82,16 +83,36 @@ __DATA__
           <button class="btn btn-default btn-block" type="submit" value="submit">Go</button>
       </form>);
 
+
       my $answer= $answerhashs->{$fname};
+
+	my $uploaded;
+	if (defined($answer)) {
+	print "\n\nerror after this?\n\n";
+	$uploaded= qq(<a href="/student/ownfileview?f=$answer">$answer</a><br />).btn("/student/answerdelete?f=$answer&task=$fname", 'delete', 'btn-xs btn-danger');
+	print "\n\n$answer answer \n\n$fname  task\n\n";
+	#$uploaded=qq(<a href="/student/ownfileview?f=$answer">$answer</a><br /><input type="button" value="delete" onClick="deleteoldanswer(1)" class="btn btn-xs btn-danger">);
+	print "\n\n$uploaded\n\n";
+	#$uploaded .= qq(<br />second line  );
+	#print "\n\n$uploaded\n\n";
+}
+	else {
+	$uploaded="no upload for $fname yet";
+}
+
+
+
+
       $filestring .= "<tr>"
 	. "<td> ". btn("/student/fileview?f=$fname", "$pencil $fname") . "</td>"
 	. "<td style=\"text-align:left\"> due $duein (<span class=\"epoch0\">$duetime</span>)<br />due GMT ". localtime($_->{duetime})."<br />now GMT ".localtime()."</td>"
 	. "<td> $uploadform </td>"
-	. '<td>'.((defined($answer))?"<a href=\"/student/ownfileview?f=$answer\">$answer</a>" : "no upload for $fname yet").' </td>'
+	. '<td>'.$uploaded.' </td>'
 	."</tr>";
     }
     ($counter) or return "<tr colspan=\"3\"><td>$counter publicly posted homeworks at the moment</td> </tr>";
 
     return $filestring;
   }
+
   %>
