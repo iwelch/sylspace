@@ -20,8 +20,6 @@ print "\n\nmy god got here\n\n";
   (my $course = standard( $c )) or return global_redirect($c);
   my $uemail = $c->session->{uemail};
 
-  sudo( $course, $uemail );
-
   my $oldanswer= $c->req->query_params->param('f');
   my $task= $c->req->query_params->param('task');
 
