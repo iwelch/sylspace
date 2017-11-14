@@ -27,7 +27,7 @@ print "\n\nmy god got here\n\n";
 
   answerdelete( $course,$uemail, $task, $oldanswer);
 
-  return $c->flash( message=> "completely deleted answer $oldanswer" )->redirect_to("/student/hwcenter"));
+  return $c->flash( message=> "completely deleted answer $oldanswer" )->redirect_to("/student/hwcenter");
 };
 
 1;
