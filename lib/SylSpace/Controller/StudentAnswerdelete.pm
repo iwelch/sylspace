@@ -15,7 +15,7 @@ use SylSpace::Model::Controller qw(standard global_redirect);
 ################################################################
 
 get '/student/answerdelete' => sub {
-print "\n\nmy god got here\n\n";
+
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
   my $uemail = $c->session->{uemail};
