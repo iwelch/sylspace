@@ -75,7 +75,7 @@ sub standard {
   $cururl =~ s{\?.*}{}; ## strip any parameters
 
   #or $c->webbrowser()
-  (($c->browser->{"browser"} =~ /chrome/i) && (($ENV{'SYLSPACE_onlocalhost'})))
+  ((defined($c->browser->{"browser"})) && ($c->browser->{"browser"} =~ /chrome/i) && (($ENV{'SYLSPACE_onlocalhost'})))
     and die "Chrome does not work with localhost (syllabus.test), because it handles localhost domains differently.\n\nPlease use firefox or some other browser.";
 
   sub retredirect { $global_redirecturl= $_[0]; $global_message= $_[1] || ""; return; }
