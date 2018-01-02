@@ -23,8 +23,8 @@ post '/auth/userenrollsave' => sub {
   (defined($coursename)) or die "wtf";
   my $isecret= getcoursesecret($coursename);
 
-  (lc($isecret) eq lc($secret)) or
-    return $c->flash( message => "$secret is so not the right secret for course $coursename" )->redirect_to('/auth/userenrollform?c='.$coursename);
+  (defined($isecret)) and ((lc($isecret) eq lc($secret)) or
+    return $c->flash( message => "$secret is so not the right secret for course $coursename" )->redirect_to('/auth/userenrollform?c='.$coursename));
 
   userenroll($coursename, $c->session->{uemail});
 
