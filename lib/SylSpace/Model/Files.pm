@@ -166,7 +166,8 @@ sub _basedelete( $course, $sfilename ) {
   _checksfilenamevalid($sfilename);
   my $lfilename = "$var/courses/$course/instructor/files/$sfilename";
   (-e $lfilename) or die "cannot delete non-existing $lfilename";
-  unlink($lfilename)
+  unlink($lfilename);
+  (-e $lfilename.'~') and unlink($lfilename.'~');
 }
 
 ################################################################################################################################
@@ -325,7 +326,8 @@ sub rmtemplates( $course ) {
   foreach (bsd_glob("$var/courses/$course/instructor/files/*")) {
     (-l $_) or next;
     my $pointsto = readlink($_);
-    if ($pointsto =~ m{$var/templates/}) { unlink($_) or die "cannot remove template link: $!\n"; ++$count; }
+    if ($pointsto =~ m{$var/templates/}) { 
+unlink($_) or die "cannot remove template link: $!\n"; ++$count; }
   }
   _cleanalldeadlines($course); # still needs to be written below --- yanni!
   return $count;
@@ -362,8 +364,16 @@ sub filesetdue( $course, $filename, $when ) {
 
 sub _cleanalldeadlines( $course ) {
   $course= _confirmsudoset( $course );
-  # to be written and tested
-  ... # --- yanni
+    # to be written and tested
+  foreach (bsd_glob("$var/courses/$course/instructor/files/*")) {
+    if (/~due=\d+/) {
+      my $lfilename = $_;
+      s/$var\/courses\/$course\/instructor\/files\///;
+      s/~due=\d+//;
+      fileexistsi($course,$_) or unlink($lfilename); 
+    }
+  }
+   # --- yanni
 }
 
 #
@@ -477,4 +487,3 @@ sub _maybeoverwrite( $lfilename, $contents ) {
 
 
 sub rlc { return scalar @{$_[0]}; }
-
