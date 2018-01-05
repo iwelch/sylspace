@@ -494,7 +494,7 @@ sub drawmore($sfilename, $centertype, $actionchoices, $allfiledetails, $tzi, $we
 			<p>
 			<form method="get" action="filesetdue?f=$fname" class="form-inline">
 			<input type="hidden" name="f" value="$fname" />
-			User Time: <input type="date" id="duedate" name="duedate" value="$dueyyyymmdd" onblur="submit();" />
+			User Time: <input type="date" id="duedate" name="duedate" placeholder="yyyy-mm-dd" value="$dueyyyymmdd" onblur="submit();" />
 			<input type="time" id="duetime" name="duetime" value="$duehhmm" />
 			<input type="submit" id="submit" value="update" class="btn btn-xs btn-default" />
                    $webbrowser
