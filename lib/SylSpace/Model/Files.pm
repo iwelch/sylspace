@@ -282,6 +282,8 @@ sub answercollect( $course, $hwname ) {
   my $archivednames="";
   foreach (@filelist) {
     my $fname= $_; $fname=~ s{$var/courses/$course/}{};  $fname=~ s{/files/}{-};
+    $_=~ s{~answer=$hwname}{};  ## now $fname is 'blah~answer=$hwname' and is empty
+    				## $_ is 'blah' which has content
     $zip->addFile( $_, $fname );  $archivednames.= " $fname ";
   }
 
