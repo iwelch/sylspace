@@ -61,7 +61,7 @@ __DATA__
 
   <dt>Why won't my file upload?</dt>
 
-  <dd>The maximum uupload limit is 16MB/file.</dd>
+  <dd>The maximum upload limit is 16MB/file.</dd>
 
   <dt>Is it a concern that the site is http, not (SSL-encrypted) https?</dt>
 
