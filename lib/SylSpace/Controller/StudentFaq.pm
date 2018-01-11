@@ -17,7 +17,7 @@ get '/student/faq' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
 
-  my $isfaq= fileexistss($course, 'faq') ? filereads( $course, 'faq' ) : "<p>Theis instructor has not added a course-specific FAQ.</p>\n" ;
+  my $isfaq= fileexistss($course, 'faq') ? filereads( $course, 'faq' ) : "<p>This instructor has not added a course-specific FAQ.</p>\n" ;
 
   use Perl6::Slurp;
   my $body= slurp("$ENV{'SYLSPACE_sitepath'}/public/html/faq.html");
