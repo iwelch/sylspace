@@ -208,9 +208,9 @@ note '
 ok( _webcourseremove($coursenocio), "$coursenocio removed");
 ok( _webcourseremove($course), "$course removed");
 
-#   rm '/var/sylspace/users/junk@junk.com' -rf
-# rm /var/sylspace/courses/test.no.cio -rf
-# rm /var/sylspace/courses/test.model.course -rf
+system 'rm /var/sylspace/users/junk@junk.com -rf';  # delete virtual user
+#system 'rm /var/sylspace/courses/test.no.cio -rf';
+#system 'rm /var/sylspace/courses/test.model.course -rf';
 
 
 done_testing();
