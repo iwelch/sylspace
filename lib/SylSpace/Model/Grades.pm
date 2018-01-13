@@ -158,7 +158,8 @@ sub gradesave( $course, $semail, $hwname, $newgrade ) {
     push(@todo, $ehg."\t".time()."\n");
   }
 
-  (@todo) and _burpapp("$var/courses/$course/grades", join("\n", @todo));
+  (@todo) and _burpapp("$var/courses/$course/grades", join("", @todo));   ## the \n will cause error when using /gradeform. 
+  									## The elements in @todo already end with \n
 
   return $#todo+1;
 }
