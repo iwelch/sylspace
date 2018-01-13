@@ -51,7 +51,7 @@ sub gradetaskadd( $course, @hwname ) {
   _confirmsudoset($course);
 
   my %existing;
-  if (-e $tasklistfile) { foreach (slurp($tasklistfile)) { $existing{$_}= 1; } }
+  if (-e $tasklistfile) { foreach (slurp($tasklistfile)) { ($_ eq "\n") or chomp; $existing{$_}= 1; } }
 
   my @addhw;
   foreach ( @hwname ) {
@@ -153,7 +153,8 @@ sub gradesave( $course, $semail, $hwname, $newgrade ) {
     my $h= pop(@hwname); ($hw{$h}) or die "cannot add grade for non-existing homework '$h', course $course.";
     my $g= pop(@newgrade); ## grades can be anything
     my $ehg= "$e\t$h\t$g";
-    ($recorded{$ehg}) and next;
+        #($recorded{$ehg}) and next;  ## problem of this line: Time is not included here. If some one took an equiz several times and got 1/1 0/1 1/1
+					## the second 1/1 cannot replace the 0/1 even if it's newer
     $recorded{$ehg}= 1;
     push(@todo, $ehg."\t".time()."\n");
   }
