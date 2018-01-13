@@ -75,7 +75,7 @@ sub standard {
   $cururl =~ s{\?.*}{}; ## strip any parameters
 
   #or $c->webbrowser()
-  (($c->browser->{"browser"} =~ /chrome/i) && (($ENV{'SYLSPACE_onlocalhost'})))
+  ((defined($c->browser->{"browser"})) && ($c->browser->{"browser"} =~ /chrome/i) && (($ENV{'SYLSPACE_onlocalhost'})))
     and die "Chrome does not work with localhost (syllabus.test), because it handles localhost domains differently.\n\nPlease use firefox or some other browser.";
 
   sub retredirect { $global_redirecturl= $_[0]; $global_message= $_[1] || ""; return; }
@@ -477,7 +477,7 @@ sub drawmore($sfilename, $centertype, $actionchoices, $allfiledetails, $tzi, $we
   }
   my $duetimefour= _epochfour( $detail->{duetime}||0, $tzi );
 
-  $webbrowser = ($webbrowser eq 'safari') ? qq(<br />safari's date selector is broken.  please complain to apple and use chrome<br />until then, use mm/dd/yyyy) : '';
+  $webbrowser = ($webbrowser eq 'safari'(defined($webbrowser)) and ($webbrowser eq 'safari')) ? qq(<br />safari's date selector is broken.  please complain to apple and use chrome<br />until then, use mm/dd/yyyy) : '';
 
   my $sixmobutton= "<p style=\"padding:1em\"> or <span style=\"padding:2ex\">".btn("filesetdue?f=$fname&amp;dueepoch=".(time()+24*3600*180), "publish for 6 Months", 'btn-default')."</span>".
      " or <span style=\"padding:2ex\">".btn("filesetdue?f=$fname&amp;dueepoch=".(time()-2), "unpublish", 'btn-default')."</span></p>";
@@ -494,7 +494,7 @@ sub drawmore($sfilename, $centertype, $actionchoices, $allfiledetails, $tzi, $we
 			<p>
 			<form method="get" action="filesetdue?f=$fname" class="form-inline">
 			<input type="hidden" name="f" value="$fname" />
-			User Time: <input type="date" id="duedate" name="duedate" value="$dueyyyymmdd" onblur="submit();" />
+			User Time: <input type="date" id="duedate" name="duedate" placeholder="yyyy-mm-dd" value="$dueyyyymmdd" onblur="submit();" />
 			<input type="time" id="duetime" name="duetime" value="$duehhmm" />
 			<input type="submit" id="submit" value="update" class="btn btn-xs btn-default" />
                    $webbrowser
