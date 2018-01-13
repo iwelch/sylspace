@@ -16,7 +16,7 @@ use lib '../..';
 use SylSpace::Model::Webcourse qw(_webcoursemake _webcourseremove _webcourseshow );
 use SylSpace::Model::Model qw(:DEFAULT instructornewenroll);
 
-my $usage= "usage: $0 sitename instructoremail\n";
+my $usage= "usage: $0 sitename [finc3600-2018-risik-webster] instructoremail\n";
 
 (@ARGV) or die $usage;
 ($#ARGV==1) or die $usage;
@@ -24,6 +24,8 @@ my ($subdomain, $iemail) = @ARGV;
 
 _webcoursemake( $subdomain );
 instructornewenroll($subdomain, $iemail);
+
+
 
 print "successfully created website $subdomain with instructor $iemail\n";
 

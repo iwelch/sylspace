@@ -13,7 +13,7 @@ use autodie;
 
 ($> == 0) or die "you must run this as root, because even for testing, we occupy not localhost but syllabus.test:80\n";
 
-my $isproduction= (`hostname` =~ /syllabus-space/m);
+my $isproduction= (`hostname` =~ /syllabus/m);
 my $isosx= (-d "/Users/ivo");
 
 my @apphome;
@@ -25,11 +25,12 @@ if ($isosx) {
   @apphome= grep { $_ =~ /SylSpace$/ } `locate sylspace/SylSpace`;  ## locate sylspace/SylSpace works on linux, but not macos
 
   @apphome = grep { $_ !~ m{\/\.[a-z]}i } @apphome;  ## a hidden directory in path, e.g., .sync or .git
+  @apphome = grep { $_ !~ m{\bold\b}i } @apphome;  ## an "old" somewhere
   ## @apphome = grep { $_ =~ m{sylspace\/SylSpace$} } @apphome;  ## we have very specific ideas of how we like this one
 
   ((scalar @apphome)>1) and die "Ambiguous SylSpace locations:\n\t".join(" ", @apphome).
     "\nPlease test on non-production servers, not on the same server.\n";
-  ((scalar @apphome)<1) and die "Cannot locate executable SylSpace on $^O:: '".`locate sylspace/SylSpace`."'\n";
+  ((scalar @apphome)<1) and die "Cannot locate executable SylSpace on $^O:: '".`locate sylspace/SylSpace`."'.  did you run updatedb? \n";
 }
 
 
@@ -51,7 +52,7 @@ if ($isproduction) {
 
 } else {
 
-  (`grep syllabus.test /etc/hosts` =~ /\.syllabus\.test/mi) or die "please add *.syllabus.test to your /etc/hosts\n";
+  (`grep syllabus.test /etc/hosts` =~ /\.syllabus\.test/mi) or die "in non-production, please add *.syllabus.test to your /etc/hosts\n";
   my $mode= ((@ARGV) && (defined($ARGV[0])) && ($ARGV[0] =~ /^p/i)) ? "production" : "development";
 
   print STDERR "$0: running morbo for syllabus.test in $mode mode.\n";

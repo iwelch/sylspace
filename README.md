@@ -10,7 +10,7 @@ Due to the outdated three-year-old 5.18.2 version of perl still running on MacOS
 
 These steps are for a plain ubuntu server.
 
-* `$ sudo apt install git cpanminus make gcc`
+* `$ sudo apt install git cpanminus make gcc libssl-dev`
 
 	to download, you need git.  to install mojolicious, you need cpanminus, make, and gcc.
 

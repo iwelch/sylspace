@@ -59,3 +59,11 @@ requires 'Test2::Plugin::DieOnFail';
 requires 'Text::Template';
 requires 'Time::Local';
 requires 'YAML::Tiny';
+## requires 'Web::Auth';
+
+requires 'IO::Socket::SSL';
+requires 'Test::utf8';
+requires 'DateTime';
+requires 'DateTime::Locale';
+requires 'Email::Sender::Transport::SMTP::TLS';
+
