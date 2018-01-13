@@ -14,6 +14,8 @@ use SylSpace::Model::Controller qw(global_redirect standard);
 
 sub logandreturn {
   my ( $self, $email, $name, $authenticator ) = @_;
+  (defined($email)) or die "something went wrong --- logandreturn has no email";
+  (defined($name)) or die "something went wrong --- logandreturn has no name";
   superseclog($self->tx->remote_address, $email, "logging in $email ($name) via $authenticator" );
   $self->session(uemail => $email, name => $name, expiration => time()+60*60); ## one hour default
   return $self->redirect_to('/index');
