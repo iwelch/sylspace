@@ -14,18 +14,23 @@ use SylSpace::Model::Controller qw(global_redirect standard);
 
 sub logandreturn {
   my ( $self, $email, $name, $authenticator ) = @_;
-#  (defined($email)) or return $self->redirect_to('/index');
-#  (defined($name)) or return $self->redirect_to('/index');
+  (defined($email)) or $email="no-email-in-log-and-return";
+  (defined($name)) or $name="no-name-in-log-and-return";
 
   superseclog($self->tx->remote_address, $email, "logging in $email ($name) via $authenticator" );
   $self->session(uemail => $email, name => $name, expiration => time()+60*60); ## one hour default
   return $self->redirect_to('/index');
 }
 
+use Data::Dumper;
+
 sub google {
   my ( $self, $access_token, $userinfo ) = @_;
   my $name = $userinfo->{displayName} || $userinfo->{name};
   my $email= $userinfo->{email};
+
+  (defined($name)) or die "The google authentication failed finding a good name.  Here is what I got: ".Dumper($userinfo);
+  (defined($email)) or die "The google authentication failed finding a good email.  Here is what I got: ".Dumper($userinfo);
 
   ## we could also pick off first and last name, but it ain't worth it
   ## my @emaillist = grep {$_->{type} eq 'account'} @{ $userinfo->{emails} };
