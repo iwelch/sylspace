@@ -66,7 +66,7 @@ __DATA__
 
   <dt>What is SylSpace on <%= $ENV{'SYLSPACE_sitename'} %>?</dt>
 
-  <dd>SylSpace is a third-generation web course management system, with an intentional focus on ease-of-use and simplicity.  The software is SylSpace, the main site designed to run it is <a href="http://syllabus.space">syllabus.space</a>.  (You are currently running it on <a href="<%= $ENV{'SYLSPACE_sitename'} %>"><%= $ENV{'SYLSPACE_sitename'} %></a> right now.)  There is almost no learning curve involved in using the system.
+  <dd>SylSpace is a third-generation web course management system, with an intentional focus on ease-of-use and simplicity.  The software is SylSpace, the main site designed to run it is <a href="http://syllabus.space">syllabus.space</a>.  (You are currently running it on <a href="<%= "http://".$ENV{'SYLSPACE_sitename'} %>"><%= $ENV{'SYLSPACE_sitename'} %></a> right now.)  There is almost no learning curve involved in using the system.
 
   <p style="padding-top:1em">Its most important functionalities are:
 <ul>
@@ -289,7 +289,7 @@ __DATA__
 
   <dt>How difficult is it to run my own equiz server?</dt>
 
-  <dd>The code (on <a href="https://github.com/iwelch/syllabus.space">github syllabus.space</a>) is tight and self-contained.  There is no reliance on an sql server and everything is in ascii format.  after installing all the perl modules, run the init script and the testsite creation script.</p>
+  <dd>The code (on <a href="https://github.com/iwelch/sylspace">github sylspace</a>) is tight and self-contained.  There is no reliance on an sql server and everything is in ascii format.  after installing all the perl modules, run the init script and the testsite creation script.</p>
 
   <pre>
   # perl initsylspace.pl
