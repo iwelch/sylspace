@@ -36,7 +36,9 @@ get '/instructor/gradesave' => sub {
   ## may not work, because filenames are now args and not given.  please check
   gradesave($course, \@semail, \@taskname, \@newgrade);
 
-  seclog($c->tx->remote_address, $course, 'instructor', "changed many grades [to enhance please]" );
+  foreach(@semail) {$stuchanged .= ($_." | ");}
+
+  seclog($c->tx->remote_address, $course, 'instructor', "changed many grades: $stuchanged<- $task [to enhance please]" );
 
   $c->flash( message=> "submitted many grades" )->redirect_to("gradecenter");
 };
