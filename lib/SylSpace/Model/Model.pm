@@ -371,7 +371,9 @@ sub hassyllabus( $course ) {
   (defined($s)) or $s= (bsd_glob("$var/courses/$course/instructor/files/syllabus*.*"));
   (defined($s)) or return undef;
   $s =~ s{\~due=.*}{};   ## remove ~due=... and give finddue the full path to find the removed due
-  return (finddue($s)) ? $s : undef;    ## still needs to be tested checked --- yanni!  should be one function, working on both long names and course/shortnames
+  finddue($s) or return undef;
+  $s =~ s{$var/courses/$course/instructor/files/}{};   ## Previously /fileview~f=$s will be /fileview~f=/var/courses/... It should be /fileview?f=syllabus-sophisticated.html.
+  return $s;    ## still needs to be tested checked --- yanni!  should be one function, working on both long names and course/shortnames
 }
 
 
