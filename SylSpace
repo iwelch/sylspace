@@ -130,8 +130,8 @@ if (-e $configfname) {
 ## http://$ENV{SYLSPACE_sitename} -> undef
 *Mojo::URL::subdomain = sub {
   my $crequrl= shift;
-  my $fulldomain= $crequrl->to_abs->host;
-  ($fulldomain =~ /(.*)\.localhost$/) and return $1;
+  my $fulldomain= $crequrl->to_abs->host || "unknown-fulldomain";
+  ($fulldomain =~ m/(.*)\.localhost$/) and return $1;
   my @f= split(/\./, $fulldomain);
   (@f) or return '';  ## never
   pop(@f); pop(@f);   ## (pop(@f) =~ /localhost$/) or pop(@f);  ## hehe --- pop again

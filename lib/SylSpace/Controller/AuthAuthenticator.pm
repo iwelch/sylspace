@@ -14,8 +14,9 @@ use SylSpace::Model::Controller qw(global_redirect standard);
 
 sub logandreturn {
   my ( $self, $email, $name, $authenticator ) = @_;
-  (defined($email)) or die "something went wrong --- logandreturn has no email";
-  (defined($name)) or die "something went wrong --- logandreturn has no name";
+#  (defined($email)) or return $self->redirect_to('/index');
+#  (defined($name)) or return $self->redirect_to('/index');
+
   superseclog($self->tx->remote_address, $email, "logging in $email ($name) via $authenticator" );
   $self->session(uemail => $email, name => $name, expiration => time()+60*60); ## one hour default
   return $self->redirect_to('/index');
@@ -23,11 +24,14 @@ sub logandreturn {
 
 sub google {
   my ( $self, $access_token, $userinfo ) = @_;
-  my $name = $userinfo->{displayName};
+  my $name = $userinfo->{displayName} || $userinfo->{name};
+  my $email= $userinfo->{email};
+
   ## we could also pick off first and last name, but it ain't worth it
-  my @emaillist = grep {$_->{type} eq 'account'} @{ $userinfo->{emails} };
-  my $email= $emaillist[0]->{value};
+  ## my @emaillist = grep {$_->{type} eq 'account'} @{ $userinfo->{emails} };
+  ## my $email= $emaillist[0]->{value};
   ## my $email = $userinfo->{emails}->[0]->{value};
+
   return logandreturn( $self, $email, $name, 'google' );
 }
 

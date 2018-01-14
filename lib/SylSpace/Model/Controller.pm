@@ -67,10 +67,11 @@ sub standard {
   my $c= shift;
 
   my $cururl= $c->req->url;  ## /auth/dosome
+  (defined($cururl)) or die "cannot ascertain the current url via c->req->url\n";
+
+
   my $domain= $cururl->domainport;  ## mfe.welch.$ENV{'SYLSPACE_sitename'}:3000
   my $course= $cururl->subdomain; ## mfe.welch
-
-  (defined($cururl)) or die "cannot ascertain the current url via c->req->url\n";
 
   $cururl =~ s{\?.*}{}; ## strip any parameters
 
@@ -477,7 +478,7 @@ sub drawmore($sfilename, $centertype, $actionchoices, $allfiledetails, $tzi, $we
   }
   my $duetimefour= _epochfour( $detail->{duetime}||0, $tzi );
 
-  $webbrowser = ($webbrowser eq 'safari'(defined($webbrowser)) and ($webbrowser eq 'safari')) ? qq(<br />safari's date selector is broken.  please complain to apple and use chrome<br />until then, use mm/dd/yyyy) : '';
+  $webbrowser = ((defined($webbrowser)) and ($webbrowser eq 'safari')) ? qq(<br />safari's date selector is broken.  please complain to apple and use a better browser<br />until then, use mm/dd/yyyy) : '';
 
   my $sixmobutton= "<p style=\"padding:1em\"> or <span style=\"padding:2ex\">".btn("filesetdue?f=$fname&amp;dueepoch=".(time()+24*3600*180), "publish for 6 Months", 'btn-default')."</span>".
      " or <span style=\"padding:2ex\">".btn("filesetdue?f=$fname&amp;dueepoch=".(time()-2), "unpublish", 'btn-default')."</span></p>";
