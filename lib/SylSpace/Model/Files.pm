@@ -168,6 +168,8 @@ sub _basedelete( $course, $sfilename ) {
   (-e $lfilename) or die "cannot delete non-existing $lfilename";
   unlink($lfilename);
   (-e $lfilename.'~') and unlink($lfilename.'~');
+  my @duefile = bsd_glob("$lfilename\~due\=*");
+  foreach (@duefile) { unlink($_); }
 }
 
 ################################################################################################################################
