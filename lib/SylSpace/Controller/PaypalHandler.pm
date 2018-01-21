@@ -72,7 +72,7 @@ sub _log_paypal_error {
   my ($res, $myemail, $ip, $referer) = @_;
   my $timestamp = localtime();
 
-   open(my $FD, ">> /var/paypal/paypal_error.txt") or die "Can't find paypal_error.txt : $!";
+   open(my $FD, ">> /var/paypal/paypal_error.txt") or die "Can't find /var/paypal/paypal_error.txt : $!";
    print $FD "[$timestamp] - INVALID: ".$res->message;
    close($FD);
 
