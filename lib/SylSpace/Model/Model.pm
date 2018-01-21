@@ -229,7 +229,7 @@ sub usernew( $uemail ) {
   return 1;
 }
 
-sub userexists( $uemail ) { return (-e "$var/users/$uemail"); }
+sub userexists( $uemail ) { defined($uemail) or return 0; return (-e "$var/users/$uemail"); }
 
 sub _checkemailexists( $uemail ) {
   _checkemailvalid( $uemail );
@@ -543,8 +543,8 @@ sub _checkvalidagainstschema( $dataptr, $metaschemafletter, $verbose =0 ) {
 
     if ($constraints->{required}) {
       ($verbose) and print STDERR "REQUIRED: $fieldname ";
-      (defined($d)) or die "required field '$fieldname' has no data in\n".Dumper($dataptr)."\n";
-      ($d =~ /[a-zA-Z0-9\-]/) or die "required field '$fieldname' has no data in\n".Dumper($dataptr)."\n";
+      (defined($d)) or die "required field '$fieldname' is not even seen\n";
+      ($d =~ /[a-zA-Z0-9\-]/) or die "required field '$fieldname' has no data\n";
       ($verbose) and print STDERR " w/ content = '$dataptr->{$fieldname}'\n";
     }
     if (my $regex=$constraints->{regex}) {

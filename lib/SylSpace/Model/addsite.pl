@@ -29,7 +29,7 @@ instructornewenroll($subdomain, $iemail);
 
 print "successfully created website $subdomain with instructor $iemail\n";
 
-if (`hostname` !~ /syllabus-space/m) {
+if (`hostname` !~ /\bsyllabus\b/m) {
   print "
 
 IMPORTANT : because you did not execute this on a production site, you probably

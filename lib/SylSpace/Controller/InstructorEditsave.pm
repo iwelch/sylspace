@@ -27,8 +27,11 @@ post 'instructor/editsave' => sub {
   $content =~ s/\r/\n/g;
 
   use Digest::MD5 qw(md5_hex);
+  use utf8;
+
   my $reportaction="unknown";
-  if (md5_hex($content) eq $c->req->params->param('fingerprint')) {
+  my $md5hexincontent= (utf8::is_utf8($_)) ? Encode::encode_utf8($_) : $_;
+  if (md5_hex($md5hexincontent) eq $c->req->params->param('fingerprint')) {
     $c->flash( message=> "file $fname was unchanged and thus not updated" );
   } else {
     eqwrite( $course, $fname, $content );
