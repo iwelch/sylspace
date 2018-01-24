@@ -85,7 +85,7 @@ sub gradesashash( $course, $uemail=undef ) {
     $course= _confirmsudoset($course);  ## make sure
   }
   ## hw stays in order!
-  my (%hw,@hw);  foreach (slurp("$var/courses/$course/tasklist")) { chomp; $hw{$_}=1; push(@hw, $_); }
+  my (%hw,@hw);  foreach (slurp("$var/courses/$course/tasklist")) { chomp; (/[a-z0-9]/) or next; $hw{$_}=1; push(@hw, $_); }
 
   my (%col, %row, $gradecell, $timestamp);
   foreach (@gradelist) {
@@ -104,7 +104,7 @@ sub gradesashash( $course, $uemail=undef ) {
   }
   my @col= sort keys %col;
   # my @row= sort keys %row;
-  ($#col == (-1)) and return;
+  ## ($#col == (-1)) and return;
 
   use SylSpace::Model::Model qw(studentlist);
   return { hw => \@hw,
