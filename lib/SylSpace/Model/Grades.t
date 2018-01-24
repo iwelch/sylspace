@@ -30,6 +30,10 @@ use SylSpace::Model::Grades qw( gradetaskadd gradesave gradesashash );
 SylSpace::Model::Utils::_setsudo();
 
 
+
+### todo: add test that when there is no or one gradetask, gradesashash still functions well.
+
+
 note '
 ################ grade center
 ';
