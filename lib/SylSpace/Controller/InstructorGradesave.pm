@@ -14,6 +14,8 @@ use SylSpace::Model::Controller qw(global_redirect  standard);
 
 ################################################################
 
+
+
 get '/instructor/gradesave' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
@@ -36,8 +38,8 @@ get '/instructor/gradesave' => sub {
   ## may not work, because filenames are now args and not given.  please check
   gradesave($course, \@semail, \@taskname, \@newgrade);
 
-  foreach(@semail) {$stuchanged .= ($_." | ");}
-
+  my $stuchanged="";
+  foreach (@semail) { $stuchanged .= ($_." | "); }
   seclog($c->tx->remote_address, $course, 'instructor', "changed many grades: $stuchanged<- $task [to enhance please]" );
 
   $c->flash( message=> "submitted many grades" )->redirect_to("gradecenter");
