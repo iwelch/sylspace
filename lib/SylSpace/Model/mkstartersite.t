@@ -10,6 +10,8 @@ use File::Glob qw(bsd_glob);
 
 use lib '../..';
 
+(-e "/var/sylspace") or die "please run ../initsylspace.pl first!\n";
+
 ################################################################
 
 use SylSpace::Model::Model qw(:DEFAULT biosave usernew instructornewenroll userenroll courselistenrolled ciosave msgsave ciobuttonsave sudo);

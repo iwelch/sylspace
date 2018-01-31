@@ -43,7 +43,10 @@ post '/auth/sendmail/authenticate' => sub {
     return $c->stash(error => '')->render(template => 'AuthSendmail');
   }
 
-  die "Failed to send email to '$email' with name '$name', for some unknown reason without a useful error message";
+  ## if there is a weird eval message, first check logging in by hand.
+  ## it may well be that the password has changed, etc.
+
+  # die "Failed to send email to '$email' with name '$name', for some unknown reason without a useful error message";
   $c->stash(error => 'Failed to send email')->render(template => 'AuthSendmail');
 };
 
@@ -98,6 +101,11 @@ sub _send_email {
 									 %{ $c->app->plugin('Config')->{email}{transport} }
 									);
   }
+
+  my $g= _getTransport($c);
+
+  use Data::Dumper;
+#  die "very something in sendmail is wrong ".localtime()." $email $name ".Dumper($message)." on ".Dumper($g)."\n";
 
   return sendmail($message, { transport => _getTransport($c) });
 }

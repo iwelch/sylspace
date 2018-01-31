@@ -74,6 +74,10 @@ which contains your private authentication secrets (for oauth, google, paypal, g
 
 Again, the contents of the SylSpace-Secrets.conf file are illustrated in SylSpace-Secrets.template .  You can edit and rename the template!  Once installed and one you make a few changes in runserver.pl and SylSpace (which assume that you want to run production on hostname syllabus-space and testing on all other hosts), you should see working google/github/facebook login buttons and the email authentication alternative.  You may also need to symlink SylSpace-Secrets.conf to SylSpace.conf (not sure why!).
 
+       Warning: 'message must be a string at (eval 253) line 63
+
+probably means that your login credentials for email sending are off.
+
 
 ## Automatic (Re-) Start
 

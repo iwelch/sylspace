@@ -130,7 +130,7 @@ __DATA__
 
        <div class="col-md-2">
           <div class="input-group">
-             <button class="btn btn-default" type="submit" value="submit">Send Authorization Email</button>
+             <button class="btn btn-default" type="submit" value="submit">Send Authorization Email Now</button>
           </div>
       </div>
 
