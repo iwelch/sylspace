@@ -20,7 +20,11 @@ my $usage= "usage: $0 sitename [finc3600-2018-risik-webster] instructoremail\n";
 
 (@ARGV) or die $usage;
 ($#ARGV==1) or die $usage;
+
 my ($subdomain, $iemail) = @ARGV;
+
+$subdomain= lc($subdomain);
+$iemail= lc($iemail);
 
 _webcoursemake( $subdomain );
 instructornewenroll($subdomain, $iemail);
