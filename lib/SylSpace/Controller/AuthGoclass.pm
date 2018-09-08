@@ -186,12 +186,15 @@ sub coursebuttonsenroll {
 
   (@courselist) or return "<p>No courses available.</p>";
 
+  # remove multidomains
+  #  my @singledomcourse = grep { $_ !~ m{\.} } @courselist;
+  my @singledomcourse = @courselist;
+
   ## users want a sort by subdomain name first, then subsubdomain, then ...
   ## websites names are in reverse order
 
-  my @singledomcourse = grep { $_ !~ m{\.} } @courselist;
-
   my $rs="";
+
   foreach my $g (sort @singledomcourse) {
 
     sub imbtn {
@@ -231,6 +234,8 @@ sub coursebuttonsenrollshowall_unused {
 
   ## users want a sort by subdomain name first, then subsubdomain, then ...
   ## websites names are in reverse order
+
+  print STDERR "IVODEBUG: ".join(" | ", @courselist)."\n";
 
   my %displaylist;
   foreach (@courselist) {
