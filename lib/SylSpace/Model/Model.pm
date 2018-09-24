@@ -880,15 +880,17 @@ sub equizanswerrender( $decodedarray ) {
     </style>
     ';
 
+  my $icount=0;
   foreach (@{$detail}) {
     my $precision= $_->[5] || "0.01";
     my $youranswer = $_->[4];
     ($youranswer < 0) and $youranswer =~ s/^\s*\-/ &ndash;/;
     my $correctanswer = $_->[3];
     ($correctanswer < 0) and $correctanswer =~ s/^\s*\-/ &ndash;/;
+    ++$icount;
     $rv .= qq(
        <div class="subpage">
-          <div class="qname">$_->[0]</div>
+          <div class="qname"><b>$icount</b> $_->[0]</div>
           <div class="qstn">
            <p class="qstntext"> $_->[1] </p>
            <p class="qstnlong"> $_->[2] </p>
