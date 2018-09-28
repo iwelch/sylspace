@@ -29,8 +29,10 @@ sub google {
   my $name = $userinfo->{displayName} || $userinfo->{name};
   my $email= $userinfo->{email};
 
-  (defined($name)) or die "The google authentication failed finding a good name.  Here is what I got: ".Dumper($userinfo);
-  (defined($email)) or die "The google authentication failed finding a good email.  Here is what I got: ".Dumper($userinfo);
+  my $extrainstruction="<p style=\"color:blue\"> This probably means that you have to enter a reasonable name in your Google account.  This is very easy.  Go to the main google search page in the Chrome browser.  Click on the top right where it says \"Sign in.\"   Once you have signed in, click on your account (same spot, top right), then on the blue big butten that says \"Google account.\"  This will allow you to change your Google account info, including adding your name, image, etc.</p>";
+
+  (defined($name)) or die "The google authentication failed finding a good name.  Here is what I got: ".Dumper($userinfo).$extrainstruction;
+  (defined($email)) or die "The google authentication failed finding a good email.  Here is what I got: ".Dumper($userinfo).$extrainstruction;
 
   ## we could also pick off first and last name, but it ain't worth it
   ## my @emaillist = grep {$_->{type} eq 'account'} @{ $userinfo->{emails} };
