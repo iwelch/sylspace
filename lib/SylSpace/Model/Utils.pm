@@ -160,7 +160,7 @@ sub _checksfilenamevalid( $sfilename ) {
   defined($sfilename) or die "please provide a filename";
   ($sfilename eq "") and die "please provide a filename";
   ($sfilename =~ /^[\w][\@\w\.\-\ ]*$/) or die "short filename $sfilename contains bad characters; use only words, dashes, dots";
-  return lc($sfilename);
+  return $sfilename;
 }
 
 sub _checkfilepath( $filepath ) {

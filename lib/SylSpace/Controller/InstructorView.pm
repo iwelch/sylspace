@@ -9,7 +9,7 @@ use lib qw(.. ../..); ## make syntax checking easier
 use strict;
 
 use SylSpace::Model::Model  qw(sudo);
-use SylSpace::Model::Files qw(filereadi);
+use SylSpace::Model::Files qw(filereadi longfilename);
 use SylSpace::Model::Controller qw(global_redirect  standard);
 
 ################################################################
@@ -30,8 +30,8 @@ get '/instructor/view' => sub {
 
   (my $extension= $fname) =~ s{.*\.}{};
 
-  return ($fname =~ /\.(txt|html|htm|text|csv)$/i) ? $c->render(text => $filecontent, format => 'txt') :
-    $c->render(data => $filecontent, format => $extension);
+  return ($fname =~ /\.(txt|text)$/i) ? $c->render(text => $filecontent, format => 'txt') :
+($fname =~ /\.(pdf|html|htm|csv)$/i) ? $c->render(data => $filecontent, format => $extension) : $c->render_file(filepath => longfilename($course, $fname), format => $extension);
 };
 
 1;

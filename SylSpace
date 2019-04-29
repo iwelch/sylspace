@@ -70,13 +70,26 @@ if (-e $configfname) {
 
     print STDERR "[enabling google authentication]\n";
 
+    plugin 'OAuth2' => {
+	google  => {
+		key	=> $key,
+		secret	=> $secret,
+		authorize_url	=> "https://accounts.google.com/o/oauth2/v2/auth?response_type=code",
+		token_url	=> "https://www.googleapis.com/oauth2/v4/token",
+	},
+    };
+
+
     plugin 'Web::Auth' => (
 			   module      => 'Google',
 			   key         => $key,
 			   secret      => $secret,
 			   scope       => 'email',
+			   on_error	=> \&SylSpace::Controller::AuthAuthenticator::googlecb,
 			   on_finished => \&SylSpace::Controller::AuthAuthenticator::google,
 			  );
+##   on_finished => \&SylSpace::Controller::AuthAuthenticator::google,
+
   }
 
   if (my $github = $credentials->{oauth}->{github}) {

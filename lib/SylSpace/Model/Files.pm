@@ -206,7 +206,8 @@ sub answerwrite( $course, $uemail, $hwname, $ansname, $anscontents ) {
   $uemail= _checkemailvalid($uemail);
 
   (-e "$var/courses/$course/$uemail/") or die "answerwrite: $uemail is not enrolled in $course";
-
+  
+  $ansname =~ s{^\w+:\\.*\\}{};
   _checksfilenamevalid($ansname);  ## will die!
   _checksfilenamevalid($hwname);
 
@@ -284,8 +285,8 @@ sub answercollect( $course, $hwname ) {
   my $archivednames="";
   foreach (@filelist) {
     my $fname= $_; $fname=~ s{$var/courses/$course/}{};  $fname=~ s{/files/}{-};
-    $_=~ s{~answer=$hwname}{};  ## now $fname is 'blah~answer=$hwname' and is empty
-    				## $_ is 'blah' which has content
+    $_=~ s{~answer=$hwname}{};  	## now $fname is 'blah~answer=$hwname' and is empty
+    $fname=~ s{~answer=$hwname}{};	## $_ is 'blah' which has content
     $zip->addFile( $_, $fname );  $archivednames.= " $fname ";
   }
 

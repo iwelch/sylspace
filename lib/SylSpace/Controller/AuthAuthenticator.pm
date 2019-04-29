@@ -1,16 +1,16 @@
-#!/usr/bin/env perl
+##!/usr/bin/env perl
 
 ## this file is part of sylspace, released under the AGPL, 2016, authored by ivo welch, ucla.
 ## one additional condition requires the prominent posting of the name (sylspace) and the author.
 
 package SylSpace::Controller::AuthAuthenticator;
 use Mojolicious::Lite;
+use Mojolicious::Plugin::OAuth2;
 use lib qw(.. ../..); ## make syntax checking easier
 use strict;
 
 use SylSpace::Model::Model qw(superseclog);
 use SylSpace::Model::Controller qw(global_redirect standard);
-
 
 sub logandreturn {
   my ( $self, $email, $name, $authenticator ) = @_;
@@ -23,15 +23,16 @@ sub logandreturn {
 }
 
 use Data::Dumper;
-
 sub google {
   my ( $self, $access_token, $userinfo ) = @_;
   my $name = $userinfo->{displayName} || $userinfo->{name};
   my $email= $userinfo->{email};
 
+  print STDERR "AuthAuthenticator.pm[Google] was called with ".Dumper($userinfo);
+
   my $extrainstruction="<p style=\"color:blue\"> This probably means that you have to enter a reasonable name in your Google account.  This is very easy.  Go to the main google search page in the Chrome browser.  Click on the top right where it says \"Sign in.\"   Once you have signed in, click on your account (same spot, top right), then on the blue big butten that says \"Google account.\"  This will allow you to change your Google account info, including adding your name, image, etc.</p>";
 
-  (defined($name)) or die "The google authentication failed finding a good name.  Here is what I got: ".Dumper($userinfo).$extrainstruction;
+ # (defined($name)) or die "The google authentication failed finding a good name.  Here is what I got: ".Dumper($userinfo).$extrainstruction;
   (defined($email)) or die "The google authentication failed finding a good email.  Here is what I got: ".Dumper($userinfo).$extrainstruction;
 
   ## we could also pick off first and last name, but it ain't worth it
@@ -70,11 +71,30 @@ sub facebook {
 get '/auth/authenticator' => sub {
   my $c = shift;
 
-  (my $course = standard( $c )) or return global_redirect($c);
+  print STDERR "AuthAuthenticator.pm[plain] was called with ".Dumper($c);
 
+  (my $course = standard( $c )) or return global_redirect($c);
+  
+  $c->stash( authurl => $c->oauth2->auth_url("google", {scope => "email profile", redirect_uri => "http://auth.syllabus.space/auth/login"}));
   $c->render(template => 'AuthAuthenticator' );
 };
 
+get "/auth/login" => sub {
+  my $c = shift;
+  my %get_token_args = {redirect_uri => 'http://auth.syllabus.space/auth/authenticator', scope => 'profile email'};
+  my $data = $c->oauth2->get_token(google => \%get_token_args);
+  my $token = $data->{access_token};
+ 	
+  my $ua = Mojo::UserAgent->new;
+  my $res = $ua->get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=$token")->result->json;
+  my $email = $res->{email};
+  (defined($email)) or die "The google authentication failed finding a good email. Here is what I got:
+     ".Dumper($res);
+  my $name = $res->{name} || $res->{given_name}." ".$res->{family_name};
+  (defined($name)) or die "The google authentication failed finding a good name.  Here is what I got: ".Dumper($res);
+
+  return logandreturn($c, $email, $name, 'google');
+};
 
 1;
 
@@ -91,7 +111,6 @@ __DATA__
 
 <main>
 
-
 <p style="margin:1em"> To learn more about this site, please visit the <a href="/aboutus">about us</a> page.</p>
 
   <%== msghash2string( [{ msgid => 0, priority => 5, time => 1495672668, subject => 'Hello!',
@@ -103,10 +122,12 @@ __DATA__
 
   <% if ($ENV{SYLSPACE_haveoauth}) { %>
 
+
   <p style="font-size:small;"><b>Direct Authentication</b> is the fastest and most reliable method to authenticate.  It works with your google or facebook id.</p>
 
    <div class="row text-center">
-     <%== btnblock('/auth/google/authenticate', '<i class="fa fa-google"></i> Google', 'Your Gmail ID') %>
+
+     <%== btnblock($authurl, '<i class="fa fa-google"></i> Google', 'Your Gmail ID') %>
     <!-- <%== btnblock('/auth/github/authenticate', '<i class="fa fa-github"></i> Github', 'Your Github ID<br />Disabled Until Approved', 'btn-disabled') %> -->
     <!-- <%== btnblock('/auth/facebook/authenticate', '<i class="fa fa-facebook"></i> Facebook', 'Your Facebook ID<br />Randomly Seems To Break Now.  Avoid.') %> -->
     <!-- <%== btnblock('/auth/ucla/authenticate', '<i class="fa fa-university"></i> UCLA', 'Your University ID<br />Disabled Until Approved', 'btn-disabled') %> -->

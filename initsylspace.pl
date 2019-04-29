@@ -50,6 +50,7 @@ use Mojolicious::Plugin::BrowserDetect;
 ## these are used in the authentication module
 use Mojo::JWT;
 use Mojolicious::Plugin::Web::Auth;
+use Mojolicious::Plugin::OAuth2;
 use Email::Sender::Simple;
 use Email::Simple::Creator;
 use Email::Sender::Transport::SMTP::TLS;

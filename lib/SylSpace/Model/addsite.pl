@@ -23,6 +23,11 @@ my $usage= "usage: $0 sitename [finc3600-2018-risik-webster] instructoremail\n";
 
 my ($subdomain, $iemail) = @ARGV;
 
+$subdomain =~ s{.syllabus.space$}{};
+my $count = () = $subdomain =~ /\./g;
+($count == 1) or die "Sorry, you need exactly one period in your new sitename";
+
+
 $subdomain= lc($subdomain);
 $iemail= lc($iemail);
 
