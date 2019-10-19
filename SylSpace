@@ -38,9 +38,10 @@ $ENV{SYLSPACE_sitepath}= $FindBin::Bin;    ## /Users/ivo/syllabus.space/syllabus
 
 ($ENV{MOJO_DOMAINNAME} eq 'localhost') and die "\nyou cannot use localhost, because we need subdomins for testing.  please use syllabus.test instead.\n";
 
-print STDERR "dmnm=$ENV{MOJO_DOMAINNAME}\n";
-
-$ENV{SYLSPACE_siteip}= inet_ntoa(inet_aton($ENV{MOJO_DOMAINNAME}));  ## 127.0.0.1
+print STDERR "SylSpace: dmnm='$ENV{MOJO_DOMAINNAME}'\n";
+my $inetaton= inet_aton($ENV{MOJO_DOMAINNAME});
+print STDERR "SylSpace: ...$inetaton\n";
+$ENV{SYLSPACE_siteip}= inet_ntoa( $inetaton );  ## 127.0.0.1
 $ENV{SYLSPACE_onlocalhost}= ($ENV{SYLSPACE_siteip} eq '127.0.0.1');
 
 my $configfname= "$ENV{SYLSPACE_sitepath}/$pgmname-Secrets.conf";
