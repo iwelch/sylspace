@@ -107,8 +107,8 @@ my $MONTH = 60*60*24*30;
 #}
 
 my $ssshtml="syllabus-sophisticated.html";
-my $sshtml= "../../../public/html/ifaq/$ssshtml"; ok( -e $sshtml, "have $ssshtml" );
-ok(  filewritei($courselist[0], $ssshtml, scalar slurp($sshtml)), "writing $ssshtml" );
+my $sshtml= "../public/html/ifaq/$ssshtml"; ok( -e $sshtml, "have $ssshtml" );
+ok( filewritei($courselist[0], $ssshtml, scalar slurp($sshtml)), "writing $ssshtml" );
 ok( filesetdue($courselist[0], $ssshtml, time()+$MONTH), "publish $ssshtml");
 
 ok( filesetdue($courselist[1], 'hw1.txt', time()+$MONTH), "publish hw1.txt open for 1 month");
@@ -122,6 +122,11 @@ ok( gradesave($courselist[0], 'student@gmail.com', 'midterm', 'badfail' ), "grad
 
 done_testing();
 
+print "looks like basic creation works.  now create some real sites\n";
+
+print "
+  ## if the domain is fake, please run `wildcardhosts.pl yourfakedomain.com` after you add a site.
+";
 
 ################
 sub tziserver {

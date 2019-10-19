@@ -34,16 +34,9 @@ $iemail= lc($iemail);
 _webcoursemake( $subdomain );
 instructornewenroll($subdomain, $iemail);
 
-
-
 print "successfully created website $subdomain with instructor $iemail\n";
 
-if (`hostname` !~ /\bsyllabus\b/m) {
-  print "
-
-IMPORTANT : because you did not execute this on a production site
-(anything including the fragment 'syllabus'), you probably need to add
-$subdomain to map to 127.0.0.1 into /etc/hosts
-
+print "
+  ## if the domain is fake, please run `wildcardhosts.pl yourfakedomain.com` after you add a site.
 ";
 }

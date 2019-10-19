@@ -60,11 +60,11 @@ __DATA__
 
   <dl class="dl faq">
 
-  <dt>What is <i>not</i> intuitive using this website (SylSpace on <%= $ENV{'SYLSPACE_sitename'} %>)?  Have an idea to make it easier and better?  Found a dead link?</dt>
+  <dt>What is <i>not</i> intuitive using this website (SylSpace on <%= $ENV{'MOJO_DOMAINNAME'} %>)?  Have an idea to make it easier and better?  Found a dead link?</dt>
 
-  <dd>Please <a href="mailto:ivo.welch@gmail.com?subject=unclear-<%= $ENV{'SYLSPACE_sitename'} %>">let me know</a>.  I cannot guarantee that I will follow it, but I will consider it.</dd>
+  <dd>Please <a href="mailto:ivo.welch@gmail.com?subject=unclear-<%= $ENV{'MOJO_DOMAINNAME'} %>">let me know</a>.  I cannot guarantee that I will follow it, but I will consider it.</dd>
 
-  <dt>What is SylSpace on <%= $ENV{'SYLSPACE_sitename'} %>?</dt>
+  <dt>What is SylSpace on <%= $ENV{'MOJO_DOMAINNAME'} %>?</dt>
 
   <dd>SylSpace is a third-generation web course management system, with an intentional focus on ease-of-use and simplicity.  The software is SylSpace, the main site designed to run it is <a href="http://$ENV{MOJO_DOMAINNAME}">$ENV{MOJO_DOMAINNAME}</a>.  (You are currently running it on <a href="<%= "http://".$ENV{'MOJO_DOMAINNAME'} %>"><%= $ENV{'MOJO_DOMAINNAME'} %></a> right now.)  There is almost no learning curve involved in using the system.
 

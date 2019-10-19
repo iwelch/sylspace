@@ -70,7 +70,7 @@ sub standard {
   (defined($cururl)) or die "cannot ascertain the current url via c->req->url\n";
 
 
-  my $domain= $cururl->domainport;  ## mfe.welch.$ENV{'SYLSPACE_sitename'}:3000
+  my $domain= $cururl->domainport;  ## mfe.welch.$ENV{'MOJO_DOMAINNAME'}:3000
   my $course= $cururl->subdomain; ## mfe.welch
 
   $cururl =~ s{\?.*}{}; ## strip any parameters

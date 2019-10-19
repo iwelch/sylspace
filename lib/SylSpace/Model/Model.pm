@@ -512,7 +512,7 @@ sub readschema( $metaschemafletter ) {
 
   my $fname= $metaschemafletter."settings-schema.yml";
   (!(-e $fname)) and $fname="Model/$fname";
-  (!(-e $fname)) and $fname="SylSpace/$fname";
+  (!(-e $fname)) and $fname="sylspace/$fname";
   my $metaptr= _saferead($fname);  ## needs to be external, so that form controller and viewer know it, too
   (defined($metaptr)) or die "schema '$metaschemafletter' ($fname) is not readable from ".`pwd`."!\n";
   return $metaptr;
