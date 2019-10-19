@@ -44,8 +44,8 @@ my $varsyl="/var/sylspace";
 
 (-e "./templates/equiz/starters") or die "internal error: you don't seem to have any starter templates here";
 
-if (!(-e './Controller') && (-e './lib/SylSpace/Controller')) system("ln -s lib/SylSpace/Controller .");
-if (!(-e './Model') && (-e './lib/SylSpace/Model')) system("ln -s lib/SylSpace/Model .");
+(!(-e './Controller') && (-e './lib/SylSpace/Controller')) and system("ln -s lib/SylSpace/Controller .");
+(!(-e './Model') && (-e './lib/SylSpace/Model')) and system("ln -s lib/SylSpace/Model .");
 
 (-e "./Model/Model.pm") or die "internal error: you don't seem to have the Model/ directory";
 (-e "./Model/eqbackend/eqbackend.pl") or die "internal error: you don't seem to have the Model/eqbackend";
