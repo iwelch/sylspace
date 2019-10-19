@@ -139,6 +139,7 @@ if (-e $configfname) {
 
 
 ################################################################################################################################
+## SHOULD THESE BE REPLACED IN FAVOR OF %ENV variables?
 ## http://user.course.$ENV{SYLSPACE_sitename} -> $ENV{SYLSPACE_sitename}
 ## http://$ENV{'sitename'} -> $ENV{'sitename'}
 
@@ -156,16 +157,17 @@ if (-e $configfname) {
 
 ## http://user.course.$ENV{SYLSPACE_sitename} -> user.course
 ## http://$ENV{SYLSPACE_sitename} -> undef
-#*Mojo::URL::subdomain = sub {
-#  my $crequrl= shift;
-#  my $fulldomain= $crequrl->to_abs->host || "unknown-fulldomain";
-#  ($fulldomain =~ m/(.*)\.localhost$/) and return $1;
-#  my @f= split(/\./, $fulldomain);
-#  (@f) or return '';  ## never
-#  pop(@f); pop(@f);   ## (pop(@f) =~ /localhost$/) or pop(@f);  ## hehe --- pop again
-#  ($#f>=0) or return '';
-#  return join('.', @f);
-#};
+## used in Controller.pm
+*Mojo::URL::subdomain = sub {
+  my $crequrl= shift;
+  my $fulldomain= $crequrl->to_abs->host || "unknown-fulldomain";
+  ($fulldomain =~ m/(.*)\.localhost$/) and return $1;
+  my @f= split(/\./, $fulldomain);
+  (@f) or return '';  ## never
+  pop(@f); pop(@f);   ## (pop(@f) =~ /localhost$/) or pop(@f);  ## hehe --- pop again
+  ($#f>=0) or return '';
+  return join('.', @f);
+};
 
 
 ################################################################################################################################
