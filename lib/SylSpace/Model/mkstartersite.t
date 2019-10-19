@@ -107,7 +107,7 @@ my $MONTH = 60*60*24*30;
 #}
 
 my $ssshtml="syllabus-sophisticated.html";
-my $sshtml= "../public/html/ifaq/$ssshtml"; ok( -e $sshtml, "have $ssshtml" );
+my $sshtml= "../../../public/html/ifaq/$ssshtml"; ok( -e $sshtml, "have $ssshtml" );
 ok( filewritei($courselist[0], $ssshtml, scalar slurp($sshtml)), "writing $ssshtml" );
 ok( filesetdue($courselist[0], $ssshtml, time()+$MONTH), "publish $ssshtml");
 
