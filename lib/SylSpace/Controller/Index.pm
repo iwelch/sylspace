@@ -62,9 +62,9 @@ __DATA__
 
   <h2> Security? </h2>
 
-  <p>The source code for SylSpace, running on this <%= $ENV{'MOJO_DOMAINNAME'} %> site, is public on <a href="https://github.com/iwelch/$ENV{MOJO_DOMAINNAME}">github</a>, so it is not a security breach if you learn details about where the error has occurred (or a little more information why).</p>
+  <p>The source code for SylSpace, running on this <%= $ENV{'SYLSPACE_DOMAINNAME'} %> site, is public on <a href="https://github.com/iwelch/$ENV{SYLSPACE_DOMAINNAME}">github</a>, so it is not a security breach if you learn details about where the error has occurred (or a little more information why).</p>
 
-  <p>However, if you notice a compromise of internal data that you should not have seen, or if you discover an exploitable security breach, please contact <a href="mailto:ivo.welch@gmail.com?subject=security breach on <%= $ENV{'MOJO_DOMAINNAME'} %>">ivo welch</a> urgently.</p>
+  <p>However, if you notice a compromise of internal data that you should not have seen, or if you discover an exploitable security breach, please contact <a href="mailto:ivo.welch@gmail.com?subject=security breach on <%= $ENV{'SYLSPACE_DOMAINNAME'} %>">ivo welch</a> urgently.</p>
 
   </main>
 

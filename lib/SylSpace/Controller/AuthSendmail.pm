@@ -86,7 +86,7 @@ sub _send_email {
     ],
     body => "Follow this link: $url\n\nMake sure that your email spam filter will not trap the email you will receive, something like:
 
-	From: $ENV{MOJO_DOMAINNAME} <$ENV{MOJO_DOMAINNAME}\@gmail.com>
+	From: $ENV{SYLSPACE_DOMAINNAME} <$ENV{SYLSPACE_DOMAINNAME}\@gmail.com>
 	Subject: Confirm your email
 
 " );
@@ -135,7 +135,7 @@ __DATA__
   <p>
   If you typed your email address (<a href="mailto:<%= $email %>"><%= $email %></a>) correctly, you should be receiving an email from us.</p>
 
-  <p> Please check your mailbox for a confirmation email with link.  If you do not receive an email from us within 5-10 minutes, check for any spam filters along the way.  The email should be sent by  '<%= $ENV{MOJO_DOMAINNAME} %>@gmail.com' or by someone at '\@$ENV{MOJO_DOMAINNAME}'.  The email authentication will be valid for about 30 minutes.</p>
+  <p> Please check your mailbox for a confirmation email with link.  If you do not receive an email from us within 5-10 minutes, check for any spam filters along the way.  The email should be sent by  '<%= $ENV{SYLSPACE_DOMAINNAME} %>@gmail.com' or by someone at '\@$ENV{SYLSPACE_DOMAINNAME}'.  The email authentication will be valid for about 30 minutes.</p>
 
   <p><b>Warning:</b> Some email spam filters may be blocking us.  Make sure to whitelist us.  Here is more information on <a href="http://onlinegroups.net/blog/2014/02/25/how-to-whitelist-an-email-address/">whitelisting</a> us (e.g., <a href="http://smallbusiness.chron.com/whitelist-domain-office-365-74321.html">office365</a> and <a href="https://support.microsoft.com/en-us/kb/2545137">office365</a>)?  If you never receive an email&mdash;even after having whitelisted us&mdash;then please try a gmail account.  We know that gmail can receive our emails.</p>
 

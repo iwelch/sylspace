@@ -43,8 +43,9 @@ You can now run the app either via
 ```
 hypnotoad SylSpace
 morbo -l 'http://[::]:80' SylSpace
-morbo -m development -l 'http://[::]:80' SylSpace
-morbo -m production  -l 'http://[::]:80' SylSpace
+morbo -m development -l 'http://*:80' SylSpace ## more verbose errors and logs
+morbo -m production  -l 'http://*:80' SylSpace
+SylSpace daemon -m development
 ```
 
 

@@ -6,15 +6,13 @@ plugin 'Mojolyst' => {controllers => 'SylSpace::Controller'};
 plugin 'RenderFile';
 plugin 'browser_detect';
 
-my $dmnm= (glob("/var/sylspace/domain=*"))[0];
+my $dmnm= (glob("/var/sylspace/domainname=*"))[0];
 
-if (defined($dmnm)) {
-  $dmnm =~ s{^/var/sylspace/domain\=}{};
-  $ENV{MOJO_DOMAINNAME}= $dmnm;
-} else {
-  use Net::Domain qw(hostdomain);
-  $ENV{MOJO_DOMAINNAME}= hostdomain();
-}
+(defined($dmnm)) or die "please set a (virtual) domainname in /var/sylspace/domainname=xx.yy";
+
+$dmnm =~ s{^/var/sylspace/domainname\=}{};
+$ENV{MOJO_DOMAINNAME}= $dmnm;
+
 
 my %ENVMOJO;
 foreach my $k (keys %ENV) { ($k =~ /MOJO|HYPNO/) and $ENVMOJO{$k}=$ENV{$k}; }

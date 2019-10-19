@@ -18,7 +18,7 @@ use autodie;
 
 
 #### set up webdomains
-my $dmnm= (glob("/var/sylspace/domain=*"))[0];
+my $dmnm= (glob("/var/sylspace/domainname=*"))[0];
 
 if (defined($dmnm)) {
   $dmnm =~ s{^/var/sylspace/domain\=}{};
@@ -28,7 +28,7 @@ if (defined($dmnm)) {
   ($ARGV[0] =~ /^[a-z]+\.[a-z]+$/i)
     or die "need reasonable domainname (with one dot), not '$ARGV[0]'\n";
   $dmnm= $ARGV[0];
-  open(my $F, '>', "/var/sylspace/domain=$dmnm"); close($F);
+  open(my $F, '>', "/var/sylspace/domainname=$dmnm"); close($F);
   say "[saved domain name $dmnm]\n";
 }
 

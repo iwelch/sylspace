@@ -18,7 +18,7 @@ my $isosx= (-d "/Users/ivo");
 
 my @apphome;
 if ($isosx) {
-  ($isproduction && $isosx) and die "iaw: please do not run the $ENV{MOJO_DOMAINNAME} domain on an osx host.\n";
+  ($isproduction && $isosx) and die "iaw: please do not run the $ENV{SYLSPACE_DOMAINNAME} domain on an osx host.\n";
   ((-e 'SylSpace') && (-x 'SylSpace')) or die "on macos, you must be in the local directory in which SylSpace lives!";
   @apphome= (`pwd`);
 } else {
@@ -47,7 +47,7 @@ if ($isproduction) {
 
   print STDERR "$0: Running full production hypnotoad server for sylspace.  To stop:
 	kill -QUIT `cat hypnotoad.pid` gracefully (or -TERM), or
-	/usr/local/bin/hypnotoad -s ./SylSpace)\n\t\tPS: morbo -v -m production ./SylSpace -l http://$ENV{MOJO_DOMAINNAME} for testing\n";
+	/usr/local/bin/hypnotoad -s ./SylSpace)\n\t\tPS: morbo -v -m production ./SylSpace -l http://$ENV{SYLSPACE_DOMAINNAME} for testing\n";
   echosystem("/usr/local/bin/hypnotoad -f ./SylSpace");  ## do not '&', or it fails in systemd SylSpace.service !
 
 } else {

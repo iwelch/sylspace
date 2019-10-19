@@ -60,13 +60,13 @@ __DATA__
 
   <dl class="dl faq">
 
-  <dt>What is <i>not</i> intuitive using this website (SylSpace on <%= $ENV{'MOJO_DOMAINNAME'} %>)?  Have an idea to make it easier and better?  Found a dead link?</dt>
+  <dt>What is <i>not</i> intuitive using this website (SylSpace on <%= $ENV{'SYLSPACE_DOMAINNAME'} %>)?  Have an idea to make it easier and better?  Found a dead link?</dt>
 
-  <dd>Please <a href="mailto:ivo.welch@gmail.com?subject=unclear-<%= $ENV{'MOJO_DOMAINNAME'} %>">let me know</a>.  I cannot guarantee that I will follow it, but I will consider it.</dd>
+  <dd>Please <a href="mailto:ivo.welch@gmail.com?subject=unclear-<%= $ENV{'SYLSPACE_DOMAINNAME'} %>">let me know</a>.  I cannot guarantee that I will follow it, but I will consider it.</dd>
 
-  <dt>What is SylSpace on <%= $ENV{'MOJO_DOMAINNAME'} %>?</dt>
+  <dt>What is SylSpace on <%= $ENV{'SYLSPACE_DOMAINNAME'} %>?</dt>
 
-  <dd>SylSpace is a third-generation web course management system, with an intentional focus on ease-of-use and simplicity.  The software is SylSpace, the main site designed to run it is <a href="http://$ENV{MOJO_DOMAINNAME}">$ENV{MOJO_DOMAINNAME}</a>.  (You are currently running it on <a href="<%= "http://".$ENV{'MOJO_DOMAINNAME'} %>"><%= $ENV{'MOJO_DOMAINNAME'} %></a> right now.)  There is almost no learning curve involved in using the system.
+  <dd>SylSpace is a third-generation web course management system, with an intentional focus on ease-of-use and simplicity.  The software is SylSpace, the main site designed to run it is <a href="http://$ENV{SYLSPACE_DOMAINNAME}">$ENV{SYLSPACE_DOMAINNAME}</a>.  (You are currently running it on <a href="<%= "http://".$ENV{'SYLSPACE_DOMAINNAME'} %>"><%= $ENV{'SYLSPACE_DOMAINNAME'} %></a> right now.)  There is almost no learning curve involved in using the system.
 
   <p style="padding-top:1em">Its most important functionalities are:
 <ul>
@@ -237,8 +237,8 @@ __DATA__
   <dd>
     <p>As for me, I prefer to name each class by its own subdomain, like
       <pre>
-         http://<b>mba230.welch</b>.$ENV{MOJO_DOMAINNAME}<br />
-         http://<b>mba230-14a.welch</b>.$ENV{MOJO_DOMAINNAME}
+         http://<b>mba230.welch</b>.$ENV{SYLSPACE_DOMAINNAME}<br />
+         http://<b>mba230-14a.welch</b>.$ENV{SYLSPACE_DOMAINNAME}
       </pre>
      This way, I can have my one webbrowser access multiple class sites, too&mdash;each class is its own domain.</p>
   </dd>
@@ -296,7 +296,7 @@ __DATA__
   # perl mksite.pl testsite you@emailhost
   # morbo -v Sylspace  ## and now open http://localhost:3000/ on your browser  </pre>
 
-a  <p><tt>/var/sylspace</tt> is hardcoded in 2-3 places.  If you do not want to use this, you need to fix it.  There are a very few hardcodes to $ENV{MOJO_DOMAINNAME} (e.g., the SylSpace-Secrets.conf and the systemd configuration files).  I do not believe that <tt>http://*$ENV{MOJO_DOMAINNAME}</tt> is hardcoded anywhere, but some of the documentation refers to it as the server on which it runs.</p>
+a  <p><tt>/var/sylspace</tt> is hardcoded in 2-3 places.  If you do not want to use this, you need to fix it.  There are a very few hardcodes to $ENV{SYLSPACE_DOMAINNAME} (e.g., the SylSpace-Secrets.conf and the systemd configuration files).  I do not believe that <tt>http://*$ENV{SYLSPACE_DOMAINNAME}</tt> is hardcoded anywhere, but some of the documentation refers to it as the server on which it runs.</p>
 
   <p>Because all content is stored in the unix filesystem, it is easy for an instructor to view and interpret all of his/her data, too.  It also makes debugging a lot easier.</p>
 
