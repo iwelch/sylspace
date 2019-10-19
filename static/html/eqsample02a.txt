@@ -1,0 +1,33 @@
+::EQVERSION:: 1.0 -- not used.
+
+::NAME::  Welch, Chapter 2, Present Value (A)
+
+::AREA:: Finance / Corporate Finance / Present Value
+
+::INTRO::
+
+<p> (The equiz numbers refer to the chapter in Welch, Edition 4.)
+
+################################################################################################################################
+
+::START::
+
+################
+
+:N: Q02.1
+
+:I: $r= rseq(10,20)/100;  $DollarReturn=rseq(10,20)*100; $ANS= $DollarReturn/(1+$r)
+
+:Q: You may invest in a project that will return $$DollarReturn.  If the total holding rate of return is $r (i.e., $%r%), how much would you have to invest today?
+
+:A: Rearrange \( r= P_1/P_0 - 1 \) into \( P_0 = P_1/(1+r) \).  You need to invest today \[ \text{Investment } P_0 = \frac{\text{Payment } P_1}{1+r} = \frac{$$DollarReturn}{1+$r} = $$ANS .\]
+
+:T: 1
+
+:P: 1
+
+:E: 
+
+################
+
+::END::

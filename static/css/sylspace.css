@@ -1,0 +1,104 @@
+html,
+body {
+    height: 100%;
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+main { margin-bottom:5em; }
+
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -60px;
+    padding: 0 0 60px;
+}
+
+.wrap > .container {
+    padding: 25px 5px 5px 5px;
+    background-color:white;
+}
+
+
+footer {
+    position:absolute;
+    bottom:300;
+
+    height: 100px;
+    width:100%;
+}
+
+.development {
+    background-color:#ccaaaa;
+    font-style:italic;
+    font-size:small;
+    border: 5px solid red;
+    margin: 1em;
+}
+
+div.message {
+    background-color: #ffffe0;
+    border: 5px solid red;
+    margin: 2em;
+}
+
+table.editsql {
+    border-spacing:20px;
+    border-collapse:separate;
+    font-size:large;
+    background-color:yellow;
+}
+
+div.editprofile {
+    border-spacing:10px 5px;
+    border-collapse:separate;
+    font-size:large;
+    margin-left:2em;
+}
+
+table.editprofile th {
+    background-color:white;
+}
+
+span.smsghdr {
+    padding:1em;
+}
+
+dl dl-echo4 {
+  background-color:green;
+  color:yellow;
+  -webkit-columns: 4 100px;
+     -moz-columns: 4 100px;
+          columns: 4 100px;
+}
+
+dd.msgid-date {
+    font-family: monospace;
+}
+dd.msgid-subject {
+    text-decoration: underline;
+}
+
+span.time1week { background-color:yellow; }
+span.time1day { background-color:orange; }
+
+span.epoch0 { display:none; }
+span.epoch { font: italic bold 20px/30px Georgia, serif; color:blue; }
+
+div.flash { background-color:yellow; font: italic bold 30px/40px Georgia, serif; color:blue;  }
+
+.dani { background-color:black; color:white; padding:1ex; }
+
+div.ltweet {
+    padding: 2em;  color:green; font-family:monospace;
+}
+
+.prioritylow {
+    font-size:small;
+}
+
+.priorityhigh {
+    font-size:large;
+    border: 2px solid red;
+}
+

@@ -1,0 +1,16 @@
+p.qstntext::before {
+    content: "EQ Question: ";
+    font-weight:bold;
+}
+
+p.qstnlong::before {
+    content: "EQ Explanation of Answer: ";
+    font-weight:bold;
+}
+
+p.qstnshort::before {
+    content: "EQ Numerical Answer: ";
+    font-weight:bold;
+}
+
+.foo:invalid { outline: solid red 3px; background-color:white; }

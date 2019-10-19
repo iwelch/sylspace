@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" type="text/css" property="href" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ns-autogrow/1.1.6/jquery.ns-autogrow.js"> </script>
+
+  </head>
+
+  <body style="background-color:beige">
+
+    <div class="container" id="body">
+
+      <main>
+
+        <h1>Test Textarea autoexpand</h1>
+
+
+        <form method="GET" action="/testquestion" />
+
+
+        <script> $('#ecode').css('overflow', 'hidden').autogrow() </script>
+
+        <script>
+          $("textarea").keyup(function(e) {
+          while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
+                              $(this).height($(this).height()+1);
+              };
+          });
+        </script>
+
+        <textarea name="ecode" id="ecode">
+
+          1 this is the time for all good men to come to the aid of their country.
+          this is the time for all good men to come to the aid of their country.
+
+          2 this is the time for all good men to come to the aid of their country.
+          this is the time for all good men to come to the aid of their country.
+
+          3 this is the time for all good men to come to the aid of their country.
+          this is the time for all good men to come to the aid of their country.
+
+          4 this is the time for all good men to come to the aid of their country.
+          this is the time for all good men to come to the aid of their country.
+
+          5 this is the time for all good men to come to the aid of their country.
+          this is the time for all good men to come to the aid of their country.
+        </textarea>
+
+      </main>
+
+    <hr />
+
+            <p>I want the textarea to start off correctly (leave, say, an extra line at the bottom) and grow as one types.  The width is less important.  (Ideally, it would expand up to 132 columns, and then stay there.) </p>
+
+            <p>Neither of my two javascript functions seem to have the desired (or any) effect:
+
+        <pre>
+        &lt;script&gt; $('#ecode').css('overflow', 'hidden').autogrow() &lt;/script&gt;
+
+        &lt;script&gt;
+          $("textarea").keyup(function(e) {
+        while($(this).outerHeight() &lt; this.scrollHeight
+           + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
+                              $(this).height($(this).height()+1);
+              };
+          });
+        &lt;/script&gt;
+        </pre>
+
+
+        <p>(iaw:invoke as http://localhost:3000/html/textarea.html)</p>
+    </div> <!--container:body-->
+
+  </body>
+</html>

@@ -1,0 +1,193 @@
+::EQVERSION:: 1.0 -- not used.
+
+::NAME::  Black-Scholes
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Black-Scholes Value, Built-In Function
+
+:I: $S = rseq(100,120) ; $K = rseq(90,130) ; $t=1/pr(2,4) ; $rf=pr(0.10,0.15,0.20) ; $sd= pr(0.40,0.50,0.60) ;
+    $pvk= $K*exp(-$rf*$t); $sdS = $sd*sqrt($t);
+    $d1 = ( log($S/$K) + ($rf+$sd^2/2)*$t ) / ( $sd * $t^0.5 );
+    $d2 = $d1 - $sd * $t**0.5;
+    $ANS= BlackScholes($S,$K,$t,$rf,$sd) ;
+
+:Q: Calculate the Black-Scholes European call option price (without dividends) as a function of S = $$S ; K = $$K ; t=$t ; \( r_f= $rf \), and \(\sigma\) = $sd, where the risk-free rate and volatility are quoted for log-rates.
+
+<p>The rest of this question are merely cheating reminders
+
+\[ BS(S,K,t,r_f,\sigma) = S\cdot N(d_1) + PV(K)\cdot N(d_2) = \$$S \cdot N(d_1) + PV(\$$K)\cdot N(d_2) \]
+
+where N is the cumulative normal distribution,
+\[ PV(K) = PV(\$$K) = K\cdot e^{-r_f\cdot t} = $K\cdot e^{-$rf\cdot $t} = \$$pvk \]
+and the standard deviation of the stock price to expiration is defined by the standard deviation of plain stock returns,
+\[ \mbox{sd}(\sigma,t) = \sigma\cdot\sqrt{t} = $sd\cdot \sqrt{$t} = $sdS \]
+I am quoting both the risk-free rate continuously compounded.  Intuitively, the risk-free rate is only ever used to calculate a discounted value of the strike price, and the volatility is only ever scaled to expiration.  The time to expiration is used only for these two calculations.  Other variants of the BS formula could quote either or both the interest rate or stock volatility as simple or continuously compounded quantities.
+
+\[ d_1= \frac{ \log(S/PV(K)) }{\mbox{sd}(\sigma,t) } + \mbox{sd}(\sigma,t)/2 = \frac{ \log(\$$S/\$$pvk) }{ $sdS } + $sdS/2 \approx $d1 \]
+\[ d_2= d_1 - \mbox{sd}(\sigma,t) = $d1 - $sdS \approx $d2 \]
+
+<p>Thus, 
+\[ BS(S,K,t,r_f,\sigma) \approx \$$S \cdot N($d1) + PV(\$$K)\cdot N($d2) \approx \$$ANS \]
+
+
+:A: The answer was already noted as $$ANS.
+
+\[ BS(S,K,t,r_f,\sigma) \approx \$$S \cdot N($d1) + PV(\$$K)\cdot N($d2) \approx \$$ANS \]
+
+:T: 10
+
+:P: 0.1
+
+:E: 
+
+################
+
+:N: How the previous question was written
+
+:M:
+
+<p> Note: rseq pulls a random number between the two values.
+
+<pre>
+
+  :N: Black-Scholes Value, Built-In Function
+<p>
+  :I: $S = rseq(100,120) ; $K = rseq(90,130) ; $t=1/pr(2,4) ; $rf=pr(0.10,0.15,0.20) ; $sd= pr(0.40,0.50,0.60) ;
+    $pvk= $K*exp(-$rf*$t); $sdS = $sd*sqrt($t);
+    $d1 = ( log($S/$K) + ($rf+$sd^2/2)*$t ) / ( $sd * $t^0.5 );
+    $d2 = $d1 - $sd * $t**0.5;
+    $ANS= BlackScholes($S,$K,$t,$rf,$sd) ;
+<p>
+  :Q: Calculate the Black-Scholes European call option price (without dividends) as a function of S = $$S ; K = $$K ; t=$t ; \( r_f= $rf \), and \(\sigma\) = $sd, where the risk-free rate and volatility are quoted for log-rates.
+<p>
+  <p>The rest of this question are merely cheating reminders
+<p>
+  \[ BS(S,K,t,r_f,\sigma) = S\cdot N(d_1) + PV(K)\cdot N(d_2) = \$$S \cdot N(d_1) + PV(\$$K)\cdot N(d_2) \]
+<p>
+  where N is the cumulative normal distribution,
+  \[ PV(K) = PV(\$$K) = K\cdot e^{-r_f\cdot t} = $K\cdot e^{-$rf\cdot $t} = \$$pvk \]
+  and the standard deviation of the stock price to expiration is defined by the standard deviation of plain stock returns,
+  \[ \mbox{sd}(\sigma,t) = \sigma\cdot\sqrt{t} = $sd\cdot \sqrt{$t} = $sdS \]
+  I am quoting both the risk-free rate continuously compounded.  Intuitively, the risk-free rate is only ever used to calculate a discounted value of the strike price, and the volatility is only ever scaled to expiration.  The time to expiration is used only for these two calculations.  Other variants of the BS formula could quote either or both the interest rate or stock volatility as simple or continuously compounded quantities.
+<p>
+  \[ d_1= \frac{ \log(S/PV(K)) }{\mbox{sd}(\sigma,t) } + \mbox{sd}(\sigma,t)/2 = \frac{ \log(\$$S/\$$pvk) }{ $sdS } + $sdS/2 \approx $d1 \]
+  \[ d_2= d_1 - \mbox{sd}(\sigma,t) = $d1 - $sdS \approx $d2 \]
+<p>
+  <p>Thus, 
+  \[ BS(S,K,t,r_f,\sigma) \approx \$$S \cdot N($d1) + PV(\$$K)\cdot N($d2) \approx \$$ANS \]
+<p>
+  :A: The answer was already noted as $$ANS.
+<p>
+  \[ BS(S,K,t,r_f,\sigma) \approx \$$S \cdot N($d1) + PV(\$$K)\cdot N($d2) \approx \$$ANS \]
+<p>
+  :T: 10
+<p>
+  :P: 0.1
+<p>
+  :E: 
+
+</pre>
+
+:E:
+
+################################################################
+
+:N: Black-Scholes Value, Self-Calculated Function
+
+:I: $S = rseq(100,120) ; $K = rseq(90,120) ; $t=1/4 ; $rf=0.10 ; $sd= 0.50 ;
+    $d1 = ( log($S/$K) + ($rf+$sd^2/2)*$t ) / ( $sd * $t^0.5 );
+    $d2 = $d1 - $sd * $t**0.5;
+    $ANS = $S * CumNorm($d1) - $K * exp( -$rf * $t ) * CumNorm($d2);
+
+:Q: Calculate the Black-Scholes option price as a function of S = $$S ; K = $$K ; t=1/4 ; \( r_f= $rf \) ; \(\sigma\) = $sd :
+
+<p>Incidentally, without making it too easy, the hand-calculated-function answer is $$ANS.
+
+:A: The answer is $ANS. As noted, \( d_1 = $d1 \) and \( d_2 = $d2 \).
+
+:T: 10
+
+:P: 0.1
+
+:E: 
+
+
+################
+:N: How the previous question was written
+
+:M:
+
+<pre>
+
+<p>
+	:N: Black-Scholes Value, Self-Calculated Function
+
+<p>
+	:I: $S = rseq(100,120) ; $K = rseq(90,120) ; $t=1/4 ; $rf=0.10 ; $sd= 0.50 ;
+	    $d1 = ( log($S/$K) + ($rf+$sd^2/2)*$t ) / ( $sd * $t^0.5 );
+	    $d2 = $d1 - $sd * $t**0.5;
+	    $ANS = $S * CumNorm($d1) - $K * exp( -$rf * $t ) * CumNorm($d2);
+<p>
+	:Q: Calculate the Black-Scholes option price as a function of S = $$S ; K = $$K ; t=1/4 ; \( r_f= $rf \) ; \(\sigma\) = $sd :
+<p>
+
+	<p>Incidentally, without making it too easy, the hand-calculated-function answer is $$ANS.
+
+<p>
+	:A: The answer is $ANS. As noted, \( d_1 = $d1 \) and \( d_2 = $d2 \).
+</pre>
+
+:E:
+
+
+################################################################
+
+:N: Black-Scholes Implied Vol
+
+:I: $S = rseq(100,120) ; $K = $S-10 ; $t=1/4 ; $rf=0.10 ; $C=$S-$K+5; $ANS= BlackScholesIVol($S,$K,$t,$rf,$C) ;
+
+:Q: Calculate the Black-Scholes implied vol as a function of S = $$S ; K = $$K ; t=1/4 ; \( r_f= $rf \) ; and C=$$C.
+	<p>Incidentally, the correct answer happens to be $ANS.
+
+:A: The answer is $ANS.
+
+:T: 10
+
+:P: 0.02
+
+:E: 
+
+################################################################
+
+:N: How the previous question was written
+
+:M:
+
+<pre>
+	:N: Black-Scholes Implied Vol
+<p>
+	:I: $S = rseq(100,120) ; $K = $S-10 ; $t=1/4 ; $rf=0.10 ; $C=$S-$K+5; $ANS= BlackScholesIVol($S,$K,$t,$rf,$C) ;
+<p>
+	:Q: Calculate the Black-Scholes implied vol as a function of S = $$S ; K = $$K ; t=1/4 ; \( r_f= $rf \) ; and C=$$C.
+	<p> Incidentally, the correct answer happens to be $ANS.
+<p>
+	:A: The answer is $ANS.
+<p>
+	:P: 0.02
+
+	:E: 
+</pre>
+
+:E: 
+
+
+################################################################
+
+::END:: 
+
+################################################################

@@ -1,0 +1,28 @@
+#buttonGroupForm .btn-group .form-control-feedback {
+    top: 0;
+    right: -30px;
+}
+
+.foo { background:white; font-weight:bold; }
+.foo:valid { outline: solid blue 1px; }
+.foo:invalid { outline: solid red 6px; background-color:white; }
+
+::-webkit-input-placeholder {
+    color:    red;
+}
+:-moz-placeholder {
+   color:    red;
+   opacity:  1;
+}
+::-moz-placeholder {
+   color:    red;
+   opacity:  1;
+}
+:-ms-input-placeholder {
+   color:    red;
+}
+
+input[placeholder], [placeholder], *[placeholder] {
+    color: blue !important;
+}
+
