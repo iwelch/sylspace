@@ -125,6 +125,7 @@ done_testing();
 print "looks like basic creation works.  now create some real sites\n";
 
 print "
+  ## try something like `./addsite.pl funny.course myself\@gmail.com
   ## if the domain is fake, please run `wildcardhosts.pl yourfakedomain.com` after you add a site.
 ";
 
