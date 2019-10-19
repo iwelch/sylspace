@@ -1,0 +1,17 @@
+:N: Starter Question
+
+:I: $x= rseq(1,10); $y= pr(10,20,30);  $underroot= ($x^2+$y^2); $ANS=sqrt($underroot)
+
+:Q: Please calculate
+  \[ \sqrt{$x^2+$y^2} \]
+   Illegal Hint: it will turn out to be $ANS.
+
+:A: The question requested
+  \[ \sqrt{$x^2+$y^2} \]
+  The expression under the root was $underroot.
+
+:T: 2331
+
+:P: 2
+
+:E:

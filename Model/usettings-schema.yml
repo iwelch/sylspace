@@ -1,0 +1,85 @@
+---
+-
+  defaults:
+    required: 0
+    public: 0
+    placeholder: you choose
+    regex:
+    readonly: 0
+    maxsize: 63
+-
+  email:
+    required: 1
+    readonly: 1
+    placeholder: from authentication system!
+    htmltype: email
+    maxsize: 64
+-
+  firstname:
+    required: 1
+    public: 1
+    maxsize: 32
+    placeholder: e.g., John (alphanumeric, space, dash, period)
+    regex: ^[a-zA-Z0-9 \-\.]+$
+-
+  lastname:
+    required: 1
+    public: 1
+    maxsize: 32
+    placeholder: e.g., Smith (alphanumeric, space, dash, period)
+    regex: ^[a-zA-Z0-9 \-\.]+$
+-
+  uniname:
+    required: 1
+    public: 1
+    maxsize: 32
+    placeholder: e.g., UCLA (alphanumeric, space, dash, period)
+    regex: ^[a-zA-Z0-9 \-\.]+$
+-
+  regid:
+    required: 1
+    public: 0
+    placeholder: registration identification (max 20 chars)
+    maxsize: 20
+-
+  birthyear:
+    required: 1
+    public: 0
+    htmltype: number
+    placeholder: e.g., 1980 (max 4 chars)
+    maxsize: 4
+-
+  zip:
+    required: 1
+    placeholder: e.g., U-90095-1481 (max 16 chars)
+    maxsize: 16
+-
+  country:
+    required: 1
+    public: 1
+    placeholder: e.g., US -- 2 letters only (max 16 chars)
+    maxsize: 16
+-
+  cellphone:
+    required: 1
+    public: 0
+    placeholder: for SMS two-factor authentication
+    htmltype: tel
+    maxsize: 32
+-
+  email2:
+    required: 1
+    placeholder: valid gmail, hotmail, university, etc. (max 64 chars)
+    htmltype: email
+    maxsize: 64
+-
+  tzi:
+    required: 1
+    public: 1
+    placeholder: browser javascript default, -8 (for PST); -7 for PDT; -4 for NYC
+    htmltype: number
+-
+  optional:
+    required: 0
+    placeholder: any message.
+    maxsize: 64
