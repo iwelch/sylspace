@@ -1,5 +1,5 @@
 # SylSpace
-course management software on syllabus.space
+course management software on syllabus.space ($ENV{MOJO_DOMAINNAME})
 
 
 ## Installation

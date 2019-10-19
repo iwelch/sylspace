@@ -49,7 +49,7 @@ __DATA__
 
 <h2>Offline Instructions</h2>
 
-<p>Please create a file <tt style="background-color:white">$var/tmp/magictoken</tt> that contains two lines:
+<p>Please create a file <tt style="background-color:white">$var/tmp/magictoken</tt> (var is the installation directory) that contains two lines:
 
 <pre>
    ip: the IP address from which you will browse
@@ -62,7 +62,7 @@ __DATA__
 
 <div class="row"><%== btnblock('/auth/magic', 'magic transform', '', 'btn-danger') %></div>
 
-<p>If the $var/tmp/magictoken file exists, and if you are the 'now', you will become the 'then', the file will be deleted, and you will be returned to /auth/goclass.  Otherwise, you will remain here at this URL.
+<p>If the $var/tmp/magictoken file exists, and if you are the 'now', you will become the 'then', the file will be deleted, and you will be returned to /auth/goclass.  Otherwise, you will remain here at this URL.  All access control is via IP only at this moment.
 
 <p>Server Time: <%= localtime() %>
 

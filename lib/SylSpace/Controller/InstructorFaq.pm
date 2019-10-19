@@ -66,7 +66,7 @@ __DATA__
 
   <dt>What is SylSpace on <%= $ENV{'SYLSPACE_sitename'} %>?</dt>
 
-  <dd>SylSpace is a third-generation web course management system, with an intentional focus on ease-of-use and simplicity.  The software is SylSpace, the main site designed to run it is <a href="http://syllabus.space">syllabus.space</a>.  (You are currently running it on <a href="<%= "http://".$ENV{'SYLSPACE_sitename'} %>"><%= $ENV{'SYLSPACE_sitename'} %></a> right now.)  There is almost no learning curve involved in using the system.
+  <dd>SylSpace is a third-generation web course management system, with an intentional focus on ease-of-use and simplicity.  The software is SylSpace, the main site designed to run it is <a href="http://$ENV{MOJO_DOMAINNAME}">$ENV{MOJO_DOMAINNAME}</a>.  (You are currently running it on <a href="<%= "http://".$ENV{'MOJO_DOMAINNAME'} %>"><%= $ENV{'MOJO_DOMAINNAME'} %></a> right now.)  There is almost no learning curve involved in using the system.
 
   <p style="padding-top:1em">Its most important functionalities are:
 <ul>
@@ -82,7 +82,7 @@ __DATA__
 
   <dt>Do I need to run SylSpace on my own webserver?</dt>
 
-  <dd>No.  Instructors can get accounts on syllabus.space for their classes.  Please contact <a href="mailto:ivo.welch@gmail.com">ivo welch</a>.  The advantage is zero setup costs.  The disadvantage is <b>no</b> guarantees.   (Even google has had downtime on occasions!  Incidentally, other websites typically also do not offer guarantees.)  If you run your site on syllabus.space (rather than on your own web server), you must have some flexibility and tolerance for issues.</dd>
+  <dd>No.  Instructors can get accounts on $ENV{DOMAINNAME} for their classes.  Please contact <a href="mailto:ivo.welch@gmail.com">ivo welch</a>.  The advantage is zero setup costs.  The disadvantage is <b>no</b> guarantees.   (Even google has had downtime on occasions!  Incidentally, other websites typically also do not offer guarantees.)  If you run your site on $ENV{DOMAINNAME} (rather than on your own web server), you must have some flexibility and tolerance for issues.</dd>
 
   
 
@@ -127,7 +127,7 @@ __DATA__
 
   <dt>Why does SylSpace not require or store passwords?</dt>
 
-  <dd>Because we rely on email-address-based authentication via other services, in particular google and facebook.  If the linked google account becomes compromised, so will be the access to syllabus.space.  This is less bad than it sounds, because most websites have a password recovery feature that is also compromised when the email (google) account is compromised.  Put simply, you are toast if you lose control of your email account.</dd>
+  <dd>Because we rely on email-address-based authentication via other services, in particular google and facebook.  If the linked google account becomes compromised, so will be the access to $ENV{DOMAINNAME}.  This is less bad than it sounds, because most websites have a password recovery feature that is also compromised when the email (google) account is compromised.  Put simply, you are toast if you lose control of your email account.</dd>
 
 
   <dt>How can I post a syllabus for my students?</dt>
@@ -237,8 +237,8 @@ __DATA__
   <dd>
     <p>As for me, I prefer to name each class by its own subdomain, like
       <pre>
-         http://<b>mba230.welch</b>.syllabus.space<br />
-         http://<b>mba230-14a.welch</b>.syllabus.space
+         http://<b>mba230.welch</b>.$ENV{MOJO_DOMAINNAME}<br />
+         http://<b>mba230-14a.welch</b>.$ENV{MOJO_DOMAINNAME}
       </pre>
      This way, I can have my one webbrowser access multiple class sites, too&mdash;each class is its own domain.</p>
   </dd>
@@ -296,7 +296,7 @@ __DATA__
   # perl mksite.pl testsite you@emailhost
   # morbo -v Sylspace  ## and now open http://localhost:3000/ on your browser  </pre>
 
-a  <p><tt>/var/sylspace</tt> is hardcoded in 2-3 places.  If you do not want to use this, you need to fix it.  There are a very few hardcodes to syllabus.space (e.g., the SylSpace-Secrets.conf and the systemd configuration files).  I do not believe that <tt>http://*syllabus.space</tt> is hardcoded anywhere, but some of the documentation refers to it as the server on which it runs.</p>
+a  <p><tt>/var/sylspace</tt> is hardcoded in 2-3 places.  If you do not want to use this, you need to fix it.  There are a very few hardcodes to $ENV{MOJO_DOMAINNAME} (e.g., the SylSpace-Secrets.conf and the systemd configuration files).  I do not believe that <tt>http://*$ENV{MOJO_DOMAINNAME}</tt> is hardcoded anywhere, but some of the documentation refers to it as the server on which it runs.</p>
 
   <p>Because all content is stored in the unix filesystem, it is easy for an instructor to view and interpret all of his/her data, too.  It also makes debugging a lot easier.</p>
 

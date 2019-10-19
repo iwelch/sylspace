@@ -6,26 +6,41 @@ plugin 'Mojolyst' => {controllers => 'SylSpace::Controller'};
 plugin 'RenderFile';
 plugin 'browser_detect';
 
-use Data::Dumper;
+my $dmnm= (glob("/var/sylspace/domain=*"))[0];
 
-if ($ENV{HYPNOTOAD_APP}) {  $ENV{MOJO_REUSE}= 'syllabus.space'; }
+if (defined($dmnm)) {
+  $dmnm =~ s{^/var/sylspace/domain\=}{};
+  $ENV{MOJO_DOMAINNAME}= $dmnm;
+} else {
+  use Net::Domain qw(hostdomain);
+  $ENV{MOJO_DOMAINNAME}= hostdomain();
+}
 
-(defined($ENV{MOJO_REUSE})) or die "very weird running environment without MOJO_REUSE.  are you starting SylSpace w/o mojo or direct??\n: ".(Dumper \%ENV);
+my %ENVMOJO;
+foreach my $k (keys %ENV) { ($k =~ /MOJO|HYPNO/) and $ENVMOJO{$k}=$ENV{$k}; }
+
+(defined($ENV{HYPNOTOAD_APP})) or warn "may not work except under hypnotoad";
+
 ## $0 = MOJO_EXE = /Users/ivo/syllabus.space/syllabus.space/SylSpace
-(defined($ENV{MOJO_EXE})) or die "very weird running environment without MOJO_EXE.";
+(defined($ENV{MOJO_EXE})) or die "very weird running environment without ENV{MOJO_EXE}.";
 
 use FindBin;
 use Socket;
 
 (my $pgmname= $0) =~ s{.*/}{};  ## usually SylSpace
 
-$ENV{SYLSPACE_sitepath}= $FindBin::Bin;  ## /Users/ivo/syllabus.space/syllabus.space/
+$ENV{SYLSPACE_sitepath}= $FindBin::Bin;    ## /Users/ivo/syllabus.space/syllabus.space/
 
 ($ENV{SYLSPACE_appname}= $0) =~ s{.*/}{};  ## SylSpace, from executable command
-($ENV{SYLSPACE_sitename}= $ENV{MOJO_REUSE}) =~ s/:.*//g;  ## syllabus.test, from Mojo
 
-($ENV{SYLSPACE_sitename} eq 'localhost') and die "\nyou cannot use localhost, because we need subdomins for testing.  please use syllabus.test instead.\n";
-$ENV{SYLSPACE_siteip}= inet_ntoa(inet_aton($ENV{SYLSPACE_sitename}));  ## 127.0.0.1
+## remove trailing port number
+($ENV{SYLSPACE_sitename}= $ENV{MOJO_DOMAINNAME}) =~ s/:.*//g;  ## syllabus.test, from Mojo
+
+($ENV{MOJO_DOMAINNAME} eq 'localhost') and die "\nyou cannot use localhost, because we need subdomins for testing.  please use syllabus.test instead.\n";
+
+print STDERR "dmnm=$ENV{MOJO_DOMAINNAME}\n";
+
+$ENV{SYLSPACE_siteip}= inet_ntoa(inet_aton($ENV{MOJO_DOMAINNAME}));  ## 127.0.0.1
 $ENV{SYLSPACE_onlocalhost}= ($ENV{SYLSPACE_siteip} eq '127.0.0.1');
 
 my $configfname= "$ENV{SYLSPACE_sitepath}/$pgmname-Secrets.conf";
@@ -127,13 +142,13 @@ if (-e $configfname) {
 ## http://user.course.$ENV{SYLSPACE_sitename} -> $ENV{SYLSPACE_sitename}
 ## http://$ENV{'sitename'} -> $ENV{'sitename'}
 
-*Mojo::URL::domainonly = sub {
-  return $ENV{SYLSPACE_sitename};
-};
+# *Mojo::URL::domainonly = sub {
+#   return $ENV{SYLSPACE_sitename};
+# };
 
 *Mojo::URL::domainport = sub {
   my $port= shift->port;
-  defined($ENV{SYLSPACE_sitename}) or die "internal error: no site";
+  defined($ENV{SYLSPACE_sitename}) or die "internal error: no site (ENV{SYLSPACE_sitename})";
   (defined($port)) or return $ENV{SYLSPACE_sitename};
   return $ENV{SYLSPACE_sitename}.':$port';
 };
@@ -141,16 +156,16 @@ if (-e $configfname) {
 
 ## http://user.course.$ENV{SYLSPACE_sitename} -> user.course
 ## http://$ENV{SYLSPACE_sitename} -> undef
-*Mojo::URL::subdomain = sub {
-  my $crequrl= shift;
-  my $fulldomain= $crequrl->to_abs->host || "unknown-fulldomain";
-  ($fulldomain =~ m/(.*)\.localhost$/) and return $1;
-  my @f= split(/\./, $fulldomain);
-  (@f) or return '';  ## never
-  pop(@f); pop(@f);   ## (pop(@f) =~ /localhost$/) or pop(@f);  ## hehe --- pop again
-  ($#f>=0) or return '';
-  return join('.', @f);
-};
+#*Mojo::URL::subdomain = sub {
+#  my $crequrl= shift;
+#  my $fulldomain= $crequrl->to_abs->host || "unknown-fulldomain";
+#  ($fulldomain =~ m/(.*)\.localhost$/) and return $1;
+#  my @f= split(/\./, $fulldomain);
+#  (@f) or return '';  ## never
+#  pop(@f); pop(@f);   ## (pop(@f) =~ /localhost$/) or pop(@f);  ## hehe --- pop again
+#  ($#f>=0) or return '';
+#  return join('.', @f);
+#};
 
 
 ################################################################################################################################
@@ -173,7 +188,7 @@ if ($ENV{'SYLSPACE_onlocalhost'}) {
   print STDERR "$0: *** CHROME cannot be used in localhostmode, because it resolves 127.0.0.1 differently\n";
 }
 
-print STDERR "$0: Starting $ENV{SYLSPACE_appname} now on $ENV{MOJO_REUSE}\n";
+print STDERR "$0: Starting $ENV{SYLSPACE_appname} now on $ENV{MOJO_DOMAINNAME}\n";
 
 app->sessions->cookie_domain( '.'.$ENV{SYLSPACE_sitename} );
 

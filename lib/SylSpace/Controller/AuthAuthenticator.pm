@@ -75,13 +75,13 @@ get '/auth/authenticator' => sub {
 
   (my $course = standard( $c )) or return global_redirect($c);
   
-  $c->stash( authurl => $c->oauth2->auth_url("google", {scope => "email profile", redirect_uri => "http://auth.syllabus.space/auth/login"}));
+  $c->stash( authurl => $c->oauth2->auth_url("google", {scope => "email profile", redirect_uri => "http://auth.$ENV{MOJO_DOMAINNAME}/auth/login"}));
   $c->render(template => 'AuthAuthenticator' );
 };
 
 get "/auth/login" => sub {
   my $c = shift;
-  my %get_token_args = {redirect_uri => 'http://auth.syllabus.space/auth/authenticator', scope => 'profile email'};
+  my %get_token_args = {redirect_uri => 'http://auth.$ENV{MOJO_DOMAINNAME}/auth/authenticator', scope => 'profile email'};
   my $data = $c->oauth2->get_token(google => \%get_token_args);
   my $token = $data->{access_token};
  	
@@ -114,7 +114,7 @@ __DATA__
 <p style="margin:1em"> To learn more about this site, please visit the <a href="/aboutus">about us</a> page.</p>
 
   <%== msghash2string( [{ msgid => 0, priority => 5, time => 1495672668, subject => 'Hello!',
-			body => '<p>It is safe to register and/or authenticate.  The site is run by Ivo Welch, Prof at UCLA.  For more information, please click on <a href="/aboutus">About Us</a>.   <p><b>Students</b>: Registration allows students to take sample tests, including a great set of corporate finance quizzes.  (A typical quiz looks like <a href="/html/eqsample02a.html">this rendering</a>.) <p><b>Instructors:</b> Instructors can also obtain an own tailored course site.  Course sites allow posting and changing equizzes, seeing what students have answered, distributing homeworks and collecting student answers.  The web interface is <em>far</em> simpler (no learning curve!) and more pleasing than anything else out there. See <a href="http://auth.syllabus.space/faq">screenshots</a>.  If interested, please <a href="mailto:ivo.welch@gmail.com">email to request</a> a tailored instructor site.  Include (1) a gmail address;  (2) a link to a university site so I can confirm your identity; and (3) a course name (such as mfe404) and year (such as 2018).  Your private website will be named something like <tt>http://<span style="color:blue">welch-mfe404-2018.ucla</span>.syllabus.space</tt>.<p>If you stumble upon little or not-so-little bugs, please let <a href="mailto:ivo.welch@gmail.com">me</a> know.'}] ) %>
+			body => '<p>It is safe to register and/or authenticate.  The site is run by Ivo Welch, Prof at UCLA.  For more information, please click on <a href="/aboutus">About Us</a>.   <p><b>Students</b>: Registration allows students to take sample tests, including a great set of corporate finance quizzes.  (A typical quiz looks like <a href="/html/eqsample02a.html">this rendering</a>.) <p><b>Instructors:</b> Instructors can also obtain an own tailored course site.  Course sites allow posting and changing equizzes, seeing what students have answered, distributing homeworks and collecting student answers.  The web interface is <em>far</em> simpler (no learning curve!) and more pleasing than anything else out there. See <a href="http://auth.$ENV{MOJO_DOMAINNAME}/faq">screenshots</a>.  If interested, please <a href="mailto:ivo.welch@gmail.com">email to request</a> a tailored instructor site.  Include (1) a gmail address;  (2) a link to a university site so I can confirm your identity; and (3) a course name (such as mfe404) and year (such as 2018).  Your private website will be named something like <tt>http://<span style="color:blue">welch-mfe404-2018.ucla</span>$ENV{MOJO_DOMAINNAME}</tt>.<p>If you stumble upon little or not-so-little bugs, please let <a href="mailto:ivo.welch@gmail.com">me</a> know.'}] ) %>
 
 <hr />
 

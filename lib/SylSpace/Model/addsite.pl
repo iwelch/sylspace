@@ -23,7 +23,7 @@ my $usage= "usage: $0 sitename [finc3600-2018-risik-webster] instructoremail\n";
 
 my ($subdomain, $iemail) = @ARGV;
 
-$subdomain =~ s{.syllabus.space$}{};
+## $subdomain =~ s{.syllabus.space$}{};
 my $count = () = $subdomain =~ /\./g;
 ($count == 1) or die "Sorry, you need exactly one period in your new sitename";
 
@@ -41,7 +41,9 @@ print "successfully created website $subdomain with instructor $iemail\n";
 if (`hostname` !~ /\bsyllabus\b/m) {
   print "
 
-IMPORTANT : because you did not execute this on a production site, you probably
-need to add $subdomain to map to 127.0.0.1 into /etc/hosts
+IMPORTANT : because you did not execute this on a production site
+(anything including the fragment 'syllabus'), you probably need to add
+$subdomain to map to 127.0.0.1 into /etc/hosts
+
 ";
 }
