@@ -18,7 +18,11 @@ use SylSpace::Model::Model qw(bioiscomplete userexists usernew);
 my $authroot= sub {
   my $c = shift;
 
-  (defined($c->session->{uemail})) or return $c->flash(message => "you had no identity.  please authenticate")->redirect_to('/auth/authenticator');
+  if (!defined($c->session->{uemail})) {
+    ($ENV{SYLSPACE_onlocalhost}) and return $c->flash(message => "no identity yet, but local host, so redirect to testsetuser (no google try!)")->redirect_to('/auth/Testsetuser');
+
+    return $c->flash(message => "you have no identity.  please authenticate")->redirect_to('/auth/authenticator');
+  }
 
   (defined($c->session->{expiration})) or return $c->flash(message => $c->session->{uemail}." is now a zombie. please authenticate")->redirect_to('/auth/authenticator');
   (time()< $c->session->{expiration}) or return $c->flash(message => "you expired. please authenticate")->redirect_to('/auth/authenticator');
@@ -26,7 +30,7 @@ my $authroot= sub {
   my $completelynew="";
   if (!(userexists($c->session->{uemail}))) {
     usernew($c->session->{uemail});  ## a completely new user; we could use google info to prepopulate bioform
-    $completelynew=", first timer.  you were just created";;
+    $completelynew=", first timer.  you were just created";
   }
 
   (bioiscomplete($c->session->{uemail})) or return $c->flash(message => "please complete your bio first")->redirect_to('/auth/bioform');
