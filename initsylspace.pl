@@ -46,6 +46,11 @@ my $varsyl="/var/sylspace";
 
 (!(-e './Controller') && (-e './lib/SylSpace/Controller')) and system("ln -s lib/SylSpace/Controller .");
 (!(-e './Model') && (-e './lib/SylSpace/Model')) and system("ln -s lib/SylSpace/Model .");
+(-e "./log") or system("mkdir log");
+(-e "./SylSpace-Secrets.conf") or system("cp SylSpace-Secrets.template SylSpace-Secrets.conf");
+(-e "./SylSpace.conf") or system("ln -s SylSpace-Secrets.conf SylSpace.conf");
+
+
 
 (-e "./Model/Model.pm") or die "internal error: you don't seem to have the Model/ directory";
 (-e "./Model/eqbackend/eqbackend.pl") or die "internal error: you don't seem to have the Model/eqbackend";
