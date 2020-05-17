@@ -1,0 +1,4 @@
+local/
+
+#no vim tmp files
+*.sw?

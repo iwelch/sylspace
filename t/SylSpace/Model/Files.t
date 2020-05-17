@@ -20,8 +20,6 @@ use Test2::Plugin::DieOnFail;
 my $iemail='instructor@gmail.com';
 my $s2email='student@gmail.com';
 
-use lib '../..';
-
 use SylSpace::Model::Files qw(answerdelete answercollect cptemplate eqlisti eqwrite eqreadi hwwrite filewritei filedelete eqsetdue hwsetdue filesetdue filelisti filelists filereads answerlists answerwrite);
 
 use SylSpace::Model::Webcourse qw( _webcourseremove _webcoursemake _webcourselist );

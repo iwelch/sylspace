@@ -21,7 +21,6 @@ use Data::Dumper;
 
 ################################################################
 
-use lib '../..';
 
 use SylSpace::Model::Webcourse qw(_webcoursemake _webcourseremove _webcourseshow );
 

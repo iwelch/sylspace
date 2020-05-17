@@ -16,7 +16,6 @@ no warnings qw(experimental::signatures);
 use Test2::Bundle::Extended;
 use Test2::Plugin::DieOnFail;
 
-use lib '../..';
 
 use SylSpace::Model::Utils qw(_decryptdecode _encodeencrypt);
 

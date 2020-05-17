@@ -24,7 +24,6 @@ my $s3email='noone@gmail.com';
 
 my @course=qw (mfe.welch mba.welch year.course.instructor.university intro.corpfin);
 
-use lib '../..';
 use SylSpace::Model::Grades qw( gradetaskadd gradesave gradesashash );
 
 SylSpace::Model::Utils::_setsudo();

@@ -8,7 +8,6 @@ use autodie;
 use Perl6::Slurp;
 use File::Glob qw(bsd_glob);
 
-use lib '../..';
 
 (-e "/var/sylspace") or die "please run ../initsylspace.pl first!\n";
 

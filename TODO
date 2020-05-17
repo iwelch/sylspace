@@ -1,0 +1,19 @@
+# vim: set ft=markdown:
+#Some steps for refactoring
+
+- make running the server not need root
+  - let's start by UN-hardcoding /var/syslspace
+- fix permissions (why on earth is /var/sylspace world read/writable)?
+- make the model location configurable
+- move the helper scripts to Mojo commands
+- get rid of the domainport thing. Make it a helper instead
+  - ditto for subdomain
+- move all file manip to using Mojo::File (more portable and
+  prettier)
+
+#In terms of splitting the page
+
+I want to move the logic out of that template and into the code
+(that makes it accessible to tests, too!). Then we can go forward
+and make some tests to establish a baseline, and then splitting
+the page is trivial.

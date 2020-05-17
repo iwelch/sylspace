@@ -28,6 +28,161 @@ get '/auth/goclass' => sub {
 	     email => $c->session->{uemail} );
 };
 
+use SylSpace::Model::Controller qw(obscure);
+
+sub coursebuttonsentry {
+  my ($self, $courselist, $email)= @_;
+
+  ## users want a sort by subdomain name first, then subsubdomain, then ...
+  ## websites names are in reverse order
+
+  my @courselist = keys %{$courselist};
+
+  (@courselist) or return "<p>No courses enrolled yet.</p>";
+
+  my %displaylist;
+  foreach (@courselist) {
+    $displaylist{ $_ } = join(" : ", reverse(split(/\./, $_)));
+  }
+
+  ## add a number of how many courses qualify from this list for possible combination
+  my %subdomcount;
+  foreach (@courselist) {
+    my @f=split(/\./, $_); my $le=pop( @f );
+    ++$subdomcount{ $le };
+  }
+  my %freq; my %group;
+  foreach (@courselist) {
+    my @f=split(/\./, $_); my $le=pop( @f );
+    $freq{$_} = $subdomcount{ $le };
+    $group{$le} .= $_."\n";
+  }
+
+  my $rs='';
+  my $curdomainport= $self->req->url->to_abs->domainport;
+
+  foreach (sort @courselist) {
+    #TODO- let's try and put this back into the template in a looping
+    #construct type
+    $rs .= btnblock( "http://$_.$curdomainport/enter?e=".obscure( time().':'.$email.':'.$self->session->{expiration} ),
+		     '<i class="fa fa-circle"></i> '.$displaylist{$_},
+		     "<a href=\"/auth/userdisroll?c=$_\"><i class=\"fa fa-trash\"></i> unenroll $_.$curdomainport</a>",     ### $group{$_}." ".$freq{$_}||"N",
+		     'btn-default',
+		     'w' )."\n";
+  }
+  return $rs;
+}
+
+
+################################################################
+sub coursebuttonsenroll {
+  my ($self, $courselist, $email)= @_;
+
+  my @courselist= keys %{$courselist};
+
+  (@courselist) or return "<p>No courses available.</p>";
+
+  # remove multidomains
+  #  my @singledomcourse = grep { $_ !~ m{\.} } @courselist;
+  my @singledomcourse = @courselist;
+
+  ## users want a sort by subdomain name first, then subsubdomain, then ...
+  ## websites names are in reverse order
+
+  my $rs="";
+
+  foreach my $g (sort @singledomcourse) {
+
+    #TODO- subs are defined globally, don't need this in the loop
+    sub imbtn {
+      my ( $maintext, $subtext, $displaylist, $coursehassecret )= @_;
+      my $url= ($coursehassecret) ? '/auth/userenrollform?c='.$maintext : '/auth/userenrollsavenopw?course='.$maintext ;
+      my $faicon=  ($coursehassecret) ? '<i class="fa fa-lock"></i> ': '<i class="fa fa-circle-o"></i> ';
+      return "  ".btnblock($url, $faicon.$maintext, $subtext, 'btn-default', 'w' );
+    }
+
+    $rs .= imbtn( $g, 'singleton', $g, $courselist->{$g} )."\n";
+  }
+
+  $rs .= "
+      <form name=\"selectcourse\" method=\"get\" action=\"/auth/userenrollform\" class=\"form\"> 
+      <div class=\"input-group\">
+        <span class=\"input-group-addon\">Course Name: <i class=\"fa fa-square\"></i></span>
+        <input class=\"form-control\" placeholder=\"coursename, e.g., welch-mfe101-2017.ucla\" name=\"c\" type=\"text\" required />
+      </div>
+      <div class=\"input-group\">
+        <button class=\"btn btn-default\" type=\"submit\" value=\"submit\">Select a course by its full name</button>
+      </div>
+
+      </form>
+    ";
+
+  $rs .= qq(\t</div>\n);
+
+  return $rs;
+}
+################################################################
+sub coursebuttonsenrollshowall_unused {
+  my ($self, $courselist, $email)= @_;
+
+  my @courselist= keys %{$courselist};
+
+  (@courselist) or return "<p>No courses available.</p>";
+
+  ## users want a sort by subdomain name first, then subsubdomain, then ...
+  ## websites names are in reverse order
+
+  print STDERR "IVODEBUG: ".join(" | ", @courselist)."\n";
+
+  my %displaylist;
+  foreach (@courselist) {
+    $displaylist{ $_ } = join(" : ", reverse(split(/\./, $_)));
+  }
+
+  ## add a number of how many courses qualify from this list for possible combination
+  my %subdomcount;
+  foreach (@courselist) {
+    my @f=split(/\./, $_); my $le=pop( @f );
+    ++$subdomcount{ $le };
+  }
+  my %group;
+  foreach (@courselist) {
+    my @f=split(/\./, $_); my $le=pop( @f );
+    push(@{$group{$le}}, $_);
+  }
+
+  my $rs="";
+  foreach my $g (sort keys %group) {
+    my @displaylist= @{$group{$g}};
+
+    sub noimbtn {
+      my ( $maintext, $subtext, $displaylist, $coursehassecret )= @_;
+      my $url= ($coursehassecret) ? '/auth/userenrollform?c='.$maintext : '/auth/userenrollsavenopw?course='.$maintext ;
+      my $icon=  ($coursehassecret) ? '<i class="fa fa-lock"></i> ': '<i class="fa fa-circle-o"></i> ';
+      return "  ".btnblock($url, $icon.$displaylist->{$maintext}, $subtext, 'btn-default', 'w');
+    }
+
+    if (scalar(@displaylist) == 1) {
+      my $course= $displaylist[0];
+      $rs .= imbtn( $course, 'singleton', \%displaylist, $courselist->{$course} )."\n";
+    } else {
+      my $mb= "<i class=\"fa fa-briefcase\"></i>";  ## or use 'plus-circle'
+      $rs .= qq(\n<div class="col-xs-12 col-md-6"><button type="button" class="btn btn-default btn-block" data-toggle="collapse" data-target="#$g"> <h3> $mb $g </h3></button><p>Multiple</p></div>\n);
+
+      $rs .= qq(\t<div id="$g" class="collapse">\n);
+      my $cntup=0;
+      foreach my $x (@displaylist) {
+	++$cntup;
+	$rs .= "\t\t".imbtn( $x, "$cntup of ".scalar(@displaylist), \%displaylist, $courselist->{$x}  )."\n";
+      }
+      $rs .= qq(\t</div>\n);
+    }
+  }
+
+  return $rs;
+}
+
+%>
 1;
 
 ################################################################
@@ -132,157 +287,3 @@ my $uemencrypt= _encodeencrypt( $raw );
 </main>
 
 
-  <%
-
-  use SylSpace::Model::Controller qw(obscure);
-
-sub coursebuttonsentry {
-  my ($self, $courselist, $email)= @_;
-
-  ## users want a sort by subdomain name first, then subsubdomain, then ...
-  ## websites names are in reverse order
-
-  my @courselist= keys %{$courselist};
-
-  (@courselist) or return "<p>No courses enrolled yet.</p>";
-
-  my %displaylist;
-  foreach (@courselist) {
-    $displaylist{ $_ } = join(" : ", reverse(split(/\./, $_)));
-  }
-
-  ## add a number of how many courses qualify from this list for possible combination
-  my %subdomcount;
-  foreach (@courselist) {
-    my @f=split(/\./, $_); my $le=pop( @f );
-    ++$subdomcount{ $le };
-  }
-  my %freq; my %group;
-  foreach (@courselist) {
-    my @f=split(/\./, $_); my $le=pop( @f );
-    $freq{$_} = $subdomcount{ $le };
-    $group{$le} .= $_."\n";
-  }
-
-  my $rs='';
-  my $curdomainport= $self->req->url->to_abs->domainport;
-
-  foreach (sort @courselist) {
-    $rs .= btnblock( "http://$_.$curdomainport/enter?e=".obscure( time().':'.$email.':'.$self->session->{expiration} ),
-		     '<i class="fa fa-circle"></i> '.$displaylist{$_},
-		     "<a href=\"/auth/userdisroll?c=$_\"><i class=\"fa fa-trash\"></i> unenroll $_.$curdomainport</a>",     ### $group{$_}." ".$freq{$_}||"N",
-		     'btn-default',
-		     'w' )."\n";
-  }
-  return $rs;
-}
-
-
-################################################################
-sub coursebuttonsenroll {
-  my ($self, $courselist, $email)= @_;
-
-  my @courselist= keys %{$courselist};
-
-  (@courselist) or return "<p>No courses available.</p>";
-
-  # remove multidomains
-  #  my @singledomcourse = grep { $_ !~ m{\.} } @courselist;
-  my @singledomcourse = @courselist;
-
-  ## users want a sort by subdomain name first, then subsubdomain, then ...
-  ## websites names are in reverse order
-
-  my $rs="";
-
-  foreach my $g (sort @singledomcourse) {
-
-    sub imbtn {
-      my ( $maintext, $subtext, $displaylist, $coursehassecret )= @_;
-      my $url= ($coursehassecret) ? '/auth/userenrollform?c='.$maintext : '/auth/userenrollsavenopw?course='.$maintext ;
-      my $faicon=  ($coursehassecret) ? '<i class="fa fa-lock"></i> ': '<i class="fa fa-circle-o"></i> ';
-      return "  ".btnblock($url, $faicon.$maintext, $subtext, 'btn-default', 'w' );
-    }
-
-    $rs .= imbtn( $g, 'singleton', $g, $courselist->{$g} )."\n";
-  }
-
-  $rs .= "
-      <form name=\"selectcourse\" method=\"get\" action=\"/auth/userenrollform\" class=\"form\"> 
-      <div class=\"input-group\">
-        <span class=\"input-group-addon\">Course Name: <i class=\"fa fa-square\"></i></span>
-        <input class=\"form-control\" placeholder=\"coursename, e.g., welch-mfe101-2017.ucla\" name=\"c\" type=\"text\" required />
-      </div>
-      <div class=\"input-group\">
-        <button class=\"btn btn-default\" type=\"submit\" value=\"submit\">Select a course by its full name</button>
-      </div>
-
-      </form>
-    ";
-
-  $rs .= qq(\t</div>\n);
-
-  return $rs;
-}
-################################################################
-sub coursebuttonsenrollshowall_unused {
-  my ($self, $courselist, $email)= @_;
-
-  my @courselist= keys %{$courselist};
-
-  (@courselist) or return "<p>No courses available.</p>";
-
-  ## users want a sort by subdomain name first, then subsubdomain, then ...
-  ## websites names are in reverse order
-
-  print STDERR "IVODEBUG: ".join(" | ", @courselist)."\n";
-
-  my %displaylist;
-  foreach (@courselist) {
-    $displaylist{ $_ } = join(" : ", reverse(split(/\./, $_)));
-  }
-
-  ## add a number of how many courses qualify from this list for possible combination
-  my %subdomcount;
-  foreach (@courselist) {
-    my @f=split(/\./, $_); my $le=pop( @f );
-    ++$subdomcount{ $le };
-  }
-  my %group;
-  foreach (@courselist) {
-    my @f=split(/\./, $_); my $le=pop( @f );
-    push(@{$group{$le}}, $_);
-  }
-
-  my $rs="";
-  foreach my $g (sort keys %group) {
-    my @displaylist= @{$group{$g}};
-
-    sub noimbtn {
-      my ( $maintext, $subtext, $displaylist, $coursehassecret )= @_;
-      my $url= ($coursehassecret) ? '/auth/userenrollform?c='.$maintext : '/auth/userenrollsavenopw?course='.$maintext ;
-      my $icon=  ($coursehassecret) ? '<i class="fa fa-lock"></i> ': '<i class="fa fa-circle-o"></i> ';
-      return "  ".btnblock($url, $icon.$displaylist->{$maintext}, $subtext, 'btn-default', 'w');
-    }
-
-    if (scalar(@displaylist) == 1) {
-      my $course= $displaylist[0];
-      $rs .= imbtn( $course, 'singleton', \%displaylist, $courselist->{$course} )."\n";
-    } else {
-      my $mb= "<i class=\"fa fa-briefcase\"></i>";  ## or use 'plus-circle'
-      $rs .= qq(\n<div class="col-xs-12 col-md-6"><button type="button" class="btn btn-default btn-block" data-toggle="collapse" data-target="#$g"> <h3> $mb $g </h3></button><p>Multiple</p></div>\n);
-
-      $rs .= qq(\t<div id="$g" class="collapse">\n);
-      my $cntup=0;
-      foreach my $x (@displaylist) {
-	++$cntup;
-	$rs .= "\t\t".imbtn( $x, "$cntup of ".scalar(@displaylist), \%displaylist, $courselist->{$x}  )."\n";
-      }
-      $rs .= qq(\t</div>\n);
-    }
-  }
-
-  return $rs;
-}
-
-%>

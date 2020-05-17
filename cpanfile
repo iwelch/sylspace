@@ -1,0 +1,40 @@
+requires 'Archive::Zip';
+requires 'Crypt::CBC';
+requires 'Crypt::DES';
+requires 'Crypt::Blowfish';
+requires 'Data::Dumper';
+requires 'Digest::MD5';
+requires 'Digest::MD5::File';
+requires 'Email::Valid';
+requires 'Encode';
+requires 'File::Grep';
+requires 'File::Copy';
+requires 'File::Glob';
+requires 'File::Path';
+requires 'File::Touch';
+requires 'FindBin';
+requires 'HTML::Entities';
+requires 'MIME::Base64';
+requires 'Math::Round';
+requires 'Perl6::Slurp';
+requires 'Safe';
+requires 'Scalar::Util';
+requires 'Scalar::Util::Numeric';
+requires 'Test2::Bundle::Extended';
+requires 'Test2::Plugin::DieOnFail';
+requires 'YAML::Tiny';
+
+requires 'Class::Inspector';
+
+requires 'Mojolicious::Lite';
+requires 'Mojolicious::Plugin::RenderFile';
+requires 'Mojolicious::Plugin::Mojolyst';
+requires 'Mojolicious::Plugin::BrowserDetect';
+requires 'Mojo::JWT';
+requires 'Mojolicious::Plugin::Web::Auth';
+requires 'Mojolicious::Plugin::OAuth2';
+requires 'Email::Sender::Simple';
+requires 'Email::Simple::Creator';
+requires 'Email::Sender::Transport::SMTP::TLS';
+
+requires 'Mojolicious::Plugin::Web::Auth';
