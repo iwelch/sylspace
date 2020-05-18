@@ -44,8 +44,9 @@ $ENV{SYLSPACE_onlocalhost}= ($ENV{SYLSPACE_siteip} eq '127.0.0.1');
 
 my $configfname= "$ENV{SYLSPACE_sitepath}/$pgmname-Secrets.conf";
 
-if ($ENV{SYLSPACE_onlocalhost}) {
-  ($ENV{SYLSPACE_sitename} eq 'syllabus.test') or die "please test only on syllabus.test";
+if ($ENV{SYLSPACE_onlocalhost} and $ENV{SYLSPACE_sitename} !~ /lvh[.]me$/) {
+  #TODO- eliminate this rigamarole
+  ($ENV{SYLSPACE_sitename} eq 'syllabus.test') or die "please test only on syllabus.test or a subdomain of lvh.me";
   my $etclines= `grep syllabus.test /etc/hosts`;
   ($etclines =~ /corpfin.syllabus.test/m) or die "\n\nFor local testing, please add at the end of /etc/hosts the following: \n\n127.0.0.1 syllabus.test auth.syllabus.test corpfin.syllabus.test\n\n\n";
 } else {
@@ -65,6 +66,9 @@ $ENV{SYLSPACE_jumboscolor}='darkblue'; $ENV{SYLSPACE_jumboicolor}='darkred';
 
 if (-e $configfname) {
 
+  #TODO- the config file should just be gitignored...
+  #also, this doesn't make sure the symlink is in a safe
+  #location... you can symlink IN THIS DIRECTORY!!!!
   (-e $configfname) or die "\nFATAL: no authentication secrets config file '$configfname'\n";
   (-l $configfname) or die "\nFATAL: authentication secrets config file '$configfname' is in the github'ed  directory, not a link.  fix this security risk!\n";
 
@@ -150,6 +154,7 @@ if (-e $configfname) {
   my $port= shift->port;
   defined($ENV{SYLSPACE_sitename}) or die "internal error: no site (ENV{SYLSPACE_sitename})";
   (defined($port)) or return $ENV{SYLSPACE_sitename};
+  #TODO- probably wants a qq for this port
   return $ENV{SYLSPACE_sitename}.':$port';
 };
 
@@ -176,7 +181,11 @@ my $vardir="/var/sylspace";
 
 my @pwsecret=slurp("$vardir/secrets.txt");
 app->secrets( \@pwsecret );  ## the first one encodes, the others are usable; maybe rotate by day
-app->config(hypnotoad => { listen => ['http://'.$ENV{'SYLSPACE_sitename'}.':80'] }); ## hypnotoad is serious and never on localhost
+
+#TODO- no reason to limit this to a domain name, it listens on an
+#interface. Also, this should be configured elsewhere, b/c it
+#doesn't make sense to limit us to port 80
+app->config(hypnotoad => { listen => ['http://*:80'] }); ## hypnotoad is serious and never on localhost
 
 use File::Glob ':bsd_glob';
 my @users= (bsd_glob("$vardir/users/*\@*"));

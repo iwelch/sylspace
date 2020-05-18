@@ -10,6 +10,14 @@
   - ditto for subdomain
 - move all file manip to using Mojo::File (more portable and
   prettier)
+- oh dear bob, we need to fix up this hardcoding so that we can
+  actually make a docker image
+- change testing to use lvh.me, which always resolves to localhost
+  - oh goodness, I can't b/c it expects only one subdomain.
+    durrr-hay
+    - works fine if we limit it to lvh.me alone w/ no subdomain.
+      Remove this feature anyways
+- also, it's hardcoded to work on port 80. That's bad
 
 #In terms of splitting the page
 
@@ -17,3 +25,8 @@ I want to move the logic out of that template and into the code
 (that makes it accessible to tests, too!). Then we can go forward
 and make some tests to establish a baseline, and then splitting
 the page is trivial.
+
+#Getting this up in a testing env
+
+We need to clean some more stuff up b4 we can actually use the
+docker image

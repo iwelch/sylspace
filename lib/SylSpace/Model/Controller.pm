@@ -62,6 +62,10 @@ my $global_message;
 ## standard() should start every webpage.  it makes sure that we have
 ## a session uemail and expiration, and redirects nonsensible
 ## subdomains (course names) to /auth
+#
+#TODO- this can be made an under '/' in the main app, routing all
+#requests through it, returning false if it finishes the dispatch
+#chain
 
 sub standard {
   my $c= shift;

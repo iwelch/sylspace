@@ -22,167 +22,47 @@ get '/auth/goclass' => sub {
 
   ($c->session->{expiration}) or die "you have no expiration date, ".$c->session->{uemail}."?!";
 
+  #TODO- sorting of the courses should be done here... allows for
+  #flexibility in listing elsewhere
   $c->stash( timedelta => timedelta( $c->session->{expiration} ),
 	     courselistenrolled => courselistenrolled($c->session->{uemail}),
 	     courselistnotenrolled => courselistnotenrolled($c->session->{uemail}),
 	     email => $c->session->{uemail} );
 };
 
-use SylSpace::Model::Controller qw(obscure);
 
-sub coursebuttonsentry {
-  my ($self, $courselist, $email)= @_;
+package Mojolicious::Controller {
+  use SylSpace::Model::Controller qw(obscure btnblock);
 
-  ## users want a sort by subdomain name first, then subsubdomain, then ...
-  ## websites names are in reverse order
+  use Mojo::URL;
 
-  my @courselist = keys %{$courselist};
+  #TODO- drop these in a plugin as helpers
+  sub course_button_enter {
+    my ($self, $course, $email) = @_;
+    my $curdomainport= $self->req->url->to_abs->domainport;
+    my $display_name = join ' : ', reverse split /[.]/, $course;
+    
+    my $enter_url = Mojo::URL->new->host("$course.$curdomainport")->path('/enter');
+    $enter_url->query(e => obscure join ':', time, $email, $self->session->{expiration});
 
-  (@courselist) or return "<p>No courses enrolled yet.</p>";
-
-  my %displaylist;
-  foreach (@courselist) {
-    $displaylist{ $_ } = join(" : ", reverse(split(/\./, $_)));
+    return btnblock($enter_url, 
+      qq{<i class="fa fa-circle"></i> $display_name},
+      qq{<a href="/auth/userdisroll?c=$course"><i class="fa fa-trash"></i> unenroll $course.$curdomainport</a>},
+      'btn-default',
+      'w' );
   }
 
-  ## add a number of how many courses qualify from this list for possible combination
-  my %subdomcount;
-  foreach (@courselist) {
-    my @f=split(/\./, $_); my $le=pop( @f );
-    ++$subdomcount{ $le };
-  }
-  my %freq; my %group;
-  foreach (@courselist) {
-    my @f=split(/\./, $_); my $le=pop( @f );
-    $freq{$_} = $subdomcount{ $le };
-    $group{$le} .= $_."\n";
+
+  sub course_button_enroll {
+    my ($self, $course, $subtext, $has_secret) = @_;
+    my $url = $has_secret ? "/auth/userenrollform?c=$course" : "/auth/userenrollsavenopw?course=$course";
+    my $icon_class = $has_secret ? 'fa-lock' : 'fa-circle-o';
+    return btnblock($url, qq{<i class="fa $icon_class"></i> $course}, $subtext, 'btn-default', 'w')
   }
 
-  my $rs='';
-  my $curdomainport= $self->req->url->to_abs->domainport;
 
-  foreach (sort @courselist) {
-    #TODO- let's try and put this back into the template in a looping
-    #construct type
-    $rs .= btnblock( "http://$_.$curdomainport/enter?e=".obscure( time().':'.$email.':'.$self->session->{expiration} ),
-		     '<i class="fa fa-circle"></i> '.$displaylist{$_},
-		     "<a href=\"/auth/userdisroll?c=$_\"><i class=\"fa fa-trash\"></i> unenroll $_.$curdomainport</a>",     ### $group{$_}." ".$freq{$_}||"N",
-		     'btn-default',
-		     'w' )."\n";
-  }
-  return $rs;
 }
 
-
-################################################################
-sub coursebuttonsenroll {
-  my ($self, $courselist, $email)= @_;
-
-  my @courselist= keys %{$courselist};
-
-  (@courselist) or return "<p>No courses available.</p>";
-
-  # remove multidomains
-  #  my @singledomcourse = grep { $_ !~ m{\.} } @courselist;
-  my @singledomcourse = @courselist;
-
-  ## users want a sort by subdomain name first, then subsubdomain, then ...
-  ## websites names are in reverse order
-
-  my $rs="";
-
-  foreach my $g (sort @singledomcourse) {
-
-    #TODO- subs are defined globally, don't need this in the loop
-    sub imbtn {
-      my ( $maintext, $subtext, $displaylist, $coursehassecret )= @_;
-      my $url= ($coursehassecret) ? '/auth/userenrollform?c='.$maintext : '/auth/userenrollsavenopw?course='.$maintext ;
-      my $faicon=  ($coursehassecret) ? '<i class="fa fa-lock"></i> ': '<i class="fa fa-circle-o"></i> ';
-      return "  ".btnblock($url, $faicon.$maintext, $subtext, 'btn-default', 'w' );
-    }
-
-    $rs .= imbtn( $g, 'singleton', $g, $courselist->{$g} )."\n";
-  }
-
-  $rs .= "
-      <form name=\"selectcourse\" method=\"get\" action=\"/auth/userenrollform\" class=\"form\"> 
-      <div class=\"input-group\">
-        <span class=\"input-group-addon\">Course Name: <i class=\"fa fa-square\"></i></span>
-        <input class=\"form-control\" placeholder=\"coursename, e.g., welch-mfe101-2017.ucla\" name=\"c\" type=\"text\" required />
-      </div>
-      <div class=\"input-group\">
-        <button class=\"btn btn-default\" type=\"submit\" value=\"submit\">Select a course by its full name</button>
-      </div>
-
-      </form>
-    ";
-
-  $rs .= qq(\t</div>\n);
-
-  return $rs;
-}
-################################################################
-sub coursebuttonsenrollshowall_unused {
-  my ($self, $courselist, $email)= @_;
-
-  my @courselist= keys %{$courselist};
-
-  (@courselist) or return "<p>No courses available.</p>";
-
-  ## users want a sort by subdomain name first, then subsubdomain, then ...
-  ## websites names are in reverse order
-
-  print STDERR "IVODEBUG: ".join(" | ", @courselist)."\n";
-
-  my %displaylist;
-  foreach (@courselist) {
-    $displaylist{ $_ } = join(" : ", reverse(split(/\./, $_)));
-  }
-
-  ## add a number of how many courses qualify from this list for possible combination
-  my %subdomcount;
-  foreach (@courselist) {
-    my @f=split(/\./, $_); my $le=pop( @f );
-    ++$subdomcount{ $le };
-  }
-  my %group;
-  foreach (@courselist) {
-    my @f=split(/\./, $_); my $le=pop( @f );
-    push(@{$group{$le}}, $_);
-  }
-
-  my $rs="";
-  foreach my $g (sort keys %group) {
-    my @displaylist= @{$group{$g}};
-
-    sub noimbtn {
-      my ( $maintext, $subtext, $displaylist, $coursehassecret )= @_;
-      my $url= ($coursehassecret) ? '/auth/userenrollform?c='.$maintext : '/auth/userenrollsavenopw?course='.$maintext ;
-      my $icon=  ($coursehassecret) ? '<i class="fa fa-lock"></i> ': '<i class="fa fa-circle-o"></i> ';
-      return "  ".btnblock($url, $icon.$displaylist->{$maintext}, $subtext, 'btn-default', 'w');
-    }
-
-    if (scalar(@displaylist) == 1) {
-      my $course= $displaylist[0];
-      $rs .= imbtn( $course, 'singleton', \%displaylist, $courselist->{$course} )."\n";
-    } else {
-      my $mb= "<i class=\"fa fa-briefcase\"></i>";  ## or use 'plus-circle'
-      $rs .= qq(\n<div class="col-xs-12 col-md-6"><button type="button" class="btn btn-default btn-block" data-toggle="collapse" data-target="#$g"> <h3> $mb $g </h3></button><p>Multiple</p></div>\n);
-
-      $rs .= qq(\t<div id="$g" class="collapse">\n);
-      my $cntup=0;
-      foreach my $x (@displaylist) {
-	++$cntup;
-	$rs .= "\t\t".imbtn( $x, "$cntup of ".scalar(@displaylist), \%displaylist, $courselist->{$x}  )."\n";
-      }
-      $rs .= qq(\t</div>\n);
-    }
-  }
-
-  return $rs;
-}
-
-%>
 1;
 
 ################################################################
@@ -211,7 +91,13 @@ my $uemencrypt= _encodeencrypt( $raw );
 <h3> Enrolled Courses </h3>
 
   <div class="row top-buffer text-center">
-    <%== coursebuttonsentry($self, $courselistenrolled, $email, 1) %>
+    % my @enrolled = sort keys %$courselistenrolled;
+    % for my $course (@enrolled) {
+    %== $self->course_button_enter($course, $email)
+    % }
+    % unless (@enrolled) {
+      <p> No courses enrolled yet. </p>
+    % }
   </div>
 
 <hr />
@@ -219,7 +105,23 @@ my $uemencrypt= _encodeencrypt( $raw );
 <h3> Other Available Courses </h3>
 
   <div class="row top-buffer text-center">
-    <%== coursebuttonsenroll($self, $courselistnotenrolled, $email, 0) %>
+    % my @notenrolled = sort keys %$courselistnotenrolled;
+    % for my $course (@notenrolled) {
+    %== $self->course_button_enroll($course, 'singleton', $courselistnotenrolled->{$course})
+    % }
+    % unless (@notenrolled) {
+    <p>No courses available.</p>
+    % }
+
+    <form name="selectcourse" method="get" action="/auth/userenrollform" class="form"> 
+      <div class="input-group">
+        <span class="input-group-addon">Course Name: <i class="fa fa-square"></i></span>
+        <input class="form-control" placeholder="coursename, e.g., welch-mfe101-2017.ucla" name="c" type="text" required />
+      </div>
+      <div class="input-group">
+        <button class="btn btn-default" type="submit" value="submit">Select a course by its full name</button>
+      </div>
+    </form>
   </div>
 
   <hr />

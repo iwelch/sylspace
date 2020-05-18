@@ -1,4 +1,6 @@
 local/
 
+SylSpace-Secrets.conf
+
 #no vim tmp files
 *.sw?

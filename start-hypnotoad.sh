@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# vim: set ft=perl:
 
 ## this file is part of sylspace, released under the AGPL, 2016, authored by ivo welch, ucla.
 ## one additional condition requires the prominent posting of the name (sylspace) and the author.
@@ -57,6 +58,7 @@ if ($isproduction) {
 
   print STDERR "$0: running morbo for syllabus.test in $mode mode.\n";
 
+  #TODO- why not just use `which`?
   my $executable= (-x "/usr/local/bin/morbo") ? "/usr/local/bin/morbo" : "/usr/local/ActivePerl-5.24/site/bin/morbo";
   (-x $executable) or die "cannot find suitable morbo executable.\n";
 

@@ -95,9 +95,8 @@ say STDERR "made $varsyl/secrets.txt\n";
 
 say STDERR "\nNow create a nice sample website.
 
-cd Model/
-perl mkstartersite.t  ## other tests: Model.t Files.t
-perl addsite.pl mysample instructor\@gmail.com
+perl t/SylSpace/Model/mkstartersite.t  ## other tests: Model.t Files.t
+perl bin/addsite.pl mysample instructor\@gmail.com
 
   ## if the domain is fake, please run `wildcardhosts.pl yourfakedomain.com` after you add a site.
 ";
