@@ -33,13 +33,14 @@ use autodie;
 
 system("perl initsylspace.pm") and die "please check all apt and cpan installs";
 
-my $varsyl="/var/sylspace";
+use lib 'lib';
+use SylSpace::Model::Utils qw(_getvar);
+my $varsyl=_getvar();
 
 ################################################################
 
 (`uname` eq "Linux\n") or die "sylspace runs only under Linux, not ".`uname`;
-($> eq 0) or die "the initsylspace.pl script requires su privileges (to add to $varsyl to /var)\n";
-(-w "/var") or die "internal error: I cannot write to the /var directory.  please run this script as sudo";
+(-w "$varsyl") or die "internal error: I cannot write to the $varsyl directory.  please run this script as a user who can";
 
 
 (-e "./templates/equiz/starters") or die "internal error: you don't seem to have any starter templates here";
@@ -91,15 +92,15 @@ system("cp -a templates/equiz/* $varsyl/templates/");
 if (!(-e "$varsyl/secrets.txt")) {
   open(my $FO, ">", "$varsyl/secrets.txt"); for (my $i=0; $i<30; ++$i) { print $FO mkrandomstring(32)."\n"; } close($FO);
 }
-say STDERR "made $varsyl/secrets.txt\n";
+say STDERR "made $varsyl/secrets.txt";
 
-say STDERR "\nNow create a nice sample website.
+say STDERR <<INSTRUCTIONS;
+Now create a nice sample website.
 
-perl t/SylSpace/Model/mkstartersite.t  ## other tests: Model.t Files.t
+perl t/00mkstartersite.t  ## other tests: Model.t Files.t
 perl bin/addsite.pl mysample instructor\@gmail.com
 
-  ## if the domain is fake, please run `wildcardhosts.pl yourfakedomain.com` after you add a site.
-";
+INSTRUCTIONS
 
 
 ################################################################

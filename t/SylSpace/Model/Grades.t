@@ -25,13 +25,14 @@ my $s3email='noone@gmail.com';
 my @course=qw (mfe.welch mba.welch year.course.instructor.university intro.corpfin);
 
 use SylSpace::Model::Grades qw( gradetaskadd gradesave gradesashash );
+use SylSpace::Model::Webcourse qw(_webcoursemake _webcourseremove);
+use SylSpace::Model::Model qw(instructornewenroll userenroll userexists usernew);
 
 SylSpace::Model::Utils::_setsudo();
 
 
 
 ### todo: add test that when there is no or one gradetask, gradesashash still functions well.
-
 
 note '
 ################ grade center
@@ -61,7 +62,7 @@ my @students;
 
 $gah=gradesashash( $course[0] );  ## instructor call
 @students= @{$gah->{uemail}};
-ok( $#students==2, "you have three students, $#students: ".join("|", @students) );
+is @students + 0, 3, "you have three students", join("|", @students);
 
 ok( $gah->{grade}->{$s1email}->{midterm} eq 'pass', "Sorry, but bob should have passed the midterm, not ".$gah->{grade}->{$s1email}->{midterm});
 ok( !defined($gah->{grade}->{$s1email}->{eq1}), "Good. bob has no eq1 grade" );

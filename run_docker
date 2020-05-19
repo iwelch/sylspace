@@ -1,8 +1,6 @@
 #! /bin/bash
-# we assume you named the docker container testing TODO change
-# that assumption
 
 docker run -it -p 80:3000 \
   --mount type=bind,source=$(pwd),target=/usr/src/app \
   --mount type=volume,dst=/usr/src/app/local \
-  testing $@
+  sylspace:dev $@

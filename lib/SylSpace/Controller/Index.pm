@@ -5,7 +5,6 @@
 
 package SylSpace::Controller::Index;
 use Mojolicious::Lite;  ## implied strict, warnings, utf8, 5.10
-use lib qw(.. ../..); ## make syntax checking easier
 use strict;
 
 use SylSpace::Model::Model qw(isenrolled isinstructor);
@@ -22,7 +21,7 @@ my $torealhome = sub {
 
   (my $course = standard( $c )) or return global_redirect($c);
 
-  ($course eq "auth") and return $c->redirect_to('/auth/index');
+  ($course eq "auth") and return $c->redirect_to('authindex');
 
   my $curdomainport= $c->req->url->to_abs->domainport;
 

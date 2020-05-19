@@ -15,18 +15,21 @@ sudo sh initsylspaceinstall.sh  ## install apt/cpan
 perl initsylspace.pm		## check cpan modules 
 ```
 
-Next comes the real preparationof SylSpace:
+Next comes the real preparation of SylSpace:
 
 ```
 # perl initsylspace.pl
 ```
 
-This will create `/var/` etc and create a secret.  At the end it suggests the following:
+This will create `/var/` etc and create a secret. You can
+configure the install location by setting the SYLSPACE_PATH
+environment variable.
+
+At the end it suggests the following:
 
 ```
-cd Model
-perl mkstartersite.t  ## creates a corpfin site, adds some info for ivo welch, etc.
-perl addside.pl somesite yourname@gmail.com
+perl t/00mkstartersite.t  ## creates a corpfin site, adds some info for ivo welch, etc.
+perl bin/addsite.pl somesite yourname@gmail.com
 ```
 
 If your domainname is fake (such as `syllabus.test`), then the following will fix up your /etc/hosts file:

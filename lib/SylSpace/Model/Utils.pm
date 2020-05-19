@@ -50,10 +50,15 @@ use Email::Valid;
 
 ################################################################
 
-my $var= $ENV{'SylSpacePath'} || '/var/sylspace'; ## this should be hardcoded and unchanging
+my $var= $ENV{SYLSPACE_PATH} || '/var/sylspace';
 
 sub _getvar() {
-  (-e "$var") or die "$0: please create the $var directory for the site first.  then run mksite.pl, Model.t, or Test.t\n";
+  (-e "$var") or die <<"DEATH";
+$0: you don't have a $var directory!
+Please create the $var directory for the site first. 
+You can do this by running initsylspace.pl.
+then run mksite.pl, Model.t, or Test.t
+DEATH
   return $var;
 }
 

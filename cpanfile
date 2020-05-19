@@ -25,3 +25,4 @@ requires 'Mojolicious::Plugin::Web::Auth';
 requires 'Mojolicious::Plugin::RenderFile';
 requires 'Mojo::JWT';
 requires 'Mojolicious::Plugin::OAuth2';
+requires 'File::Which';

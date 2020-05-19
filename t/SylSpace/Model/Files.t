@@ -124,7 +124,7 @@ ok( answerdelete($coursenametestfile, $s2email, 'hw1.txt', 'hw1first.txt')==0, "
 
 ok( answerwrite($coursenametestfile, $s2email, 'hw1.txt', 'hw1second.txt', "changed my mind on hw1\n"), "now we could upload a new answer" );
 
-my $sanswers=answerlists( $coursenametestfile, $s2email );
+$sanswers=answerlists( $coursenametestfile, $s2email );
 ok( ($sanswers->[0]->{sfilename} eq 'hw1second.txt'), "we have uploaded hw1second.txt!  it is good!" );
 
 #like(dies { answerwrite($coursenametestfile, $s2email, 'hwneanswer.txt', "I have done hwne text\n", 'hwne.txt') },
@@ -136,7 +136,9 @@ SylSpace::Model::Utils::_setsudo();
 my $ofzipname=answercollect($coursenametestfile, 'hw1.txt');
 ok( $ofzipname =~ /zip/, "collected properly submitted hw1 answer for $s2email" );
 
-ok( filedelete( $coursenametestfile, $ofzipname ), "deleted zip file\n" );
+use Mojo::File qw/path/;
+filedelete( $coursenametestfile, $ofzipname );
+is path($ofzipname)->stat, undef, "deleted zip file";
 
 _webcourseremove($coursenametestfile);
 

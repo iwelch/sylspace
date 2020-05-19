@@ -1,21 +1,22 @@
-From perl:5.30
+From perl:5.26
 
 RUN apt-get update
-RUN apt-get install -y libz-dev libssl-dev gcc make emacs-nox git
-RUN cpanm Carton && mkdir /usr/src/app
+RUN apt-get install -y libz-dev libssl-dev gcc make emacs-nox git vim-tiny rsync
+RUN cpanm Carton 
+RUN mkdir /usr/src/app
 
 WORKDIR /usr/src/app
 
 COPY cpanfile* /usr/src/app/
 RUN carton install
 
-RUN apt-get install -y rsync
+RUN mkdir /var/sylspace
 
 COPY . /usr/src/app/
 
-RUN carton exec perl -Ilib ./initsylspace.pl
+RUN carton exec perl -Ilib ./initsylspace.pl -f
 
-RUN carton exec prove -l t/SylSpace/Model/mkstartersite.t
+RUN carton exec prove -l t/00mkstartersite.t
 
 RUN carton exec perl -Ilib bin/addsite.pl mysample.course instructor@gmail.com
 

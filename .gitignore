@@ -2,5 +2,9 @@ local/
 
 SylSpace-Secrets.conf
 
+#generated files
+2medium.equiz
+log/
+
 #no vim tmp files
 *.sw?

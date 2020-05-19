@@ -2,15 +2,18 @@
 use lib 'lib';
 use Mojolicious::Lite; ## strict, warnings, utf8 and Perl 5.10
 
+use SylSpace::Model::Utils qw(_getvar);
+my $vardir=_getvar();
+
 plugin 'Mojolyst' => {controllers => 'SylSpace::Controller'};
 plugin 'RenderFile';
 plugin 'browser_detect';
 
-my $dmnm= (glob("/var/sylspace/domainname=*"))[0];
+my $dmnm= (glob("$vardir/domainname=*"))[0];
 
-(defined($dmnm)) or die "please set a (virtual) domainname in /var/sylspace/domainname=xx.yy";
+(defined($dmnm)) or die "please set a (virtual) domainname in $vardir/domainname=xx.yy";
 
-$dmnm =~ s{^/var/sylspace/domainname\=}{};
+$dmnm =~ s{^$vardir/domainname\=}{};
 $ENV{MOJO_DOMAINNAME}= $dmnm;
 
 
@@ -151,11 +154,12 @@ if (-e $configfname) {
 # };
 
 *Mojo::URL::domainport = sub {
-  my $port= shift->port;
+  #apparently, inside of Mojo::URL, you can only access the pieces
+  #directly
+  my $port= shift->{base}{port};
   defined($ENV{SYLSPACE_sitename}) or die "internal error: no site (ENV{SYLSPACE_sitename})";
   (defined($port)) or return $ENV{SYLSPACE_sitename};
-  #TODO- probably wants a qq for this port
-  return $ENV{SYLSPACE_sitename}.':$port';
+  return "$ENV{SYLSPACE_sitename}:$port";
 };
 
 
@@ -177,7 +181,6 @@ if (-e $configfname) {
 ################################################################################################################################
 use Perl6::Slurp;
 
-my $vardir="/var/sylspace";
 
 my @pwsecret=slurp("$vardir/secrets.txt");
 app->secrets( \@pwsecret );  ## the first one encodes, the others are usable; maybe rotate by day

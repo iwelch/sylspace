@@ -16,27 +16,30 @@ use autodie;
 
 ($> == 0) or die "this script modifies /etc/hosts, so it needs sudo privileges";
 
+use lib 'lib';
+use SylSpace::Model::Utils qw(_getvar);
 
 #### set up webdomains
-my $dmnm= (glob("/var/sylspace/domainname=*"))[0];
+my $var = _getvar();
+my $dmnm= (glob("$var/domainname=*"))[0];
 
 if (defined($dmnm)) {
-  $dmnm =~ s{^/var/sylspace/domain\=}{};
+  $dmnm =~ s{^$var/domain\=}{};
 } else {
   say "Domain not yet in filesystem";
   (@ARGV) or die "  please provide a domain name as argument.\n";
   ($ARGV[0] =~ /^[a-z]+\.[a-z]+$/i)
     or die "need reasonable domainname (with one dot), not '$ARGV[0]'\n";
   $dmnm= $ARGV[0];
-  open(my $F, '>', "/var/sylspace/domainname=$dmnm"); close($F);
+  open(my $F, '>', "$var/domainname=$dmnm"); close($F);
   say "[saved domain name $dmnm]\n";
 }
 
 ## we could now check if there is a valid IP in the global DNS and also write this.
-## (-e '/var/sylspace/courses/auth') or die "internal error.  no 'auth' course";
+## (-e "$var/courses/auth") or die "internal error.  no 'auth' course";
 
-my @courses= glob("/var/sylspace/courses/*");
-foreach (@courses) { s{^/var/sylspace/courses/(.*)}{$1.$dmnm}; }
+my @courses= glob("$var/courses/*");
+foreach (@courses) { s{^$var/courses/(.*)}{$1.$dmnm}; }
 
 push( @courses, $dmnm );
 push( @courses, 'auth.'.$dmnm );

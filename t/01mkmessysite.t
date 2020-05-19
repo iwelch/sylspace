@@ -5,6 +5,10 @@ use utf8;
 use warnings FATAL => qw{ uninitialized };
 use autodie;
 
+use Test2::Bundle::Extended;
+use Test2::Plugin::DieOnFail;
+
+
 use feature ':5.20';
 use feature 'signatures';
 no warnings qw(experimental::signatures);
@@ -26,10 +30,6 @@ use SylSpace::Model::Webcourse qw(_webcoursemake _webcourseremove _webcourseshow
 
 use SylSpace::Model::Model qw(:DEFAULT biosave usernew instructornewenroll bioread userenroll courselistenrolled ciosave cioread ciobuttons msgsave msgmarkasread _msglistnotread msgdelete msgread msgshownotread sitebackup isenrolled ciobuttonsave isinstructor sudo);
 
-use Test2::Bundle::Extended;
-use Test2::Plugin::DieOnFail;
-
-($> == 0) or die "we need to tinker with the website, so we need su\n";
 
 my $v= _webcourseremove("*");  ## but not users and templates
 
@@ -43,12 +43,6 @@ my @course=qw (mfe.welch mba.welch year.course.instructor.university intro.corpf
 note '
 ################ website creation, user registration, and user enrollment
 ';
-
-my $localhostline = `grep '^127.0.0.1' /etc/hosts`; my @missing;
-foreach ((@course, 'auth', '')) {
-  ($localhostline =~ /$_\.syllabus\.test/) or push(@missing, $_);
-}
-# (@missing) and die "\n\nplease add '".join(".syllabus.test , ", @missing).".localhost.test to /etc/hosts to facilitate testing\n\n";
 
 foreach (@course) {  ok( _webcoursemake($_), "created $_ site" ); instructornewenroll($_, $iemail); instructornewenroll($_, $iemail2);  }
 ok( !eval { _webcoursemake($course[0]) }, 'cannot create mfe a second time' );

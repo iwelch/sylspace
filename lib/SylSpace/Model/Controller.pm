@@ -67,6 +67,8 @@ my $global_message;
 #requests through it, returning false if it finishes the dispatch
 #chain
 
+sub retredirect { $global_redirecturl= $_[0]; $global_message= $_[1] || ""; return; }
+
 sub standard {
   my $c= shift;
 
@@ -83,9 +85,9 @@ sub standard {
   ((defined($c->browser->{"browser"})) && ($c->browser->{"browser"} =~ /chrome/i) && (($ENV{'SYLSPACE_onlocalhost'})))
     and die "Chrome does not work with localhost (syllabus.test), because it handles localhost domains differently.\n\nPlease use firefox or some other browser.";
 
-  sub retredirect { $global_redirecturl= $_[0]; $global_message= $_[1] || ""; return; }
 
-  my $reloginurl="http://auth.$domain/auth/index";
+  #it's faaaar more portable to use the name of the route
+  my $reloginurl="authindex";
 
   if ($course eq 'auth') {
     ## already in http://auth.$domain/...  --> never redirect, always allowed

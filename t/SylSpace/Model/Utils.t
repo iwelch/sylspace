@@ -23,13 +23,17 @@ my $teststring='abc|def|ghi';
 
 ok( my $e= _encodeencrypt($teststring), "encoded" );
 ok( my $d= _decryptdecode($e), "decoded" );
-ok( $teststring eq $d, "decoded properly" );
+is $teststring, $d, "decoded properly";
 
-my $n= "U2FsdGVkX18xNDE1MTYxNy5FxQRMqUwZKNhE4dgmPeuI6lsm%2BPLxB8hh9GuNh%2BGG1xghQjZqKZQ%3D";
-print _decryptdecode($n)."\n";
+SKIP: {
+  #TODO- maybe eliminate? this doesn't assert anything
+  skip 'this only works on the computer the hash was made on';
+  my $n= "U2FsdGVkX18xNDE1MTYxNy5FxQRMqUwZKNhE4dgmPeuI6lsm%2BPLxB8hh9GuNh%2BGG1xghQjZqKZQ%3D";
+  print _decryptdecode($n)."\n";
 
-$n= "ApBHX6qbpxJW-Ll3oP22LSbo0WeuACRjO4sZ08jzh3ePisCPJAj1L0Xw";
-print "\nNow the last one: "._decryptdecode($n)."\n";
+  $n= "ApBHX6qbpxJW-Ll3oP22LSbo0WeuACRjO4sZ08jzh3ePisCPJAj1L0Xw";
+  print "\nNow the last one: "._decryptdecode($n)."\n";
+};
 
 
 like( dies { _decryptdecode("please die") }, qr{not begin}, "good death!");

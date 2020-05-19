@@ -37,7 +37,6 @@ use base 'Exporter';
 	       paypallog
 	    );
 
-use lib '../..';
 use SylSpace::Model::Files qw(eqreadi eqreads longfilename finddue);
 
 ################
@@ -70,33 +69,33 @@ my $var= _getvar();
 
 =head1 Description
 
-  although some output is provided in html format, the code is controller independent.
+Although some output is provided in html format, the code is controller independent.
+all data is saved in the filesystem and only in ASCII format.  this makes it easy to debug actions.
 
-  all data is saved in the filesystem and only in ASCII format.  this makes it easy to debug actions.
+The hierarchy is set on /var/syslspace by default, or whatever is set as $ENV{SYLSPACE_PATH}, heretofore
+reffered to as $root. A site is organized as follows:
 
-  a site is organized as follow
+  $root/
+          secrets.txt  <- a set of random strings, generated at site initiation
+          templates/  <- equiz templates containing collections of (algorithmic) questions
+          users/  <- this is shared across all sites. 
+                  email/ <- primarily contains a bio.yml file, plus a user tzi (timezone)
+          sites/  <- individual courses
+                  <nameofcourse>/
+                          buttons.yml  <- user interface extra buttons
+                          cinfo.yml <- course info
+                          tasklist <- for what grades can be assigned
+                          grades <- log of grades assigned
+                          instructor/ <- file storage for the instructor that can be made public
+                          public/ <- (empty) files posting with expiration dates
+                          msgs/ <- messages for the class from the instructor
+                          secret= <- whether the course requires an entry secret
+                          security.log <- obvious
+                          ...enrolled user emails...
 
-	/var/sylspace/
-		secrets.txt  <- a set of random strings, generated at site initiation
-		templates/  <- equiz templates containing collections of (algorithmic) questions
-		users/  <- this is shared across all sites. 
-			email/ <- primarily contains a bio.yml file, plus a user tzi (timezone)
-		sites/  <- individual courses
-			<nameofcourse>/
-				buttons.yml  <- user interface extra buttons
-				cinfo.yml <- course info
-				tasklist <- for what grades can be assigned
-				grades <- log of grades assigned
-				instructor/ <- file storage for the instructor that can be made public
-				public/ <- (empty) files posting with expiration dates
-				msgs/ <- messages for the class from the instructor
-				secret= <- whether the course requires an entry secret
-				security.log <- obvious
-				...enrolled user emails...
-
-  instructors are identified by having a file in their subdomain user directory that says instructor=1.  An instructor
-  has an instructor directory, which is used to store files as an instructor (and publish them), and a directory as
-  a user, which is used when the instructor has morphed into a student and/or to store the bio, etc.
+instructors are identified by having a file in their subdomain user directory that says instructor=1.  An instructor
+has an instructor directory, which is used to store files as an instructor (and publish them), and a directory as
+a user, which is used when the instructor has morphed into a student and/or to store the bio, etc.
 
 =head1 Versions
 

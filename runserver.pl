@@ -11,7 +11,7 @@ use feature ':5.20';
 use warnings FATAL => qw{ uninitialized };
 use autodie;
 
-($> == 0) or die "you must run this as root, because even for testing, we occupy not localhost but syllabus.test:80\n";
+use File::Which;
 
 my $isproduction= (`hostname` =~ /syllabus/m);
 my $isosx= (-d "/Users/ivo");
@@ -51,16 +51,14 @@ if ($isproduction) {
   echosystem("/usr/local/bin/hypnotoad -f ./SylSpace");  ## do not '&', or it fails in systemd SylSpace.service !
 
 } else {
-
-  (`grep syllabus.test /etc/hosts` =~ /\.syllabus\.test/mi) or die "in non-production, please add *.syllabus.test to your /etc/hosts\n";
   my $mode= ((@ARGV) && (defined($ARGV[0])) && ($ARGV[0] =~ /^p/i)) ? "production" : "development";
 
-  print STDERR "$0: running morbo for syllabus.test in $mode mode.\n";
+  print STDERR "$0: running morbo for lvh.me in $mode mode.\n";
 
-  my $executable= (-x "/usr/local/bin/morbo") ? "/usr/local/bin/morbo" : "/usr/local/ActivePerl-5.24/site/bin/morbo";
+  my $executable = which 'morbo';
   (-x $executable) or die "cannot find suitable morbo executable.\n";
 
-  echosystem("$executable -v -m $mode ./SylSpace -l http://syllabus.test:80");
+  echosystem("$executable -v -m $mode ./SylSpace");
 }
 
 sub echosystem {

@@ -29,8 +29,6 @@ my $course=qw (test.model.course);
 my $coursenocio=qw (test.no.cio);
 my $nocourse=qw (course.not.exist);
 
-use lib '../..';
-
 use SylSpace::Model::Model qw(
 	       sudo tzi tokenmagic
 
@@ -103,7 +101,7 @@ note "
 ";
 
 ok( !bioiscomplete($jemail), "$jemail 's bio is incomplete");
-ok( dies { userenroll($course,$jemail) } and (scalar (keys %{courselistenrolled($jemail)})==0), "can't enroll student with incomplete bio");
+ok( dies { userenroll($course,$jemail) } && (!keys %{courselistenrolled($jemail)}), "can't enroll student with incomplete bio");
 
 ok( !defined(bioread($jemail)), "no bio for junk yet, so undef");
 my %biojunk = ( uniname => 'ucla', regid => 'junk_regid', firstname => 'junk', lastname => 'junk', birthyear => 1999, email => $jemail, zip => 90024, country => 'US', cellphone => '(123) 456-7890', email2 => $jemail, tzi => 20, optional => '' );
@@ -149,7 +147,7 @@ print "$iemail is enrolled in ";
 foreach $_ (keys %$courseHaPtr) {
 	print "$_".' ';
 }
-print '\n';
+print "\n";
 ok( userenroll($course,$iemail) && scalar @{studentlist($course)}==1 && @{studentlist($course)}[0] eq $iemail && isinstructor($course,$iemail), "won\'t count $iemail repeatedly");
 #ok( userdisroll($course,$iemail) && isinstructor($course,$iemail) && isenrolled($course,$iemail),"can't userdisroll instructor, so $iemail survives as instructor and keeps enrolled");
 
@@ -208,9 +206,9 @@ note '
 ok( _webcourseremove($coursenocio), "$coursenocio removed");
 ok( _webcourseremove($course), "$course removed");
 
-system 'rm /var/sylspace/users/junk@junk.com -rf';  # delete virtual user
-#system 'rm /var/sylspace/courses/test.no.cio -rf';
-#system 'rm /var/sylspace/courses/test.model.course -rf';
+system "rm $var/users/junk\@junk.com -rf";  # delete virtual user
+#system "rm $var/courses/test.no.cio -rf";
+#system "rm $var/courses/test.model.course -rf";
 
 
 done_testing();

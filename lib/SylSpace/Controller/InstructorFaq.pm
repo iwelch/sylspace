@@ -14,6 +14,7 @@ use SylSpace::Model::Controller qw(global_redirect  standard);
 
 ################################################################
 
+#TODO- I can't seem to figure out how to get to this page
 get '/instructor/faq' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
@@ -293,10 +294,20 @@ __DATA__
 
   <pre>
   # perl initsylspace.pl
-  # perl mksite.pl testsite you@emailhost
-  # morbo -v Sylspace  ## and now open http://localhost:3000/ on your browser  </pre>
+  # perl bin/addsite.pl testsite you@emailhost
+  # morbo -v Sylspace  ## and now open http://localhost:3000/ on your browser 
+  </pre>
 
-a  <p><tt>/var/sylspace</tt> is hardcoded in 2-3 places.  If you do not want to use this, you need to fix it.  There are a very few hardcodes to $ENV{SYLSPACE_DOMAINNAME} (e.g., the SylSpace-Secrets.conf and the systemd configuration files).  I do not believe that <tt>http://*$ENV{SYLSPACE_DOMAINNAME}</tt> is hardcoded anywhere, but some of the documentation refers to it as the server on which it runs.</p>
+a  <p>
+    The default location for the files is <tt>/var/sylspace</tt>. You
+    can change this by running the server with SYLSPACE_PATH set to
+    whatever path you need.  There are a very few hardcodes to
+    $ENV{SYLSPACE_DOMAINNAME} (e.g., the SylSpace-Secrets.conf and the
+      systemd configuration files).  I do not believe that
+    <tt>http://*$ENV{SYLSPACE_DOMAINNAME}</tt> is hardcoded anywhere,
+    but some of the documentation refers to it as the server on which
+    it runs.
+  </p>
 
   <p>Because all content is stored in the unix filesystem, it is easy for an instructor to view and interpret all of his/her data, too.  It also makes debugging a lot easier.</p>
 
