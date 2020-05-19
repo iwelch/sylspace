@@ -113,7 +113,7 @@ For automatic start on boot and restart on crash in the real production hypnotoa
 
 ## Developing
 
-SylSpace is written in perl Mojolicious.
+SylSpace is written in perl with the Mojolicious web framework.
 
 The `SylSpace` top-level executable initializes a variety of global features and then starts the app loop.
 
@@ -148,7 +148,7 @@ All default quizzes that course instructors can copy into their own home directo
 The rest are also useful.
 
 * cpanfile
-:	describes all required perl modules.  Used only once during installation as `cpanm --installdeps .`
+:	describes all required perl modules.  Used only once during installation as `carton install`
 
 
 * SylSpace-Secrets.conf@

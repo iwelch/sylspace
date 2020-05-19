@@ -153,11 +153,13 @@ if (-e $configfname) {
 #   return $ENV{SYLSPACE_sitename};
 # };
 
-*Mojo::URL::domainport = sub {
-  #apparently, inside of Mojo::URL, you can only access the pieces
-  #directly
-  my $port= shift->{base}{port};
-  defined($ENV{SYLSPACE_sitename}) or die "internal error: no site (ENV{SYLSPACE_sitename})";
+#TODO- consider making an even better helper
+#meaning: this is usually used to transfer to a different
+#subdomain. Maybe we can make that intention clearer.
+helper domainport => sub {
+  my $url  = shift->req->url->to_abs;
+  my $port = $url->port;
+  defined($ENV{SYLSPACE_sitename}) or die "internal error: no site ($ENV{SYLSPACE_sitename})";
   (defined($port)) or return $ENV{SYLSPACE_sitename};
   return "$ENV{SYLSPACE_sitename}:$port";
 };

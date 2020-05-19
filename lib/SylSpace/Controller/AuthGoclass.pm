@@ -39,7 +39,7 @@ package Mojolicious::Controller {
   #TODO- drop these in a plugin as helpers
   sub course_button_enter {
     my ($self, $course, $email) = @_;
-    my $curdomainport= $self->req->url->to_abs->domainport;
+    my $curdomainport= $self->domainport;
     my $display_name = join ' : ', reverse split /[.]/, $course;
     
     my $enter_url = Mojo::URL->new->host("$course.$curdomainport")->path('/enter');
@@ -85,8 +85,6 @@ my $uemencrypt= _encodeencrypt( $raw );
 <main>
 
 <hr />
-
-  <% my $curdomainport= $self->req->url->to_abs->domainport; %>
 
 <h3> Enrolled Courses </h3>
 

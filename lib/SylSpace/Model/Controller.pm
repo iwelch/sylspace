@@ -76,7 +76,7 @@ sub standard {
   (defined($cururl)) or die "cannot ascertain the current url via c->req->url\n";
 
 
-  my $domain= $cururl->domainport;  ## mfe.welch.$ENV{'SYLSPACE_DOMAINNAME'}:3000
+  my $domain= $c->domainport;  ## mfe.welch.$ENV{'SYLSPACE_DOMAINNAME'}:3000
   my $course= $cururl->subdomain; ## mfe.welch
 
   $cururl =~ s{\?.*}{}; ## strip any parameters
@@ -90,7 +90,7 @@ sub standard {
   my $reloginurl="authindex";
 
   if ($course eq 'auth') {
-    ## already in http://auth.$domain/...  --> never redirect, always allowed
+    ## already in //auth.$domain/...  --> never redirect, always allowed
     my @authallowedurls= qw(/auth/index /auth /logout /auth/logout /auth/facebook
 			/auth/localverify /auth/userenrollsave /auth/userenrollsave
 			/auth/biosave /auth/settimeout /auth/dani);
@@ -107,7 +107,7 @@ sub standard {
   }
 
   ## anything else requesting an auth page is redirected to the aux website
-  ($cururl =~ m{^/auth/goclass}) and return retredirect("http://auth.$domain/auth/goclass", "/auth requests channel back ");
+  ($cururl =~ m{^/auth/goclass}) and return retredirect("//auth.$domain/auth/goclass", "/auth requests channel back ");
   ($cururl =~ m{^/auth/}) and return retredirect($reloginurl, "/auth requests channel back ");
 
   ($course =~ /\w/) or return retredirect($reloginurl, "the base domain is not defined");
@@ -158,7 +158,7 @@ sub _subdomain( $c ) {
 }
 
 sub _domainport( $c ) {
-  return $c->req->url->domainport;
+  return $c->domainport;
 }
 
 

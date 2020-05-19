@@ -1,32 +1,19 @@
 # vim: set ft=markdown:
 #Some steps for refactoring
 
-- make running the server not need root
-  - let's start by UN-hardcoding /var/syslspace
 - fix permissions (why on earth is /var/sylspace world read/writable)?
-- make the model location configurable
 - move the helper scripts to Mojo commands
-- get rid of the domainport thing. Make it a helper instead
-  - ditto for subdomain
+- make subdomain into a helper
+  - it is icky to use typeglobs. ICKY!
 - move all file manip to using Mojo::File (more portable and
   prettier)
-- oh dear bob, we need to fix up this hardcoding so that we can
-  actually make a docker image
-- change testing to use lvh.me, which always resolves to localhost
-  - oh goodness, I can't b/c it expects only one subdomain.
-    durrr-hay
-    - works fine if we limit it to lvh.me alone w/ no subdomain.
-      Remove this feature anyways
-- also, it's hardcoded to work on port 80. That's bad
 
 #In terms of splitting the page
 
-I want to move the logic out of that template and into the code
-(that makes it accessible to tests, too!). Then we can go forward
-and make some tests to establish a baseline, and then splitting
-the page is trivial.
+Okay, we're at a point where we can ALMOST write a test. We need
+to move some of the functionality from mksite into a module, and
+then use that in the tests. We can use a begin block to give each
+test its own special place to make a filesystem. Hooray!
 
-#Getting this up in a testing env
+I wanna get Grades.t passing, and then we'll proceed.
 
-We need to clean some more stuff up b4 we can actually use the
-docker image

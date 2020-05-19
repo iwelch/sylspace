@@ -17,8 +17,8 @@ get '/login' => sub {
   $c->session->{expiration}= time()+3600*24*365;
   $c->session->{ishuman}= time().":".$c->session->{uemail};
 
-  my $curdomainport= $c->req->url->to_abs->domainport;
-  $c->flash(message => "we have made you ".$c->session->{uemail})->redirect_to("http://auth.$curdomainport/auth/goclass");
+  my $curdomainport= $c->domainport;
+  $c->flash(message => "we have made you ".$c->session->{uemail})->redirect_to("//auth.$curdomainport/auth/goclass");
 };
 
 1;

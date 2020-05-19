@@ -25,6 +25,7 @@ get '/instructor/ciobuttonsave' => sub {
     my $titlein= $c->req->query_params->param("titlein$i");
     my $textin= $c->req->query_params->param("textin$i");
 
+    #TODO- HTTP- make sure this works?
     ($buttonurl =~ /^http/i) or next;
     ($titlein) or next;
     push(@buttonlist, [ $buttonurl, $titlein, $textin ])

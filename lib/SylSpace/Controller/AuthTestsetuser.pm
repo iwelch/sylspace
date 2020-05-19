@@ -27,7 +27,7 @@ get '/auth/testsetuser' => sub {
 
   my $cururl= $c->req->url->to_abs;
   ($cururl->subdomain =~ /auth/)
-    or $c->redirect_to('http://auth.'.$cururl->domainport.'/auth');  ## wipe off anything beyond on url
+    or $c->redirect_to('//auth.'.$c->domainport.'/auth');  ## wipe off anything beyond on url
 
   $c->render( template => 'authtest', email => $c->session->{uemail}, allusers => _listallusers() );
 };
@@ -76,6 +76,8 @@ __DATA__
   (@$l < 1) and die "sorry, but you have not even a single user in the system.  did you run Model.t and Files.t?\n";
 
   my @ulist= ($ENV{'SYLSPACE_onlocalhost'}) ? @$l : qw( ivo.welch@gmail.com instructor@gmail.com student@gmail.com );
-  foreach (@ulist) { $rs .="<li style=\"padding:1ex; font-size:large;\"> Make</a> yourself <a href=\"/login?email=$_\">$_</a> </li>\n"; }
+  foreach (@ulist) {
+    $rs .="<li style=\"padding:1ex; font-size:large;\"> Make yourself <a href=\"/login?email=$_\">$_</a> </li>\n";
+  }
   return $rs;
 } %>
