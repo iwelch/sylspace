@@ -5,15 +5,20 @@
 - move the helper scripts to Mojo commands
 - make subdomain into a helper
   - it is icky to use typeglobs. ICKY!
-- move all file manip to using Mojo::File (more portable and
-  prettier)
 
 #In terms of splitting the page
 
-Okay, we're at a point where we can ALMOST write a test. We need
-to move some of the functionality from mksite into a module, and
-then use that in the tests. We can use a begin block to give each
-test its own special place to make a filesystem. Hooray!
+Okay, all test are now passing, but many are flaky and
+interdependent. Oh well for now. So I think we're gonna move all
+of the logic for setting up users and stuff into a module, and
+have that be shared.
 
-I wanna get Grades.t passing, and then we'll proceed.
+Then we can rewrite those tests to instead be scripts, and as such
+they'll be isolated and kosher tests while still doing what
+they're supposed to. But let's finish what we're working on now.
 
+#Last steps for SSL support
+we need to move the listen location to the config file, and leave
+what the app currently uses as a default. Pretty
+straightforward. Need to set up the redirect in terms of the
+OAuth, and then we can just go for it!

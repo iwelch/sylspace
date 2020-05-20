@@ -13,18 +13,6 @@ use feature ':5.20';
 use feature 'signatures';
 no warnings qw(experimental::signatures);
 
-################################################################
-## not used, but we want to make sure that these modules are installed.
-use common::sense;
-use File::Copy;
-use Perl6::Slurp;
-use Archive::Zip;
-use FindBin;
-use Mojolicious::Plugin::RenderFile;
-use Data::Dumper;
-
-################################################################
-
 
 use SylSpace::Model::Webcourse qw(_webcoursemake _webcourseremove _webcourseshow );
 
@@ -44,7 +32,12 @@ note '
 ################ website creation, user registration, and user enrollment
 ';
 
-foreach (@course) {  ok( _webcoursemake($_), "created $_ site" ); instructornewenroll($_, $iemail); instructornewenroll($_, $iemail2);  }
+foreach (@course) {
+  ok( _webcoursemake($_), "created $_ site" );
+  instructornewenroll($_, $iemail);
+  instructornewenroll($_, $iemail2);
+}
+
 ok( !eval { _webcoursemake($course[0]) }, 'cannot create mfe a second time' );
 
 my @enrolledcourses= keys %{courselistenrolled($iemail)};

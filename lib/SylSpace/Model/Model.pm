@@ -506,8 +506,6 @@ sub instructordel( $course, $uemail, $newiemail ) {
 
 #### the main routine to make sure that our inputs validate
 sub readschema( $metaschemafletter ) {
-  use FindBin;
-  use lib "$FindBin::Bin/../lib";
 
   my $fname= $metaschemafletter."settings-schema.yml";
   (!(-e $fname)) and $fname="Model/$fname";
