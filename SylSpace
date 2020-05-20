@@ -187,10 +187,8 @@ use Perl6::Slurp;
 my @pwsecret=slurp("$vardir/secrets.txt");
 app->secrets( \@pwsecret );  ## the first one encodes, the others are usable; maybe rotate by day
 
-#TODO- no reason to limit this to a domain name, it listens on an
-#interface. Also, this should be configured elsewhere, b/c it
-#doesn't make sense to limit us to port 80
-app->config(hypnotoad => { listen => ['http://*:80'] }); ## hypnotoad is serious and never on localhost
+#default hypnotoad to port 80, but allow configuration
+app->config->{hypnotoad}{listen} //= ['http://*:80'];
 
 use File::Glob ':bsd_glob';
 my @users= (bsd_glob("$vardir/users/*\@*"));

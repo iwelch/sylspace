@@ -5,8 +5,6 @@
 
 package SylSpace::Controller::AuthGoclass;
 use Mojolicious::Lite;
-use lib qw(.. ../..); ## make syntax checking easier
-use strict;
 
 use SylSpace::Model::Model qw(courselistenrolled courselistnotenrolled bioiscomplete);
 use SylSpace::Model::Controller qw(standard global_redirect timedelta);
@@ -22,21 +20,35 @@ get '/auth/goclass' => sub {
 
   ($c->session->{expiration}) or die "you have no expiration date, ".$c->session->{uemail}."?!";
 
-  #TODO- sorting of the courses should be done here... allows for
-  #flexibility in listing elsewhere
   $c->stash( timedelta => timedelta( $c->session->{expiration} ),
-	     courselistenrolled => courselistenrolled($c->session->{uemail}),
+	     courselistenrolled => [ sort keys %{courselistenrolled($c->session->{uemail})} ],
+	     email => $c->session->{uemail} );
+};
+
+get '/auth/findclass' => sub {
+  my $c = shift;
+
+  (my $course = standard( $c )) or return global_redirect($c);
+
+  (bioiscomplete($c->session->{uemail})) or $c->flash( message => 'You first need to complete your bio!' )->redirect_to('/auth/bioform');
+
+  ($c->session->{expiration}) or die "you have no expiration date, ".$c->session->{uemail}."?!";
+
+  $c->stash( timedelta => timedelta( $c->session->{expiration} ),
 	     courselistnotenrolled => courselistnotenrolled($c->session->{uemail}),
 	     email => $c->session->{uemail} );
 };
 
 
+
 package Mojolicious::Controller {
+  #NOTE- this ugly hack is because Mojolyst doesn't seem to let me
+  #define helpers here, and also doesn't use this class as its
+  #controller object. *sigh*
   use SylSpace::Model::Controller qw(obscure btnblock);
 
   use Mojo::URL;
 
-  #TODO- drop these in a plugin as helpers
   sub course_button_enter {
     my ($self, $course, $email) = @_;
     my $curdomainport= $self->domainport;
@@ -69,15 +81,8 @@ package Mojolicious::Controller {
 
 __DATA__
 
-@@ authgoclass.html.ep
 
-  <%
-  use SylSpace::Model::Controller qw(btnblock);
-use SylSpace::Model::Utils qw( _encodeencrypt _burpapp );
-my $raw = time()."\t".$self->session->{uemail};
-my $uemencrypt= _encodeencrypt( $raw );
-  _burpapp( undef, "$raw|$uemencrypt" );
-  %>
+@@ authgoclass.html.ep
 
 %title 'superhome';
 %layout 'auth';
@@ -89,18 +94,35 @@ my $uemencrypt= _encodeencrypt( $raw );
 <h3> Enrolled Courses </h3>
 
   <div class="row top-buffer text-center">
-    % my @enrolled = sort keys %$courselistenrolled;
-    % for my $course (@enrolled) {
+    % for my $course (@$courselistenrolled) {
     %== $self->course_button_enter($course, $email)
     % }
-    % unless (@enrolled) {
+    % unless (@$courselistenrolled) {
       <p> No courses enrolled yet. </p>
     % }
   </div>
 
+  <hr />
+
+  %= include '_course_search_bar'
+  <h3> <%= link_to 'Other Available Courses' => 'authfindclass' %> </h3>
+
+%= include '_edit_user_settings'
+
+%= include '_paypal'
+
+</main>
+
+@@ authfindclass.html.ep
+
+%title 'superhome';
+%layout 'auth';
+
+<main>
+
 <hr />
 
-<h3> Other Available Courses </h3>
+  <h3> Available Courses </h3>
 
   <div class="row top-buffer text-center">
     % my @notenrolled = sort keys %$courselistnotenrolled;
@@ -111,6 +133,21 @@ my $uemencrypt= _encodeencrypt( $raw );
     <p>No courses available.</p>
     % }
 
+   %= include '_course_search_bar'
+  </div>
+
+  <hr />
+
+  <h3> <%= link_to 'Back to Enrolled Courses' => 'authgoclass' %> </h3>
+
+%= include '_edit_user_settings'
+
+%= include '_paypal'
+
+</main>
+
+@@ _course_search_bar.html.ep
+
     <form name="selectcourse" method="get" action="/auth/userenrollform" class="form"> 
       <div class="input-group">
         <span class="input-group-addon">Course Name: <i class="fa fa-square"></i></span>
@@ -120,9 +157,10 @@ my $uemencrypt= _encodeencrypt( $raw );
         <button class="btn btn-default" type="submit" value="submit">Select a course by its full name</button>
       </div>
     </form>
-  </div>
 
-  <hr />
+@@ _edit_user_settings.html.ep
+
+% use SylSpace::Model::Controller qw(btnblock);
 
 <h3> Change Auto-Logout Time </h3>
 
@@ -147,7 +185,14 @@ my $uemencrypt= _encodeencrypt( $raw );
    </div>
 
 
-  <% if ($ENV{SYLSPACE_haveoauth}) { %>
+@@ _paypal.html.ep
+% use SylSpace::Model::Utils qw( _encodeencrypt _burpapp );
+% my $raw = time()."\t".$self->session->{uemail};
+% my $uemencrypt= _encodeencrypt( $raw );
+% _burpapp( undef, "$raw|$uemencrypt" );
+
+
+  % if ($ENV{SYLSPACE_haveoauth}) {
 
    <h3> Donate and Confirm Identity  </h3>
 
@@ -177,13 +222,10 @@ my $uemencrypt= _encodeencrypt( $raw );
 		</form>
 	</div> <!-- col xs-12 -->
 	</div> <!-- row -->
-  <% } else { %>
+  % } else { 
 
        <p> Paypal further authentication options omitted in local test mode without OAuth. </p>
 
-  <% } %>
+  % }
 
    </div>
-</main>
-
-

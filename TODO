@@ -6,7 +6,10 @@
 - make subdomain into a helper
   - it is icky to use typeglobs. ICKY!
 
-#In terms of splitting the page
+#How will we improve this app?
+
+Okay, I've done the page split now, let's just fix up the test
+suite anyways.
 
 Okay, all test are now passing, but many are flaky and
 interdependent. Oh well for now. So I think we're gonna move all
@@ -15,10 +18,4 @@ have that be shared.
 
 Then we can rewrite those tests to instead be scripts, and as such
 they'll be isolated and kosher tests while still doing what
-they're supposed to. But let's finish what we're working on now.
-
-#Last steps for SSL support
-we need to move the listen location to the config file, and leave
-what the app currently uses as a default. Pretty
-straightforward. Need to set up the redirect in terms of the
-OAuth, and then we can just go for it!
+they're supposed to.
