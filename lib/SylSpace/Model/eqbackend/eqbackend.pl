@@ -5,7 +5,10 @@ use warnings FATAL => qw{ uninitialized };
 
 use FindBin qw($Bin);
 use lib "$Bin";
-#TODO- CARTON- figure out if this is gonna miss dependencies!!!
+#NOTE- maybe move this file off to bin/, and move the modules
+#also. Just know that we depend on carton, so we need to add the
+#local lib
+use lib '../../../../local/lib/perl5';
 
 
 *STDERR = *STDOUT;

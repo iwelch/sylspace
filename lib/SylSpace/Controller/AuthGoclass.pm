@@ -84,6 +84,8 @@ __DATA__
 
 @@ authgoclass.html.ep
 
+% use SylSpace::Model::Controller qw(btnblock);
+
 %title 'superhome';
 %layout 'auth';
 
@@ -94,18 +96,21 @@ __DATA__
 <h3> Enrolled Courses </h3>
 
   <div class="row top-buffer text-center">
+    % my $has_course = @$courselistenrolled;
     % for my $course (@$courselistenrolled) {
     %== $self->course_button_enter($course, $email)
     % }
-    % unless (@$courselistenrolled) {
-      <p> No courses enrolled yet. </p>
+    % unless ($has_course) {
+      <p class="col-xs-12 col-md-6 h2"> No courses enrolled yet. </p>
     % }
+
+    % my $others = $has_course ? 'Other' : '';
+    <%== btnblock("/auth/findclass", "$others Available Courses", '', "btn-info", 'w') %>
   </div>
 
   <hr />
 
   %= include '_course_search_bar'
-  <h3> <%= link_to 'Other Available Courses' => 'authfindclass' %> </h3>
 
 %= include '_edit_user_settings'
 
@@ -133,15 +138,15 @@ __DATA__
     <p>No courses available.</p>
     % }
 
-   %= include '_course_search_bar'
   </div>
+
+  %= include '_course_search_bar'
 
   <hr />
 
   <h3> <%= link_to 'Back to Enrolled Courses' => 'authgoclass' %> </h3>
 
 %= include '_edit_user_settings'
-
 %= include '_paypal'
 
 </main>
