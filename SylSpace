@@ -13,7 +13,7 @@ my $dmnm= (glob("$vardir/domainname=*"))[0];
 
 (defined($dmnm)) or die "please set a (virtual) domainname in $vardir/domainname=xx.yy";
 
-$dmnm =~ s{^$vardir/domainname\=}{};
+$dmnm =~ s{^\Q$vardir\E/domainname\=}{};
 $ENV{MOJO_DOMAINNAME}= $dmnm;
 
 
@@ -37,19 +37,18 @@ $ENV{SYLSPACE_sitepath}= $FindBin::Bin;    ## /Users/ivo/syllabus.space/syllabus
 ## remove trailing port number
 ($ENV{SYLSPACE_sitename}= $ENV{MOJO_DOMAINNAME}) =~ s/:.*//g;  ## syllabus.test, from Mojo
 
-($ENV{MOJO_DOMAINNAME} eq 'localhost') and die "\nyou cannot use localhost, because we need subdomins for testing.  please use syllabus.test instead.\n";
+($ENV{MOJO_DOMAINNAME} eq 'localhost') and die "\nyou cannot use localhost, because we need subdomains for testing.  please use lvh.me instead.\n";
 
 print STDERR "SylSpace: dmnm='$ENV{MOJO_DOMAINNAME}'\n";
 my $inetaton= inet_aton($ENV{MOJO_DOMAINNAME});
 print STDERR "SylSpace: ...$inetaton\n";
 $ENV{SYLSPACE_siteip}= inet_ntoa( $inetaton );  ## 127.0.0.1
-$ENV{SYLSPACE_onlocalhost}= ($ENV{SYLSPACE_siteip} eq '127.0.0.1');
+$ENV{SYLSPACE_onlocalhost} = ($ENV{SYLSPACE_siteip} eq '127.0.0.1');
 
 my $configfname= "$ENV{SYLSPACE_sitepath}/$pgmname-Secrets.conf";
 
 if ($ENV{SYLSPACE_onlocalhost} and $ENV{SYLSPACE_sitename} !~ /lvh[.]me$/) {
-  #TODO- eliminate this rigamarole
-  ($ENV{SYLSPACE_sitename} eq 'syllabus.test') or die "please test only on syllabus.test or a subdomain of lvh.me";
+  ($ENV{SYLSPACE_sitename} eq 'syllabus.test') or die "please test only on syllabus.test or lvh.me";
   my $etclines= `grep syllabus.test /etc/hosts`;
   ($etclines =~ /corpfin.syllabus.test/m) or die "\n\nFor local testing, please add at the end of /etc/hosts the following: \n\n127.0.0.1 syllabus.test auth.syllabus.test corpfin.syllabus.test\n\n\n";
 } else {
@@ -153,9 +152,6 @@ if (-e $configfname) {
 #   return $ENV{SYLSPACE_sitename};
 # };
 
-#TODO- consider making an even better helper
-#meaning: this is usually used to transfer to a different
-#subdomain. Maybe we can make that intention clearer.
 helper domainport => sub {
   my $url  = shift->req->url->to_abs;
   my $port = $url->port;
@@ -164,21 +160,23 @@ helper domainport => sub {
   return "$ENV{SYLSPACE_sitename}:$port";
 };
 
-
-## http://user.course.$ENV{SYLSPACE_sitename} -> user.course
-## http://$ENV{SYLSPACE_sitename} -> undef
-## used in Controller.pm
-*Mojo::URL::subdomain = sub {
-  my $crequrl= shift;
-  my $fulldomain= $crequrl->to_abs->host || "unknown-fulldomain";
-  ($fulldomain =~ m/(.*)\.localhost$/) and return $1;
-  my @f= split(/\./, $fulldomain);
-  (@f) or return '';  ## never
-  pop(@f); pop(@f);   ## (pop(@f) =~ /localhost$/) or pop(@f);  ## hehe --- pop again
-  ($#f>=0) or return '';
-  return join('.', @f);
+helper auth_path => sub {
+  my ($c, $path) = @_;
+  $c->req->url->to_abs->clone
+    ->path($path)
+    ->host("auth.$ENV{SYLSPACE_sitename}")
+    ->query(undef);
 };
+  
 
+helper subdomain => sub {
+  my $domain = shift->req->url->to_abs->host || 'unknown-fulldomain';
+  ($domain =~ m/(.*)\.localhost$/) and return $1;
+  my @f = split(/\./, $domain);
+  return '' unless @f;  ## never
+  splice @f, -2; #pop off tld and main site name
+  return join '.', @f;
+};
 
 ################################################################################################################################
 use Perl6::Slurp;
@@ -198,7 +196,6 @@ my @courses=(scalar glob("$vardir/courses/*"));
 
 if ($ENV{'SYLSPACE_onlocalhost'}) {
   print STDERR "$0: *** localhost mode only --- logging out may not work correctly\n";
-  print STDERR "$0: *** CHROME cannot be used in localhostmode, because it resolves 127.0.0.1 differently\n";
 }
 
 print STDERR "$0: Starting $ENV{SYLSPACE_appname} now on $ENV{MOJO_DOMAINNAME}\n";

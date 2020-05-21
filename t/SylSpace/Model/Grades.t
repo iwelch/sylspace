@@ -1,5 +1,6 @@
 #!/usr/bin/env perl
 use SylSpace::Test make_test_site => 1;
+use SylSpace::Test::Utils qw(tziserver);
 
 use strict;
 use common::sense;
@@ -18,16 +19,6 @@ no warnings qw(experimental::signatures);
 use Test2::Bundle::Extended;
 use Test2::Plugin::DieOnFail;
 
-#TODO- make this shared
-sub tziserver {
-  my $off_h=1;
-  my @local=(localtime(time+$off_h*60*60));
-  my @gmt=(gmtime(time+$off_h*60*60));
-  return (-1)*($gmt[2]-$local[2] + ($gmt[5] <=> $local[5]
-			      ||
-			      $gmt[7] <=> $local[7])*24);
-}
-
 ## for testing
 my $iemail='instructor@gmail.com';
 my $s1email='student1@gmail.com';
@@ -44,6 +35,8 @@ use SylSpace::Model::Model qw(instructornewenroll userenroll userexists usernew 
 SylSpace::Model::Utils::_setsudo();  ## special purpose!
 
 #setup the courses
+#TODO- define these test fixtures in yaml, and have them
+#autocreated from there. Add as a function to SylSpace::Test::Utils
 subtest 'setup and sanity' => sub {
   foreach (@course) {
     ok( _webcoursemake($_), "created $_ site" );

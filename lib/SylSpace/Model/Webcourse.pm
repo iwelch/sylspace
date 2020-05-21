@@ -113,7 +113,7 @@ sub _webcourselist() {
   foreach (bsd_glob("$var/courses/*")) {
     $_= lc($_);
     (-e $_) or next;
-    s{^$var/courses/}{};
+    s{^\Q$var\E/courses/}{};
     push(@list, $_);
   }
   return \@list;

@@ -25,9 +25,8 @@ get '/auth/testsetuser' => sub {
   ### my @methods =   Class::Inspector->methods( 'Mojo::URL', 'full', 'public' );
   ###die Dumper \@methods . " ". Dumper $c->req->url->to_abs;
 
-  my $cururl= $c->req->url->to_abs;
-  ($cururl->subdomain =~ /auth/)
-    or $c->redirect_to('//auth.'.$c->domainport.'/auth');  ## wipe off anything beyond on url
+  ($c->subdomain =~ /auth/)
+    or $c->redirect_to($c->auth_path('/auth'));  ## wipe off anything beyond on url
 
   $c->render( template => 'authtest', email => $c->session->{uemail}, allusers => _listallusers() );
 };

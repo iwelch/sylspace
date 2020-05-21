@@ -5,6 +5,8 @@ use utf8;
 use warnings FATAL => qw{ uninitialized };
 use autodie;
 
+use SylSpace::Test::Utils qw(tziserver);
+
 use Perl6::Slurp;
 use File::Glob qw(bsd_glob);
 use SylSpace::Model::Utils qw(_getvar);
@@ -129,12 +131,3 @@ print "
   ## if the domain is fake, please run `wildcardhosts.pl yourfakedomain.com` after you add a site.
 ";
 
-################
-sub tziserver {
-  my $off_h=1;
-  my @local=(localtime(time+$off_h*60*60));
-  my @gmt=(gmtime(time+$off_h*60*60));
-  return (-1)*($gmt[2]-$local[2] + ($gmt[5] <=> $local[5]
-			      ||
-			      $gmt[7] <=> $local[7])*24);
-}

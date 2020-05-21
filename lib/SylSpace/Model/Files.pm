@@ -162,7 +162,7 @@ sub _basewritei( $course, $filename, $filecontents ) {
 
 sub _basedelete( $course, $sfilename ) {
   $course= _confirmsudoset( $course );  ## lc()
-  $sfilename =~ s{$var/courses/$course/instructor/files/}{};
+  $sfilename =~ s{\Q$var\E/courses/$course/instructor/files/}{};
   _checksfilenamevalid($sfilename);
   my $lfilename = "$var/courses/$course/instructor/files/$sfilename";
   (-e $lfilename) or die "cannot delete non-existing $lfilename";
@@ -178,7 +178,7 @@ sub answerhashs( $course, $uemail ) {
   my @list= bsd_glob("$var/courses/$course/$uemail/files/*\~answer\=*");
   my %rh;
   foreach (@list) {
-    m{$var/courses/$course/$uemail/files/(.*)\~answer\=(.*)};
+    m{\Q$var\E/courses/$course/$uemail/files/(.*)\~answer\=(.*)};
     (defined($2)) or next;  # or error
     $rh{$2}=$1;
   }
@@ -284,7 +284,7 @@ sub answercollect( $course, $hwname ) {
 
   my $archivednames="";
   foreach (@filelist) {
-    my $fname= $_; $fname=~ s{$var/courses/$course/}{};  $fname=~ s{/files/}{-};
+    my $fname= $_; $fname=~ s{\Q$var\E/courses/$course/}{};  $fname=~ s{/files/}{-};
     $_=~ s{~answer=$hwname}{};  	## now $fname is 'blah~answer=$hwname' and is empty
     $fname=~ s{~answer=$hwname}{};	## $_ is 'blah' which has content
     $zip->addFile( $_, $fname );  $archivednames.= " $fname ";
@@ -303,7 +303,7 @@ sub answercollect( $course, $hwname ) {
 
 sub listtemplates( ) {
   my @list= bsd_glob("$var/templates/*");
-  foreach (@list) { s{$var/templates/}{}; }
+  foreach (@list) { s{\Q$var\E/templates/}{}; }
   return \@list;
 }
 
@@ -331,7 +331,7 @@ sub rmtemplates( $course ) {
   foreach (bsd_glob("$var/courses/$course/instructor/files/*")) {
     (-l $_) or next;
     my $pointsto = readlink($_);
-    if ($pointsto =~ m{$var/templates/}) { 
+    if ($pointsto =~ m{\Q$var\E/templates/}) { 
 unlink($_) or die "cannot remove template link: $!\n"; ++$count; }
   }
   _cleanalldeadlines($course); # still needs to be written below --- yanni!
@@ -373,7 +373,7 @@ sub _cleanalldeadlines( $course ) {
   foreach (bsd_glob("$var/courses/$course/instructor/files/*")) {
     if (/~due=\d+/) {
       my $lfilename = $_;
-      s/$var\/courses\/$course\/instructor\/files\///;
+      s{\Q$var\E/courses/$course/instructor/files/}{};
       s/~due=\d+//;
       fileexistsi($course,$_) or unlink($lfilename); 
     }
@@ -429,7 +429,7 @@ sub _deeplisti( $globdir, $globfilename ) {
     ($_ =~ /\~/) and next;  ## these are meta files!
     if ($nothwequiz) {
       ($_ =~ /\.equiz$/) and next;
-      ($_ =~ m{$var\/.*\/hw}i) and next;
+      ($_ =~ m{\Q$var\E/.*/hw}i) and next;
     }
     $parms{lfilename}= $_;
     ($parms{sfilename}= $_) =~ s{.*/}{};

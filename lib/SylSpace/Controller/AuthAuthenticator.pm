@@ -75,19 +75,21 @@ get '/auth/authenticator' => sub {
 
   (my $course = standard( $c )) or return global_redirect($c);
   
-  #TODO- HTTP - make sure this works on https. probably move it to config
-  $c->stash( authurl => $c->oauth2->auth_url("google", {scope => "email profile", redirect_uri => "http://auth.$ENV{MOJO_DOMAINNAME}/auth/login"}));
+  $c->stash(
+    authurl => $c->oauth2->auth_url("google", {
+      scope => "email profile",
+      redirect_uri => $c->auth_path('/auth/login')
+    })
+  );
   $c->render(template => 'AuthAuthenticator' );
 };
 
 get "/auth/login" => sub {
   my $c = shift;
-  #TODO- HTTP - make sure this works on https. probably move it to config
-  my %get_token_args = {
-    redirect_uri => "http://auth.$ENV{MOJO_DOMAINNAME}/auth/authenticator",
+  my $get_token_args = {
     scope => 'profile email'
   };
-  my $data = $c->oauth2->get_token(google => \%get_token_args);
+  my $data = $c->oauth2->get_token(google => $get_token_args);
   my $token = $data->{access_token};
  	
   my $ua = Mojo::UserAgent->new;

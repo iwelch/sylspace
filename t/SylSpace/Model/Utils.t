@@ -26,7 +26,7 @@ ok( my $d= _decryptdecode($e), "decoded" );
 is $teststring, $d, "decoded properly";
 
 SKIP: {
-  #TODO- maybe eliminate? this doesn't assert anything
+  #TODO- is this meant to assert anything?
   skip 'this only works on the computer the hash was made on';
   my $n= "U2FsdGVkX18xNDE1MTYxNy5FxQRMqUwZKNhE4dgmPeuI6lsm%2BPLxB8hh9GuNh%2BGG1xghQjZqKZQ%3D";
   print _decryptdecode($n)."\n";

@@ -69,9 +69,9 @@ These steps are for a plain ubuntu server.
 
 
 
-now open your firefox (not chrome!) browser and point it to
-`http://lvh.me`.  when you are done, click back on your terminal
-window and ^C out of runserver.pl.
+now open your  browser and point it to `http://lvh.me`.  when you
+are done, click back on your terminal window and ^C out of
+runserver.pl.
 
 If you aren't comfortable letting sylspace play around with your
 filesystem, then you can still test by using the included docker

@@ -154,7 +154,7 @@ sub sitebackup( $course ) {
 }
 
 sub isvalidsitebackupfile( $fnm ) {
-  ($fnm =~ m{^$var/tmp/[\w\-\.]+\.zip}) or die "internal error: '$fnm' is not a good site backup file\n";
+  ($fnm =~ m{^\Q$var\E/tmp/[\w\-\.]+\.zip}) or die "internal error: '$fnm' is not a good site backup file\n";
 }
 
 ################################################################
@@ -371,7 +371,7 @@ sub hassyllabus( $course ) {
   (defined($s)) or return undef;
   $s =~ s{\~due=.*}{};   ## remove ~due=... and give finddue the full path to find the removed due
   finddue($s) or return undef;
-  $s =~ s{$var/courses/$course/instructor/files/}{};   ## Previously /fileview~f=$s will be /fileview~f=/var/courses/... It should be /fileview?f=syllabus-sophisticated.html.
+  $s =~ s{\Q$var\E/courses/$course/instructor/files/}{};   ## Previously /fileview~f=$s will be /fileview~f=/var/courses/... It should be /fileview?f=syllabus-sophisticated.html.
   return $s;    ## still needs to be tested checked --- yanni!  should be one function, working on both long names and course/shortnames
 }
 
@@ -383,7 +383,7 @@ sub studentdetailedlist( $course ) {
   $course= _confirmsudoset( $course );
   my @list;
   foreach (_glob2last("$var/courses/$course/*@*")) {
-    (my $ename=$_) =~ s{$var/courses/$course}{};
+    (my $ename=$_) =~ s{\Q$var\E/courses/$course}{};
     my $thisuser= _saferead( "$var/users/$ename/bio.yml" );
     ($thisuser->{email}) or $thisuser->{email}= $ename;  ## instructor added may lack
     push(@list, $thisuser);
@@ -473,7 +473,7 @@ sub instructorlist( $course ) {
   $course= _checkcname($course);
   ## students and instructors can find out who is in charge
   my @l= bsd_glob("$var/courses/$course/*@*/instructor=1");
-  foreach (@l) { s{$var/courses/$course/([^\/]+)/instructor\=1}{$1}; }
+  foreach (@l) { s{\Q$var\E/courses/$course/([^\/]+)/instructor\=1}{$1}; }
   return \@l;
 }
 

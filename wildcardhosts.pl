@@ -24,7 +24,7 @@ my $var = _getvar();
 my $dmnm= (glob("$var/domainname=*"))[0];
 
 if (defined($dmnm)) {
-  $dmnm =~ s{^$var/domain\=}{};
+  $dmnm =~ s{^\Q$var\E/domain\=}{};
 } else {
   say "Domain not yet in filesystem";
   (@ARGV) or die "  please provide a domain name as argument.\n";
@@ -39,7 +39,7 @@ if (defined($dmnm)) {
 ## (-e "$var/courses/auth") or die "internal error.  no 'auth' course";
 
 my @courses= glob("$var/courses/*");
-foreach (@courses) { s{^$var/courses/(.*)}{$1.$dmnm}; }
+foreach (@courses) { s{^\Q$var\E/courses/(.*)}{$1.$dmnm}; }
 
 push( @courses, $dmnm );
 push( @courses, 'auth.'.$dmnm );

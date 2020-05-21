@@ -171,9 +171,8 @@ sub _checksfilenamevalid( $sfilename ) {
 sub _checkfilepath( $filepath ) {
   $filepath =~ s{/+}{/};
   ($filepath =~ m{[^\w]\.\.}) and die "filepath $filepath can have double dots only after a word character\n";
-  #NOTE- allows $var to be mix-case, so we can use a tempdir in
-  #tests
-  $filepath =~ s/^$var//;
+  #NOTE- allows $var to be mix-case, so we can use a tempdir in tests
+  $filepath =~ s/^\Q$var\E//;
   return ($& || '') . lc($filepath);
 }
 

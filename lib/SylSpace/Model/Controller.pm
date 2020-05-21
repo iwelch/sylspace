@@ -62,10 +62,6 @@ my $global_message;
 ## standard() should start every webpage.  it makes sure that we have
 ## a session uemail and expiration, and redirects nonsensible
 ## subdomains (course names) to /auth
-#
-#TODO- this can be made an under '/' in the main app, routing all
-#requests through it, returning false if it finishes the dispatch
-#chain
 
 sub retredirect { $global_redirecturl= $_[0]; $global_message= $_[1] || ""; return; }
 
@@ -77,13 +73,9 @@ sub standard {
 
 
   my $domain= $c->domainport;  ## mfe.welch.$ENV{'SYLSPACE_DOMAINNAME'}:3000
-  my $course= $cururl->subdomain; ## mfe.welch
+  my $course= $c->subdomain; ## mfe.welch
 
   $cururl =~ s{\?.*}{}; ## strip any parameters
-
-  #or $c->webbrowser()
-  ((defined($c->browser->{"browser"})) && ($c->browser->{"browser"} =~ /chrome/i) && (($ENV{'SYLSPACE_onlocalhost'})))
-    and die "Chrome does not work with localhost (syllabus.test), because it handles localhost domains differently.\n\nPlease use firefox or some other browser.";
 
 
   #it's faaaar more portable to use the name of the route
@@ -154,7 +146,7 @@ sub global_redirect {
 ##   ->to_string: omits userinfo
 
 sub _subdomain( $c ) {
-  return $c->req->url->subdomain;
+  return $c->subdomain;
 }
 
 sub _domainport( $c ) {

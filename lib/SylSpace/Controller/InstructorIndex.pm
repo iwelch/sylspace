@@ -19,11 +19,8 @@ my $ihm= sub {
 
   sudo( $course, $c->session->{uemail} );
 
-  my $curdomainport= $c->domainport;
-
-  #TODO- HTTP- see that this still works
   (bioiscomplete($c->session->{uemail}))
-    or $c->flash( message => 'You first need to complete your bio!' )->redirect_to("//auth.$curdomainport/usettings");
+    or $c->flash( message => 'You first need to complete your bio!' )->redirect_to($c->auth_path('/auth/bioform');
 
   (cioiscomplete($course)) or $c->flash( message => 'You first need to complete the course settings!' )->redirect_to('/instructor/cioform');
 

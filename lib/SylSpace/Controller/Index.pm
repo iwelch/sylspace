@@ -25,7 +25,6 @@ my $torealhome = sub {
 
   my $curdomainport= $c->domainport;
 
-  #TODO- make sure this still works
   (isenrolled( $course, $c->session->{uemail} ))
     or return $c->flash(message => 'who are you?  please authenticate')->redirect_to("//auth.$curdomainport/index");
 
