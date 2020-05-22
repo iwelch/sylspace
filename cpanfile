@@ -26,3 +26,4 @@ requires 'Mojolicious::Plugin::RenderFile';
 requires 'Mojo::JWT';
 requires 'Mojolicious::Plugin::OAuth2';
 requires 'File::Which';
+requires 'Test2::MojoX';

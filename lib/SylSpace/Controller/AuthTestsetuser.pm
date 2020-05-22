@@ -19,16 +19,26 @@ use SylSpace::Model::Model qw(_listallusers);  ## for testsites
 get '/auth/testsetuser' => sub {
   my $c = shift;
 
-  use Class::Inspector;
-  use Data::Dumper;
-
-  ### my @methods =   Class::Inspector->methods( 'Mojo::URL', 'full', 'public' );
-  ###die Dumper \@methods . " ". Dumper $c->req->url->to_abs;
-
   ($c->subdomain =~ /auth/)
-    or $c->redirect_to($c->auth_path('/auth'));  ## wipe off anything beyond on url
+    or return $c->redirect_to($c->auth_path('/auth/testsetuser'));  ## wipe off anything beyond on url
 
-  $c->render( template => 'authtest', email => $c->session->{uemail}, allusers => _listallusers() );
+  my $users = _listallusers;
+
+  die <<NOUSERS unless @$users;
+sorry, but you have not even a single user in the system.
+did you run Model.t and Files.t?
+NOUSERS
+
+  $users = [
+    qw( ivo.welch@gmail.com instructor@gmail.com student@gmail.com ) 
+  ] unless $ENV{SYLSPACE_onlocalhost};
+
+
+  $c->render(
+    template => 'authtest',
+    email => $c->session->{uemail},
+    allusers => $users
+  );
 };
 
 1;
@@ -49,8 +59,15 @@ __DATA__
 
   <p>This is only useful under localhost, where it is shared by all, public to anyone, and ephemeral (regularly destroyed).  Do not enter anything confidential here.</p>
 
-<ul>
-  <%== makelist($allusers) %>
+<ul id="userlist">
+
+  % for my $user (@$allusers) {
+    <li style="padding:1ex; font-size:large;">
+      Make yourself
+        <a href="/login?email=<%= $user %>"> <%= $user %> </a>
+    </li>
+  % }
+
   <li> <a href="/logout">Log out</a> </li>
 </ul>
 
@@ -67,16 +84,3 @@ __DATA__
 <hr />
 
 </main>
-
-
-<% sub makelist {
-  my $l= shift;
-  my $rs;
-  (@$l < 1) and die "sorry, but you have not even a single user in the system.  did you run Model.t and Files.t?\n";
-
-  my @ulist= ($ENV{'SYLSPACE_onlocalhost'}) ? @$l : qw( ivo.welch@gmail.com instructor@gmail.com student@gmail.com );
-  foreach (@ulist) {
-    $rs .="<li style=\"padding:1ex; font-size:large;\"> Make yourself <a href=\"/login?email=$_\">$_</a> </li>\n";
-  }
-  return $rs;
-} %>

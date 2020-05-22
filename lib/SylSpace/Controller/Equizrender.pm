@@ -24,8 +24,7 @@ my $equizrender= sub {
   ## we allow students to run expired equizzes (if they know the names);  feature or bug
 
   my $quizname = $c->req->query_params->param('f');
-  #TODO- ivo, please test this
-  my $returnurl = $c->req->url->scheme . '://' . $c->subdomain.'.'.$c->domainport.'/equizgrade';
+  my $returnurl = $c->req->url->to_abs->scheme . '://' . $c->subdomain.'.'.$c->domainport.'/equizgrade';
 
   $c->stash( content => equizrender( $course, $c->session->{uemail}, $quizname, $returnurl ),
 	     quizname => $quizname,

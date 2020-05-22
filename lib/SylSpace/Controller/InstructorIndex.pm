@@ -20,7 +20,7 @@ my $ihm= sub {
   sudo( $course, $c->session->{uemail} );
 
   (bioiscomplete($c->session->{uemail}))
-    or $c->flash( message => 'You first need to complete your bio!' )->redirect_to($c->auth_path('/auth/bioform');
+    or $c->flash( message => 'You first need to complete your bio!' )->redirect_to($c->auth_path('/auth/bioform'));
 
   (cioiscomplete($course)) or $c->flash( message => 'You first need to complete the course settings!' )->redirect_to('/instructor/cioform');
 

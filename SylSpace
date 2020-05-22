@@ -17,10 +17,8 @@ $dmnm =~ s{^\Q$vardir\E/domainname\=}{};
 $ENV{MOJO_DOMAINNAME}= $dmnm;
 
 
-my %ENVMOJO;
-foreach my $k (keys %ENV) { ($k =~ /MOJO|HYPNO/) and $ENVMOJO{$k}=$ENV{$k}; }
-
-(defined($ENV{HYPNOTOAD_APP})) or warn "may not work except under hypnotoad";
+app->log->debug("may not work except under hypnotoad")
+  unless defined $ENV{HYPNOTOAD_APP};
 
 ## $0 = MOJO_EXE = /Users/ivo/syllabus.space/syllabus.space/SylSpace
 (defined($ENV{MOJO_EXE})) or die "very weird running environment without ENV{MOJO_EXE}.";
@@ -39,9 +37,10 @@ $ENV{SYLSPACE_sitepath}= $FindBin::Bin;    ## /Users/ivo/syllabus.space/syllabus
 
 ($ENV{MOJO_DOMAINNAME} eq 'localhost') and die "\nyou cannot use localhost, because we need subdomains for testing.  please use lvh.me instead.\n";
 
-print STDERR "SylSpace: dmnm='$ENV{MOJO_DOMAINNAME}'\n";
+app->log->debug("SylSpace: dmnm='$ENV{MOJO_DOMAINNAME}'");
 my $inetaton= inet_aton($ENV{MOJO_DOMAINNAME});
-print STDERR "SylSpace: ...$inetaton\n";
+app->log->debug("SylSpace: ...$inetaton");
+
 $ENV{SYLSPACE_siteip}= inet_ntoa( $inetaton );  ## 127.0.0.1
 $ENV{SYLSPACE_onlocalhost} = ($ENV{SYLSPACE_siteip} eq '127.0.0.1');
 
@@ -74,7 +73,7 @@ if (-e $configfname) {
   (-e $configfname) or die "\nFATAL: no authentication secrets config file '$configfname'\n";
   (-l $configfname) or die "\nFATAL: authentication secrets config file '$configfname' is in the github'ed  directory, not a link.  fix this security risk!\n";
 
-  print STDERR "\n$0: good: your authentication secrets is $configfname, which is a symlink to ".readlink($configfname)."\n";
+  app->log->debug("$0: good: your authentication secrets is $configfname, which is a symlink to ".readlink($configfname));
 
   ##  # working:
   ##  plugin 'Config';
@@ -88,7 +87,7 @@ if (-e $configfname) {
   if (my $google = $credentials->{oauth}->{google}) {
     my ($key, $secret) = @$google;
 
-    print STDERR "[enabling google authentication]\n";
+    app->log->debug("[enabling google authentication]");
 
     plugin 'OAuth2' => {
 	google  => {
@@ -115,7 +114,7 @@ if (-e $configfname) {
   if (my $github = $credentials->{oauth}->{github}) {
     my ($key, $secret) = @$github;
 
-    print STDERR "[enabling github authentication]\n";
+    app->log->debug("[enabling github authentication]");
 
     plugin 'Web::Auth' => (
 			   module      => 'Github',
@@ -128,7 +127,7 @@ if (-e $configfname) {
   if (my $facebook = $credentials->{oauth}->{facebook}) {
     my ($key, $secret) = @$facebook;
 
-    print STDERR "[enabling facebook authentication]\n";
+    app->log->debug("[enabling facebook authentication]");
 
     plugin 'Web::Auth' => (
 			   module      => 'Facebook',
@@ -195,10 +194,10 @@ my @courses=(scalar glob("$vardir/courses/*"));
 ((scalar @courses) >= 1) or die "you need at least one known course in $vardir/courses, not $#courses\n";
 
 if ($ENV{'SYLSPACE_onlocalhost'}) {
-  print STDERR "$0: *** localhost mode only --- logging out may not work correctly\n";
+  app->log->debug("$0: *** localhost mode only --- logging out may not work correctly");
 }
 
-print STDERR "$0: Starting $ENV{SYLSPACE_appname} now on $ENV{MOJO_DOMAINNAME}\n";
+app->log->debug("$0: Starting $ENV{SYLSPACE_appname} now on $ENV{MOJO_DOMAINNAME}");
 
 app->sessions->cookie_domain( '.'.$ENV{SYLSPACE_sitename} );
 

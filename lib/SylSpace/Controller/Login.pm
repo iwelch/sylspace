@@ -11,14 +11,14 @@ use strict;
 get '/login' => sub {
   my $c = shift;
 
-  ($ENV{'SYLSPACE_onlocalhost'}) or die "Sorry, but /Login works on localhost for testing purposes\n";
+  ($ENV{'SYLSPACE_onlocalhost'}) or die "Sorry, but /login only works on localhost for testing purposes\n";
 
   $c->session->{uemail}= $c->req->query_params->param('email');
   $c->session->{expiration}= time()+3600*24*365;
   $c->session->{ishuman}= time().":".$c->session->{uemail};
 
-  my $curdomainport= $c->domainport;
-  $c->flash(message => "we have made you ".$c->session->{uemail})->redirect_to("//auth.$curdomainport/auth/goclass");
+  $c->flash(message => "we have made you ".$c->session->{uemail})
+    ->redirect_to($c->auth_path("/auth/goclass"));
 };
 
 1;
