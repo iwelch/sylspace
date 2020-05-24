@@ -5,6 +5,8 @@ use utf8;
 use warnings FATAL => qw{ uninitialized };
 use autodie;
 
+use SylSpace::Test 
+  make_test_site => 1;
 use SylSpace::Test::Utils qw(tziserver);
 
 use Test2::Bundle::Extended;

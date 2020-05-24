@@ -31,9 +31,15 @@ use autodie;
 
 =cut
 
-system("perl initsylspace.pm") and die "please check all apt and cpan installs";
-
 use lib 'lib';
+use lib 'local/lib/perl5';
+
+BEGIN {
+  die 'please check all apt and cpan installs'
+    unless eval { require './initsylspace.pm' };
+}
+
+
 use SylSpace::Model::Utils qw(_getvar);
 my $varsyl=_getvar();
 
@@ -90,14 +96,18 @@ foreach (qw(users courses tmp templates)) {
 
 system("cp -a templates/equiz/* $varsyl/templates/");
 if (!(-e "$varsyl/secrets.txt")) {
-  open(my $FO, ">", "$varsyl/secrets.txt"); for (my $i=0; $i<30; ++$i) { print $FO mkrandomstring(32)."\n"; } close($FO);
+  open(my $FO, ">", "$varsyl/secrets.txt");
+  for (0..30) {
+    print $FO mkrandomstring(32)."\n";
+  }
+  close($FO);
 }
 say STDERR "made $varsyl/secrets.txt";
 
 say STDERR <<INSTRUCTIONS;
 Now create a nice sample website.
 
-perl t/00mkstartersite.t  ## other tests: Model.t Files.t
+perl bin/load_site startersite #or messysite, look in share/fixtures
 perl bin/addsite.pl mysample instructor\@gmail.com
 
 INSTRUCTIONS

@@ -16,7 +16,7 @@ COPY . /usr/src/app/
 
 RUN carton exec perl -Ilib ./initsylspace.pl -f
 
-RUN carton exec prove -l t/00mkstartersite.t
+RUN carton exec prove -lr -j4 
 
 RUN carton exec perl -Ilib bin/addsite.pl mysample.course instructor@gmail.com
 

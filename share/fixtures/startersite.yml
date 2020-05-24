@@ -1,0 +1,87 @@
+users:
+  - email: ivo.welch@gmail.com
+    email2: ivo.welch@anderson.ucla.edu
+    firstname: ivo
+    lastname: welch
+    uniname: ucla anderson
+    regid: na
+    birthyear: 1971
+    zip: 90095
+    country: US
+    cellphone: (310) 555-1212
+    tzi: 0
+    optional: ''
+  - email: student@gmail.com
+    email2: james.hart@gmail.com
+    firstname: james
+    lastname: hart
+    uniname: harvard law
+    regid: na
+    birthyear: 1971
+    zip: 90049
+    country: US
+    cellphone: (312) 555-1212
+    tzi: 0
+    optional: ''
+courses:
+  - name: corpfin
+    instructor: ivo.welch@gmail.com
+    students:
+      - student@gmail.com
+    info:
+      uniname: syllabus-ucla
+      anothersite: http://ivo-welch.info
+      unicode: na
+      coursesecret: ''
+      cemail: ivo.welch@gmail.com
+      department: management
+      subject: corporate finance
+      meetroom: internet
+      meettime: MTWRF 9:00-5:00
+      domainlimit: ''
+      hellomsg: enjoy!
+    buttons:
+      - 
+        - http://ivo-welch.info 
+        - welch 
+        - go back to root
+      - 
+        - http://book.ivo-welch.info 
+        - book
+        - read book
+      - 
+        - 'http://gmail.com'
+        - 'gmail'
+        - 'send email'
+    messages:
+      - subject: Test Welcome
+        body: Welcome to the testing site. Note that everything is public and nothing stays permanent here. I often replace this testsite with a similar new one.
+        priority: 5
+        id: 1233
+    files:
+      - name: syllabus-sophisticated.html
+        path: public/html/ifaq/syllabus-sophisticated.html
+        duein: 2592000
+  - name: syllabus.test
+    instructor: ivo.welch@gmail.com
+    templates: [ 'starters', 'tutorials' ]
+    info:
+      uniname: syllabus
+      unicode: na
+      coursesecret: learn
+      cemail: ivo.welch@gmail.com
+      anothersite: http://ivo-welch.info
+      department: teaching
+      subject: meta-syllabus itself
+      meetroom: internet
+      meettime: MTWRF 9:00-5:00
+      domainlimit: ''
+      hellomsg: enjoy!
+    files:
+      - name: hw1.txt
+        content: "please do this first homework\n"
+        duein: 2592000
+      - name: syllabus.txt
+        content: "<h2>please read this simple txt syllabus</h2>\n"
+        duein: 2592000
+

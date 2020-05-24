@@ -1,13 +1,9 @@
 
 MORE IMPORTANT
 
-- easier dns automation for testing, directing all *syllabus.test to localhost via dnsmasq or alike
-
 - check appropriate expiration of email link
 
 - check that drag-and-drop works for file area with multiple upload
-
-* https rather than http (joel berger, mojolicious hypnotoad)
 
 * confirm proper Paypal micropayments as 2FA for instructors and/or special sites (e.g., book.ivo-welch.info/instructor)
 
@@ -15,6 +11,8 @@ MORE IMPORTANT
 MEDIUM IMPORTANT
 
 * add more automatic tests, esp with respect to web controller
+
+  - currently in progress
 
 * autoforwarding of errors in quizzes to course instructor and/or site administrator
 

@@ -8,7 +8,8 @@ Due to the outdated three-year-old 5.18.2 version of perl still running on MacOS
 
 ### Basic Steps:
 
-These steps are for a plain ubuntu server.
+These steps are for a plain ubuntu server. (The non-apt steps are
+applicable everywhere, though)
 
 * `$ sudo apt install git cpanminus make gcc libssl-dev carton`
 
@@ -48,7 +49,7 @@ These steps are for a plain ubuntu server.
         such as $ENV{SYLSPACE_PATH}/courses, $ENV{SYLSPACE_PATH}/users,
         $ENV{SYLSPACE_PATH}/templates/, etc.
 
-* `carton exec prove -l t/00mkstartersite.t`
+* `carton exec perl bin/load_site startersite`
 	
         this builds a nice starter site for test purposes.  for
         example, it creates a corpfin website (in
@@ -66,7 +67,6 @@ These steps are for a plain ubuntu server.
         hypnotoad) or on another computer (where there is only local test
         user authentication and the tester wants to see what URLs are
         being requested on the terminal).
-
 
 
 now open your  browser and point it to `http://lvh.me`.  when you
@@ -130,7 +130,6 @@ All default quizzes that course instructors can copy into their own home directo
 
 
 
-
 ## File Itinerary
 
 ### The Top Level
@@ -172,6 +171,13 @@ The rest are also useful.
 * README.md
 :	this file
 
+
+### ./lib/SylSpace: Testing tools
+
+* Test.pm - testing helpers. See `perldoc ./lib/SylSpace/Test.pm` for more info
+* Test/App.pm - an object to load the App into Test2::MojoX, with
+  some special helper functions
+* Test/Utils.pm - shared testing functions (not toooooo heavily used... yet)
 
 
 ### ./lib/SylSpace/Controller: The URLs
@@ -263,10 +269,22 @@ Each file corresponds to a URL.  Typically, a file such as `AuthGoclass` (note c
 * Uploadsave.pm
 
 
+### ./bin: support scripts
+* addsite.pl  : CLI to add a new site with instructor
+* load_site : deploys a site layout based on configuration files in share/fixtures
+
+### ./share/fixtures: site layouts
+These are testing fixtures that are used in the test suite, and
+also can be deployed on your live version of the app for live
+testing purposes.
+
+The format is basically self explanatory YAML (once you know what
+fields are expected by SylSpace)
+
+* startersite.yml : contains the setup of a corpfin course with 2 users
+* messysite.yml : contains a setup of four different courses and many users
 
 ### ./lib/SylSpace/Model:  The Workhorse.
-
-* **t/00mkstartersite.t** : usually used only once as the first program invoked after **initsylspace.pl**.
 
 * Controller.pm : all html-output related utility routines that are used many times over.
 * Model.pm : many of the main model functions, excepting Files, and Grades. For example, user management, sitebackup, bio, messages, tweeting, equiz interface
@@ -274,9 +292,6 @@ Each file corresponds to a URL.  Typically, a file such as `AuthGoclass` (note c
 * Grades.pm : storing and retrieving grades
 * Utils.pm : many common routines (e.g., globbing, file reading, etc.)
 * Webcourse.pm : creating and removing a new course, used in addsite.pl
-* bin/addsite.pl  : CLI to add a new site with instructor
-
-* t/01mkmessysite.t : for playing with functionality.  more extensive than t/00mkstartersite.t
 
 * csettings-schema.yml  : what course information is required and what it must satisfy
 * usettings-schema.yml  : what biographical information is required and what it must satisfy

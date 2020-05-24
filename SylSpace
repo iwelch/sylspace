@@ -67,13 +67,7 @@ $ENV{SYLSPACE_jumboscolor}='darkblue'; $ENV{SYLSPACE_jumboicolor}='darkred';
 
 if (-e $configfname) {
 
-  #TODO- the config file should just be gitignored...
-  #also, this doesn't make sure the symlink is in a safe
-  #location... you can symlink IN THIS DIRECTORY!!!!
-  (-e $configfname) or die "\nFATAL: no authentication secrets config file '$configfname'\n";
-  (-l $configfname) or die "\nFATAL: authentication secrets config file '$configfname' is in the github'ed  directory, not a link.  fix this security risk!\n";
-
-  app->log->debug("$0: good: your authentication secrets is $configfname, which is a symlink to ".readlink($configfname));
+  app->log->debug("$0: good: your authentication secrets is $configfname");
 
   ##  # working:
   ##  plugin 'Config';
@@ -107,7 +101,6 @@ if (-e $configfname) {
 			   on_error	=> \&SylSpace::Controller::AuthAuthenticator::googlecb,
 			   on_finished => \&SylSpace::Controller::AuthAuthenticator::google,
 			  );
-##   on_finished => \&SylSpace::Controller::AuthAuthenticator::google,
 
   }
 

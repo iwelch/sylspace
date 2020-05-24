@@ -317,6 +317,16 @@ DISTRIBUTIONS
       perl 5.006
       strict 0
       warnings 0
+  File-Copy-Recursive-0.45
+    pathname: D/DM/DMUEY/File-Copy-Recursive-0.45.tar.gz
+    provides:
+      File::Copy::Recursive 0.45
+    requirements:
+      Cwd 0
+      ExtUtils::MakeMaker 0
+      File::Copy 0
+      File::Glob 0
+      File::Spec 0
   File-Grep-0.02
     pathname: M/MN/MNEYLON/File-Grep-0.02.tar.gz
     provides:
