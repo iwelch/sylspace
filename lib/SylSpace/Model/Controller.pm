@@ -78,8 +78,7 @@ sub standard {
   $cururl =~ s{\?.*}{}; ## strip any parameters
 
 
-  #it's faaaar more portable to use the name of the route
-  my $reloginurl="authindex";
+  my $reloginurl = $c->auth_path("/auth/index");
 
   if ($course eq 'auth') {
     ## already in //auth.$domain/...  --> never redirect, always allowed
@@ -99,7 +98,9 @@ sub standard {
   }
 
   ## anything else requesting an auth page is redirected to the aux website
-  ($cururl =~ m{^/auth/goclass}) and return retredirect("//auth.$domain/auth/goclass", "/auth requests channel back ");
+  ($cururl =~ m{^/auth/goclass}) and return retredirect(
+    $c->auth_path('/auth/goclass'), "/auth requests channel back"
+  );
   ($cururl =~ m{^/auth/}) and return retredirect($reloginurl, "/auth requests channel back ");
 
   ($course =~ /\w/) or return retredirect($reloginurl, "the base domain is not defined");
