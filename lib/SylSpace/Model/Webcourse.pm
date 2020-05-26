@@ -87,7 +87,7 @@ sub _webcourseremove($course) {
   ($course =~ m{/}) and die "ok, wcremove is not safe, but '$course' is ridiculous";
   ( ($course =~ /\*/) && ($0 !~ /mk.*site\.t/) ) and die "ok, wcrm is not safe, but '$course' is ridiculous.  only allowed in mkstartersite.t";
 
-  system("rsync -avz $var /tmp/sylspace");
+  system("rsync -avz $var /tmp/sylspacebkup");
 
   my $nremoved=0;
   foreach (bsd_glob("$var/courses/$course")) {
@@ -113,7 +113,7 @@ sub _webcourselist() {
   foreach (bsd_glob("$var/courses/*")) {
     $_= lc($_);
     (-e $_) or next;
-    s{^$var/courses/}{};
+    s{^\Q$var\E/courses/}{};
     push(@list, $_);
   }
   return \@list;

@@ -11,7 +11,9 @@ no warnings qw(experimental::signatures);
 
 ################################################################
 
-use lib '../..';
+use Mojo::File qw(curfile);
+use lib curfile->dirname->sibling('lib')->to_string;
+use lib curfile->dirname->sibling('local/lib/perl5')->to_string;
 
 use SylSpace::Model::Webcourse qw(_webcoursemake _webcourseremove _webcourseshow );
 use SylSpace::Model::Model qw(:DEFAULT instructornewenroll);

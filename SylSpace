@@ -2,22 +2,23 @@
 use lib 'lib';
 use Mojolicious::Lite; ## strict, warnings, utf8 and Perl 5.10
 
+use SylSpace::Model::Utils qw(_getvar);
+my $vardir=_getvar();
+
 plugin 'Mojolyst' => {controllers => 'SylSpace::Controller'};
 plugin 'RenderFile';
 plugin 'browser_detect';
 
-my $dmnm= (glob("/var/sylspace/domainname=*"))[0];
+my $dmnm= (glob("$vardir/domainname=*"))[0];
 
-(defined($dmnm)) or die "please set a (virtual) domainname in /var/sylspace/domainname=xx.yy";
+(defined($dmnm)) or die "please set a (virtual) domainname in $vardir/domainname=xx.yy";
 
-$dmnm =~ s{^/var/sylspace/domainname\=}{};
+$dmnm =~ s{^\Q$vardir\E/domainname\=}{};
 $ENV{MOJO_DOMAINNAME}= $dmnm;
 
 
-my %ENVMOJO;
-foreach my $k (keys %ENV) { ($k =~ /MOJO|HYPNO/) and $ENVMOJO{$k}=$ENV{$k}; }
-
-(defined($ENV{HYPNOTOAD_APP})) or warn "may not work except under hypnotoad";
+app->log->debug("may not work except under hypnotoad")
+  unless defined $ENV{HYPNOTOAD_APP};
 
 ## $0 = MOJO_EXE = /Users/ivo/syllabus.space/syllabus.space/SylSpace
 (defined($ENV{MOJO_EXE})) or die "very weird running environment without ENV{MOJO_EXE}.";
@@ -34,18 +35,19 @@ $ENV{SYLSPACE_sitepath}= $FindBin::Bin;    ## /Users/ivo/syllabus.space/syllabus
 ## remove trailing port number
 ($ENV{SYLSPACE_sitename}= $ENV{MOJO_DOMAINNAME}) =~ s/:.*//g;  ## syllabus.test, from Mojo
 
-($ENV{MOJO_DOMAINNAME} eq 'localhost') and die "\nyou cannot use localhost, because we need subdomins for testing.  please use syllabus.test instead.\n";
+($ENV{MOJO_DOMAINNAME} eq 'localhost') and die "\nyou cannot use localhost, because we need subdomains for testing.  please use lvh.me instead.\n";
 
-print STDERR "SylSpace: dmnm='$ENV{MOJO_DOMAINNAME}'\n";
+app->log->debug("SylSpace: dmnm='$ENV{MOJO_DOMAINNAME}'");
 my $inetaton= inet_aton($ENV{MOJO_DOMAINNAME});
-print STDERR "SylSpace: ...$inetaton\n";
+app->log->debug("SylSpace: ...$inetaton");
+
 $ENV{SYLSPACE_siteip}= inet_ntoa( $inetaton );  ## 127.0.0.1
-$ENV{SYLSPACE_onlocalhost}= ($ENV{SYLSPACE_siteip} eq '127.0.0.1');
+$ENV{SYLSPACE_onlocalhost} = ($ENV{SYLSPACE_siteip} eq '127.0.0.1');
 
 my $configfname= "$ENV{SYLSPACE_sitepath}/$pgmname-Secrets.conf";
 
-if ($ENV{SYLSPACE_onlocalhost}) {
-  ($ENV{SYLSPACE_sitename} eq 'syllabus.test') or die "please test only on syllabus.test";
+if ($ENV{SYLSPACE_onlocalhost} and $ENV{SYLSPACE_sitename} !~ /lvh[.]me$/) {
+  ($ENV{SYLSPACE_sitename} eq 'syllabus.test') or die "please test only on syllabus.test or lvh.me";
   my $etclines= `grep syllabus.test /etc/hosts`;
   ($etclines =~ /corpfin.syllabus.test/m) or die "\n\nFor local testing, please add at the end of /etc/hosts the following: \n\n127.0.0.1 syllabus.test auth.syllabus.test corpfin.syllabus.test\n\n\n";
 } else {
@@ -65,10 +67,7 @@ $ENV{SYLSPACE_jumboscolor}='darkblue'; $ENV{SYLSPACE_jumboicolor}='darkred';
 
 if (-e $configfname) {
 
-  (-e $configfname) or die "\nFATAL: no authentication secrets config file '$configfname'\n";
-  (-l $configfname) or die "\nFATAL: authentication secrets config file '$configfname' is in the github'ed  directory, not a link.  fix this security risk!\n";
-
-  print STDERR "\n$0: good: your authentication secrets is $configfname, which is a symlink to ".readlink($configfname)."\n";
+  app->log->debug("$0: good: your authentication secrets is $configfname");
 
   ##  # working:
   ##  plugin 'Config';
@@ -82,7 +81,7 @@ if (-e $configfname) {
   if (my $google = $credentials->{oauth}->{google}) {
     my ($key, $secret) = @$google;
 
-    print STDERR "[enabling google authentication]\n";
+    app->log->debug("[enabling google authentication]");
 
     plugin 'OAuth2' => {
 	google  => {
@@ -102,14 +101,13 @@ if (-e $configfname) {
 			   on_error	=> \&SylSpace::Controller::AuthAuthenticator::googlecb,
 			   on_finished => \&SylSpace::Controller::AuthAuthenticator::google,
 			  );
-##   on_finished => \&SylSpace::Controller::AuthAuthenticator::google,
 
   }
 
   if (my $github = $credentials->{oauth}->{github}) {
     my ($key, $secret) = @$github;
 
-    print STDERR "[enabling github authentication]\n";
+    app->log->debug("[enabling github authentication]");
 
     plugin 'Web::Auth' => (
 			   module      => 'Github',
@@ -122,7 +120,7 @@ if (-e $configfname) {
   if (my $facebook = $credentials->{oauth}->{facebook}) {
     my ($key, $secret) = @$facebook;
 
-    print STDERR "[enabling facebook authentication]\n";
+    app->log->debug("[enabling facebook authentication]");
 
     plugin 'Web::Auth' => (
 			   module      => 'Facebook',
@@ -146,37 +144,41 @@ if (-e $configfname) {
 #   return $ENV{SYLSPACE_sitename};
 # };
 
-*Mojo::URL::domainport = sub {
-  my $port= shift->port;
-  defined($ENV{SYLSPACE_sitename}) or die "internal error: no site (ENV{SYLSPACE_sitename})";
+helper domainport => sub {
+  my $url  = shift->req->url->to_abs;
+  my $port = $url->port;
+  defined($ENV{SYLSPACE_sitename}) or die "internal error: no site ($ENV{SYLSPACE_sitename})";
   (defined($port)) or return $ENV{SYLSPACE_sitename};
-  return $ENV{SYLSPACE_sitename}.':$port';
+  return "$ENV{SYLSPACE_sitename}:$port";
 };
 
-
-## http://user.course.$ENV{SYLSPACE_sitename} -> user.course
-## http://$ENV{SYLSPACE_sitename} -> undef
-## used in Controller.pm
-*Mojo::URL::subdomain = sub {
-  my $crequrl= shift;
-  my $fulldomain= $crequrl->to_abs->host || "unknown-fulldomain";
-  ($fulldomain =~ m/(.*)\.localhost$/) and return $1;
-  my @f= split(/\./, $fulldomain);
-  (@f) or return '';  ## never
-  pop(@f); pop(@f);   ## (pop(@f) =~ /localhost$/) or pop(@f);  ## hehe --- pop again
-  ($#f>=0) or return '';
-  return join('.', @f);
+helper auth_path => sub {
+  my ($c, $path) = @_;
+  $c->req->url->to_abs->clone
+    ->path($path)
+    ->host("auth.$ENV{SYLSPACE_sitename}")
+    ->query(undef);
 };
+  
 
+helper subdomain => sub {
+  my $domain = shift->req->url->to_abs->host || 'unknown-fulldomain';
+  ($domain =~ m/(.*)\.localhost$/) and return $1;
+  my @f = split(/\./, $domain);
+  return '' unless @f;  ## never
+  splice @f, -2; #pop off tld and main site name
+  return join '.', @f;
+};
 
 ################################################################################################################################
 use Perl6::Slurp;
 
-my $vardir="/var/sylspace";
 
 my @pwsecret=slurp("$vardir/secrets.txt");
 app->secrets( \@pwsecret );  ## the first one encodes, the others are usable; maybe rotate by day
-app->config(hypnotoad => { listen => ['http://'.$ENV{'SYLSPACE_sitename'}.':80'] }); ## hypnotoad is serious and never on localhost
+
+#default hypnotoad to port 80, but allow configuration
+app->config->{hypnotoad}{listen} //= ['http://*:80'];
 
 use File::Glob ':bsd_glob';
 my @users= (bsd_glob("$vardir/users/*\@*"));
@@ -185,11 +187,10 @@ my @courses=(scalar glob("$vardir/courses/*"));
 ((scalar @courses) >= 1) or die "you need at least one known course in $vardir/courses, not $#courses\n";
 
 if ($ENV{'SYLSPACE_onlocalhost'}) {
-  print STDERR "$0: *** localhost mode only --- logging out may not work correctly\n";
-  print STDERR "$0: *** CHROME cannot be used in localhostmode, because it resolves 127.0.0.1 differently\n";
+  app->log->debug("$0: *** localhost mode only --- logging out may not work correctly");
 }
 
-print STDERR "$0: Starting $ENV{SYLSPACE_appname} now on $ENV{MOJO_DOMAINNAME}\n";
+app->log->debug("$0: Starting $ENV{SYLSPACE_appname} now on $ENV{MOJO_DOMAINNAME}");
 
 app->sessions->cookie_domain( '.'.$ENV{SYLSPACE_sitename} );
 

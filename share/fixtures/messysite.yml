@@ -1,0 +1,49 @@
+users:
+  - email: instructor@gmail.com
+    email2: instructor@gmail.com
+    firstname: alice
+    lastname: architect
+    uniname: ucla
+    regid: na
+    birthyear: 1963
+    zip: 90095
+    country: US
+    cellphone: (312) 212-3100
+    tzi: 0
+    optional: ''
+  - email: student1@gmail.com
+    email2: student1@gmail.com
+    firstname: bob
+    lastname: builder
+    uniname: na
+    regid: na
+    birthyear: 1975
+    zip: 90049
+    country: US
+    cellphone: (312) 212-3200
+    tzi: 0
+    optional: ''
+  - email: student2@gmail.com
+    email2: student2@gmail.com
+    firstname: charlie
+    lastname: carpenter
+    uniname: ucla
+    regid: na
+    birthyear: 2005
+    zip: 90049
+    country: US
+    cellphone: (312) 212-3300
+    tzi: 0
+    optional: ''
+  - email: noone@gmail.com
+courses:
+  - name: mfe.welch
+    students: 
+      - student1@gmail.com
+      - student2@gmail.com
+    instructor: instructor@gmail.com
+  - name: mba.welch
+  - name: year.course.instructor.university
+  - name: intro.corpfin
+
+

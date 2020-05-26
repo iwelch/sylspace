@@ -5,8 +5,6 @@
 
 package SylSpace::Controller::AuthGoclass;
 use Mojolicious::Lite;
-use lib qw(.. ../..); ## make syntax checking easier
-use strict;
 
 use SylSpace::Model::Model qw(courselistenrolled courselistnotenrolled bioiscomplete);
 use SylSpace::Model::Controller qw(standard global_redirect timedelta);
@@ -23,10 +21,59 @@ get '/auth/goclass' => sub {
   ($c->session->{expiration}) or die "you have no expiration date, ".$c->session->{uemail}."?!";
 
   $c->stash( timedelta => timedelta( $c->session->{expiration} ),
-	     courselistenrolled => courselistenrolled($c->session->{uemail}),
+	     courselistenrolled => [ sort keys %{courselistenrolled($c->session->{uemail})} ],
+	     email => $c->session->{uemail} );
+};
+
+get '/auth/findclass' => sub {
+  my $c = shift;
+
+  (my $course = standard( $c )) or return global_redirect($c);
+
+  (bioiscomplete($c->session->{uemail})) or $c->flash( message => 'You first need to complete your bio!' )->redirect_to('/auth/bioform');
+
+  ($c->session->{expiration}) or die "you have no expiration date, ".$c->session->{uemail}."?!";
+
+  $c->stash( timedelta => timedelta( $c->session->{expiration} ),
 	     courselistnotenrolled => courselistnotenrolled($c->session->{uemail}),
 	     email => $c->session->{uemail} );
 };
+
+
+
+package Mojolicious::Controller {
+  #NOTE- this ugly hack is because Mojolyst doesn't seem to let me
+  #define helpers here, and also doesn't use this class as its
+  #controller object. *sigh*
+  use SylSpace::Model::Controller qw(obscure btnblock);
+
+  use Mojo::URL;
+
+  sub course_button_enter {
+    my ($self, $course, $email) = @_;
+    my $curdomainport= $self->domainport;
+    my $display_name = join ' : ', reverse split /[.]/, $course;
+    
+    my $enter_url = Mojo::URL->new->host("$course.$curdomainport")->path('/enter');
+    $enter_url->query(e => obscure join ':', time, $email, $self->session->{expiration});
+
+    return btnblock($enter_url, 
+      qq{<i class="fa fa-circle"></i> $display_name},
+      qq{<a href="/auth/userdisroll?c=$course"><i class="fa fa-trash"></i> unenroll $course.$curdomainport</a>},
+      'btn-default',
+      'w' );
+  }
+
+
+  sub course_button_enroll {
+    my ($self, $course, $subtext, $has_secret) = @_;
+    my $url = $has_secret ? "/auth/userenrollform?c=$course" : "/auth/userenrollsavenopw?course=$course";
+    my $icon_class = $has_secret ? 'fa-lock' : 'fa-circle-o';
+    return btnblock($url, qq{<i class="fa $icon_class"></i> $course}, $subtext, 'btn-default', 'w')
+  }
+
+
+}
 
 1;
 
@@ -34,15 +81,10 @@ get '/auth/goclass' => sub {
 
 __DATA__
 
+
 @@ authgoclass.html.ep
 
-  <%
-  use SylSpace::Model::Controller qw(btnblock);
-use SylSpace::Model::Utils qw( _encodeencrypt _burpapp );
-my $raw = time()."\t".$self->session->{uemail};
-my $uemencrypt= _encodeencrypt( $raw );
-  _burpapp( undef, "$raw|$uemencrypt" );
-  %>
+% use SylSpace::Model::Controller qw(btnblock);
 
 %title 'superhome';
 %layout 'auth';
@@ -51,23 +93,79 @@ my $uemencrypt= _encodeencrypt( $raw );
 
 <hr />
 
-  <% my $curdomainport= $self->req->url->to_abs->domainport; %>
-
 <h3> Enrolled Courses </h3>
 
   <div class="row top-buffer text-center">
-    <%== coursebuttonsentry($self, $courselistenrolled, $email, 1) %>
-  </div>
+    % my $has_course = @$courselistenrolled;
+    % for my $course (@$courselistenrolled) {
+    %== $self->course_button_enter($course, $email)
+    % }
+    % unless ($has_course) {
+      <p class="col-xs-12 col-md-6 h2"> No courses enrolled yet. </p>
+    % }
 
-<hr />
-
-<h3> Other Available Courses </h3>
-
-  <div class="row top-buffer text-center">
-    <%== coursebuttonsenroll($self, $courselistnotenrolled, $email, 0) %>
+    % my $others = $has_course ? 'Other' : '';
+    <%== btnblock("/auth/findclass", "$others Available Courses", '', "btn-info", 'w') %>
   </div>
 
   <hr />
+
+  %= include '_course_search_bar'
+
+%= include '_edit_user_settings'
+
+%= include '_paypal'
+
+</main>
+
+@@ authfindclass.html.ep
+
+%title 'superhome';
+%layout 'auth';
+
+<main>
+
+<hr />
+
+  <h3> Available Courses </h3>
+
+  <div class="row top-buffer text-center">
+    % my @notenrolled = sort keys %$courselistnotenrolled;
+    % for my $course (@notenrolled) {
+    %== $self->course_button_enroll($course, 'singleton', $courselistnotenrolled->{$course})
+    % }
+    % unless (@notenrolled) {
+    <p>No courses available.</p>
+    % }
+
+  </div>
+
+  %= include '_course_search_bar'
+
+  <hr />
+
+  <h3> <%= link_to 'Back to Enrolled Courses' => 'authgoclass' %> </h3>
+
+%= include '_edit_user_settings'
+%= include '_paypal'
+
+</main>
+
+@@ _course_search_bar.html.ep
+
+    <form name="selectcourse" method="get" action="/auth/userenrollform" class="form"> 
+      <div class="input-group">
+        <span class="input-group-addon">Course Name: <i class="fa fa-square"></i></span>
+        <input class="form-control" placeholder="coursename, e.g., welch-mfe101-2017.ucla" name="c" type="text" required />
+      </div>
+      <div class="input-group">
+        <button class="btn btn-default" type="submit" value="submit">Select a course by its full name</button>
+      </div>
+    </form>
+
+@@ _edit_user_settings.html.ep
+
+% use SylSpace::Model::Controller qw(btnblock);
 
 <h3> Change Auto-Logout Time </h3>
 
@@ -92,7 +190,14 @@ my $uemencrypt= _encodeencrypt( $raw );
    </div>
 
 
-  <% if ($ENV{SYLSPACE_haveoauth}) { %>
+@@ _paypal.html.ep
+% use SylSpace::Model::Utils qw( _encodeencrypt _burpapp );
+% my $raw = time()."\t".$self->session->{uemail};
+% my $uemencrypt= _encodeencrypt( $raw );
+% _burpapp( undef, "$raw|$uemencrypt" );
+
+
+  % if ($ENV{SYLSPACE_haveoauth}) {
 
    <h3> Donate and Confirm Identity  </h3>
 
@@ -122,167 +227,10 @@ my $uemencrypt= _encodeencrypt( $raw );
 		</form>
 	</div> <!-- col xs-12 -->
 	</div> <!-- row -->
-  <% } else { %>
+  % } else { 
 
        <p> Paypal further authentication options omitted in local test mode without OAuth. </p>
 
-  <% } %>
+  % }
 
    </div>
-</main>
-
-
-  <%
-
-  use SylSpace::Model::Controller qw(obscure);
-
-sub coursebuttonsentry {
-  my ($self, $courselist, $email)= @_;
-
-  ## users want a sort by subdomain name first, then subsubdomain, then ...
-  ## websites names are in reverse order
-
-  my @courselist= keys %{$courselist};
-
-  (@courselist) or return "<p>No courses enrolled yet.</p>";
-
-  my %displaylist;
-  foreach (@courselist) {
-    $displaylist{ $_ } = join(" : ", reverse(split(/\./, $_)));
-  }
-
-  ## add a number of how many courses qualify from this list for possible combination
-  my %subdomcount;
-  foreach (@courselist) {
-    my @f=split(/\./, $_); my $le=pop( @f );
-    ++$subdomcount{ $le };
-  }
-  my %freq; my %group;
-  foreach (@courselist) {
-    my @f=split(/\./, $_); my $le=pop( @f );
-    $freq{$_} = $subdomcount{ $le };
-    $group{$le} .= $_."\n";
-  }
-
-  my $rs='';
-  my $curdomainport= $self->req->url->to_abs->domainport;
-
-  foreach (sort @courselist) {
-    $rs .= btnblock( "http://$_.$curdomainport/enter?e=".obscure( time().':'.$email.':'.$self->session->{expiration} ),
-		     '<i class="fa fa-circle"></i> '.$displaylist{$_},
-		     "<a href=\"/auth/userdisroll?c=$_\"><i class=\"fa fa-trash\"></i> unenroll $_.$curdomainport</a>",     ### $group{$_}." ".$freq{$_}||"N",
-		     'btn-default',
-		     'w' )."\n";
-  }
-  return $rs;
-}
-
-
-################################################################
-sub coursebuttonsenroll {
-  my ($self, $courselist, $email)= @_;
-
-  my @courselist= keys %{$courselist};
-
-  (@courselist) or return "<p>No courses available.</p>";
-
-  # remove multidomains
-  #  my @singledomcourse = grep { $_ !~ m{\.} } @courselist;
-  my @singledomcourse = @courselist;
-
-  ## users want a sort by subdomain name first, then subsubdomain, then ...
-  ## websites names are in reverse order
-
-  my $rs="";
-
-  foreach my $g (sort @singledomcourse) {
-
-    sub imbtn {
-      my ( $maintext, $subtext, $displaylist, $coursehassecret )= @_;
-      my $url= ($coursehassecret) ? '/auth/userenrollform?c='.$maintext : '/auth/userenrollsavenopw?course='.$maintext ;
-      my $faicon=  ($coursehassecret) ? '<i class="fa fa-lock"></i> ': '<i class="fa fa-circle-o"></i> ';
-      return "  ".btnblock($url, $faicon.$maintext, $subtext, 'btn-default', 'w' );
-    }
-
-    $rs .= imbtn( $g, 'singleton', $g, $courselist->{$g} )."\n";
-  }
-
-  $rs .= "
-      <form name=\"selectcourse\" method=\"get\" action=\"/auth/userenrollform\" class=\"form\"> 
-      <div class=\"input-group\">
-        <span class=\"input-group-addon\">Course Name: <i class=\"fa fa-square\"></i></span>
-        <input class=\"form-control\" placeholder=\"coursename, e.g., welch-mfe101-2017.ucla\" name=\"c\" type=\"text\" required />
-      </div>
-      <div class=\"input-group\">
-        <button class=\"btn btn-default\" type=\"submit\" value=\"submit\">Select a course by its full name</button>
-      </div>
-
-      </form>
-    ";
-
-  $rs .= qq(\t</div>\n);
-
-  return $rs;
-}
-################################################################
-sub coursebuttonsenrollshowall_unused {
-  my ($self, $courselist, $email)= @_;
-
-  my @courselist= keys %{$courselist};
-
-  (@courselist) or return "<p>No courses available.</p>";
-
-  ## users want a sort by subdomain name first, then subsubdomain, then ...
-  ## websites names are in reverse order
-
-  print STDERR "IVODEBUG: ".join(" | ", @courselist)."\n";
-
-  my %displaylist;
-  foreach (@courselist) {
-    $displaylist{ $_ } = join(" : ", reverse(split(/\./, $_)));
-  }
-
-  ## add a number of how many courses qualify from this list for possible combination
-  my %subdomcount;
-  foreach (@courselist) {
-    my @f=split(/\./, $_); my $le=pop( @f );
-    ++$subdomcount{ $le };
-  }
-  my %group;
-  foreach (@courselist) {
-    my @f=split(/\./, $_); my $le=pop( @f );
-    push(@{$group{$le}}, $_);
-  }
-
-  my $rs="";
-  foreach my $g (sort keys %group) {
-    my @displaylist= @{$group{$g}};
-
-    sub noimbtn {
-      my ( $maintext, $subtext, $displaylist, $coursehassecret )= @_;
-      my $url= ($coursehassecret) ? '/auth/userenrollform?c='.$maintext : '/auth/userenrollsavenopw?course='.$maintext ;
-      my $icon=  ($coursehassecret) ? '<i class="fa fa-lock"></i> ': '<i class="fa fa-circle-o"></i> ';
-      return "  ".btnblock($url, $icon.$displaylist->{$maintext}, $subtext, 'btn-default', 'w');
-    }
-
-    if (scalar(@displaylist) == 1) {
-      my $course= $displaylist[0];
-      $rs .= imbtn( $course, 'singleton', \%displaylist, $courselist->{$course} )."\n";
-    } else {
-      my $mb= "<i class=\"fa fa-briefcase\"></i>";  ## or use 'plus-circle'
-      $rs .= qq(\n<div class="col-xs-12 col-md-6"><button type="button" class="btn btn-default btn-block" data-toggle="collapse" data-target="#$g"> <h3> $mb $g </h3></button><p>Multiple</p></div>\n);
-
-      $rs .= qq(\t<div id="$g" class="collapse">\n);
-      my $cntup=0;
-      foreach my $x (@displaylist) {
-	++$cntup;
-	$rs .= "\t\t".imbtn( $x, "$cntup of ".scalar(@displaylist), \%displaylist, $courselist->{$x}  )."\n";
-      }
-      $rs .= qq(\t</div>\n);
-    }
-  }
-
-  return $rs;
-}
-
-%>

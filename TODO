@@ -1,0 +1,2 @@
+move the test site making out of test files and instead into its
+own bin/mojo command. Then unflake all of the tests!

@@ -17,10 +17,10 @@ my $shm= sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
 
-  my $curdomainport= $c->req->url->to_abs->domainport;
+  my $curdomainport= $c->domainport;
 
   (bioiscomplete($c->session->{uemail}))
-    or $c->flash( message => 'You first need to complete your bio!' )->redirect_to("http://auth.$curdomainport/usettings");
+    or $c->flash( message => 'You first need to complete your bio!' )->redirect_to("//auth.$curdomainport/usettings");
 
   (isenrolled($course, $c->session->{uemail})) or $c->flash( message => "first enroll in $course please" )->redirect_to('/auth/goclass');
 

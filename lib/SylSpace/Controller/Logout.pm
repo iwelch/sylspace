@@ -14,8 +14,8 @@ my $logout = sub {
   $c->session->{uemail}=undef;
   $c->session->{uexpiration}= undef;
 
-  my $curdomainport= $c->req->url->to_abs->domainport;
-  $c->flash(message => "$logoutemail logged out")->redirect_to("http://auth.$curdomainport/auth/index");
+  my $curdomainport= $c->domainport;
+  $c->flash(message => "$logoutemail logged out")->redirect_to("//auth.$curdomainport/auth/index");
 };
 
 get '/logout' => $logout;

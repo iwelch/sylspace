@@ -63,10 +63,6 @@ __DATA__
 
   <dd>The maximum upload limit is 16MB/file.</dd>
 
-  <dt>Is it a concern that the site is http, not (SSL-encrypted) https?</dt>
-
-  <dd>Yes and no.  SSL prevents man-in-the-middle (NSA-type or public WiFi) listening-in attacks.  However, we encrypt critical requests and we never ask for passwords.</dd>
-
 </dl>
 
 <hr />

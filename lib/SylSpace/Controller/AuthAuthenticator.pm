@@ -28,7 +28,7 @@ sub google {
   my $name = $userinfo->{displayName} || $userinfo->{name};
   my $email= $userinfo->{email};
 
-  print STDERR "AuthAuthenticator.pm[Google] was called with ".Dumper($userinfo);
+  #print STDERR "AuthAuthenticator.pm[Google] was called with ".Dumper($userinfo);
 
   my $extrainstruction="<p style=\"color:blue\"> This probably means that you have to enter a reasonable name in your Google account.  This is very easy.  Go to the main google search page in the Chrome browser.  Click on the top right where it says \"Sign in.\"   Once you have signed in, click on your account (same spot, top right), then on the blue big butten that says \"Google account.\"  This will allow you to change your Google account info, including adding your name, image, etc.</p>";
 
@@ -71,18 +71,25 @@ sub facebook {
 get '/auth/authenticator' => sub {
   my $c = shift;
 
-  print STDERR "AuthAuthenticator.pm[plain] was called with ".Dumper($c);
+  #print STDERR "AuthAuthenticator.pm[plain] was called with ".Dumper($c);
 
   (my $course = standard( $c )) or return global_redirect($c);
   
-  $c->stash( authurl => $c->oauth2->auth_url("google", {scope => "email profile", redirect_uri => "http://auth.$ENV{MOJO_DOMAINNAME}/auth/login"}));
+  $c->stash(
+    authurl => $c->oauth2->auth_url("google", {
+      scope => "email profile",
+      redirect_uri => $c->auth_path('/auth/login')
+    })
+  );
   $c->render(template => 'AuthAuthenticator' );
 };
 
 get "/auth/login" => sub {
   my $c = shift;
-  my %get_token_args = {redirect_uri => 'http://auth.$ENV{MOJO_DOMAINNAME}/auth/authenticator', scope => 'profile email'};
-  my $data = $c->oauth2->get_token(google => \%get_token_args);
+  my $get_token_args = {
+    scope => 'profile email'
+  };
+  my $data = $c->oauth2->get_token(google => $get_token_args);
   my $token = $data->{access_token};
  	
   my $ua = Mojo::UserAgent->new;
@@ -114,7 +121,30 @@ __DATA__
 <p style="margin:1em"> To learn more about this site, please visit the <a href="/aboutus">about us</a> page.</p>
 
   <%== msghash2string( [{ msgid => 0, priority => 5, time => 1495672668, subject => 'Hello!',
-			body => '<p>It is safe to register and/or authenticate.  The site is run by Ivo Welch, Prof at UCLA.  For more information, please click on <a href="/aboutus">About Us</a>.   <p><b>Students</b>: Registration allows students to take sample tests, including a great set of corporate finance quizzes.  (A typical quiz looks like <a href="/html/eqsample02a.html">this rendering</a>.) <p><b>Instructors:</b> Instructors can also obtain an own tailored course site.  Course sites allow posting and changing equizzes, seeing what students have answered, distributing homeworks and collecting student answers.  The web interface is <em>far</em> simpler (no learning curve!) and more pleasing than anything else out there. See <a href="http://auth.$ENV{MOJO_DOMAINNAME}/faq">screenshots</a>.  If interested, please <a href="mailto:ivo.welch@gmail.com">email to request</a> a tailored instructor site.  Include (1) a gmail address;  (2) a link to a university site so I can confirm your identity; and (3) a course name (such as mfe404) and year (such as 2018).  Your private website will be named something like <tt>http://<span style="color:blue">welch-mfe404-2018.ucla</span>$ENV{MOJO_DOMAINNAME}</tt>.<p>If you stumble upon little or not-so-little bugs, please let <a href="mailto:ivo.welch@gmail.com">me</a> know.'}] ) %>
+			body => <<"MSGBODY" }] ) 
+<p>It is safe to register and/or authenticate.  The site is run by Ivo
+Welch, Prof at UCLA.  For more information, please click on <a
+href="/aboutus">About Us</a>.  
+
+<p><b>Students</b>: Registration allows students to take sample tests, including a
+great set of corporate finance quizzes.  (A typical quiz looks like <a
+href="/html/eqsample02a.html">this rendering</a>.)
+                       
+<p><b>Instructors:</b> Instructors can also obtain an own tailored course site.  Course sites allow
+posting and changing equizzes, seeing what students have answered, distributing
+homeworks and collecting student answers.  The web interface is <em>far</em> simpler
+(no learning curve!) and more pleasing than anything else out there.
+See ${\link_to screenshots => 'faq'}
+
+If interested, please <a href="mailto:ivo.welch\@gmail.com">email to
+request</a> a tailored instructor site.  Include (1) a gmail address;  (2) a link
+to a university site so I can confirm your identity; and (3) a course name (such as
+mfe404) and year (such as 2018).  Your private website will be named something
+like <tt>http://<span style="color:blue">welch-mfe404-2018.ucla</span>.$ENV{MOJO_DOMAINNAME}</tt>.<p>If
+you stumble upon little or not-so-little bugs, please let <a href="mailto:ivo.welch\@gmail.com">me</a> know.
+</p>
+MSGBODY
+    %>
 
 <hr />
 
@@ -160,7 +190,7 @@ __DATA__
 
   <% } else { %>
 
-   <p style="font-size:small">You did not have a local OAuth config file (usually a link to SylSpace-Secrets.conf), so you cannot use direct or email based registration or authentication.  For now, you can only use this Syllabus webapp reasonably on http://syllabus.test/ (i.e., localhost), which only allows "local cheating" authentication.</p>
+   <p style="font-size:small">You did not have a local OAuth config file (usually a link to SylSpace-Secrets.conf), so you cannot use direct or email based registration or authentication.  For now, you can only use this Syllabus webapp reasonably on lvh.me (i.e., localhost), which only allows "local cheating" authentication.</p>
 
   <% } %>
 
@@ -168,7 +198,7 @@ __DATA__
 
      <% if ($ENV{'SYLSPACE_onlocalhost'}) { %>
         <div class="top-buffer text-center; border-style:solid;"> <!-- completely ignored afaik -->
-           <%== btnblock('/auth/testsetuser', '<i class="fa fa-users"></i> Choose Existing Listed User', '(works only on localhost, usually syllabus.test)', 'btn-warning btn-md', 'w') %>
+           <%== btnblock('/auth/testsetuser', '<i class="fa fa-users"></i> Choose Existing Listed User', '(works only on localhost, usually lvh.me)', 'btn-warning btn-md', 'w') %>
         </div>
       <% } %>
 

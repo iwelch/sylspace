@@ -8,56 +8,80 @@ Due to the outdated three-year-old 5.18.2 version of perl still running on MacOS
 
 ### Basic Steps:
 
-These steps are for a plain ubuntu server.
+These steps are for a plain ubuntu server. (The non-apt steps are
+applicable everywhere, though)
 
-* `$ sudo apt install git cpanminus make gcc libssl-dev`
+* `$ sudo apt install git cpanminus make gcc libssl-dev carton`
 
-	to download, you need git.  to install mojolicious, you need cpanminus, make, and gcc.
+        to download, you need git.  to install mojolicious, you
+        need cpanminus, make, and gcc. we use carton to manage
+        dependencies
 
 * `$ mkdir mysylspacedir ; cd mysylspacedir`
 
-	in this example, mysylspacedir is the directory in which the webapp will be installed.  you can change this to anything you like.  because all of sylspace will be cloned into its own subdirectory, you could even omit this step altogether.
+        in this example, mysylspacedir is the directory in which
+        the webapp will be installed.  you can change this to anything you
+        like.  because all of sylspace will be cloned into its own
+        subdirectory, you could even omit this step altogether.
 
 * `$ git clone https://github.com/iwelch/sylspace ; cd sylspace`
 
 	you now should have a lot of files in the mysylspacedir/sylspace directory, which you can inspect with `$ ls`.
 
-* `$ sudo bash`
+* `carton install`
 
-	you have to do a lot of steps as superuser, so you may as well fire up a bash shell to execute the many commands below:
+        this instructs perl to install all the cpan modules that
+        sylspace needs.  make sure that there are no errors in this step.
+        if there are, you will suffer endless pain later on.  warning:
+        this step may take 10 minutes.
 
-	- `# cpanm --installdeps .`
+        This makes a local environment where the expected versions
+        of the cpan modules used are installed, regardless of other
+        things you've installed. In order to run scripts in this
+        project, prefix them with `carton exec`, or add `local/lib/perl5`
+        to your PERL5LIB environment variable. (for more info, see
+        `perldoc Carton`)
 
-	  this instructs perl to install all the cpan modules that sylspace needs.  make sure that there are no errors
-	  in this step.  if there are, you will suffer endless pain later on.  warning: this step may take 10 minutes.
+* `carton exec perl initsylspace.pl -f`
 
-	- `# echo "127.0.0.1 syllabus.test corpfin.syllabus.test corpfin.test.syllabus.test syllabus.test.syllabus.test auth.syllabus.test" >> /etc/hosts`
+        this builds the basic storage hierarchy in the
+        filesystem located at $ENV{SYLSPACE_PATH} (/var/sylspace/ by default)
+        such as $ENV{SYLSPACE_PATH}/courses, $ENV{SYLSPACE_PATH}/users,
+        $ENV{SYLSPACE_PATH}/templates/, etc.
 
-	  ideally, the server should resolve all '*.syllabus.test' not to the internet, but to localhost.  alas, the standard unix name resolver is too stupid to allow this.  A better way to accomplish this is to use a local name resolver like dnsmasq, but the installation of this is more complex.
-
-	- `# perl initsylspace.pl -f`
-
-	  this builds the basic storage hierarchy in /var/sylspace/, such as /var/sylspace/courses, /var/sylspace/users, /var/sylspace/templates/, etc.
-
-	- `# cd Model/; perl mkstartersite.t ; cd ..`
+* `carton exec perl bin/load_site startersite`
 	
-	  this builds a nice starter site for test purposes.  for example, it creates a corpfin website (in /var/sylspace/courses/corpfin/) that the webapp will recognize as a corporate finance website.
+        this builds a nice starter site for test purposes.  for
+        example, it creates a corpfin website (in
+        /var/sylspace/courses/corpfin/) that the webapp will recognize as
+        a corporate finance website.
 
-	- `# updatedb`
+* `sudo updatedb`
 
-	  runserver.pl uses `locate sylspace/SylSpace` to detect where it is installed, so it needs you to run updatedb at least once.
+        runserver.pl uses `locate sylspace/SylSpace` to detect where it is installed, so it needs you to run updatedb at least once.
 
-	- `# chown -R yourusername .`
+- `carton exec perl runserver.pl`
 
-	  this will make it easier later to edit sylspace programs without having to be su.  this step is not necessary.
+        runserver.pl is smart enough to figure out whether it
+        is running on http://*.syllabus.space domain (where it should use
+        hypnotoad) or on another computer (where there is only local test
+        user authentication and the tester wants to see what URLs are
+        being requested on the terminal).
 
-	- `# perl runserver.pl`
 
-	   runserver.pl is smart enough to figure out whether it is running on http://*.syllabus.space domain (where it should use hypnotoad) or on another computer (where there is only local test user authentication and the tester wants to see what URLs are being requested on the terminal).
+now open your  browser and point it to `http://lvh.me`.  when you
+are done, click back on your terminal window and ^C out of
+runserver.pl.
 
+If you aren't comfortable letting sylspace play around with your
+filesystem, then you can still test by using the included docker
+image. Make sure that docker is installed, and then build the
+image by running `docker build -t sylspace:dev .` while in the
+projects directory.
 
-
-now open your firefox (not chrome!) browser and point it to `http://syllabus.test`.  when you are done, click back on your terminal window and ^C out of runserver.pl .
+After the image is finished building, you can run it with the
+included `run_docker` script. You can pass in any command to have
+it run in the container.
 
 
 ### Real Operation
@@ -89,7 +113,7 @@ For automatic start on boot and restart on crash in the real production hypnotoa
 
 ## Developing
 
-SylSpace is written in perl Mojolicious.
+SylSpace is written in perl with the Mojolicious web framework.
 
 The `SylSpace` top-level executable initializes a variety of global features and then starts the app loop.
 
@@ -102,7 +126,6 @@ The equiz evaluator is completely separate and laid out into `Model/eqbackend`.
 All equizzes that come with the system are in `templates/equiz/`
 
 All default quizzes that course instructors can copy into their own home directories are in `templates/equiz/` .
-
 
 
 
@@ -124,7 +147,7 @@ All default quizzes that course instructors can copy into their own home directo
 The rest are also useful.
 
 * cpanfile
-:	describes all required perl modules.  Used only once during installation as `cpanm --installdeps .`
+:	describes all required perl modules.  Used only once during installation as `carton install`
 
 
 * SylSpace-Secrets.conf@
@@ -148,6 +171,13 @@ The rest are also useful.
 * README.md
 :	this file
 
+
+### ./lib/SylSpace: Testing tools
+
+* Test.pm - testing helpers. See `perldoc ./lib/SylSpace/Test.pm` for more info
+* Test/App.pm - an object to load the App into Test2::MojoX, with
+  some special helper functions
+* Test/Utils.pm - shared testing functions (not toooooo heavily used... yet)
 
 
 ### ./lib/SylSpace/Controller: The URLs
@@ -239,10 +269,22 @@ Each file corresponds to a URL.  Typically, a file such as `AuthGoclass` (note c
 * Uploadsave.pm
 
 
+### ./bin: support scripts
+* addsite.pl  : CLI to add a new site with instructor
+* load_site : deploys a site layout based on configuration files in share/fixtures
+
+### ./share/fixtures: site layouts
+These are testing fixtures that are used in the test suite, and
+also can be deployed on your live version of the app for live
+testing purposes.
+
+The format is basically self explanatory YAML (once you know what
+fields are expected by SylSpace)
+
+* startersite.yml : contains the setup of a corpfin course with 2 users
+* messysite.yml : contains a setup of four different courses and many users
 
 ### ./lib/SylSpace/Model:  The Workhorse.
-
-* **mkstartersite.t** : usually used only once as the first program invoked after **initsylspace.pl**.
 
 * Controller.pm : all html-output related utility routines that are used many times over.
 * Model.pm : many of the main model functions, excepting Files, and Grades. For example, user management, sitebackup, bio, messages, tweeting, equiz interface
@@ -250,9 +292,6 @@ Each file corresponds to a URL.  Typically, a file such as `AuthGoclass` (note c
 * Grades.pm : storing and retrieving grades
 * Utils.pm : many common routines (e.g., globbing, file reading, etc.)
 * Webcourse.pm : creating and removing a new course, used in addsite.pl
-* addsite.pl  : CLI to add a new site with instructor
-
-* mkmessysite.t : for playing with functionality.  more extensive than mkstartersite.t
 
 * csettings-schema.yml  : what course information is required and what it must satisfy
 * usettings-schema.yml  : what biographical information is required and what it must satisfy

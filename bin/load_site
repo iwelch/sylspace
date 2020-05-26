@@ -1,0 +1,17 @@
+#! /usr/bin/env perl
+use Mojo::File qw(curfile);
+use lib curfile->dirname->sibling('lib')->to_string;
+use lib curfile->dirname->sibling('local/lib/perl5')->to_string;
+
+my $fix;
+BEGIN {
+  $fix = shift;
+  die <<DEATH unless $fix;
+Sorry, I need a fixture name.
+Take a look in share/fixtures for whats available
+DEATH
+}
+
+#reuse our testing thing to easily load up a site
+use SylSpace::Test
+  test_fixture => $fix;

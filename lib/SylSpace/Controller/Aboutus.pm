@@ -5,7 +5,6 @@
 
 package SylSpace::Controller::Aboutus;
 use Mojolicious::Lite;
-use lib qw(.. ../..); ## make syntax checking easier
 use strict;
 
 use SylSpace::Model::Model qw(sudo);

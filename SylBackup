@@ -1,3 +1,8 @@
-#!/bin/sh
-echo "hello from the shell script backing up"
-rsync -a /var/sylspace /home/ivo/bitsyllabus/backup
+#! /usr/bin/env perl
+use lib 'lib';
+use SylSpace::Model::Utils qw(_getvar);
+
+my $var = _getvar;
+print "hello from the backup script";
+system "rsync -a $var /home/ivo/bitsyllabus/backup"
+

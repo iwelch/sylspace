@@ -5,6 +5,8 @@ use warnings;
 use warnings FATAL => qw{ uninitialized };
 use autodie;
 
+use Test2::V0;
+
 use Archive::Zip;
 use Crypt::CBC;
 use Crypt::DES;
@@ -48,5 +50,5 @@ use Email::Sender::Transport::SMTP::TLS;
 
 use Mojolicious::Plugin::Web::Auth;
 
-
-9007
+ok 1, 'loaded all prereqs';
+done_testing;

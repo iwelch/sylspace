@@ -24,21 +24,6 @@ get '/instructor/faq' => sub {
 
   use Perl6::Slurp;
   my $body= slurp("public/html/faq.html");
-  my $code= (length($body)<=1) ? 404 : 200;
-
-#  my $allfaq = $c->ua->get("/html/faq.html");
-#  my $code= $allfaq->res->{code};
-#  my $body= $allfaq->res->{content}->{asset}->{content};
-#
-#  if ($code == 404) {
-#    $allfaq= "<p>There is no sitewide public /html/faq.html.</p>\n";
-#  } else {
-#    $body =~ s{.*(<body.*)}{$1}ms;
-#    $body =~ s{(.*)</body>.*}{$1}ms;
-#  }
-
-## use Mojolicious::Plugin::ContentManagement::Type::Markdown;
-## ($allfaq) or $allfaq = $markdown->translate(slurp("/faq.md"));
 
   $c->stash( allfaq => $body, isfaq => $isfaq );
 };
@@ -60,35 +45,21 @@ __DATA__
 
   <dl class="dl faq">
 
-  <dt>What is <i>not</i> intuitive using this website (SylSpace on <%= $ENV{'SYLSPACE_DOMAINNAME'} %>)?  Have an idea to make it easier and better?  Found a dead link?</dt>
+  <dt>Is there anything you find <i>not</i> intuitive about using this website (SylSpace on <%= $ENV{'SYLSPACE_sitename'} %>)?  Have an idea to make it easier and better?  Found a dead link?</dt>
 
-  <dd>Please <a href="mailto:ivo.welch@gmail.com?subject=unclear-<%= $ENV{'SYLSPACE_DOMAINNAME'} %>">let me know</a>.  I cannot guarantee that I will follow it, but I will consider it.</dd>
+  <dd>Please <a href="mailto:ivo.welch@gmail.com?subject=unclear-<%= $ENV{'SYLSPACE_sitename'} %>">let me know</a>.
+  I cannot guarantee that I will follow it, but I will consider it.</dd>
 
-  <dt>What is SylSpace on <%= $ENV{'SYLSPACE_DOMAINNAME'} %>?</dt>
-
-  <dd>SylSpace is a third-generation web course management system, with an intentional focus on ease-of-use and simplicity.  The software is SylSpace, the main site designed to run it is <a href="http://$ENV{SYLSPACE_DOMAINNAME}">$ENV{SYLSPACE_DOMAINNAME}</a>.  (You are currently running it on <a href="<%= "http://".$ENV{'SYLSPACE_DOMAINNAME'} %>"><%= $ENV{'SYLSPACE_DOMAINNAME'} %></a> right now.)  There is almost no learning curve involved in using the system.
-
-  <p style="padding-top:1em">Its most important functionalities are:
-<ul>
-  <li> A messaging system from instructor to students (to avoid spam filters and emails). </li>
-  <li> An equiz system to allow instructors to design and post quizzes, in which the question numbers can change with each browser refresh. </li>
-  <li> A file posting system, both for tasks and homeworks [with student-uploadable responses] and for useful files (such as a syllabus, a class faq, etc). </li>
-  <li> A grading platform which allows instructors to keep track of task grades and allows students to see their grades as they are entered. </li>
-  </ul>
-  Instructors can ignore facilities that they are not interested in.  Students can enroll in courses with an instructor-set coursesecret (or none if none set).  The typical installation has an open corporate finance course for student self-testing.
-  </dd>
-
-
+  %= include '_what_is_sylspace'
 
   <dt>Do I need to run SylSpace on my own webserver?</dt>
 
-  <dd>No.  Instructors can get accounts on $ENV{DOMAINNAME} for their classes.  Please contact <a href="mailto:ivo.welch@gmail.com">ivo welch</a>.  The advantage is zero setup costs.  The disadvantage is <b>no</b> guarantees.   (Even google has had downtime on occasions!  Incidentally, other websites typically also do not offer guarantees.)  If you run your site on $ENV{DOMAINNAME} (rather than on your own web server), you must have some flexibility and tolerance for issues.</dd>
+  <dd>No.  Instructors can get accounts on syllabus.space for their classes.  Please contact <a href="mailto:ivo.welch@gmail.com">ivo welch</a>.  The advantage is zero setup costs.  The disadvantage is <b>no</b> guarantees.   (Even google has had downtime on occasions!  Incidentally, other websites typically also do not offer guarantees.)  If you run your site on syllabus.space (rather than on your own web server), you must have some flexibility and tolerance for issues.</dd>
 
-  
 
   <dt>How should I get started with the equiz language and administration to create and post equizzes?</dt>
 
-  <dd>You can read the <a href="/aboutus">Introduction</a> first.  However, equiz should be so simple that experimentation may save you the 10 minutes reading that this introduction would take.  In the equiz center, just go to the bottom and load the existing "starter" and/or "tutorial" templates. and then look at them (they appear in the directory.
+  <dd>You can read the <a href="/aboutus">Introduction</a> first.  However, equiz should be so simple that experimentation may save you the 10 minutes reading that this introduction would take.  In the equiz center, just go to the bottom and load the existing "starter" and/or "tutorial" templates. and then look at them (they appear in the directory).
 
   <p>A typical equiz question would be written into a file and look as follows:
 
@@ -127,7 +98,7 @@ __DATA__
 
   <dt>Why does SylSpace not require or store passwords?</dt>
 
-  <dd>Because we rely on email-address-based authentication via other services, in particular google and facebook.  If the linked google account becomes compromised, so will be the access to $ENV{DOMAINNAME}.  This is less bad than it sounds, because most websites have a password recovery feature that is also compromised when the email (google) account is compromised.  Put simply, you are toast if you lose control of your email account.</dd>
+  <dd>Because we rely on email-address-based authentication via other services, in particular google and facebook.  If the linked google account becomes compromised, so will be the access to syllabus.space.  This is less bad than it sounds, because most websites have a password recovery feature that is also compromised when the email (google) account is compromised.  Put simply, you are toast if you lose control of your email account.</dd>
 
 
   <dt>How can I post a syllabus for my students?</dt>
@@ -237,8 +208,8 @@ __DATA__
   <dd>
     <p>As for me, I prefer to name each class by its own subdomain, like
       <pre>
-         http://<b>mba230.welch</b>.$ENV{SYLSPACE_DOMAINNAME}<br />
-         http://<b>mba230-14a.welch</b>.$ENV{SYLSPACE_DOMAINNAME}
+         http://<b>mba230.welch</b>.<%= $ENV{SYLSPACE_sitename} %><br />
+         http://<b>mba230-14a.welch</b>.<%= $ENV{SYLSPACE_sitename} %>
       </pre>
      This way, I can have my one webbrowser access multiple class sites, too&mdash;each class is its own domain.</p>
   </dd>
@@ -293,10 +264,15 @@ __DATA__
 
   <pre>
   # perl initsylspace.pl
-  # perl mksite.pl testsite you@emailhost
-  # morbo -v Sylspace  ## and now open http://localhost:3000/ on your browser  </pre>
+  # perl bin/addsite.pl testsite you@emailhost
+  # morbo -v Sylspace  ## and now open http://localhost:3000/ on your browser 
+  </pre>
 
-a  <p><tt>/var/sylspace</tt> is hardcoded in 2-3 places.  If you do not want to use this, you need to fix it.  There are a very few hardcodes to $ENV{SYLSPACE_DOMAINNAME} (e.g., the SylSpace-Secrets.conf and the systemd configuration files).  I do not believe that <tt>http://*$ENV{SYLSPACE_DOMAINNAME}</tt> is hardcoded anywhere, but some of the documentation refers to it as the server on which it runs.</p>
+  <p>
+    The default location for the files is <tt>/var/sylspace</tt>. You
+    can change this by running the server with SYLSPACE_PATH set to
+    whatever path you need.  
+  </p>
 
   <p>Because all content is stored in the unix filesystem, it is easy for an instructor to view and interpret all of his/her data, too.  It also makes debugging a lot easier.</p>
 

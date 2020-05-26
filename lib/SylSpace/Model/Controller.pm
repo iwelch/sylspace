@@ -63,6 +63,8 @@ my $global_message;
 ## a session uemail and expiration, and redirects nonsensible
 ## subdomains (course names) to /auth
 
+sub retredirect { $global_redirecturl= $_[0]; $global_message= $_[1] || ""; return; }
+
 sub standard {
   my $c= shift;
 
@@ -70,21 +72,17 @@ sub standard {
   (defined($cururl)) or die "cannot ascertain the current url via c->req->url\n";
 
 
-  my $domain= $cururl->domainport;  ## mfe.welch.$ENV{'SYLSPACE_DOMAINNAME'}:3000
-  my $course= $cururl->subdomain; ## mfe.welch
+  my $domain= $c->domainport;  ## mfe.welch.$ENV{'SYLSPACE_DOMAINNAME'}:3000
+  my $course= $c->subdomain; ## mfe.welch
 
   $cururl =~ s{\?.*}{}; ## strip any parameters
 
-  #or $c->webbrowser()
-  ((defined($c->browser->{"browser"})) && ($c->browser->{"browser"} =~ /chrome/i) && (($ENV{'SYLSPACE_onlocalhost'})))
-    and die "Chrome does not work with localhost (syllabus.test), because it handles localhost domains differently.\n\nPlease use firefox or some other browser.";
 
-  sub retredirect { $global_redirecturl= $_[0]; $global_message= $_[1] || ""; return; }
-
-  my $reloginurl="http://auth.$domain/auth/index";
+  #it's faaaar more portable to use the name of the route
+  my $reloginurl="authindex";
 
   if ($course eq 'auth') {
-    ## already in http://auth.$domain/...  --> never redirect, always allowed
+    ## already in //auth.$domain/...  --> never redirect, always allowed
     my @authallowedurls= qw(/auth/index /auth /logout /auth/logout /auth/facebook
 			/auth/localverify /auth/userenrollsave /auth/userenrollsave
 			/auth/biosave /auth/settimeout /auth/dani);
@@ -101,7 +99,7 @@ sub standard {
   }
 
   ## anything else requesting an auth page is redirected to the aux website
-  ($cururl =~ m{^/auth/goclass}) and return retredirect("http://auth.$domain/auth/goclass", "/auth requests channel back ");
+  ($cururl =~ m{^/auth/goclass}) and return retredirect("//auth.$domain/auth/goclass", "/auth requests channel back ");
   ($cururl =~ m{^/auth/}) and return retredirect($reloginurl, "/auth requests channel back ");
 
   ($course =~ /\w/) or return retredirect($reloginurl, "the base domain is not defined");
@@ -148,11 +146,11 @@ sub global_redirect {
 ##   ->to_string: omits userinfo
 
 sub _subdomain( $c ) {
-  return $c->req->url->subdomain;
+  return $c->subdomain;
 }
 
 sub _domainport( $c ) {
-  return $c->req->url->domainport;
+  return $c->domainport;
 }
 
 
