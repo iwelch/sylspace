@@ -23,7 +23,7 @@ if ($isosx) {
   ((-e 'SylSpace') && (-x 'SylSpace')) or die "on macos, you must be in the local directory in which SylSpace lives!";
   @apphome= (`pwd`);
 } else {
-  @apphome= grep { $_ =~ /SylSpace$/ } `locate sylspace/SylSpace`;  ## locate sylspace/SylSpace works on linux, but not macos
+  @apphome= grep { $_ =~ /SylSpace$/ } `locate SylSpace/SylSpace`;  ## locate sylspace/SylSpace works on linux, but not macos
 
   @apphome = grep { $_ !~ m{\/\.[a-z]}i } @apphome;  ## a hidden directory in path, e.g., .sync or .git
   @apphome = grep { $_ !~ m{\bold\b}i } @apphome;  ## an "old" somewhere
@@ -48,7 +48,7 @@ if ($isproduction) {
 
   print STDERR "$0: Running full production hypnotoad server for sylspace.  To stop:
 	kill -QUIT `cat hypnotoad.pid` gracefully (or -TERM), or
-	/usr/local/bin/hypnotoad -s ./SylSpace)\n\t\tPS: morbo -v -m production ./SylSpace -l http://$ENV{MOJO_DOMAINNAME} for testing\n";
+	/usr/local/bin/hypnotoad -s ./SylSpace)\n\t\tPS: morbo -v -m production ./SylSpace for testing\n";
   echosystem("/usr/local/bin/hypnotoad -f ./SylSpace");  ## do not '&', or it fails in systemd SylSpace.service !
 
 } else {

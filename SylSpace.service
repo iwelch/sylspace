@@ -4,13 +4,16 @@ Requires=network.target
 After=network.target
 
 [Service]
+#User=sylspace
+#Group=sylspace
 Type=simple
 Restart=always
 SyslogIdentifier=SylSpace
-PIDFile=/home/ivo/bitsyllabus/sylspace/hypnotoad.pid
-ExecStart=/home/ivo/bitsyllabus/sylspace/start-hypnotoad.sh
-ExecStop=/home/ivo/bitsyllabus/sylspace/stop-hypnotoad.sh
-ExecReload=/home/ivo/bitsyllabus/sylspace/start-hypnotoad.sh
+WorkingDirectory=/home/ivo/syllabus.space/SylSpace
+PIDFile=/home/ivo/syllabus.space/SylSpace/hypnotoad.pid
+ExecStart=/home/ivo/syllabus.space/SylSpace/start-hypnotoad.sh
+ExecStop=/home/ivo/syllabus.space/SylSpace/stop-hypnotoad.sh
+ExecReload=/home/ivo/syllabus.space/SylSpace/start-hypnotoad.sh
 
 [Install]
 WantedBy=multi-user.target

@@ -4,5 +4,4 @@ use SylSpace::Model::Utils qw(_getvar);
 
 my $var = _getvar;
 print "hello from the backup script";
-system "rsync -a $var /home/ivo/bitsyllabus/backup"
-
+system "rsync -a $var /home/ivo/syllabus.space/SylSpace/backup"
