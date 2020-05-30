@@ -16,6 +16,7 @@ my $dmnm= (glob("$vardir/domainname=*"))[0];
 $dmnm =~ s{^\Q$vardir\E/domainname\=}{};
 $ENV{MOJO_DOMAINNAME}= $dmnm;
 
+helper this_domain => sub { $dmnm };
 
 app->log->debug("may not work except under hypnotoad")
   unless defined $ENV{HYPNOTOAD_APP};

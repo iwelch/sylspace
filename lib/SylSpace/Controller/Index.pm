@@ -26,7 +26,8 @@ my $torealhome = sub {
   my $curdomainport= $c->domainport;
 
   (isenrolled( $course, $c->session->{uemail} ))
-    or return $c->flash(message => 'who are you?  please authenticate')->redirect_to("//auth.$curdomainport/index");
+    or return $c->flash(message => 'who are you?  please authenticate')
+                ->redirect_to($c->auth_path('/index'));
 
   ## _suundo();  ## sometimes after a direct redirect, this is oddly still set.  grrr
 

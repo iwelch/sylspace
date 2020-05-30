@@ -260,12 +260,16 @@ __DATA__
 
   <dt>How difficult is it to run my own equiz server?</dt>
 
-  <dd>The code (on <a href="https://github.com/iwelch/sylspace">github sylspace</a>) is tight and self-contained.  There is no reliance on an sql server and everything is in ascii format.  after installing all the perl modules, run the init script and the testsite creation script.</p>
+  <dd>
+  The code (on <a href="https://github.com/iwelch/sylspace">github sylspace</a>) is tight and self-contained.  There is no reliance on an sql
+  server and everything is in ascii format.  after installing all
+  the perl modules, run the init script and the testsite creation
+  script.
 
   <pre>
   # perl initsylspace.pl
   # perl bin/addsite.pl testsite you@emailhost
-  # morbo -v Sylspace  ## and now open http://localhost:3000/ on your browser 
+  # morbo -v Sylspace  ## and now open http://lvh.me:3000/ on your browser 
   </pre>
 
   <p>

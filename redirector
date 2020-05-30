@@ -1,0 +1,30 @@
+#! /usr/bin/env perl
+use Mojolicious::Lite;
+use lib app->home->child('lib')->to_string;
+
+use SylSpace::Model::Utils qw(_getvar);
+my $vardir=_getvar();
+my $dmnm= (glob("$vardir/domainname=*"))[0];
+(defined($dmnm)) or die "please set a (virtual) domainname in $vardir/domainname=xx.yy";
+$dmnm =~ s{^\Q$vardir\E/domainname\=}{};
+
+any '/' => sub {
+  my $c = shift;
+  $c->res->code(301);
+
+  #grab just the subdomain
+  my @domain_parts = split /[.]/, $c->req->url->to_abs->host;
+  splice @domain_parts, -2;
+  #switch those pesky dots to dashes
+  #TODO- pick a charachter here
+  my $subdomain = join '~', @domain_parts;
+
+  $c->redirect_to(
+    $c->req->url->to_abs
+      ->port(undef)
+      ->host("$subdomain.$dmnm")
+      ->scheme('https')
+  )
+};
+
+app->start

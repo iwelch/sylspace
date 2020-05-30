@@ -20,7 +20,8 @@ my $shm= sub {
   my $curdomainport= $c->domainport;
 
   (bioiscomplete($c->session->{uemail}))
-    or $c->flash( message => 'You first need to complete your bio!' )->redirect_to("//auth.$curdomainport/usettings");
+    or $c->flash( message => 'You first need to complete your bio!' )
+         ->redirect_to($c->auth_path("/auth/bioform"));
 
   (isenrolled($course, $c->session->{uemail})) or $c->flash( message => "first enroll in $course please" )->redirect_to('/auth/goclass');
 

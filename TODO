@@ -1,2 +1,16 @@
-move the test site making out of test files and instead into its
-own bin/mojo command. Then unflake all of the tests!
+# vim: set ft=markdown :
+
+#issues to figure out
+currently, we want to solve the issue we're having with
+sub-sub-domains. We basically want to change all dots into dashes.
+The only problem is that some courses have dashes in them, and
+then that changes how we're currently displaying the output on the
+course list.
+
+Question: do we actually care? Maybe we'll just give the
+instructors the ability to make a display name for their course?
+It sholdn't be the biggest deal...
+
+#what we're doing
+1- okay, we have redirector in place, it rewrites the urls to
+permanently redirect to https

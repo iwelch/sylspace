@@ -108,6 +108,8 @@ sub standard {
 
 
   (time() > $c->session->{expiration}) and return retredirect($reloginurl, "your session has expired.");
+  #TODO- this is our entry point to non-destructively change the
+  #outside way of referring to courses!
   return $course;
 }
 
