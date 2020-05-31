@@ -43,14 +43,15 @@ get '/auth/userenrollsavenopw' => sub {
 
   (defined($coursename)) or die "wtf";
   my $actualsecret=getcoursesecret($coursename);
-  print STDERR "UESNPW: $actualsecret\n";
+  $c->log->debug("UESNPW: $actualsecret\n") if $actualsecret;
   (defined($actualsecret)) and die "sorry, but this course $coursename has a secret, so you cannot enroll without it!";
 
   userenroll($coursename, $c->session->{uemail});
 
   tweet($c->tx->remote_address, $coursename, $c->session->{uemail}, " now enrolled in no-secret course $coursename\n" );
 
-  return $c->flash( message => "you are now enrolled in course '$coursename'" )->redirect_to('/auth/goclass');
+  return $c->flash( message => "you are now enrolled in course '$coursename'" )
+           ->redirect_to('/auth/goclass');
 };
 
 

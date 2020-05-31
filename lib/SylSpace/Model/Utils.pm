@@ -193,7 +193,7 @@ sub _checkemailvalid( $uemail ) {
 }
 
 sub _checkcname( $course ) {
-  ($course =~ /^[\w][\w\.\-]*[\w]$/) or die "bad webcourse name '$course'!\n";
+  ($course =~ /^[\w][\w\-]*[\w]$/) or die "bad webcourse name '$course'!\n";
   (-e "$var/courses/$course") or ($course eq "auth") or die "subdomain $course in $var/courses is unknown.\n";
   return lc($course);
 }

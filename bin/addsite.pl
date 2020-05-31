@@ -24,11 +24,6 @@ die $usage unless @ARGV == 2;
 
 my ($subdomain, $iemail) = @ARGV;
 
-## $subdomain =~ s{.syllabus.space$}{};
-my $count = () = $subdomain =~ /\./g;
-($count == 1) or die "Sorry, you need exactly one period in your new sitename";
-
-
 $subdomain= lc($subdomain);
 $iemail= lc($iemail);
 
@@ -36,8 +31,3 @@ _webcoursemake( $subdomain );
 instructornewenroll($subdomain, $iemail);
 
 print "successfully created website $subdomain with instructor $iemail\n";
-
-print "
-  ## if the domain is fake, please run `wildcardhosts.pl yourfakedomain.com` after you add a site.
-";
-

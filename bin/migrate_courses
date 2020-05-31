@@ -1,0 +1,28 @@
+#! /usr/bin/env perl
+use strict;
+use common::sense;
+use utf8;
+use warnings FATAL => qw{ uninitialized };
+use autodie;
+
+use feature ':5.20';
+use feature 'signatures';
+no warnings qw(experimental::signatures);
+
+################################################################
+
+use Mojo::File qw(curfile path);
+use lib curfile->dirname->sibling('lib')->to_string;
+use lib curfile->dirname->sibling('local/lib/perl5')->to_string;
+
+use SylSpace::Model::Utils qw(_getvar);
+
+my $var = _getvar;
+
+my $dirs = path("$var/courses")->list({dir => 1});
+
+my $new_names = $dirs->map('basename')->map(sub { s/[.]/-/gr });
+
+for my $index (0 .. $#$dirs) {
+  $dirs->[$index]->move_to("$var/courses/$new_names->[$index]")
+}
