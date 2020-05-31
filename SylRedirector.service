@@ -11,6 +11,9 @@ Restart=always
 SyslogIdentifier=SylSpace
 WorkingDirectory=/home/ivo/syllabus.space/SylSpace
 PIDFile=/home/ivo/syllabus.space/SylSpace/redirector.pid
-ExecStart=/usr/bin/env hypnotoad ./redirector -f
-ExecStop=/usr/bin/env hypnotoad ./redirector -s
-ExecReload=/usr/bin/env hypnotoad ./redirector -f
+ExecStart=/usr/local/bin/hypnotoad ./redirector -f
+ExecStop=/usr/local/bin/hypnotoad ./redirector -s
+ExecReload=/usr/local/bin/hypnotoad ./redirector -f
+
+[Install]
+WantedBy=multi-user.target

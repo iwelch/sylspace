@@ -27,7 +27,7 @@ any '/' => sub {
   $c->redirect_to(
     $c->req->url->to_abs
       ->port(undef)
-      ->host("$subdomain.$dmnm")
+      ->host($subdomain ? "$subdomain.$dmnm" : $dmnm)
       ->scheme('https')
   )
 };
