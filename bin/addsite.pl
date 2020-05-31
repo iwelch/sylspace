@@ -20,8 +20,7 @@ use SylSpace::Model::Model qw(:DEFAULT instructornewenroll);
 
 my $usage= "usage: $0 sitename [finc3600-2018-risik-webster] instructoremail\n";
 
-(@ARGV) or die $usage;
-($#ARGV==1) or die $usage;
+die $usage unless @ARGV == 2;
 
 my ($subdomain, $iemail) = @ARGV;
 

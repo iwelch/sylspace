@@ -30,7 +30,7 @@ my $s1email='student1@gmail.com';
 my $s2email='student2@gmail.com';
 my $s3email='noone@gmail.com';
 
-my @course=qw (mfe.welch mba.welch year.course.instructor.university intro.corpfin);
+my @course=qw (mfe-welch mba-welch year-course-instructor-university intro-corpfin);
 
 subtest 'website creation, user registration, and user enrollment' => sub {
   foreach (@course) {
@@ -135,13 +135,13 @@ subtest 'course validity testing and modification' => sub {
                       department => 'management', subject => 'corporate finance', meetroom => 'internet', meettime => 'MTWRF 0:00-24:00',
                       domainlimit => '', hellomsg => 'the generic quizzes' );
 
-    ok( ciosave('intro.corpfin', \%ciocorpfin) );
-    ciobuttonsave( 'intro.corpfin', \@buttonlist );
+    ok( ciosave('intro-corpfin', \%ciocorpfin) );
+    ciobuttonsave( 'intro-corpfin', \@buttonlist );
   };
 };
 
 subtest 'messaging system' => sub {
-  ok( msgsave('intro.corpfin', { subject => 'warning', body => 'this is a generic testsite, to be used by registered students to test their knowledge of introductory corporate finance.  it is regularly removed and rebuilt.  do not expect permanence in your stored content or answers', priority => 5 }, 12331), 'posting 12331' );
+  ok( msgsave('intro-corpfin', { subject => 'warning', body => 'this is a generic testsite, to be used by registered students to test their knowledge of introductory corporate finance.  it is regularly removed and rebuilt.  do not expect permanence in your stored content or answers', priority => 5 }, 12331), 'posting 12331' );
 
   ok( msgsave($course[0], { subject => 'first msg', body => 'the first message contains nothing', priority => 5 }, 1233), 'posting 1233' );
   ok( msgsave($course[0], { subject => 'second msg', body => 'die zweite auch nichts', priority => 3 }, 1234), 'posting 1234' );

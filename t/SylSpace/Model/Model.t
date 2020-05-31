@@ -27,9 +27,9 @@ my $s2email='student2@gmail.com';
 my $outsider='outsider@gmail.com';
 
 
-my $course=qw (test.model.course);
-my $coursenocio=qw (test.no.cio);
-my $nocourse=qw (course.not.exist);
+my $course=qw (test-model-course);
+my $coursenocio=qw (test-no-cio);
+my $nocourse=qw (course-not-exist);
 
 use SylSpace::Model::Model qw(
 	       sudo tzi tokenmagic

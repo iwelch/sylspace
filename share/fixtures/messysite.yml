@@ -37,13 +37,13 @@ users:
     optional: ''
   - email: noone@gmail.com
 courses:
-  - name: mfe.welch
+  - name: mfe-welch
     students: 
       - student1@gmail.com
       - student2@gmail.com
     instructor: instructor@gmail.com
-  - name: mba.welch
-  - name: year.course.instructor.university
-  - name: intro.corpfin
+  - name: mba-welch
+  - name: year-course-instructor-university
+  - name: intro-corpfin
 
 

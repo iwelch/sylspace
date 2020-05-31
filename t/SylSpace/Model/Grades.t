@@ -28,7 +28,7 @@ my $s1email='student1@gmail.com';
 my $s2email='student2@gmail.com';
 my $s3email='noone@gmail.com';
 
-my @course=qw (mfe.welch mba.welch year.course.instructor.university intro.corpfin);
+my @course=qw (mfe-welch mba-welch year-course-instructor-university intro-corpfin);
 
 
 use SylSpace::Model::Grades qw( gradetaskadd gradesave gradesashash );

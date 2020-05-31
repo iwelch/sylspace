@@ -35,7 +35,7 @@ my %bioinstructor = ( uniname => 'ucla anderson', regid => 'na', firstname => 'i
 
 my $iemail= $bioinstructor{email};
 
-my @courselist=qw(corpfin syllabus.test);	# in README echo ... there's no syllabus.syllabus.test
+my @courselist=qw(corpfin syllabus-test);	# in README echo ... there's no syllabus.syllabus.test
 subtest 'Creating the site' => sub {
   foreach (@courselist) {  
     ok _webcoursemake($_), "created $_ site" ; 

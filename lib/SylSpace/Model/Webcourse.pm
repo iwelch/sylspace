@@ -52,7 +52,7 @@ sub _webcoursemake($course) {
   (-e "$var/templates") or die "[wbm:3a]please create the $var/templates directory\n";
   (-e "$var/templates/starters") or die "[wbm:3b]please create the $var/templates/starters directory (templates are copied by hand)\n\tusually, ln -s .../templates/equiz/* $var/templates/";
 
-  ($course =~ /^[\w][\w\.\-]*[\w]$/) or die "bad webcourse name '$course'!\n"; ## need to check without triggering existence check
+  ($course =~ /^[\w][\w\-]*[\w]$/) or die "bad webcourse name '$course'!\n"; ## need to check without triggering existence check
   (-e "$var/courses/$course") and die "webcourse $course already exists in $var/courses\n";
 
   mkdir("$var/courses/$course") or die "cannot make $course course webcourse: $!\n";

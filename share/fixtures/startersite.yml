@@ -62,7 +62,7 @@ courses:
       - name: syllabus-sophisticated.html
         path: public/html/ifaq/syllabus-sophisticated.html
         duein: 2592000
-  - name: syllabus.test
+  - name: syllabus-test
     instructor: ivo.welch@gmail.com
     templates: [ 'starters', 'tutorials' ]
     info:
