@@ -1,7 +1,14 @@
 #! /usr/bin/env perl
 use Mojolicious::Lite;
 use lib app->home->child('lib')->to_string;
+use lib app->home->child('local/lib/perl5')->to_string;
 
+app->config({
+  hypnotoad => {
+    listen => [ 'http://*:80' ],
+    pid_file => app->home->child('redirector.pid')
+  }
+});
 use SylSpace::Model::Utils qw(_getvar);
 my $vardir=_getvar();
 my $dmnm= (glob("$vardir/domainname=*"))[0];
@@ -15,9 +22,7 @@ any '/' => sub {
   #grab just the subdomain
   my @domain_parts = split /[.]/, $c->req->url->to_abs->host;
   splice @domain_parts, -2;
-  #switch those pesky dots to dashes
-  #TODO- pick a charachter here
-  my $subdomain = join '~', @domain_parts;
+  my $subdomain = join '-', @domain_parts;
 
   $c->redirect_to(
     $c->req->url->to_abs

@@ -1,0 +1,16 @@
+[Unit]
+Description=SylSpace name redirector
+Requires=network.target
+After=network.target
+
+[Service]
+#User=sylspace
+#Group=sylspace
+Type=simple
+Restart=always
+SyslogIdentifier=SylSpace
+WorkingDirectory=/home/ivo/syllabus.space/SylSpace
+PIDFile=/home/ivo/syllabus.space/SylSpace/redirector.pid
+ExecStart=/usr/bin/env hypnotoad ./redirector -f
+ExecStop=/usr/bin/env hypnotoad ./redirector -s
+ExecReload=/usr/bin/env hypnotoad ./redirector -f
