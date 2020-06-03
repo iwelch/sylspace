@@ -39,11 +39,12 @@ get '/auth/authenticator' => sub {
         url  => $c->oauth2->auth_url($_,
           { redirect_uri => $c->auth_path("/auth/login/$_") }
         ) 
-      }} sort @providers
+      }} reverse sort @providers
     ]
   );
   $c->render(template => 'AuthAuthenticator' );
 };
+
 
 get "/auth/login/:provider" => [ provider => [ 'google', 'github', 'facebook' ] ] => sub {
   my $c = shift;
@@ -86,7 +87,16 @@ get "/auth/login/:provider" => [ provider => [ 'google', 'github', 'facebook' ] 
         });
     },
     facebook => sub {
-      ... 
+      my $target = Mojo::URL->new('https://graph.facebook.com/v7.0/me');
+      $target->query(access_token => $token, fields => 'name,email');
+      push @promises, $c->ua
+        ->get_p($target)
+        ->then( sub {
+          my $tx = shift;
+          my $res = $tx->result->json;
+          $name = $res->{name};
+          $email = $res->{email};
+        })
     }
   );
   $get_info{$provider}->();
@@ -151,7 +161,8 @@ MSGBODY
      % for my $oauth (@$providers) {
        <%== btnblock $oauth->{url},
             qq'<i class="fa fa-$oauth->{name}"></i> $oauth->{title}',
-            "Your $oauth->{title} ID" %>
+            "Your $oauth->{title} ID"
+          %>
      % }
    </div>
 

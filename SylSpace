@@ -100,21 +100,24 @@ if (-e $configfname) {
     $oauth{github} = {
       key         => $key,
       secret      => $secret,
-      scope       => 'user user:email'
+      scope       => 'user:email'
     };
   }
-  plugin 'OAuth2', \%oauth;
 
   if (my $facebook = $credentials->{oauth}->{facebook}) {
     my ($key, $secret) = @$facebook;
 
     app->log->debug("[enabling facebook authentication]");
-
+    $oauth{facebook} = {
+      key    => $key,
+      secret => $secret,
+      scope  => 'email'
+    };
   }
+  plugin 'OAuth2', \%oauth;
 
   $ENV{SYLSPACE_haveoauth}= 1;
 }
-
 
 ################################################################################################################################
 ## SHOULD THESE BE REPLACED IN FAVOR OF %ENV variables?
