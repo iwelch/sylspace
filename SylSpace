@@ -79,30 +79,17 @@ if (-e $configfname) {
   (defined($credentials)) or die "internal error: I cannot read the credentials information from the config file $configfname\n";
   (defined($credentials->{oauth})) or die "internal error: I cannot read the oauth field information from the config file $configfname\n";
 
+  my %oauth;
   if (my $google = $credentials->{oauth}->{google}) {
     my ($key, $secret) = @$google;
 
     app->log->debug("[enabling google authentication]");
 
-    plugin 'OAuth2' => {
-	google  => {
-		key	=> $key,
-		secret	=> $secret,
-		authorize_url	=> "https://accounts.google.com/o/oauth2/v2/auth?response_type=code",
-		token_url	=> "https://www.googleapis.com/oauth2/v4/token",
-	},
+    $oauth{google}  = {
+      key	=> $key,
+      secret	=> $secret,
+      scope     => 'email profile'
     };
-
-
-    plugin 'Web::Auth' => (
-			   module      => 'Google',
-			   key         => $key,
-			   secret      => $secret,
-			   scope       => 'email',
-			   on_error	=> \&SylSpace::Controller::AuthAuthenticator::googlecb,
-			   on_finished => \&SylSpace::Controller::AuthAuthenticator::google,
-			  );
-
   }
 
   if (my $github = $credentials->{oauth}->{github}) {
@@ -110,26 +97,19 @@ if (-e $configfname) {
 
     app->log->debug("[enabling github authentication]");
 
-    plugin 'Web::Auth' => (
-			   module      => 'Github',
-			   key         => $key,
-			   secret      => $secret,
-			   on_finished => \&SylSpace::Controller::AuthAuthenticator::github,
-			  );
+    $oauth{github} = {
+      key         => $key,
+      secret      => $secret,
+      scope       => 'user user:email'
+    };
   }
+  plugin 'OAuth2', \%oauth;
 
   if (my $facebook = $credentials->{oauth}->{facebook}) {
     my ($key, $secret) = @$facebook;
 
     app->log->debug("[enabling facebook authentication]");
 
-    plugin 'Web::Auth' => (
-			   module      => 'Facebook',
-			   key         => $key,
-			   secret      => $secret,
-			   scope       => 'email',
-			   on_finished => \&SylSpace::Controller::AuthAuthenticator::facebook
-			  );
   }
 
   $ENV{SYLSPACE_haveoauth}= 1;

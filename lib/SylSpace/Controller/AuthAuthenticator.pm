@@ -6,6 +6,8 @@
 package SylSpace::Controller::AuthAuthenticator;
 use Mojolicious::Lite;
 use Mojolicious::Plugin::OAuth2;
+use Mojo::Promise;
+use Mojo::URL;
 use lib qw(.. ../..); ## make syntax checking easier
 use strict;
 
@@ -22,85 +24,75 @@ sub logandreturn {
   return $self->redirect_to('/index');
 }
 
-use Data::Dumper;
-sub google {
-  my ( $self, $access_token, $userinfo ) = @_;
-  my $name = $userinfo->{displayName} || $userinfo->{name};
-  my $email= $userinfo->{email};
-
-  #print STDERR "AuthAuthenticator.pm[Google] was called with ".Dumper($userinfo);
-
-  my $extrainstruction="<p style=\"color:blue\"> This probably means that you have to enter a reasonable name in your Google account.  This is very easy.  Go to the main google search page in the Chrome browser.  Click on the top right where it says \"Sign in.\"   Once you have signed in, click on your account (same spot, top right), then on the blue big butten that says \"Google account.\"  This will allow you to change your Google account info, including adding your name, image, etc.</p>";
-
- # (defined($name)) or die "The google authentication failed finding a good name.  Here is what I got: ".Dumper($userinfo).$extrainstruction;
-  (defined($email)) or die "The google authentication failed finding a good email.  Here is what I got: ".Dumper($userinfo).$extrainstruction;
-
-  ## we could also pick off first and last name, but it ain't worth it
-  ## my @emaillist = grep {$_->{type} eq 'account'} @{ $userinfo->{emails} };
-  ## my $email= $emaillist[0]->{value};
-  ## my $email = $userinfo->{emails}->[0]->{value};
-
-  return logandreturn( $self, $email, $name, 'google' );
-}
-
-sub github {
-  my ( $self, $access_token, $userinfo ) = @_;
-
-  (defined($userinfo->{email})) or die "sadly, you have not confirmed your email with github, so you cannot use it to confirm it.\n";
-  ($userinfo->{email} =~ /gmail.com$/) and die "sorry, but gmail accounts must be validated by google, not github";
-
-  return logandreturn( $self, $userinfo->{email}, $userinfo->{name}, 'github' );
-}
-
-sub facebook {
-  my ( $self, $access_token, $userinfo ) = @_;
-
-  my $ua  = Mojo::UserAgent->new;
-  my $res = $ua->get("https://graph.facebook.com/me?fields=name,email&access_token=$access_token")->result->json;
-
-  if (!$res->{email}) {
-    return $self->render(text => "Can't get your email from facebook, please try another auth method.");
-  }
-  ($res->{email} =~ /gmail.com$/) and die "sorry, but gmail accounts must be validated by google, not facebook";
-
-  return logandreturn( $self, $res->{email}, $res->{name}, "facebook");
-}
-
-################################################################
-
 get '/auth/authenticator' => sub {
   my $c = shift;
 
-  #print STDERR "AuthAuthenticator.pm[plain] was called with ".Dumper($c);
-
   (my $course = standard( $c )) or return global_redirect($c);
   
+  my @providers = keys %{$c->config->{oauth}};
+  
   $c->stash(
-    authurl => $c->oauth2->auth_url("google", {
-      scope => "email profile",
-      redirect_uri => $c->auth_path('/auth/login')
-    })
+    providers => [
+      map {{ 
+        title => ucfirst($_),
+        name => $_,
+        url  => $c->oauth2->auth_url($_,
+          { redirect_uri => $c->auth_path("/auth/login/$_") }
+        ) 
+      }} sort @providers
+    ]
   );
   $c->render(template => 'AuthAuthenticator' );
 };
 
-get "/auth/login" => sub {
+get "/auth/login/:provider" => [ provider => [ 'google', 'github', 'facebook' ] ] => sub {
   my $c = shift;
-  my $get_token_args = {
-    scope => 'profile email'
-  };
-  my $data = $c->oauth2->get_token(google => $get_token_args);
+  my $provider = $c->stash('provider');
+
+  my $data = $c->oauth2->get_token($provider);
+
   my $token = $data->{access_token};
  	
-  my $ua = Mojo::UserAgent->new;
-  my $res = $ua->get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=$token")->result->json;
-  my $email = $res->{email};
-  (defined($email)) or die "The google authentication failed finding a good email. Here is what I got:
-     ".Dumper($res);
-  my $name = $res->{name} || $res->{given_name}." ".$res->{family_name};
-  (defined($name)) or die "The google authentication failed finding a good name.  Here is what I got: ".Dumper($res);
-
-  return logandreturn($c, $email, $name, 'google');
+  my ($email, $name);
+  my @promises;
+  my %get_info = (
+    google => sub { 
+      my $target = Mojo::URL->new(
+        'https://www.googleapis.com/oauth2/v2/userinfo');
+      $target->query(access_token => $token);
+      push @promises, $c->ua
+      ->get_p($target)
+      ->then(sub {
+        my $tx = shift;
+        my $res = $tx->result->json;
+        $email = $res->{email};
+        $name = $res->{name} || $res->{given_name}." ".$res->{family_name};
+      })
+    },
+    github => sub {
+      my $header = { Authorization => "token $token" };
+      push @promises, $c->ua
+        ->get_p('https://api.github.com/user', $header )
+        ->then(sub {
+          my $tx = shift;
+          $name = $tx->result->json->{name};
+        });
+      push @promises, $c->ua
+        ->get_p('https://api.github.com/user/emails', $header)
+        ->then(sub {
+          my $tx = shift;
+          my @emails = @{ $tx->result->json };
+          ($email) = map $_->{email}, grep $_->{primary}, @emails
+        });
+    },
+    facebook => sub {
+      ... 
+    }
+  );
+  $get_info{$provider}->();
+  $c->render_later;
+  Mojo::Promise->all(@promises)
+    ->then( sub { logandreturn($c, $email, $name, $provider) })
 };
 
 1;
@@ -156,11 +148,11 @@ MSGBODY
   <p style="font-size:small;"><b>Direct Authentication</b> is the fastest and most reliable method to authenticate.  It works with your google or facebook id.</p>
 
    <div class="row text-center">
-
-     <%== btnblock($authurl, '<i class="fa fa-google"></i> Google', 'Your Gmail ID') %>
-    <!-- <%== btnblock('/auth/github/authenticate', '<i class="fa fa-github"></i> Github', 'Your Github ID<br />Disabled Until Approved', 'btn-disabled') %> -->
-    <!-- <%== btnblock('/auth/facebook/authenticate', '<i class="fa fa-facebook"></i> Facebook', 'Your Facebook ID<br />Randomly Seems To Break Now.  Avoid.') %> -->
-    <!-- <%== btnblock('/auth/ucla/authenticate', '<i class="fa fa-university"></i> UCLA', 'Your University ID<br />Disabled Until Approved', 'btn-disabled') %> -->
+     % for my $oauth (@$providers) {
+       <%== btnblock $oauth->{url},
+            qq'<i class="fa fa-$oauth->{name}"></i> $oauth->{title}',
+            "Your $oauth->{title} ID" %>
+     % }
    </div>
 
   <p>Note that G Suite accounts (like <tt>g.ucla.edu</tt>) can also use our Google authentication.</p>
