@@ -90,6 +90,8 @@
           <a class="btn btn-default" href=".."> <i class="fa fa-arrow-up"></i> up</a>
           &nbsp;
           <a class="btn btn-default" href="/aboutus"> <i class="fa fa-legal"></i> about us</a> &nbsp;
+	  <a class="btn btn-default" href="/privacy"> <i class="fa fa-user-secret"></i> Privacy Policy</a>
+	  <a class="btn btn-default" href="/tos"> <i class="fa fa-asterisk"></i> Terms of Service</a>
           <a class="btn btn-default" href="/auth/goclass"> <i class="fa fa-sign-out"></i> exit course </a>
           <a class="btn btn-danger" href="/logout"> <i class="fa fa-power-off"></i> logout user </a>
 	</div> <!--container:gohomeorup -->
