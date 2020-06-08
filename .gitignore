@@ -2,6 +2,8 @@ local/
 
 SylSpace-Secrets.conf
 
+*.pid
+
 #generated files
 2medium.equiz
 log/
