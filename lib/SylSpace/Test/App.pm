@@ -19,8 +19,10 @@ sub get_on_domain_ok {
   my $ctx = context;
 
   my $url = $t->ua->server->url->clone->to_abs
-    ->path($path)
-    ->host("$domain.lvh.me");
+    ->path($path);
+
+  $url->host('lvh.me');
+  $url->host("$domain.lvh.me") if $domain;
   $url->query(@query) if @query;
   $t->get_ok($url);
 

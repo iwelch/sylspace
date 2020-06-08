@@ -51,8 +51,10 @@ my $varsyl=_getvar();
 
 (-e "./templates/equiz/starters") or die "internal error: you don't seem to have any starter templates here";
 
+#TODO- are these symlinks necessary? w/o refactoring, yes
 (!(-e './Controller') && (-e './lib/SylSpace/Controller')) and system("ln -s lib/SylSpace/Controller .");
 (!(-e './Model') && (-e './lib/SylSpace/Model')) and system("ln -s lib/SylSpace/Model .");
+#TODO- do we really need to do this?
 (-e "./log") or system("mkdir log");
 (-e "./SylSpace-Secrets.conf") or system("cp SylSpace-Secrets.template SylSpace-Secrets.conf");
 (-e "./SylSpace.conf") or system("ln -s SylSpace-Secrets.conf SylSpace.conf");
@@ -81,6 +83,7 @@ say STDERR "made $varsyl";
 use File::Touch;
 
 touch("$varsyl/paypal.log")or die "internal error: I could not touch $varsyl/paypal.log: $!";
+#TODO- these should NOT be world readable...
 chmod(0777, "$varsyl/paypal.log") or die "chmod: failed on opening $varsyl/paypal.log to the public: $!\n";
 say STDERR "made $varsyl/paypal.log";
 touch("$varsyl/general.log")or die "internal error: I could not touch $varsyl/general.log: $!";
