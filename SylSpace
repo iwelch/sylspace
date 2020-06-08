@@ -146,13 +146,23 @@ helper auth_path => sub {
   
 
 helper subdomain => sub {
-  my $domain = shift->req->url->to_abs->host || 'unknown-fulldomain';
+  my $domain = shift->req->url->to_abs->host;
+  return '' if $domain eq '127.0.0.1';
   ($domain =~ m/(.*)\.localhost$/) and return $1;
   my @f = split(/\./, $domain);
   return '' unless @f;  ## never
   splice @f, -2; #pop off tld and main site name
   return join '.', @f;
 };
+
+helper sitename => sub {
+  my $c = shift;
+  my $domain = $c->req->url->to_abs->host;
+  my $sub = $c->subdomain;
+  $domain =~ s/^\Q$sub.// if $sub;
+  return $domain
+};
+  
 
 ################################################################################################################################
 use Perl6::Slurp;
