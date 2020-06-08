@@ -5,11 +5,8 @@
 
 package SylSpace::Controller::AuthAuthenticator;
 use Mojolicious::Lite;
-use Mojolicious::Plugin::OAuth2;
 use Mojo::Promise;
 use Mojo::URL;
-use lib qw(.. ../..); ## make syntax checking easier
-use strict;
 
 use SylSpace::Model::Model qw(superseclog);
 use SylSpace::Model::Controller qw(global_redirect standard);
