@@ -53,7 +53,8 @@ package Mojolicious::Controller {
     my ($self, $course, $email) = @_;
     my $curdomainport= $self->domainport;
     
-    my $enter_url = Mojo::URL->new->host("$course.$curdomainport")->path('/enter');
+    my $enter_url = Mojo::URL->new->host("$course.$curdomainport")
+      ->path('/enter');
     $enter_url->query(e => obscure join ':', time, $email, $self->session->{expiration});
 
     return btnblock($enter_url, 

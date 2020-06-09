@@ -37,7 +37,7 @@
       <nav id="w0" class="navbar-inverse navbar-fixed-top navbar">
 	<div class="container-fluid" id="nbh">
 	  <div class="navbar-header">
-      <%== ($ENV{SYLSPACE_onlocalhost}) ? '<span style="background-color:yellow">LOCALHOST</a>' : ''; %>
+            <%== '<span style="background-color:yellow">LOCALHOST</a>' if app->mode eq 'development' %>
 
 	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse"><span class="icon-bar"></span></button>
 	    <a class="navbar-brand" href="/">

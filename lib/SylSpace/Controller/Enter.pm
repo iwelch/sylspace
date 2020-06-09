@@ -11,30 +11,10 @@ use strict;
 use SylSpace::Model::Model qw(seclog unmorphstudent2instructor);
 use SylSpace::Model::Controller qw(global_redirect standard global_redirectmsg unobscure);
 
-################################################################
-##
-## this is a bit tricky.  on localhost, all sorts of browser cookie
-## transfers fail.  thus, iff we are on localhost, we accept the query
-## passed parameter.
-##
-##
 
 get '/enter' => sub {
   my $c = shift;
 
-  #my ($posttime,$postemail,$postexpiration)= split(/:/, unobscure($c->req->query_params->param("e")));
-  #my $timesincepostrequest= (time() - $posttime);
-  #($timesincepostrequest<30) or die "Sorry, goclass entry requests always expire after 30 seconds (not $timesincepostrequest).\n";
-
-  #if ($ENV{'SYLSPACE_onlocalhost'}) {
-  ### do not yet check our site or email yet.  first transfer in our email.
-  #(defined($c->req->query_params->param("e"))) or die "need an e argument with secret info!\n";
-  #use Email::Valid;
-  #(Email::Valid->address($postemail)) or die "email address '$postemail' could not possibly be valid\n";
-  #$c->session->{expiration}= $postexpiration;
-  #$c->session->{uemail}= $postemail;
-  #$c->session->{ishuman}= time().":".$c->session->{uemail};
-  #} else {
   ($c->session->{uemail}) or die "you do not have an email identity yet";
   (Email::Valid->address($c->session->{uemail})) or die "email address '".$c->session->{uemail}."' could not possibly be valid\n";
   #}

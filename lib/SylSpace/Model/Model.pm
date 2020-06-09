@@ -410,13 +410,18 @@ sub studentlist( $course ) {
 ################################################################
 
 sub tokenmagic( $uemail ) {
+  #NOTE- this doesn't do anything with the 'now' email
+  return; #disabled b/c it's a race condition waiting to happen
   (-e "$var/tmp/magictoken") or return undef;
   my @lines= slurp("$var/tmp/magictoken");
   $lines[0] =~ s{^ip\:\s*}{}; chomp($lines[0]); # =~ s{\s*[\r\n]*}{}ms;
   $lines[1] =~ s{^(then|user|uemail)\:\s*}{}; chomp($lines[1]); # =~ s{\s*[\r\n]*}{}ms;
 
-  #TODO- NOENV - this doesn't actually check the browser's ip...
-  my $browserip= $ENV{SYLSPACE_siteip} || "99.99.99.99";
+  #NOTE - this never actually checked the browser's ip...
+  #also, it's not really possible to reliably get the request's
+  #IP, b/c it can come through any number of intermediaries who
+  #may decide to lie about who sent it to them
+  my $browserip = "99.99.99.99";
 
   ($browserip eq $lines[0]) or die "bad site ip.  you are on ip $browserip, and not on '$lines[0]'";
   _checkemailexists( $lines[1] );  ## will complain if the user does not exist

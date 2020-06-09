@@ -16,7 +16,7 @@ get '/auth/magic' => sub {
   my $c = shift;
 
   my $tokenmagic=  tokenmagic($c->session->{uemail});
-  if (defined($tokenmagic)) {
+  if ($tokenmagic) {
     $c->session->{uemail} = $tokenmagic;
     $c->session->{expiration} = time()+24*60*60;
     return $c->flash(message => "the magictoken file allowed you to turn into $tokenmagic")->redirect_to('/auth/goclass');
