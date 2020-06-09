@@ -196,7 +196,7 @@ __DATA__
 % _burpapp( undef, "$raw|$uemencrypt" );
 
 
-  % if ($ENV{SYLSPACE_haveoauth}) {
+  % if (has_oauth) {
 
    <h3> Donate and Confirm Identity  </h3>
 

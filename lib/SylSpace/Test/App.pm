@@ -7,7 +7,9 @@ use Test2::API qw(context);
 # we provide a new constructor which finds the app
 sub new_app {
   my ($self) = @_;
-  my $t = $self->new(curfile->dirname->dirname->dirname->sibling('SylSpace'));
+  my $t = $self->new(
+    curfile->dirname->dirname->dirname->sibling('SylSpace'),
+    { site_name => 'lvh.me' });
   $t->ua->max_redirects(5);
 
   return $t

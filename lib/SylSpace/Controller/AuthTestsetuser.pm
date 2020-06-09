@@ -20,7 +20,7 @@ get '/auth/testsetuser' => sub {
   my $c = shift;
 
   ($c->subdomain =~ /auth/)
-    or return $c->redirect_to($c->auth_path('/auth/testsetuser'));  ## wipe off anything beyond on url
+    or return $c->redirect_to($c->auth_path('/auth/testsetuser'));
 
   my $users = _listallusers;
 
@@ -31,7 +31,7 @@ NOUSERS
 
   $users = [
     qw( ivo.welch@gmail.com instructor@gmail.com student@gmail.com ) 
-  ] unless $ENV{SYLSPACE_onlocalhost};
+  ] unless $c->app->mode eq 'development';
 
 
   $c->render(

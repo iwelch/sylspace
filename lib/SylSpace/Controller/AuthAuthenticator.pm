@@ -139,7 +139,7 @@ If interested, please <a href="mailto:ivo.welch\@gmail.com">email to
 request</a> a tailored instructor site.  Include (1) a gmail address;  (2) a link
 to a university site so I can confirm your identity; and (3) a course name (such as
 mfe404) and year (such as 2018).  Your private website will be named something
-like <tt>http://<span style="color:blue">welch-mfe404-2018.ucla</span>.$ENV{MOJO_DOMAINNAME}</tt>.<p>If
+like <tt>http://<span style="color:blue">welch-mfe404-2018.ucla</span>.${\sitename}</tt>.<p>If
 you stumble upon little or not-so-little bugs, please let <a href="mailto:ivo.welch\@gmail.com">me</a> know.
 </p>
 MSGBODY
@@ -149,7 +149,7 @@ MSGBODY
 
 <nav>
 
-  <% if ($ENV{SYLSPACE_haveoauth}) { %>
+  <% if (has_oauth) { %>
 
 
   <p style="font-size:small;"><b>Direct Authentication</b> is the fastest and most reliable method to authenticate.  It works with your google or facebook id.</p>
@@ -196,7 +196,7 @@ MSGBODY
 
 
 
-     <% if ($ENV{'SYLSPACE_onlocalhost'}) { %>
+     <% if (app->mode eq 'development') { %>
         <div class="top-buffer text-center; border-style:solid;"> <!-- completely ignored afaik -->
            <%== btnblock('/auth/testsetuser', '<i class="fa fa-users"></i> Choose Existing Listed User', '(works only on localhost, usually lvh.me)', 'btn-warning btn-md', 'w') %>
         </div>

@@ -63,7 +63,11 @@ my $global_message;
 ## a session uemail and expiration, and redirects nonsensible
 ## subdomains (course names) to /auth
 
-sub retredirect { $global_redirecturl= $_[0]; $global_message= $_[1] || ""; return; }
+sub retredirect { 
+  $global_redirecturl= $_[0];
+  $global_message= $_[1] || "";
+  return 
+}
 
 sub standard {
   my $c= shift;
@@ -72,8 +76,7 @@ sub standard {
   (defined($cururl)) or die "cannot ascertain the current url via c->req->url\n";
 
 
-  my $domain= $c->domainport;  ## mfe.welch.$ENV{'SYLSPACE_DOMAINNAME'}:3000
-  my $course= $c->subdomain; ## mfe.welch
+  my $course= $c->subdomain; 
 
   $cururl =~ s{\?.*}{}; ## strip any parameters
 
@@ -86,7 +89,7 @@ sub standard {
 			/auth/localverify /auth/userenrollsave /auth/userenrollsave
 			/auth/biosave /auth/settimeout /auth/dani);
     foreach my $au (@authallowedurls) {
-      ($cururl =~ m{^$au}) and return 'auth';
+      return 'auth' if $cururl =~ m{^$au};
     }
   }
 

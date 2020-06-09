@@ -19,7 +19,9 @@ my $authroot= sub {
   my $c = shift;
 
   if (!defined($c->session->{uemail})) {
-    ($ENV{SYLSPACE_onlocalhost}) and return $c->flash(message => "no identity yet, but local host, so redirect to testsetuser (no google try!)")->redirect_to('/auth/testsetuser');
+    return $c->flash(message => "redirecting to set user on dev mode")
+    ->redirect_to('/auth/testsetuser') 
+    if $c->app->mode eq 'development';
 
     return $c->flash(message => "you have no identity.  please authenticate")->redirect_to('/auth/authenticator');
   }

@@ -16,7 +16,7 @@ subtest 'testing sitename and subdomain helper' => sub {
 use Data::Printer;
   $t->get_ok('/testit')
     ->status_is(200)
-    ->json_is('/name' => '127.0.0.1');
+    ->json_is('/name' => 'lvh.me', 'defaults to lvh.me');
 
   $t->get_on_domain_ok($_, '/testit')
     ->status_is(200)

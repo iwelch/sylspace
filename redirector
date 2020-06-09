@@ -9,27 +9,26 @@ app->config({
     pid_file => app->home->child('redirector.pid')
   }
 });
-use SylSpace::Model::Utils qw(_getvar);
-my $vardir=_getvar();
-my $dmnm= (glob("$vardir/domainname=*"))[0];
-(defined($dmnm)) or die "please set a (virtual) domainname in $vardir/domainname=xx.yy";
-$dmnm =~ s{^\Q$vardir\E/domainname\=}{};
 
-any '/' => sub {
+my $redirect =  sub {
   my $c = shift;
   $c->res->code(301);
 
   #grab just the subdomain
   my @domain_parts = split /[.]/, $c->req->url->to_abs->host;
-  splice @domain_parts, -2;
+  my @dmn = splice @domain_parts, -2;
   my $subdomain = join '-', @domain_parts;
+  unshift @dmn, $subdomain if $subdomain;
 
   $c->redirect_to(
     $c->req->url->to_abs
       ->port(undef)
-      ->host($subdomain ? "$subdomain.$dmnm" : $dmnm)
+      ->host(join '.', @dmn)
       ->scheme('https')
   )
 };
+
+any '/' => $redirect;
+any '/*all' => $redirect;
 
 app->start

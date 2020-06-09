@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
+use Mojolicious::Lite;
 use lib 'lib';
-use Mojolicious::Lite; ## strict, warnings, utf8 and Perl 5.10
 
 use SylSpace::Model::Utils qw(_getvar);
 my $vardir=_getvar();
@@ -8,51 +8,13 @@ my $vardir=_getvar();
 plugin 'Mojolyst' => {controllers => 'SylSpace::Controller'};
 plugin 'RenderFile';
 plugin 'browser_detect';
+plugin 'SylSpace::URL';
 
-my $dmnm= (glob("$vardir/domainname=*"))[0];
+my $configfname= app->home->child("SylSpace-Secrets.conf");
 
-(defined($dmnm)) or die "please set a (virtual) domainname in $vardir/domainname=xx.yy";
-
-$dmnm =~ s{^\Q$vardir\E/domainname\=}{};
-$ENV{MOJO_DOMAINNAME}= $dmnm;
-
-helper this_domain => sub { $dmnm };
-
-app->log->debug("may not work except under hypnotoad")
-  unless defined $ENV{HYPNOTOAD_APP};
-
-## $0 = MOJO_EXE = /Users/ivo/syllabus.space/syllabus.space/SylSpace
-(defined($ENV{MOJO_EXE})) or die "very weird running environment without ENV{MOJO_EXE}.";
-
-use FindBin;
-use Socket;
-
-(my $pgmname= $0) =~ s{.*/}{};  ## usually SylSpace
-
-$ENV{SYLSPACE_sitepath}= $FindBin::Bin;    ## /Users/ivo/syllabus.space/syllabus.space/
-
-($ENV{SYLSPACE_appname}= $0) =~ s{.*/}{};  ## SylSpace, from executable command
-
-## remove trailing port number
-($ENV{SYLSPACE_sitename}= $ENV{MOJO_DOMAINNAME}) =~ s/:.*//g;  ## syllabus.test, from Mojo
-
-($ENV{MOJO_DOMAINNAME} eq 'localhost') and die "\nyou cannot use localhost, because we need subdomains for testing.  please use lvh.me instead.\n";
-
-app->log->debug("SylSpace: dmnm='$ENV{MOJO_DOMAINNAME}'");
-my $inetaton= inet_aton($ENV{MOJO_DOMAINNAME});
-app->log->debug("SylSpace: ...$inetaton");
-
-$ENV{SYLSPACE_siteip}= inet_ntoa( $inetaton );  ## 127.0.0.1
-$ENV{SYLSPACE_onlocalhost} = ($ENV{SYLSPACE_siteip} eq '127.0.0.1');
-
-my $configfname= "$ENV{SYLSPACE_sitepath}/$pgmname-Secrets.conf";
-
-if ($ENV{SYLSPACE_onlocalhost} and $ENV{SYLSPACE_sitename} !~ /lvh[.]me$/) {
-  ($ENV{SYLSPACE_sitename} eq 'syllabus.test') or die "please test only on syllabus.test or lvh.me";
-  my $etclines= `grep syllabus.test /etc/hosts`;
-  ($etclines =~ /corpfin.syllabus.test/m) or die "\n\nFor local testing, please add at the end of /etc/hosts the following: \n\n127.0.0.1 syllabus.test auth.syllabus.test corpfin.syllabus.test\n\n\n";
-} else {
-  (-e $configfname) or die "you need a $configfname config file in non-local operation\n"
+if (app->mode eq 'production') {
+  die "you need a $configfname config file for production"
+    unless -e $configfname;
 }
 
 ################
@@ -62,130 +24,68 @@ $ENV{SYLSPACE_siteicolor}=$ENV{SYLSPACE_sitescolor}='white';
 $ENV{SYLSPACE_jumboscolor}='darkblue'; $ENV{SYLSPACE_jumboicolor}='darkred';
 
 
-################################################################################################################################
-## unfortunately, you have to be connected to the correct diretory; I think Mojolyst does not work otherwise
-################################################################################################################################
+my $has_oauth;
+helper has_oauth => sub { $has_oauth };
 
 if (-e $configfname) {
-
-  app->log->debug("$0: good: your authentication secrets is $configfname");
-
-  ##  # working:
-  ##  plugin 'Config';
-  ##  my $credentials = app->plugin('Config')->{oauth};
+  app->log
+     ->debug("$0: good: your config is $configfname");
 
   my $credentials= plugin 'Config' => { file => $configfname };
 
-  (defined($credentials)) or die "internal error: I cannot read the credentials information from the config file $configfname\n";
-  (defined($credentials->{oauth})) or die "internal error: I cannot read the oauth field information from the config file $configfname\n";
+  die "could not read config file" unless $credentials;
+  die 'you must have at least one oauth provider for login'
+    if app->mode eq 'production' and not keys %{$credentials->{oauth}};
 
+  my %scopes = ( google => 'email profile', github => 'user:email',
+    facebook => 'email');
   my %oauth;
-  if (my $google = $credentials->{oauth}->{google}) {
-    my ($key, $secret) = @$google;
+  for my $provider (qw/google github facebook/) {
+    if (my $creds = $credentials->{oauth}{$provider}) {
+      my ($key, $secret) = @$creds;
 
-    app->log->debug("[enabling google authentication]");
+      app->log->debug("[enabling $provider authentication]");
 
-    $oauth{google}  = {
-      key	=> $key,
-      secret	=> $secret,
-      scope     => 'email profile'
-    };
+      $oauth{$provider}  = {
+        key	=> $key,
+        secret	=> $secret,
+        scope     => $scopes{$provider}
+      };
+    }
   }
 
-  if (my $github = $credentials->{oauth}->{github}) {
-    my ($key, $secret) = @$github;
-
-    app->log->debug("[enabling github authentication]");
-
-    $oauth{github} = {
-      key         => $key,
-      secret      => $secret,
-      scope       => 'user:email'
-    };
-  }
-
-  if (my $facebook = $credentials->{oauth}->{facebook}) {
-    my ($key, $secret) = @$facebook;
-
-    app->log->debug("[enabling facebook authentication]");
-    $oauth{facebook} = {
-      key    => $key,
-      secret => $secret,
-      scope  => 'email'
-    };
-  }
   plugin 'OAuth2', \%oauth;
 
-  $ENV{SYLSPACE_haveoauth}= 1;
+  $has_oauth++;
 }
 
-################################################################################################################################
-## SHOULD THESE BE REPLACED IN FAVOR OF %ENV variables?
-## http://user.course.$ENV{SYLSPACE_sitename} -> $ENV{SYLSPACE_sitename}
-## http://$ENV{'sitename'} -> $ENV{'sitename'}
-
-# *Mojo::URL::domainonly = sub {
-#   return $ENV{SYLSPACE_sitename};
-# };
-
-helper domainport => sub {
-  my $url  = shift->req->url->to_abs;
-  my $port = $url->port;
-  defined($ENV{SYLSPACE_sitename}) or die "internal error: no site ($ENV{SYLSPACE_sitename})";
-  (defined($port)) or return $ENV{SYLSPACE_sitename};
-  return "$ENV{SYLSPACE_sitename}:$port";
-};
-
-helper auth_path => sub {
-  my ($c, $path) = @_;
-  $c->req->url->to_abs->clone
-    ->path($path)
-    ->host("auth.$ENV{SYLSPACE_sitename}")
-    ->query(undef);
-};
-  
-
-helper subdomain => sub {
-  my $domain = shift->req->url->to_abs->host;
-  return '' if $domain eq '127.0.0.1';
-  ($domain =~ m/(.*)\.localhost$/) and return $1;
-  my @f = split(/\./, $domain);
-  return '' unless @f;  ## never
-  splice @f, -2; #pop off tld and main site name
-  return join '.', @f;
-};
-
-helper sitename => sub {
-  my $c = shift;
-  my $domain = $c->req->url->to_abs->host;
-  my $sub = $c->subdomain;
-  $domain =~ s/^\Q$sub.// if $sub;
-  return $domain
-};
-  
-
-################################################################################################################################
 use Perl6::Slurp;
-
-
 my @pwsecret=slurp("$vardir/secrets.txt");
 app->secrets( \@pwsecret );  ## the first one encodes, the others are usable; maybe rotate by day
 
-#default hypnotoad to port 80, but allow configuration
-app->config->{hypnotoad}{listen} //= ['http://*:80'];
+my $users = glob "$vardir/users/*\@*";
+die "you need at least one known users in $vardir/users\n"
+  unless $users;
+my $courses = glob "$vardir/courses/*";
+die "you need at least one known course in $vardir/courses,\n"
+  unless $courses;
 
-use File::Glob ':bsd_glob';
-my @users= (bsd_glob("$vardir/users/*\@*"));
-((scalar @users) >= 1) or die "you need at least one known users in $vardir/users, not $#users\n";
-my @courses=(scalar glob("$vardir/courses/*"));
-((scalar @courses) >= 1) or die "you need at least one known course in $vardir/courses, not $#courses\n";
-
-if ($ENV{'SYLSPACE_onlocalhost'}) {
-  app->log->debug("$0: *** localhost mode only --- logging out may not work correctly");
+my $name = app->config->{site_name};
+if (app->mode eq 'development') {
+  $name //= 'lvh.me';
+  if ($name eq 'localhost' or $name eq '127.0.0.1') {
+     app->log->debug(<<WARNIT); 
+you can't use 127.0.0.1 or localhost, switching you to lvh.me for testing
+WARNIT
+     $name = 'lvh.me';
+  }
+} else {
+  app->log->fatal(
+    "login can't work unless you define a site_name in the config")
+    and die "a horrible death\n" unless $name;
 }
+app->log->debug("$0: Now starting SylSpace on $name");
 
-app->log->debug("$0: Starting $ENV{SYLSPACE_appname} now on $ENV{MOJO_DOMAINNAME}");
-
-app->sessions->cookie_domain( '.'.$ENV{SYLSPACE_sitename} );
+app->sessions->cookie_domain($name);
 
 app->start();

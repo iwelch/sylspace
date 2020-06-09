@@ -11,7 +11,8 @@ use strict;
 get '/login' => sub {
   my $c = shift;
 
-  ($ENV{'SYLSPACE_onlocalhost'}) or die "Sorry, but /login only works on localhost for testing purposes\n";
+  die "Sorry, but /login only works on localhost for testing purposes\n"
+    unless $c->app->mode eq 'development';
 
   $c->session->{uemail}= $c->req->query_params->param('email');
   $c->session->{expiration}= time()+3600*24*365;

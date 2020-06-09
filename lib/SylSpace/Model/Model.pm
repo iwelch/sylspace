@@ -415,6 +415,7 @@ sub tokenmagic( $uemail ) {
   $lines[0] =~ s{^ip\:\s*}{}; chomp($lines[0]); # =~ s{\s*[\r\n]*}{}ms;
   $lines[1] =~ s{^(then|user|uemail)\:\s*}{}; chomp($lines[1]); # =~ s{\s*[\r\n]*}{}ms;
 
+  #TODO- NOENV - this doesn't actually check the browser's ip...
   my $browserip= $ENV{SYLSPACE_siteip} || "99.99.99.99";
 
   ($browserip eq $lines[0]) or die "bad site ip.  you are on ip $browserip, and not on '$lines[0]'";

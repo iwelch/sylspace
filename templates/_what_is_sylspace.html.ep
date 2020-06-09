@@ -1,11 +1,10 @@
-<dt>What is <%= $ENV{'SYLSPACE_appname'} %> on <%= $ENV{'SYLSPACE_sitename'} %>?</dt>
+<dt>What is SylSpace on <%= $ENV{'SYLSPACE_sitename'} %>?</dt>
 
 <dd>It is a third-generation web course management system, with
 an intentional focus on ease-of-use and simplicity.  The webapp
-software is <%= $ENV{'SYLSPACE_appname'} %>, the main site designed to run it is
-<a href="//syllabus.space"> syllabus.space </a>
-(You are currently running it on <%= link_to
-$ENV{SYLSPACE_sitename}, "//" . domainport %>.)
+software SylSpace, the main site designed to run it is
+<a href="https://syllabus.space"> syllabus.space </a>
+(You are currently running it on <%= link_to $ENV{SYLSPACE_sitename}, "//" . domainport %>.)
 There is almost no learning curve involved in using the system.
 
 <p style="padding-top:1em">Its most important functionalities are:

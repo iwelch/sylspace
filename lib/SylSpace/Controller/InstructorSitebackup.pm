@@ -44,6 +44,8 @@ __DATA__
 
   <p>Your zipped backup file has been created and will download in a moment.</p>
 
-  <p>Naturally, if the <%= $ENV{'SYLSPACE_appname'} %> webapp dies or the server is compromised, only your local backup will survive.  So please make sure to keep it in a safe place!</p>
+  <p>Naturally, if the SylSpace webapp dies or the server is
+  compromised, only your local backup will survive.  So please
+  make sure to keep it in a safe place!</p>
 
 </main>
