@@ -45,9 +45,9 @@ __DATA__
 
   <dl class="dl faq">
 
-  <dt>Is there anything you find <i>not</i> intuitive about using this website (SylSpace on <%= $ENV{'SYLSPACE_sitename'} %>)?  Have an idea to make it easier and better?  Found a dead link?</dt>
+  <dt>Is there anything you find <i>not</i> intuitive about using this website (SylSpace on <%= sitename %>)?  Have an idea to make it easier and better?  Found a dead link?</dt>
 
-  <dd>Please <a href="mailto:ivo.welch@gmail.com?subject=unclear-<%= $ENV{'SYLSPACE_sitename'} %>">let me know</a>.
+  <dd>Please <a href="mailto:ivo.welch@gmail.com?subject=unclear-<%= sitename %>">let me know</a>.
   I cannot guarantee that I will follow it, but I will consider it.</dd>
 
   %= include '_what_is_sylspace'
@@ -208,8 +208,8 @@ __DATA__
   <dd>
     <p>As for me, I prefer to name each class by its own subdomain, like
       <pre>
-         http://<b>mba230.welch</b>.<%= $ENV{SYLSPACE_sitename} %><br />
-         http://<b>mba230-14a.welch</b>.<%= $ENV{SYLSPACE_sitename} %>
+         http://<b>mba230.welch</b>.<%= sitename %><br />
+         http://<b>mba230-14a.welch</b>.<%= sitename %>
       </pre>
      This way, I can have my one webbrowser access multiple class sites, too&mdash;each class is its own domain.</p>
   </dd>

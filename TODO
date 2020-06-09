@@ -2,9 +2,6 @@
 okay, we explicitly need the domainname, but let's make it more sane
 
 variables that must be destroyed:
-  - $ENV{MOJO_DOMAINNAME}
-  - $ENV{SYLSPACE_sitename}
-  - $ENV{SYLSPACE_sitepath}
   - $ENV{SYLSPACE_siteip}
     - this one is used for the magic-token thing only
   - $ENV{SYLSPACE_onlocalhost}

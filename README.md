@@ -1,10 +1,12 @@
 # SylSpace
-course management software on syllabus.space ($ENV{MOJO_DOMAINNAME})
+Course management software on syllabus.space
 
 
 ## Installation
 
-Due to the outdated three-year-old 5.18.2 version of perl still running on MacOS, we do not recommend it.  If you need to install syllabus.space on osx, first learn brew and install a newer perl.
+Due to the outdated three-year-old 5.18.2 version of perl still
+running on MacOS, we do not recommend it.  If you need to install
+syllabus.space on osx, first learn brew and install a newer perl.
 
 ### Basic Steps:
 

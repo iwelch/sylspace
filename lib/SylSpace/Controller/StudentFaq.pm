@@ -20,9 +20,7 @@ get '/student/faq' => sub {
   my $isfaq= fileexistss($course, 'faq') ? filereads( $course, 'faq' ) : "<p>This instructor has not added a course-specific FAQ.</p>\n" ;
 
   use Perl6::Slurp;
-  #TODO- NOENV - make sure this still works
-  #my $body= slurp("$ENV{'SYLSPACE_sitepath'}/public/html/faq.html");
-  my $body  = $c->home->child(qw/public html faq.html/);
+  my $body  = $c->app->home->child(qw/public html faq.html/)->slurp;
   my $code= length($body) ? 404 : 200;
 
 #  my $allfaq = $c->ua->get("/html/faq.html");

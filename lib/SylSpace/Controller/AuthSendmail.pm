@@ -23,7 +23,7 @@ post '/auth/sendmail/authenticate' => sub {
   my $c = shift;
 
   my $name = $c->param('name');
-  ($name eq 'no name') or die "we are already overloaded!\n";
+  #($name eq 'no name') or die "we are already overloaded!\n";
 
   if (!$name) {
     return $c->stash(error => 'Missing required parameter name' )->render(template => 'AuthSendmail');
@@ -33,11 +33,12 @@ post '/auth/sendmail/authenticate' => sub {
   ($email) or die "Missing email\n";
   (Email::Valid->address($email)) or die "email address '$email' could not possibly be valid\n";
 
+  $c->stash(email => $email);
   if (!$email) {
-    return $c->stash(error => 'Missing required parameter email' )->render(template => 'AuthSendmail');
+    return $c->stash(error => 'Missing required parameter email' )
+      ->render(template => 'AuthSendmail');
   }
 
-  $c->stash(email => $email);
 
   if (_send_email($c, $email, $name)) {
     return $c->stash(error => '')->render(template => 'AuthSendmail');
@@ -84,12 +85,12 @@ sub _send_email {
       To      => $email,
       Subject => 'Confirm your email',
     ],
-    body => "Follow this link: $url\n\nMake sure that your email spam filter will not trap the email you will receive, something like:
+    body => <<"EMAIL");
+Follow this link: $url\n\nMake sure that your email spam filter will not trap the email you will receive, something like:
 
-	From: $ENV{SYLSPACE_DOMAINNAME} <$ENV{SYLSPACE_DOMAINNAME}\@gmail.com>
-	Subject: Confirm your email
-
-" );
+    $config->{email}{message}{from}
+    Subject: Confirm your email
+EMAIL
 
   superseclog( $c->tx->remote_address, $email, "requesting sending email to ".$email );
 
@@ -98,8 +99,7 @@ sub _send_email {
   sub _getTransport {
     my $c = shift;
     return $c->{_transport} ||= Email::Sender::Transport::SMTP::TLS->new(
-									 %{ $c->app->plugin('Config')->{email}{transport} }
-									);
+      %{ $c->config->{email}{transport} });
   }
 
   my $g= _getTransport($c);
@@ -135,7 +135,11 @@ __DATA__
   <p>
   If you typed your email address (<a href="mailto:<%= $email %>"><%= $email %></a>) correctly, you should be receiving an email from us.</p>
 
-  <p> Please check your mailbox for a confirmation email with link.  If you do not receive an email from us within 5-10 minutes, check for any spam filters along the way.  The email should be sent by  '<%= $ENV{SYLSPACE_DOMAINNAME} %>@gmail.com' or by someone at '\@$ENV{SYLSPACE_DOMAINNAME}'.  The email authentication will be valid for about 30 minutes.</p>
+  <p> Please check your mailbox for a confirmation email with
+  link.  If you do not receive an email from us within 5-10
+  minutes, check for any spam filters along the way.  The email
+  should be sent by '<%= config->{email}{message}{from} %>'.  The
+  email authentication will be valid for about 30 minutes.</p>
 
   <p><b>Warning:</b> Some email spam filters may be blocking us.  Make sure to whitelist us.  Here is more information on <a href="http://onlinegroups.net/blog/2014/02/25/how-to-whitelist-an-email-address/">whitelisting</a> us (e.g., <a href="http://smallbusiness.chron.com/whitelist-domain-office-365-74321.html">office365</a> and <a href="https://support.microsoft.com/en-us/kb/2545137">office365</a>)?  If you never receive an email&mdash;even after having whitelisted us&mdash;then please try a gmail account.  We know that gmail can receive our emails.</p>
 
