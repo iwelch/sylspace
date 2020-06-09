@@ -27,8 +27,6 @@ use SylSpace::Model::Files qw(filesetdue filewritei cptemplate);
 use Test2::Bundle::Extended;
 use Test2::Plugin::DieOnFail;
 
-_webcourseremove("*");  ## but not users and templates
-
 my %bioinstructor = ( uniname => 'ucla anderson', regid => 'na', firstname => 'ivo', lastname => 'welch', birthyear => 1971,
 		      email => 'ivo.welch@gmail.com', zip => 90095, country => 'US', cellphone => '(310) 555-1212',
 		      email2 => 'ivo.welch@anderson.ucla.edu', tzi => tziserver(), optional => '' );

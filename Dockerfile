@@ -1,7 +1,7 @@
 From perl:5.26
 
 RUN apt-get update
-RUN apt-get install -y libz-dev libssl-dev gcc make emacs-nox git vim-tiny rsync
+RUN apt-get install -y libz-dev libssl-dev gcc make vim-tiny
 RUN cpanm Carton 
 RUN mkdir /usr/src/app
 
@@ -16,12 +16,14 @@ COPY . /usr/src/app/
 
 RUN carton exec perl -Ilib ./initsylspace.pl -f
 
-RUN carton exec prove -lr -j4 
+RUN echo '{}' > SylSpace-Secrets.conf
 
-RUN carton exec perl -Ilib bin/addsite.pl mysample.course instructor@gmail.com
+RUN carton exec -- prove -lr -j4 
 
-RUN touch /var/sylspace/domainname=lvh.me
+RUN carton exec bin/load_site startersite
 
 EXPOSE 3000
 
-CMD [ "carton", "exec", "morbo", "SylSpace" ]
+ENTRYPOINT [ "carton", "exec", "--" ]
+
+CMD [ "morbo", "SylSpace" ]

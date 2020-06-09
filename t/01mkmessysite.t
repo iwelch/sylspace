@@ -23,8 +23,6 @@ use SylSpace::Model::Webcourse qw(_webcoursemake _webcourseremove _webcourseshow
 use SylSpace::Model::Model qw(:DEFAULT biosave usernew instructornewenroll bioread userenroll courselistenrolled ciosave cioread ciobuttons msgsave msgmarkasread _msglistnotread msgdelete msgread msgshownotread sitebackup isenrolled ciobuttonsave isinstructor sudo);
 
 
-my $v= _webcourseremove("*");  ## but not users and templates
-
 my $iemail='instructor@gmail.com'; my $iemail2='ivo.welch@gmail.com';
 my $s1email='student1@gmail.com';
 my $s2email='student2@gmail.com';

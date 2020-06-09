@@ -88,29 +88,51 @@ it run in the container.
 
 ### Real Operation
 
-Real operation means a system that works (for now only) on http://*.syllabus.space (detected by hostname syllabus-space) and that has Google etc. authentication of remote Internet users enabled.  For testing and experimentation purposes, you almost surely do not want this.
+Real operation means a system that works (for now only) on
+http://*.syllabus.space and that has Google etc. authentication of
+remote Internet users enabled.
 
-To enable remote authentication, create a file containing the proper set of secrets that the Google, Facebook, and Paypal Authentications need.  This can be a headeach.  The `SylSpace-Secrets.template` file tries to give some guidance.  You need a file
+To enable remote authentication, create a file containing the
+proper set of secrets that the Google, Facebook, and Paypal
+Authentications need.  This can be a headache.  The
+`SylSpace-Secrets.template` file tries to give some guidance.  You
+need a file
 
-	<somewhere-else-outside-the-git-tree>/SylSpace-Secrets.conf
+	SylSpace-Secrets.conf
 
-which contains your private authentication secrets (for oauth, google, paypal, gmail, etc).  Next, you need to link this into the correct spot:
+which contains your private authentication secrets (for oauth,
+google, paypal, gmail, etc).
 
-    # ln -s <somewhere-else-outside-the-git-tree>/SylSpace-Secrets.conf <absolute mysylspacedir>/sylspace/SylSpace-Secrets.conf
+Again, the contents of the SylSpace-Secrets.conf file are
+illustrated in `SylSpace-Secrets.template`.  You can edit and
+rename the template!
 
-Again, the contents of the SylSpace-Secrets.conf file are illustrated in SylSpace-Secrets.template .  You can edit and rename the template!  Once installed and one you make a few changes in runserver.pl and SylSpace (which assume that you want to run production on hostname syllabus-space and testing on all other hosts), you should see working google/github/facebook login buttons and the email authentication alternative.  You may also need to symlink SylSpace-Secrets.conf to SylSpace.conf (not sure why!).
+The app won't work without at least one OAuth provider configured.
+In addition, you must set the site_name so that cookies can work
+as expected across subdomains.
+
+If you see an error
 
        Warning: 'message must be a string at (eval 253) line 63
 
-probably means that your login credentials for email sending are off.
+it probably means that your login credentials for email sending are
+off.
+
+## Running from the docker container
+
+TODO- coming soon...
 
 
 ## Automatic (Re-) Start
 
-For automatic start on boot and restart on crash in the real production hypnotoad on syllabus.space, do
-
-    # cp SylSpace.service /lib/systemd/system/
-    # systemctl start SylSpace
+We provide a systemd service file that you can use for running a
+production server. Look at the files in the `systemd` folder, and
+edit them to include the locations of your paths, and then copy
+them over to one of your systems systemd directories
+(`/lib/systemd/system` or `/etc/systemd/system`), the run
+`systemctl daemon-reload`, then `systemctl start SylSpace`. You
+can also run `systemctl enable SylSpace` to have it always turn on
+on startup.
 
 
 ## Developing
@@ -121,7 +143,8 @@ The `SylSpace` top-level executable initializes a variety of global features and
 
 Each webpage ("controller") sits in its own `Controller/*.pm` file, which you can deduce by looking at the URL in the browser.
 
-Almost every controller uses functionality that is in the model, which is in `Model/*.pm`.  (The directory also contains some course initialization programs, such as `mkinstructor.pl` or `mksite.pl`.)
+Almost every controller uses functionality that is in the model,
+which is in `Model/*.pm`.
 
 The equiz evaluator is completely separate and laid out into `Model/eqbackend`.
 

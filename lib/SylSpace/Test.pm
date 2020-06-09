@@ -62,7 +62,6 @@ sub import ($target, %opts) {
   if ($opts{make_test_site}) {
 
     $ENV{SYLSPACE_PATH} = gen_temp 
-      'domainname=lvh.me' => '',
       'paypal.log' => '',
       'general.log' => '',
       'secrets.txt' => <<SECRETS,

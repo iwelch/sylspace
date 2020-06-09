@@ -13,7 +13,6 @@ $t->app->routes->get('/testit' => sub {
 });
 
 subtest 'testing sitename and subdomain helper' => sub {
-use Data::Printer;
   $t->get_ok('/testit')
     ->status_is(200)
     ->json_is('/name' => 'lvh.me', 'defaults to lvh.me');
