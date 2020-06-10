@@ -120,7 +120,7 @@ off.
 
 To run the latest version of sylspace, simply do
 
-    docker run -p 8080:8080\
+    docker run -p 8080:8080 \
       --mount type=bind,source=$YOUR_CONFIG_FILE,target=/usr/src/app/SylSpace-Secrets.conf \
       sylspace/sylspace:latest
 
