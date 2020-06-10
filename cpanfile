@@ -28,3 +28,4 @@ requires 'Mojolicious::Plugin::OAuth2';
 requires 'File::Which';
 requires 'Test2::MojoX';
 requires 'File::Copy::Recursive';
+requires 'App::Yath', '>= 1.0';

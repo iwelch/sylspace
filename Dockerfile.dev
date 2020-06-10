@@ -21,8 +21,10 @@ RUN carton exec -- yath -j4
 
 RUN carton exec bin/load_site startersite
 
-EXPOSE 8080
+RUN carton exec bin/load_site messysite
+
+EXPOSE 3000
 
 ENTRYPOINT [ "carton", "exec", "--" ]
 
-CMD [ "hypnotoad", "-f", "SylSpace" ]
+CMD [ "morbo", "SylSpace" ]

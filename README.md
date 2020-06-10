@@ -77,13 +77,11 @@ runserver.pl.
 
 If you aren't comfortable letting sylspace play around with your
 filesystem, then you can still test by using the included docker
-image. Make sure that docker is installed, and then build the
-image by running `docker build -t sylspace:dev .` while in the
-projects directory.
-
-After the image is finished building, you can run it with the
-included `run_docker` script. You can pass in any command to have
-it run in the container.
+image. To pull the latest dev version built from the master
+branch, just use the supplied `run_docker` script, it will load
+your local copy of the repo into the container, and prefix all
+your commands to use carton. If no command is passed, then it will
+run morbo on port 3000.
 
 
 ### Real Operation
@@ -120,8 +118,42 @@ off.
 
 ## Running from the docker container
 
-TODO- coming soon...
+To run the latest version of sylspace, simply do
 
+    docker run -p 8080:8080\
+      --mount type=bind,source=$YOUR_CONFIG_FILE,target=/usr/src/app/SylSpace-Secrets.conf \
+      sylspace/sylspace:latest
+
+A quick word of explanation: In order to run, SylSpace needs a
+config file which provides at least one OAuth provider and a
+site_name. In the command above, replace $YOUR_CONFIG_FILE with
+the full path to your config file, and then it will be made
+available to the container.
+
+Another word is the `-p` switch above maps a port on your machine
+(the first number) to the one on the container (the second). By
+default hypnotoad listens on 8080, so the above command is a safe
+bet. Of course, if you have a different listen location in your
+config file, or wish to listen on a different port (docker always
+runs as root, so you can map straight to port 80 or 443 if you
+want).
+
+Also, you may want to add a volume to store the data directories,
+which are in /var/sylspace inside the container. An example switch
+to do this would be 
+
+    --mount source=my-volume-name,target=/var/syslspace
+
+where it would then persist the data in the volume
+`my-volume-name`, and then you can load that in any container and
+stuff.
+
+If you plan on running it behind a reverse proxy (which is faaaar
+beyond the scope of this text), make sure to set the
+MOJO_REVERSE_PROXY environment variable for the container, via the
+following option to `docker run`
+
+    -e MOJO_REVERSE_PROXY=1
 
 ## Automatic (Re-) Start
 

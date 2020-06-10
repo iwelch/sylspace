@@ -1,7 +1,7 @@
 #! /bin/bash
 
-docker run -it -p 8080:3000 \
+docker run -it -p 3000:3000 \
   --rm \
   --mount type=bind,source=$(pwd),target=/usr/src/app \
   --mount type=volume,dst=/usr/src/app/local \
-  sylspace:dev $@
+  sylspace/sylspace:dev $@
