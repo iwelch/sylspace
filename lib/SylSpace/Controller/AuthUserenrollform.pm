@@ -18,8 +18,8 @@ get '/auth/userenrollform' => sub {
   (my $course = standard( $c )) or return global_redirect($c);
 
   my $coursename= $c->req->query_params->param('c');
-  my $dmnm = $c->this_domain;
-  $coursename =~ s/$dmnm$//;
+  my $dmnm = $c->sitename;
+  $coursename =~ s/[.]$dmnm$//;
   my $secret= getcoursesecret($coursename);
 
   (defined($secret)) or $secret="";

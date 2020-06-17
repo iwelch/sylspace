@@ -32,4 +32,19 @@ sub get_on_domain_ok {
   return $t
 }
 
+sub post_on_domain_ok {
+  my ($t, $domain, $path, @args) = @_;
+  my $ctx = context;
+  my $url = $t->ua->server->url->clone->to_abs
+    ->path($path);
+  $url->host('lvh.me');
+  $url->host("$domain.lvh.me") if $domain;
+
+  $t->post_ok($url, @args);
+
+  $ctx->release;
+  return $t
+}
+
+
 9004
