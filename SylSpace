@@ -70,22 +70,25 @@ my $courses = glob "$vardir/courses/*";
 die "you need at least one known course in $vardir/courses,\n"
   unless $courses;
 
-my $name = app->config->{site_name};
-if (app->mode eq 'development') {
-  $name //= 'lvh.me';
-  if ($name eq 'localhost' or $name eq '127.0.0.1') {
-     app->log->debug(<<WARNIT); 
-you can't use 127.0.0.1 or localhost, switching you to lvh.me for testing
+app->hook(before_server_start => sub {
+  my $name = app->config->{site_name};
+  if (app->mode eq 'development') {
+    $name //= 'lvh.me';
+    if ($name eq 'localhost' or $name eq '127.0.0.1') {
+       app->log->debug(<<WARNIT); 
+  you can't use 127.0.0.1 or localhost, switching you to lvh.me for testing
 WARNIT
-     $name = 'lvh.me';
+       $name = 'lvh.me';
+    }
+  } else {
+    app->log->fatal(
+      "login can't work unless you define a site_name in the config")
+      and die "a horrible death\n" unless $name;
   }
-} else {
-  app->log->fatal(
-    "login can't work unless you define a site_name in the config")
-    and die "a horrible death\n" unless $name;
-}
-app->log->debug("$0: Now starting SylSpace on $name");
+  app->sessions->cookie_domain($name);
+  app->log->debug("$0: Now starting SylSpace on $name");
+});
+  
 
-app->sessions->cookie_domain($name);
 
 app->start();

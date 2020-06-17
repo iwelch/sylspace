@@ -10,8 +10,7 @@ sub new_app {
   my $t = $self->new(
     curfile->dirname->dirname->dirname->sibling('SylSpace'),
     { site_name => 'lvh.me' });
-  $t->app->config->{site_name} = 'lvh.me';
-  $t->app->sessions->cookie_domain('lvh.me');
+
   $t->ua->max_redirects(5);
 
   return $t
