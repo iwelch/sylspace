@@ -8,7 +8,6 @@ my $t = SylSpace::Test::App->new_app;
 use Test2::V0;
 my %colors = map { ( $_ => $ENV{"SYLSPACE_jumbo${_}color"} ) } qw/i a s/;
 
-
 $t->get_ok('/tos')
   ->status_is(200)
   ->element_exists(".jumbotron[style*=$colors{a}]");
