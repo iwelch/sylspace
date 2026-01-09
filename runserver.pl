@@ -14,7 +14,7 @@ use autodie;
 
 use File::Which;
 
-my $isproduction= (`hostname` =~ /syllabus/m);
+my $isproduction= (`hostname` =~ /sylspace/m);
 my $isosx= (-d "/Users/ivo");
 
 my @apphome;
@@ -49,7 +49,7 @@ if ($isproduction) {
   print STDERR "$0: Running full production hypnotoad server for sylspace.  To stop:
 	kill -QUIT `cat hypnotoad.pid` gracefully (or -TERM), or
 	/usr/local/bin/hypnotoad -s ./SylSpace)\n\t\tPS: morbo -v -m production ./SylSpace for testing\n";
-  echosystem("/usr/local/bin/hypnotoad -f ./SylSpace");  ## do not '&', or it fails in systemd SylSpace.service !
+  echosystem("/usr/bin/carton exec hypnotoad -f ./SylSpace");  ## do not '&', or it fails in systemd SylSpace.service !
 
 } else {
   my $mode= ((@ARGV) && (defined($ARGV[0])) && ($ARGV[0] =~ /^p/i)) ? "production" : "development";

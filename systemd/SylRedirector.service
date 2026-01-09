@@ -9,11 +9,11 @@ After=network.target
 Type=simple
 Restart=always
 SyslogIdentifier=SylSpace
-WorkingDirectory=/home/ivo/syllabus.space/SylSpace
-PIDFile=/home/ivo/syllabus.space/SylSpace/redirector.pid
-ExecStart=/usr/local/bin/hypnotoad ./redirector -f
-ExecStop=/usr/local/bin/hypnotoad ./redirector -s
-ExecReload=/usr/local/bin/hypnotoad ./redirector -f
+WorkingDirectory=/home/veesh/TRANSFERRED/syllabus.space/SylSpace
+PIDFile=/home/veesh/TRANSFERRED/syllabus.space/SylSpace/redirector.pid
+ExecStart=/usr/bin/carton exec hypnotoad ./redirector -f
+ExecStop=/usr/bin/carton exec hypnotoad ./redirector -s
+ExecReload=/usr/bin/carton exec hypnotoad ./redirector -f
 
 [Install]
 WantedBy=multi-user.target

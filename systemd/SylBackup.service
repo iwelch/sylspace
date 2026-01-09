@@ -2,8 +2,8 @@
 Description=SylBackup
 
 [Service]
-WorkingDirectory=/home/ivo/syllabus.space/SylSpace
-ExecStart=SylBackup
+WorkingDirectory=/home/veesh/TRANSFERRED/syllabus.space/SylSpace
+ExecStart=/usr/bin/carton exec ./SylBackup
 
 ## copy this service and the timer to /lib/systemd/system/
 ## make sure the backup script is in the right spot, too.

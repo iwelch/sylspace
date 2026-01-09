@@ -9,8 +9,10 @@ use warnings;
 use warnings FATAL => qw{ uninitialized };
 
 use Safe;
-use Data::Dumper;
+use Data::Dumper::Concise;
 use Math::Round; # qw(:all);  ## may not be used
+
+use feature 'state';
 
 ################################################################################################################################
 
@@ -66,6 +68,8 @@ my $predefinedfunctions = do { local $/=undef; <EvalOneQuestion::DATA> };
 
 ################################################################
 
+use Tie::IxHash;
+
 sub evaloneqstn {
 
   (defined($_[0])) or die "perl $0: ERROR: evaloneqstn is lucid.\n";
@@ -84,6 +88,12 @@ sub evaloneqstn {
   ($qstn{'I'} =~ /[\"\`\']/) and die "perl $0: ERROR: no strings and backquotes allowed.\n";
 
 
+  ## tie %variables, "Tie::IxHash" or die "could not tie variables";
+  state $persistentvars="";
+
+  ($qstn{'persistent'}) or $persistentvars="";
+  ($qstn{'persistent'}) and $qstn{'Q'}= "(Continued) ".$qstn{'Q'};
+
   ## First, we need to calculate all our variables in the init (:I:)
   my $compartment = new Safe;
   {
@@ -98,22 +108,33 @@ sub evaloneqstn {
     $qstn{'I'} =~ s/function\s+([a-zA-Z0-9\_]+)\(\s*\$([a-zA-Z0-9\_]+)\s*\,\s*\$([a-zA-Z0-9\_]+)\s*\)\s*\{/sub $1 \{ my (\$$2,\$$3)=\@_ ;/g;
     $qstn{'I'} =~ s/function\s+([a-zA-Z0-9\_]+)\(\s*\$([a-zA-Z0-9\_]+)\s*\,\s*\$([a-zA-Z0-9\_]+)\,\s*\$([a-zA-Z0-9\_]+)\s*\)\s*\{/sub $1 \{ my (\$$2,\$$3,\$$4)=\@_ ;/g;
 
-    use Data::Dumper;
+    $qstn{'I'} = $qstn{'I'};
+
+    # use Data::Dumper;
     local $SIG{__WARN__} = sub { die "perl $0: ERROR: ".$_[0]; };
-    $compartment->reval("$predefinedfunctions ; $qstn{'I'}");
+    $compartment->reval("$predefinedfunctions ; $persistentvars ; $qstn{'I'}");
     ($@ eq "")
       or die "perl $0: ERROR: Your init :I: evaluation algebraic expression string '<tt>$qstn{'I'}</tt>' for $qstn{'N'} ending on line $linenum failed with $@.  Please fix and try again.\n\n<pre>".Dumper(\%qstn)."</pre>";
   }
 
-  ## collect all variables that appeared in the init
   my %variables;
-  while ($qstn{'I'} =~ /\$([a-zA-Z\_][\w]*)/g) {
-    (exists($variables{$1})) and next;
+  ## collect all variables that appeared in the init and make them usable in text
+  (exists($variables{ANS})) and delete($variables{ANS});
+
+  while ($persistentvars =~ /\$([a-zA-Z\_][\w]*)\s*\=/g) {
     $variables{$1}= ${$compartment->varglob($1)};  ## with value
   }
 
+  while ($qstn{'I'} =~ /\$([a-zA-Z\_][\w]*)\s*\=/g) {
+    $variables{$1}= ${$compartment->varglob($1)};  ## with value
+    ($1 ne "ANS") and $persistentvars.= "\$$1=".$variables{$1}."; ";  ## will repeat too often; we could trim it backwards on the numerics, but who cares
+  }
+
+  (-f "DUMPED") and
+    $qstn{'DUMPED'}= (Dumper(\%variables)."\tpersistent= $persistentvars\n\n");  ## for debugging, used in RenderEquizTxt.pm
+
   $qstn{'S'} = $variables{'ANS'};
-  (defined($qstn{'S'})) or die "perl $0: ERROR: You must define an '\$ANS' variable in your :I: init segment for $qstn{'N'}\n";
+  (defined($qstn{'S'})) or die "perl $0: ERROR: You must define an '\$ANS' variable in your :I: init segment for $qstn{'N'}\n\tonly see in I ".$qstn{'I'}."\n".Dumper(\%variables);
   $qstn{'S'} = nearest(0.0000001, $qstn{'S'});
 
   # now we fill calculated variables into the question (:Q:) and answer (:A:)
@@ -142,8 +163,8 @@ sub evaloneqstn {
     $qstn{'Q'} = replonevar($qstn{'Q'}, $vn, $variables{$vn});
     $qstn{'A'} = (defined($qstn{'A'})) ? replonevar($qstn{'A'}, $vn, $variables{$vn}) : "no further detail available\n";
 
-    $qstn{'A'} =~ s/\$-([0-9])/&ndash;\$$1/g;  ## note: we do this only in the answer text, because it is less foreseeable
-    $qstn{'Q'} =~ s/\$-([0-9])/&ndash;\$$1/g;  ## it may screw up inside mathjax; leave a space
+    $qstn{'A'} =~ s/\$-([0-9])/&minus;\$$1/g;  ## note: we do this only in the answer text, because it is less foreseeable
+    $qstn{'Q'} =~ s/\$-([0-9])/&minus;\$$1/g;  ## it may screw up inside mathjax; leave a space
   }
 
   return \%qstn;

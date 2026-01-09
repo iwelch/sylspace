@@ -1,0 +1,80 @@
+::EQVERSION:: 1.0 -- not used.
+
+::NAME::  Show Variable Propagation
+
+::INSTRUCTOR:: N/A
+
+::CREATED:: July 2017
+
+::VERSION:: 1.01 -- not used
+
+::AREA:: Testing
+
+::SHARING:: ok
+
+::INTRO::
+
+This is used with 'perl eqbackend.pl baby.equiz answers'
+
+################################################################
+
+::START::
+
+################
+
+:N: Q06.1
+
+:Q: Select $x;
+
+:I: $x= rseq(2,100); $ANS=$x
+
+:A: x=$x.  ANS=$ANS
+
+:T: 2
+
+:E:
+
+################
+
+:N: Q06.2
+
+:Q: Select y=$y;
+
+:I: $x=44444; $y= rseq(100,200); $ANS=$y;
+
+:A: x=$x.  y=$y.  ANS=$y
+
+:T: 2
+
+:E:
+
+################
+
+:N: Q06.3
+
+:Q: Select z=$z;
+
+:I: $ANS= $z= rseq(200,300); $cd= $x;
+
+:A: x=$x but cd=$cd.  y=$y.  z=$z.  ANS=$ANS
+
+:T: 2
+
+:E:
+
+################
+
+:N: Q06.4
+
+:Q: Select x=$x again;
+
+:I: $y= rseq(300,400); $ab= $x; $ANS=$x
+
+:A: x=$x from first question.  show ANS=$ANS.
+
+:T: 2
+
+:E:
+
+################
+::END::

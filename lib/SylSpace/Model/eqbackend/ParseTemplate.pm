@@ -7,6 +7,7 @@ package ParseTemplate;
 use strict;
 use warnings;
 use warnings FATAL => qw{ uninitialized };
+use experimental qw(for_list);
 
 ################################################################################################################################
 
@@ -90,37 +91,46 @@ sub parsepreamble {
 
 
 ################
-sub parsemain {
-  my @pages= split(/\n\:N\:/, "\n\n$_[0]");
-  shift(@pages);  ## skip the front
+## subpages are delimited by the ':N:' ... ':E:'.  Stuff in between is ignored.
 
-  foreach my $po (@pages) {
-    $po = ":N: $po";
-    ($po =~ s/^:E:\s*$//ms) or die "\nperl $0: Syntax Error: question '".returnsuperchomp($po)."' does not end with :E:\n";
-  }
+sub parsemain {
+  my $maintext= $_[0];
 
   my @result;
-  foreach my $po (@pages) { push(@result, parse1subpage($po)); }
+  while ($maintext =~ /^(\:[nN]\:.*?^:[E]:\s)/gms) {
+    push(@result, parse1subpage($1));  ## a subpage is a question or a message
+  }
+
   return \@result;
 }
 
 
+################
+## subpage is question or message
 
 sub parse1subpage {
-  (/\:S\:/) and die "perl $0: equiz language has been updated to V2;  please convert all short tags to ANS in :I:";
-  my $validtags = "[NQICATDMP]"; # Name, Question, Init, Choice, Answer, Time, Difficulty, Message, Precision.  (must not be a regex).
-  my @fields = split(/^\:($validtags)\:/ms, $_[0]);
-  shift(@fields);  ## the split maintains the alternating order, but has one header before the first tag
-  my $qname="qname not yet defined";
-  my %x= @fields;
-  foreach my $k (keys %x) {
-    ($k =~ /$validtags/) or die "perl $0: Parsing Error:  Question $_[0] has unknown or multi-letter field '$k'\n";
-    $x{$k} = returnsuperchomp($x{$k});
-  }
 
-  (exists($x{N})) or die "perl $0: Sorry, but $_[0] contains no name :N: tag\n";
+  ## first, find all (valid) linestarting :<tag>: sequences and stick them into an alternating array
+
+  my $validtags = "[NnQICATDMPE]"; # Name, Question, Init, Choice, Answer, Time, Difficulty, Message, Precision.  (must not be a regex).
+  my @fields = split(/^\:($validtags)\:/ms, $_[0]); # https://stackoverflow.com/questions/14907772/split-but-keep-delimiter
+  shift(@fields);  ## the split maintains the alternating order, but has one header before the first tag
+
+  ## check that we don't have duplicate tags in a question first
+  my %x;
+  for my ($k, $v) (@fields) {
+    ($k =~ /$validtags/) or die "perl $0: Parsing Error:  Question $_[0] contains unknown or multi-letter field '$k'\n";
+    if ($k eq "n") { $k= "N"; $x{persistent}=1; }  ## special case
+    (exists($x{$k})) and die "ParseTemplate.pm: duplicate key '$k' in '$_[0]'\n\n";
+    $x{$k}= returnsuperchomp( $v );
+  }
+  ## my %x= @fields; lacks the check for duplicates
+  undef(@fields);
+
+  (exists($x{N})) or die "perl $0: Internal Error: where did our :N: tag go??\n";
+  (exists($x{E})) or die "perl $0: Internal Error: where did our :E: tag go??\n";
+
   ($x{N} =~ /\w/) or die "perl $0: Sorry, but $_[0] contains an empty or nonsensible name :N: tag\n";
-  $x{N}= returnsuperchomp($x{N});
 
   if (exists($x{M})) {
      # it is not a question, but a message
@@ -129,17 +139,20 @@ sub parse1subpage {
      }
      return \%x;
   }
-  foreach (qw(Q I A)) {
-  	  (exists($x{$_})) or die "perl $0: question $x{N} ('$_[0]') must have a '$_' tag\n";
-  	  ($x{$_} =~ /\w/) or die "perl $0: question $x{N} ('$_[0]') must have a nonempty '$_' tag\n";
-  }
-  ($x{'I'} =~ /\$ANS\s*\=/) or die "perl $0: question $x{N} ('$_[0]') must have an ANS in its :I: tag\n";
 
+  ## three mandatory tags for each question now
+  foreach (qw(Q I A)) {
+    (exists($x{$_})) or die "perl $0: question $x{N} ('$_[0]') must have a '$_' tag\n";
+    ($x{$_} =~ /\w/) or die "perl $0: question $x{N} ('$_[0]') must have a nonempty '$_' tag\n";
+  }
+
+  ## and the :A: tag must contain an '$ANS' variable assignment
+  ($x{'I'} =~ /\$ANS\s*\=/) or die "perl $0: question $x{N} ('$_[0]') must have an ANS in its :I: tag\n";
 
   return \%x;
 }
 
-
+################
 
 sub returnsuperchomp { my $content= $_[0]; $content =~ s/^[\s\n]*//gms; $content =~ s/[\s\n]+$//gms; return $content; }
 

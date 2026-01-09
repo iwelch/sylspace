@@ -20,28 +20,37 @@ use lib '../../../../local/lib/perl5';
 
 =head1 NAME
 
-  eqbackend.pl --- the first line are command and controls.  the remainder must be an equiz file.
-		it renders the template from stdin (or a file), customizes (i.e., evaluate) the template,
- 		and produce an html form to stdout
+  eqbackend.pl commands
+
+		it renders the template from a file, customizes (i.e., evaluates) the template,
+ 		and produce an html form to stdout (or, in 'answers' mode to stdout).
 
 =head1 MODES
 
-  $ eqbackend.pl inputfile.equiz ask encryptionsecret callbackhtml
+  Example: `perl eqbackend.pl testduo.equiz fullsyntax secret`
 
-  $ eqbackend.pl inputfile.equiz answers
 
-	---the following is the main debug mode: fullsyntax comes after the equiz
+  $ eqbackend.pl inputfile.equiz ask encryptionsecret callbackhtml  ## this is the standard mode within the mojolicious web framework
+
+
+  $ eqbackend.pl inputfile.equiz answer      ## this is the main way to debug a full equiz to the console
+
+
+
+	---the following is the syntax debug for entire equizzes: fullsyntax comes after the equiz
   $ eqbackend.pl inputfile.equiz fullsyntax   ## one question, only syntax check; does require ::EQVERSION::
 
-  $ eqbackend.pl inputfile.equiz solo     ## one question, useful in designer;  does not require ::EQVERSION:: etc
+  $ eqbackend.pl inputfile.equiz solosyntax   ## one question, syntax check, but does *not* require ::EQVERSION::
 
-  $ eqbackend.pl inputfile.equiz solosyntax   ## one question, syntax check, but does not require ::EQVERSION::
+	---the following is the debug mode for single questions, used in instructor design mode in mojolicious
+  $ eqbackend.pl inputfile.equiz solo         ## one question, useful in designer;  does *not* require ::EQVERSION:: etc
+
 
 =head1 DOCS
 
   run this with the tutorial.equiz, e.g.,
 
-     $ eqbackend.pl tutorial.equiz
+     $ eqbackend.pl tutorial.equiz ask inventedsecret http:dummy
 
 =head1 FUTURE
 
@@ -55,11 +64,12 @@ use lib '../../../../local/lib/perl5';
 
 ################################################################################################################################
 
-my $usage= "usage: eqbackend.pl equizname-first.equiz mode=[ask=normal|answers|fullsyntax|solosyntax] secret callbackurl user";
+my $usage= "usage: eqbackend.pl equizname-first.equiz mode=[ask=normal|answer|fullsyntax|solosyntax] secret callbackurl user";
 
 (defined(my $equizfilename= shift(@ARGV))) or die $usage;
 
 if ($equizfilename =~ /solo/) {
+    (-t STDIN) and print STDERR "[solo mode in eqbackend.pl]\n";
   my $equizcontent= slurp(\*STDIN);
   my $qz= ParseTemplate::parsetemplate($equizcontent, 1);
 
@@ -85,7 +95,7 @@ my $equizcontent= slurp($equizfilename);
 
 my $mode= $ARGV[0];  ## leave on stack
 (defined($mode)) or die "need an operating mode.\n$usage";
-($mode =~ /^ask|normal|answers|solo|fullsyntax|solosyntax$/) or die "unknown mode '$mode'";
+($mode =~ /^(ask|normal|answer|solo|fullsyntax|solosyntax)\b$/) or die "unknown mode '$mode'";
 ($mode eq "normal") and $mode="ask";
 
 if ($mode !~ /solo/) {
@@ -119,5 +129,10 @@ if ($mode =~ /ask/) {
   @ARGV= ( $mode, "", "", 'testuser@test.com', "anything else to be passed" );
 }
 
-use RenderEquiz;
-print RenderEquiz::renderequiz($qz, $equizfilename, @ARGV);
+if ($mode =~ /answer/) {
+    use RenderEquizTxt;
+    print RenderEquizTxt::renderequiztxt($qz, $equizfilename, @ARGV);
+} else {
+    use RenderEquiz;
+    print RenderEquiz::renderequiz($qz, $equizfilename, @ARGV);
+}
