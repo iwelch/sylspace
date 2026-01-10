@@ -142,7 +142,7 @@ Also, you may want to add a volume to store the data directories,
 which are in /var/sylspace inside the container. An example switch
 to do this would be 
 
-    --mount source=my-volume-name,target=/var/syslspace
+    --mount source=my-volume-name,target=/var/sylspace
 
 where it would then persist the data in the volume
 `my-volume-name`, and then you can load that in any container and
