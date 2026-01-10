@@ -367,7 +367,9 @@ sub fileexistsi( $course, $fname ) {
 }
 
 sub fileexistss( $course, $fname ) {
-  return (-e "$var/courses/$course/instructor/files/$fname");  ## bug
+  my $lfnm = "$var/courses/$course/instructor/files/$fname";
+  (-e $lfnm) or return 0;
+  return (finddue($lfnm) > time());  ## file exists AND is published
 }
 
 sub filesetdue( $course, $filename, $when ) {
