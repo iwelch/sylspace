@@ -143,7 +143,15 @@ sub sitebackup( $course ) {
 
   my $zip= Archive::Zip->new();
   _confirmnotdangerous($course, "subdomain in wss");
-  my $ls=`ls -Rlt $var/courses/$course/`;
+  
+  ## SECURITY FIX: Use list-form open() instead of backticks to avoid shell injection
+  my $ls;
+  {
+    open(my $fh, '-|', 'ls', '-Rlt', "$var/courses/$course/") or die "Cannot run ls: $!";
+    local $/;
+    $ls = <$fh>;
+    close($fh);
+  }
   $zip->addString($ls , '_MANIFEST_' );
   $zip->addTreeMatching( "$var/courses/$course", "backup", '(?<!\.zip)$' );
 
@@ -757,19 +765,26 @@ sub equizrender( $course, $email, $equizname, $callbackurl ) {
   my $fullequizname= longfilename( $course, $equizname );
   my $equizlength= length($equizcontent);
 
-  my $executable= sub {
-    my $loc=`pwd`; chomp($loc); $loc.= "/Model/eqbackend/eqbackend.pl";
-    return $loc;
-  } ->();
+  ## SECURITY FIX: Use Cwd instead of backticks for pwd
+  use Cwd qw(getcwd);
+  my $executable = getcwd() . "/Model/eqbackend/eqbackend.pl";
 
   my $secret= md5_base64( (-e "/usr/local/var/lib/dbus/machine-id") ? "/usr/local/var/lib/dbus/machine-id" : "/etc/machine-id" );
   ## must be same secret as in equizgrade()
   ## instead of this secret, we could use a line from /var/sylgrade/secrets.txt
 
-  my $fullcommandline= "$executable $fullequizname ask $secret $callbackurl $email";
-  ## _confirmnotdangerous($fullcommandline, "executable to render equiz");  ## maybe uncomment
-
-  my $r= `$fullcommandline`;
+  ## SECURITY FIX: Use list-form open() to avoid shell injection
+  ## Previously used backticks with interpolated variables which is unsafe
+  my @cmd = ($executable, $fullequizname, 'ask', $secret, $callbackurl, $email);
+  
+  my $r;
+  {
+    local $SIG{CHLD} = 'DEFAULT';  # ensure proper child reaping
+    open(my $fh, '-|', @cmd) or die "Cannot execute equiz backend: $!";
+    local $/;
+    $r = <$fh>;
+    close($fh);
+  }
   return $r;
 }
 

@@ -76,7 +76,12 @@ sub _webcourseshow($course) {
   (-e "$var/courses/$course") or die "please create the $var/courses/$course directory for everyone first\n";
 
   _checkcname($course);
-  return `find $var/users $var/courses/$course`;
+  ## SECURITY FIX: Use list-form open() instead of backticks
+  my $output;
+  open(my $fh, '-|', 'find', "$var/users", "$var/courses/$course") or die "Cannot run find: $!";
+  { local $/; $output = <$fh>; }
+  close($fh);
+  return $output;
 }
 
 
@@ -87,14 +92,19 @@ sub _webcourseremove($course) {
   ($course =~ m{/}) and die "ok, wcremove is not safe, but '$course' is ridiculous";
   ( ($course =~ /\*/) && ($0 !~ /mk.*site\.t/) ) and die "ok, wcrm is not safe, but '$course' is ridiculous.  only allowed in mkstartersite.t";
 
-  system("rsync -avz $var /tmp/sylspacebkup");
+  ## SECURITY FIX: Use list-form system() to avoid shell injection
+  system('rsync', '-avz', $var, '/tmp/sylspacebkup');
 
   my $nremoved=0;
   foreach (bsd_glob("$var/courses/$course")) {
     $_= lc($_);
     (-e $_) or next;
-    system("rm -rf $_");
-    (-e $_) and die "wth?  $_ could not be removed!\n";
+    ## SECURITY FIX: Use File::Path::remove_tree instead of system("rm -rf")
+    use File::Path qw(remove_tree);
+    remove_tree($_, {error => \my $err});
+    if (@$err) {
+      die "wth? $_ could not be removed: " . join(", ", map { values %$_ } @$err) . "\n";
+    }
     ++$nremoved;
   }
 

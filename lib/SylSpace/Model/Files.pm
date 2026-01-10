@@ -279,7 +279,16 @@ sub answercollect( $course, $hwname ) {
   (@filelist) or return "";  ## no files yet;
 
   my $zip= Archive::Zip->new();
-  my $ls=`ls -lt $retrievepattern`;
+  
+  ## SECURITY FIX: Use Perl stat() instead of shelling out to ls
+  ## This avoids shell injection vulnerabilities
+  my $ls = "";
+  foreach my $f (sort { (stat($b))[9] <=> (stat($a))[9] } @filelist) {
+    my @st = stat($f);
+    my $size = $st[7];
+    my $mtime = localtime($st[9]);
+    $ls .= sprintf("%10d  %s  %s\n", $size, $mtime, $f);
+  }
   $zip->addString( $ls, '_MANIFEST_' ); ## contains date info
 
   my $archivednames="";

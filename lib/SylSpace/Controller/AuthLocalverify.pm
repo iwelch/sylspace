@@ -21,13 +21,31 @@ post '/auth/localverify' => sub {
 
   $c->session->{uemailhint}= $uemail;
 
-  my $exists= `./requestauthentication`;
-  ($exists eq "we exist") or die "cannot find executable requestauthentication".($exists||"--")." in ".`pwd`."\n";
+  ## SECURITY FIX: Use list-form open() instead of backticks
+  my $exists;
+  {
+    open(my $fh, '-|', './requestauthentication') or die "Cannot run requestauthentication: $!";
+    local $/;
+    $exists = <$fh>;
+    close($fh);
+    chomp($exists) if defined($exists);
+  }
+  
+  use Cwd qw(getcwd);
+  ($exists eq "we exist") or die "cannot find executable requestauthentication".($exists||"--")." in ".getcwd()."\n";
 
   _confirmnotdangerous($uemail, "email $uemail");
   _confirmnotdangerous($pw, "pw $pw");
 
-  my $ask= `requestauthentication $uemail $pw`;
+  ## SECURITY FIX: Use list-form open() to prevent shell injection
+  my $ask;
+  {
+    open(my $fh, '-|', 'requestauthentication', $uemail, $pw) or die "Cannot run requestauthentication: $!";
+    local $/;
+    $ask = <$fh>;
+    close($fh);
+    chomp($ask) if defined($ask);
+  }
   ($ask eq $uemail) or die "sorry, but you provided a non-working user password combination!\n";
 
   $c->session->{uemail} = $uemail;

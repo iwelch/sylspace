@@ -48,10 +48,9 @@ get '/testquestion' => sub {
 
   ## sudo( $course, $c->session->{uemail} );
 
-  my $executable= sub {
-    my $loc=`pwd`; chomp($loc); $loc.= "/Model/eqbackend/eqbackend.pl";
-    return $loc;
-  } ->();
+  ## SECURITY FIX: Use Cwd instead of backticks for pwd
+  use Cwd qw(getcwd);
+  my $executable = getcwd() . "/Model/eqbackend/eqbackend.pl";
 
   ## my $quizretcode= system($executable); # `perl $executable < $filecontent`;
   use File::Temp qw/ tempfile /;
@@ -59,7 +58,22 @@ get '/testquestion' => sub {
 
   _confirmnotdangerous( $FNAME, "quizname FNAME" );
 
-  my $eresult= `$executable solo < $FNAME`;
+  ## SECURITY FIX: Use list-form open() with explicit input redirection
+  ## eqbackend.pl in 'solo' mode reads from STDIN, so we need to pipe the file content
+  my $eresult;
+  {
+    use IPC::Open2;
+    my $pid = open2(my $out, my $in, $executable, 'solo');
+    # Read the temp file content and send to stdin
+    open(my $tfh, '<', $FNAME) or die "Cannot read temp file: $!";
+    { local $/; print {$in} <$tfh>; }
+    close($tfh);
+    close($in);
+    local $/;
+    $eresult = <$out>;
+    close($out);
+    waitpid($pid, 0);
+  }
 
   $c->stash( template => 'testquestion', ecode => $ecode, eresult => $eresult);
 };
