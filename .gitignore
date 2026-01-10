@@ -10,3 +10,4 @@ log/
 
 #no vim tmp files
 *.sw?
+*~
