@@ -29,6 +29,8 @@ my $ihm= sub {
 	    btnptr => ciobuttons( $course )||undef,
 	    lasttweet => showlasttweet( $course )||"no tweet yet",
 	    template => 'instructor',
+	    course => $course,
+	    domainport => $c->domainport,
 	   );
 };
 
@@ -84,6 +86,7 @@ __DATA__
     <div class="col-md-10 col-md-offset-1">
          <a class="btn btn-primary btn-block" href="/instructor/instructor2student">
 		<h2> <i class="fa fa-graduation-cap"></i> Morph Into Student</h2></a>
+	 <p class="text-muted" style="margin-top:0.5em;"><small>Direct URL for students: https://<%== $course %>.<%== $domainport %>/student</small></p>
     </div>
   </div>
 

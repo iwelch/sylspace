@@ -10,6 +10,7 @@ use strict;
 
 use SylSpace::Model::Model qw(ciobuttons msgshownotread ismorphed isenrolled bioiscomplete showlasttweet);
 use SylSpace::Model::Controller qw(global_redirect  standard msghash2string);
+use SylSpace::Model::Files qw(eqlists hwlists filelists);
 
 ################################################################
 
@@ -25,12 +26,19 @@ my $shm= sub {
 
   (isenrolled($course, $c->session->{uemail})) or $c->flash( message => "first enroll in $course please" )->redirect_to('/auth/goclass');
 
+  my $eqlist = eval { eqlists($course) } || [];
+  my $hwlist = eval { hwlists($course) } || [];
+  my $filelist = eval { filelists($course) } || [];
+
   $c->stash(
 	    msgstring => msghash2string(msgshownotread( $course, $c->session->{uemail} ), "/msgmarkasread"),
 	    btnptr => ciobuttons( $course )||undef,
 	    ismorphed => ismorphed( $course,$c->session->{uemail} ),
 	    lasttweet => showlasttweet( $course )||"",
 	    template => 'student',
+	    haseq => scalar(@$eqlist) > 0,
+	    hashw => scalar(@$hwlist) > 0,
+	    hasfiles => scalar(@$filelist) > 0,
 	   );
 
 };
@@ -60,9 +68,9 @@ __DATA__
 
    <div class="row top-buffer text-center">
      <%== btnblock("/student/quickinfo", '<i class="fa fa-info-circle"></i> Quick', 'Location, Instructor') %>
-     <%== btnblock("/student/equizcenter", '<i class="fa fa-pencil"></i> Equizzes', 'Test Yourself') %>
-     <%== btnblock("/student/hwcenter", '<i class="fa fa-folder-open"></i> HWork', 'Assignments') %>
-     <%== btnblock("/student/filecenter", '<i class="fa fa-files-o"></i> Files', 'Old Exams, etc') %>
+     <% if ($haseq) { %><%== btnblock("/student/equizcenter", '<i class="fa fa-pencil"></i> Equizzes', 'Test Yourself') %><% } %>
+     <% if ($hashw) { %><%== btnblock("/student/hwcenter", '<i class="fa fa-folder-open"></i> HWork', 'Assignments') %><% } %>
+     <% if ($hasfiles) { %><%== btnblock("/student/filecenter", '<i class="fa fa-files-o"></i> Files', 'Old Exams, etc') %><% } %>
 
      <%== btnblock("/student/gradecenter", '<i class="fa fa-star"></i> Grades', 'Saved Scores') %>
      <%== btnblock("/student/msgcenter", '<i class="fa fa-paper-plane"></i> Messages', 'From Instructor') %>
