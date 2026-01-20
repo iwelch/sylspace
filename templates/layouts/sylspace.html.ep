@@ -96,7 +96,7 @@
           <a class="btn btn-danger" href="/logout"> <i class="fa fa-power-off"></i> logout user </a>
 	</div> <!--container:gohomeorup -->
 
-        <p style="font-size:x-small;padding:1em;margin:1em;">Please notify <a href="mailto:ivo.welch@gmail.com?subject=security+breach+on+<%= sitename %>">ivo welch</a> immediately if you discover an exploitable security bug that would allow unauthorized extraction of data.</p>
+        <p style="font-size:x-small;padding:1em;margin:1em;">Please notify <a href="mailto:ivo.welch@gmail.com?subject=security+breach+on+<%= sitename %>">ivo welch</a> immediately if you discover an exploitable security bug that would allow unauthorized extraction of data. Last Update: <%= last_code_update() %></p>
       </footer>
 
 
