@@ -19,20 +19,23 @@ my $passkey_dir = "$vardir/passkeys";
 
 # Ensure passkey storage directory exists
 # URL-safe base64 encoding/decoding (more portable than MIME::Base64::encode_base64url)
-sub _b64url_encode {
+# Simple hex encoding for binary data (more reliable than base64)
+sub _hex_encode {
   my $data = shift;
-  my $b64 = encode_base64($data, '');  # no newlines
-  $b64 =~ tr|+/=|-_|d;  # URL-safe and remove padding
-  return $b64;
+  return unpack('H*', $data);
 }
 
-sub _b64url_decode {
-  my $b64 = shift;
-  $b64 =~ tr|-_|+/|;  # restore standard base64
-  # Add padding if needed
-  my $pad = length($b64) % 4;
-  $b64 .= '=' x (4 - $pad) if $pad;
-  return decode_base64($b64);
+sub _hex_decode {
+  my $hex = shift;
+  return pack('H*', $hex);
+}
+
+# Keep base64url for challenges (browser expects this format)
+sub _b64url_encode {
+  my $data = shift;
+  my $b64 = encode_base64($data, '');
+  $b64 =~ tr|+/=|-_|d;
+  return $b64;
 }
 
 
@@ -254,11 +257,11 @@ post '/auth/passkey/register/finish' => sub {
     
     # Store the credential
     # Base64 encode the public key for JSON storage
-    my $pubkey_b64 = _b64url_encode($result->{credential_pubkey});
+    my $pubkey_hex = _hex_encode($result->{credential_pubkey});
     _store_credential(
       $email,
       $credential->{id},
-      $pubkey_b64,
+      $pubkey_hex,
       $name
     );
     
@@ -336,7 +339,7 @@ post '/auth/passkey/login/finish' => sub {
     );
     
     # Decode the base64-encoded public key
-    my $pubkey = _b64url_decode($stored_cred->{public_key});
+    my $pubkey = _hex_decode($stored_cred->{public_key});
     $webauthn->validate_assertion(
       challenge_b64 => $challenge,
       credential_pubkey => $pubkey,
