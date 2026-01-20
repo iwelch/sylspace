@@ -17,7 +17,7 @@ get '/faq' => sub {
   my $c = shift;
 
   use Perl6::Slurp;
-  my $sitewide= slurp("public/html/faq.html");
+  my $sitewide= slurp("static/html/faq.html");
   $sitewide =~ s{.*<sitewide>(.*)</sitewide>}{$1}ms;
 
   $c->stash( allfaq => $sitewide, template => 'faq' );
@@ -51,4 +51,5 @@ __DATA__
   <p> More FAQ information is provided to logged-in users. </p>
 
 </main>
+
 
