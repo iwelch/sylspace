@@ -38,6 +38,20 @@ sub _b64url_encode {
   return $b64;
 }
 
+# Convert base64url to standard base64 (for Authen::WebAuthn compatibility)
+# Authen::WebAuthn::validate_registration returns base64url,
+# but validate_assertion uses MIME::Base64::decode_base64 which expects standard base64
+sub _b64url_to_b64 {
+  my $b64url = shift;
+  return '' unless defined $b64url && length($b64url);
+  my $b64 = $b64url;
+  $b64 =~ tr/-_/+\//;  # Convert base64url chars to standard base64
+  # Add padding if needed
+  my $pad = length($b64) % 4;
+  $b64 .= '=' x (4 - $pad) if $pad;
+  return $b64;
+}
+
 
 sub _ensure_passkey_dir {
   unless (-d $passkey_dir) {
@@ -336,9 +350,14 @@ post '/auth/passkey/login/finish' => sub {
       origin => $origin,
     );
     
+    # IMPORTANT: Authen::WebAuthn::validate_registration returns credential_pubkey
+    # in base64url format, but validate_assertion uses MIME::Base64::decode_base64
+    # which expects standard base64. Convert before passing.
+    my $pubkey_b64 = _b64url_to_b64($stored_cred->{public_key});
+    
     $webauthn->validate_assertion(
       challenge_b64 => $challenge,
-      credential_pubkey => $stored_cred->{public_key},
+      credential_pubkey => $pubkey_b64,
       stored_sign_count => $stored_cred->{sign_count} // 0,
       client_data_json_b64 => $assertion->{response}{clientDataJSON},
       authenticator_data_b64 => $assertion->{response}{authenticatorData},
