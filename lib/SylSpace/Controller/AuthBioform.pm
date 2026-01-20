@@ -70,7 +70,109 @@ __DATA__
 
   <p> <b>tzi</b> is your timezone.  Typically, this will be filled in correctly by your browser.  It helps SylSpace render time expiration notices not in UTC, but in your local timezone.  If you want to tinker with it:  0 = UTC.  -7 = PST(Summer), -8 = PST(Winter).  +8 = China.</p>
 
+<hr />
 
+<h3><i class="fa fa-key"></i> Passkey Authentication</h3>
+
+<p>Register a passkey to sign in with Face ID, Touch ID, Windows Hello, or a security key on future visits — no password needed.</p>
+
+<div id="passkey-status" class="alert" style="display:none;"></div>
+
+<button id="passkey-register-btn" class="btn btn-success btn-lg">
+  <i class="fa fa-plus"></i> Register Passkey for This Device
+</button>
+
+<p style="font-size:small; margin-top:1em;">You can register multiple passkeys (e.g., one for your phone, one for your laptop). Each device needs its own passkey.</p>
+
+<script>
+function base64urlToBuffer(base64url) {
+  const base64 = base64url.replace(/-/g, '+').replace(/_/g, '/');
+  const pad = base64.length % 4;
+  const padded = pad ? base64 + '='.repeat(4 - pad) : base64;
+  const binary = atob(padded);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
+
+function bufferToBase64url(buffer) {
+  const bytes = new Uint8Array(buffer);
+  let binary = '';
+  for (let i = 0; i < bytes.length; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function showPasskeyStatus(msg, isError) {
+  const el = document.getElementById('passkey-status');
+  el.textContent = msg;
+  el.className = 'alert ' + (isError ? 'alert-danger' : 'alert-success');
+  el.style.display = 'block';
+}
+
+if (!window.PublicKeyCredential) {
+  showPasskeyStatus('Passkeys are not supported in this browser.', true);
+  document.getElementById('passkey-register-btn').disabled = true;
+}
+
+document.getElementById('passkey-register-btn').addEventListener('click', async function() {
+  try {
+    const optionsRes = await fetch('/auth/passkey/register/begin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: ''
+    });
+    const options = await optionsRes.json();
+    
+    if (options.error) {
+      showPasskeyStatus(options.error, true);
+      return;
+    }
+    
+    options.publicKey.challenge = base64urlToBuffer(options.publicKey.challenge);
+    options.publicKey.user.id = base64urlToBuffer(options.publicKey.user.id);
+    if (options.publicKey.excludeCredentials) {
+      options.publicKey.excludeCredentials = options.publicKey.excludeCredentials.map(c => ({
+        ...c,
+        id: base64urlToBuffer(c.id)
+      }));
+    }
+    
+    const credential = await navigator.credentials.create(options);
+    
+    const finishRes = await fetch('/auth/passkey/register/finish', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id: credential.id,
+        rawId: bufferToBase64url(credential.rawId),
+        type: credential.type,
+        response: {
+          clientDataJSON: bufferToBase64url(credential.response.clientDataJSON),
+          attestationObject: bufferToBase64url(credential.response.attestationObject)
+        }
+      })
+    });
+    const result = await finishRes.json();
+    
+    if (result.success) {
+      showPasskeyStatus('Passkey registered! You can now use it to sign in.', false);
+    } else {
+      showPasskeyStatus(result.error || 'Registration failed', true);
+    }
+  } catch (err) {
+    console.error(err);
+    if (err.name === 'NotAllowedError') {
+      showPasskeyStatus('Registration was cancelled.', true);
+    } else {
+      showPasskeyStatus('Error: ' + err.message, true);
+    }
+  }
+});
+</script>
 
 </main>
 
