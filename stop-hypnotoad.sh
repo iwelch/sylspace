@@ -1,48 +1,57 @@
 #!/bin/bash
 
 # Stop SylSpace hypnotoad server
-# Sends QUIT signal to hypnotoad, which makes it exit gracefully.
-# This also causes the start-hypnotoad.sh wrapper to exit, stopping the service.
+# Finds the hypnotoad manager process and sends QUIT signal.
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR" || exit 1
 
-if [ -f hypnotoad.pid ]; then
-    PID=$(cat hypnotoad.pid)
-    if kill -0 "$PID" 2>/dev/null; then
-        echo "Sending QUIT signal to hypnotoad (PID $PID)..."
-        kill -QUIT "$PID"
-        
-        # Wait for it to stop (up to 30 seconds)
-        for i in {1..30}; do
-            if ! kill -0 "$PID" 2>/dev/null; then
-                echo "SylSpace stopped successfully."
-                exit 0
-            fi
-            sleep 1
-        done
-        
-        echo "WARNING: hypnotoad didn't stop gracefully, sending TERM..."
-        kill -TERM "$PID" 2>/dev/null
-        sleep 2
-        
-        if kill -0 "$PID" 2>/dev/null; then
-            echo "ERROR: hypnotoad still running. Try: sudo kill -9 $PID"
-            exit 1
-        fi
-        echo "SylSpace stopped."
-    else
-        echo "PID file exists but process $PID not running. Removing stale PID file."
-        rm -f hypnotoad.pid
-    fi
-else
-    echo "No hypnotoad.pid file found. Checking for running processes..."
-    PIDS=$(pgrep -f '/SylSpace/SylSpace$' 2>/dev/null)
-    if [ -n "$PIDS" ]; then
-        echo "Found SylSpace processes: $PIDS"
-        echo "Kill them with: sudo kill $PIDS"
-        exit 1
-    else
-        echo "SylSpace does not appear to be running."
-    fi
+# Find the hypnotoad manager (the SylSpace process whose parent is start-hypnotoad.sh)
+# The manager is the one that has worker children
+
+# First, find all SylSpace processes
+SYLSPACE_PIDS=$(pgrep -f '/SylSpace/SylSpace$' 2>/dev/null)
+
+if [ -z "$SYLSPACE_PIDS" ]; then
+    echo "SylSpace does not appear to be running."
+    rm -f hypnotoad.pid 2>/dev/null
+    exit 0
 fi
+
+# Find the manager (the SylSpace process that has other SylSpace processes as children)
+MANAGER_PID=""
+for pid in $SYLSPACE_PIDS; do
+    # Check if this process has children that are also SylSpace
+    CHILDREN=$(pgrep -P "$pid" 2>/dev/null)
+    if [ -n "$CHILDREN" ]; then
+        MANAGER_PID="$pid"
+        break
+    fi
+done
+
+if [ -z "$MANAGER_PID" ]; then
+    echo "Could not identify hypnotoad manager process."
+    echo "Running SylSpace PIDs: $SYLSPACE_PIDS"
+    echo "Try: sudo systemctl stop SylSpace.service"
+    exit 1
+fi
+
+echo "Found hypnotoad manager at PID $MANAGER_PID"
+echo "Sending QUIT signal..."
+kill -QUIT "$MANAGER_PID"
+
+# Wait for it to stop (up to 30 seconds)
+for i in {1..30}; do
+    if ! pgrep -f '/SylSpace/SylSpace$' >/dev/null 2>&1; then
+        echo "SylSpace stopped successfully."
+        rm -f hypnotoad.pid 2>/dev/null
+        exit 0
+    fi
+    sleep 1
+    echo -n "."
+done
+
+echo ""
+echo "WARNING: SylSpace didn't stop gracefully within 30 seconds."
+echo "Try: sudo systemctl stop SylSpace.service"
+exit 1
