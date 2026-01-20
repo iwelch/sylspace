@@ -165,18 +165,6 @@ MSGBODY
 
   <p>Note that G Suite accounts (like <tt>g.ucla.edu</tt>) can also use our Google authentication.</p>
 
-  <hr />
-
-  <p style="font-size:small;padding-top:1em;"><b>Passkey Authentication</b> lets you sign in with Face ID, Touch ID, Windows Hello, or a security key — no password needed.</p>
-
-   <div class="row text-center">
-     <%== btnblock '/auth/passkey',
-          '<i class="fa fa-key"></i> Sign in with Passkey',
-          'Use Face ID, Touch ID, or Security Key',
-          'btn-info btn-lg'
-        %>
-   </div>
-
   <% } else { %>
 
    <p style="font-size:small">You did not have a local OAuth config file (usually a link to SylSpace-Secrets.conf), so you cannot use direct registration or authentication.  For now, you can only use this Syllabus webapp reasonably on lvh.me (i.e., localhost), which only allows "local cheating" authentication.</p>
