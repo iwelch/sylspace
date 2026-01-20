@@ -183,10 +183,15 @@ __DATA__
 
   <hr />
 
-<h3> Change Biographical Information and Settings </h3>
+<h3> Change Biographical Information and Settings, and Add Passkeys </h3>
 
    <div class="row top-buffer text-center">
-     <%== btnblock('/auth/bioform', '<i class="fa fa-user"></i> '.$self->session->{uemail}, 'Change My Biographical Information', 'btn-default btn-xs', 'w') %>
+     <div class="col-xs-12 col-md-4">
+       <a class="btn btn-block btn-default" href="/auth/bioform">
+         <h3><i class="fa fa-user"></i> <%= $self->session->{uemail} %></h3>
+       </a>
+       <p>Change My Biographical Information and Add Passkeys</p>
+     </div>
    </div>
 
 
