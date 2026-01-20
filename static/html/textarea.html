@@ -2,13 +2,15 @@
 <html lang="en-US">
 
   <head>
+    <meta charset="UTF-8">
+    <title>Textarea Test</title>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
-    <link rel="stylesheet" type="text/css" property="href" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ns-autogrow/1.1.6/jquery.ns-autogrow.js"> </script>
 
@@ -23,7 +25,7 @@
         <h1>Test Textarea autoexpand</h1>
 
 
-        <form method="GET" action="/testquestion" />
+        <form method="GET" action="/testquestion">
 
 
         <script> $('#ecode').css('overflow', 'hidden').autogrow() </script>
@@ -54,13 +56,15 @@
           this is the time for all good men to come to the aid of their country.
         </textarea>
 
+        </form>
+
       </main>
 
     <hr />
 
-            <p>I want the textarea to start off correctly (leave, say, an extra line at the bottom) and grow as one types.  The width is less important.  (Ideally, it would expand up to 132 columns, and then stay there.) </p>
+            <p>I want the textarea to start off correctly (leave, say, an extra line at the bottom) and grow as one types.  The width is less important.  (Ideally, it would expand up to 132 columns, and then stay there.)</p>
 
-            <p>Neither of my two javascript functions seem to have the desired (or any) effect:
+            <p>Neither of my two javascript functions seem to have the desired (or any) effect:</p>
 
         <pre>
         &lt;script&gt; $('#ecode').css('overflow', 'hidden').autogrow() &lt;/script&gt;
