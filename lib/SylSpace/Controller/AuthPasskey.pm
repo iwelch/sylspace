@@ -350,10 +350,30 @@ post '/auth/passkey/login/finish' => sub {
       origin => $origin,
     );
     
+    # DEBUG: Log what we're working with
+    $c->app->log->debug("=== PASSKEY DEBUG START ===");
+    $c->app->log->debug("rp_id: $rp_id");
+    $c->app->log->debug("origin: $origin");
+    $c->app->log->debug("challenge_b64: $challenge");
+    $c->app->log->debug("credential_id: $credential_id");
+    $c->app->log->debug("stored public_key (raw): " . ($stored_cred->{public_key} // 'UNDEF'));
+    
     # IMPORTANT: Authen::WebAuthn::validate_registration returns credential_pubkey
     # in base64url format, but validate_assertion uses MIME::Base64::decode_base64
     # which expects standard base64. Convert before passing.
     my $pubkey_b64 = _b64url_to_b64($stored_cred->{public_key});
+    $c->app->log->debug("pubkey after _b64url_to_b64: $pubkey_b64");
+    
+    # DEBUG: Test decode to see what we actually get
+    my $decoded = decode_base64($pubkey_b64);
+    $c->app->log->debug("decoded pubkey length: " . length($decoded));
+    $c->app->log->debug("decoded pubkey hex (first 20 bytes): " . unpack('H*', substr($decoded, 0, 20)));
+    
+    # DEBUG: Log assertion data
+    $c->app->log->debug("clientDataJSON_b64: " . ($assertion->{response}{clientDataJSON} // 'UNDEF'));
+    $c->app->log->debug("authenticatorData_b64: " . ($assertion->{response}{authenticatorData} // 'UNDEF'));
+    $c->app->log->debug("signature_b64: " . ($assertion->{response}{signature} // 'UNDEF'));
+    $c->app->log->debug("=== PASSKEY DEBUG END ===");
     
     $webauthn->validate_assertion(
       challenge_b64 => $challenge,
@@ -508,3 +528,4 @@ document.getElementById('passkey-login-btn').addEventListener('click', async fun
   }
 });
 </script>
+
