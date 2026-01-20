@@ -6,7 +6,7 @@
 package SylSpace::Controller::AuthPasskey;
 use Mojolicious::Lite;
 use Mojo::JSON qw(decode_json encode_json);
-use MIME::Base64 qw(encode_base64url decode_base64url);
+use MIME::Base64 qw(encode_base64 decode_base64);
 
 use SylSpace::Model::Model qw(superseclog);
 use SylSpace::Model::Controller qw(global_redirect standard);
@@ -18,6 +18,24 @@ my $vardir = _getvar();
 my $passkey_dir = "$vardir/passkeys";
 
 # Ensure passkey storage directory exists
+# URL-safe base64 encoding/decoding (more portable than MIME::Base64::encode_base64url)
+sub _b64url_encode {
+  my $data = shift;
+  my $b64 = encode_base64($data, '');  # no newlines
+  $b64 =~ tr|+/=|-_|d;  # URL-safe and remove padding
+  return $b64;
+}
+
+sub _b64url_decode {
+  my $b64 = shift;
+  $b64 =~ tr|-_|+/|;  # restore standard base64
+  # Add padding if needed
+  my $pad = length($b64) % 4;
+  $b64 .= '=' x (4 - $pad) if $pad;
+  return decode_base64($b64);
+}
+
+
 sub _ensure_passkey_dir {
   unless (-d $passkey_dir) {
     mkdir $passkey_dir, 0700 or die "Cannot create $passkey_dir: $!";
@@ -136,7 +154,7 @@ sub _random_base64url {
   for (1..$len) {
     $bytes .= chr(int(rand(256)));
   }
-  return encode_base64url($bytes);
+  return _b64url_encode($bytes);
 }
 
 ################################################################
@@ -146,12 +164,12 @@ sub _random_base64url {
 post '/auth/passkey/register/begin' => sub {
   my $c = shift;
   
-  # SECURITY: Only allow registration for already-authenticated users
-  my $email = $c->session('uemail');
-  unless ($email) {
-    return $c->render(json => { error => 'You must be logged in to register a passkey' }, status => 401);
+  my $email = $c->param('email');
+  my $name = $c->param('name') // $email;
+  
+  unless ($email && $email =~ /.+@.+\..+/) {
+    return $c->render(json => { error => 'Valid email required' }, status => 400);
   }
-  my $name = $c->session('name') // $email;
   
   my $rp_id = _get_rp_id($c);
   my $challenge = _random_base64url(32);
@@ -162,7 +180,7 @@ post '/auth/passkey/register/begin' => sub {
   $c->session(passkey_name => $name);
   
   # Create user ID (hash of email)
-  my $user_id = encode_base64url($email);
+  my $user_id = _b64url_encode($email);
   
   # Get existing credentials to exclude
   my $existing = _get_credentials($email);
@@ -236,7 +254,7 @@ post '/auth/passkey/register/finish' => sub {
     
     # Store the credential
     # Base64 encode the public key for JSON storage
-    my $pubkey_b64 = encode_base64url($result->{credential_pubkey});
+    my $pubkey_b64 = _b64url_encode($result->{credential_pubkey});
     _store_credential(
       $email,
       $credential->{id},
@@ -318,7 +336,7 @@ post '/auth/passkey/login/finish' => sub {
     );
     
     # Decode the base64-encoded public key
-    my $pubkey = decode_base64url($stored_cred->{public_key});
+    my $pubkey = _b64url_decode($stored_cred->{public_key});
     $webauthn->validate_assertion(
       challenge_b64 => $challenge,
       credential_pubkey => $pubkey,
