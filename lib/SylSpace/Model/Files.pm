@@ -248,9 +248,9 @@ sub answerdelete( $course, $uemail, $hwname, $answername ) {
 
   ($hwname =~ /^hw/) or die "hwdelete: '$hwname' must start with hw\n";
   my $existing1=bsd_glob("$var/courses/$course/$uemail/files/$answername\~answer\=$hwname");
-  (-e $existing1) or die "you cannot delete a nonexisting file '$existing1'\n".`ls $var/courses/$course/$uemail/files/`;
+  (-e $existing1) or die "you cannot delete a nonexisting file '$existing1'\n";
   my $existing2=bsd_glob("$var/courses/$course/$uemail/files/$answername");
-  (-e $existing2) or die "you cannot delete a nonexisting file '$existing2'\n".`ls $var/courses/$course/$uemail/files/`;
+  (-e $existing2) or die "you cannot delete a nonexisting file '$existing2'\n";
 
   unlink($existing1) or die "failed to delete file $existing1.\n";
   unlink($existing2) or die "failed to delete file $existing2.\n";
@@ -503,3 +503,4 @@ sub _maybeoverwrite( $lfilename, $contents ) {
 
 
 sub rlc { return scalar @{$_[0]}; }
+
