@@ -54,7 +54,7 @@ no warnings qw(experimental::signatures);
 ################
 
 use lib '../..';
-use SylSpace::Model::Utils qw(  _getvar _checkemailvalid _checkcname _saferead _safewrite _confirmsudoset _setsudo _confirmnotdangerous _glob2lastnoyaml  _glob2last _burpapp _burpnew);
+use SylSpace::Model::Utils qw(  _getvar _checkemailvalid _checkcname _saferead _safewrite _confirmsudoset _setsudo _unsetsudo _confirmnotdangerous _glob2lastnoyaml  _glob2last _burpapp _burpnew);
 
 
 my $var= _getvar();
@@ -760,7 +760,14 @@ sub equizrender( $course, $email, $equizname, $callbackurl ) {
 
   (defined($equizname)) or die "need a filename for equizmore.\n";
 
-  my $equizcontent= (isinstructor($course, $email)) ? eqreadi( $course, $equizname ) : eqreads( $course, $equizname );  ## quizzes always belong to the instructor
+  my $equizcontent;
+  if (isinstructor($course, $email)) {
+    _setsudo();  # eqreadi requires sudo
+    $equizcontent = eqreadi($course, $equizname);
+    _unsetsudo();
+  } else {
+    $equizcontent = eqreads($course, $equizname);
+  }
 
   my $fullequizname= longfilename( $course, $equizname );
   my $equizlength= length($equizcontent);
@@ -984,4 +991,5 @@ sub paypallog( $type, $email, $ip, $referer, $msg ) {
 }
 
 1;
+
 
