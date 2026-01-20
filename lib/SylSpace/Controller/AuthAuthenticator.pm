@@ -167,7 +167,7 @@ MSGBODY
 
   <hr />
 
-  <p style="font-size:small;padding-top:1em;"><b>Passkey Authentication</b> lets you sign in with Face ID, Touch ID, Windows Hello, or a security key — no password needed.</p>
+  <p style="font-size:small;padding-top:1em;"><b>Passkey Authentication</b> lets you sign in with Face ID, Touch ID, Windows Hello, or a security key — no password needed. <em>Note: You must first sign in above, then register a passkey in your <a href="/auth/bioform">profile settings</a> before you can use this option.</em></p>
 
    <div class="row text-center">
      <div class="col-xs-12 col-md-9">
