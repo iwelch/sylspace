@@ -47,7 +47,7 @@
 
 :N: Call theta
 :Q: Assume that a $$K strike call has a 2.0% continuous dividend, r = 0.05, sigma=0.36, and the stock price is $$S. What is the theta of the option as the expiration time declines from 60 to 50 days? 
-:I: $K=rseq(58,62), $s=rseq(5800,6200); $S=$s/100; $d1=(log($S/$K)+(0.05-0.02+0.5*0.36^2)*(60/365))/(0.36*sqrt(60/365)); $d2=$d1-0.36*sqrt(60/365); $t=0.02*$S*exp(-0.02*(60/365))*CumNorm($d1)-0.05*$K*exp(-0.05*(60/365))*CumNorm($d2)-($K*exp(-0.05*(60/365))*Norm($d2)*0.36)/(2*sqrt(60/365)); $ANS=$t*10/365
+:I: $K=rseq(58,62); $s=rseq(5800,6200); $S=$s/100; $d1=(log($S/$K)+(0.05-0.02+0.5*0.36^2)*(60/365))/(0.36*sqrt(60/365)); $d2=$d1-0.36*sqrt(60/365); $t=0.02*$S*exp(-0.02*(60/365))*CumNorm($d1)-0.05*$K*exp(-0.05*(60/365))*CumNorm($d2)-($K*exp(-0.05*(60/365))*Norm($d2)*0.36)/(2*sqrt(60/365)); $ANS=$t*10/365
 :A: We first calculate d1=(log($S/$K)+(0.05-0.02+0.5*0.36^2)*(60/365))/(0.36*sqrt(60/365))=$d1 and d2=$d1-0.36*sqrt(60/365)=$d2. <p> We then calculate the annualized theta as 0.02*$S*exp(-0.02*(60/365))*CumNorm($d1)-0.05*$K*exp(-0.05*(60/365))*CumNorm($d2)-($K*exp(-0.05*(60/365))*Norm($d2)*0.36)/(2*sqrt(60/365))=$t. <p> Finally, the ten-day theta is given by $t*10/365 = $ANS
 :E:
 
@@ -75,10 +75,11 @@ $34.50? Ignore interest.
 
 :N: Short put position profit/loss
 :Q: Assume that a $50 strike put pays a 2.0% continuous dividend, r = 0.07, sigma = 0.25 , and the stock price is $$S0. What is the profit, per share, for a short put position if the option expires in 60 days and the price rises to $$S1 after 5 days?
-:I: $S0=rseq(47,49), $S1=rseq(50,52); $d10=(log($S0/50)+(0.07-0.02+0.5*0.25^2)*(60/365))/(0.25*sqrt(60/365)); $d20=$d10-0.25*sqrt(60/365); $p0=50*exp(-0.07*(60/365))*CumNorm(-$d20)-$S0*exp(-0.02*(60/365))*CumNorm(-$d10); $d11=(log($S1/50)+(0.07-0.02+0.5*0.25^2)*(55/365))/(0.25*sqrt(55/365)); $d21=$d11-0.25*sqrt(55/365); $p1=50*exp(-0.07*(55/365))*CumNorm(-$d21)-$S1*exp(-0.02*(55/365))*CumNorm(-$d11); $ANS=$p0-$p1
+:I: $S0=rseq(47,49); $S1=rseq(50,52); $d10=(log($S0/50)+(0.07-0.02+0.5*0.25^2)*(60/365))/(0.25*sqrt(60/365)); $d20=$d10-0.25*sqrt(60/365); $p0=50*exp(-0.07*(60/365))*CumNorm(-$d20)-$S0*exp(-0.02*(60/365))*CumNorm(-$d10); $d11=(log($S1/50)+(0.07-0.02+0.5*0.25^2)*(55/365))/(0.25*sqrt(55/365)); $d21=$d11-0.25*sqrt(55/365); $p1=50*exp(-0.07*(55/365))*CumNorm(-$d21)-$S1*exp(-0.02*(55/365))*CumNorm(-$d11); $ANS=$p0-$p1
 :A: We need the put price for 60 days until maturity and 55 days until maturity. For 60 days, we have d1=(log($S0/50)+(0.07-0.02+0.5*0.25^2)*(60/365))/(0.25*sqrt(60/365))=$d10; d2=$d10-0.25*sqrt(60/365)=$d20 and p=50*exp(-0.07*(60/365))*N(-$d20)-$S0*exp(-0.02*(60/365))*N(-$d10)=$$p0. <p> For 55 days, we have d1=(log($S1/50)+(0.07-0.02+0.5*0.25^2)*(55/365))/(0.25*sqrt(55/365))=$d11; d2=$d11-0.25*sqrt(55/365)=$d21 and p=50*exp(-0.07*(55/365))*N(-$d21)-$S1*exp(-0.02*(55/365))*N(-$d11)=$$p1. <p> Thus the profit/loss per share is $p0-$p1=$$ANS
 :E:
 
 
 
 ::END::
+
