@@ -40,7 +40,7 @@
 
 :N: Currency forward
 :Q: The current exchange rate between Germany and Japan is $e euros per yen. The euro-denominated risk-free rate is $G% and the yen-denominated risk-free rate is 1%. What is the 6-month euro/yen forward price?
-:I: $E=rseq(2,4), $e=$E/100; $G=rseq(3,6); $g=$G/100; $ANS=$e*exp(($g-0.01)*(6/12))
+:I: $E=rseq(2,4); $e=$E/100; $G=rseq(3,6); $g=$G/100; $ANS=$e*exp(($g-0.01)*(6/12))
 :A: The forward price is F = $e*exp(($g-0.01)*(6/12)) = $$ANS
 :E:
 
@@ -77,3 +77,4 @@
 
 
 ::END::
+
