@@ -167,30 +167,19 @@ MSGBODY
 
   <hr />
 
-  <p style="font-size:small;padding-top:1em;">Alternatively, use sendmail.  It is slow, throttled per server (to avoid bot DDOS attacks on other servers), may take up to 10 minutes to arrive, and is only valid for 15 minutes&mdash;if you are lucky and no spam filter blocks it, in which case you will have to debug where your IT department or you have blocked the email.  If possible, avoid direct sendmail authentication.  Nevertheless, here it is: </p>
+  <p style="font-size:small;padding-top:1em;"><b>Passkey Authentication</b> lets you sign in with Face ID, Touch ID, Windows Hello, or a security key — no password needed.</p>
 
-  <form name="registration" method="post" action="/auth/sendmail/authenticate">
-       <input style="display:none" class="form-control" value="no name" name="name" />
-
-    <div class="row text-center">
-
-       <div class="col-md-5">
-         <div class="input-group">
-            <span class="input-group-addon">Email: <i class="fa fa-email"></i></span>
-            <input class="form-control" placeholder="joe.schmoe@ucla.edu" name="outgemaildest" type="email" required />
-         </div>
-       </div>
-
-       <div class="col-md-2">
-          <div class="input-group">
-             <button class="btn btn-default" type="submit" value="submit">Send Authorization Email Now</button>
-          </div>
-      </div>
-
+   <div class="row text-center">
+     <%== btnblock '/auth/passkey',
+          '<i class="fa fa-key"></i> Sign in with Passkey',
+          'Use Face ID, Touch ID, or Security Key',
+          'btn-info btn-lg'
+        %>
+   </div>
 
   <% } else { %>
 
-   <p style="font-size:small">You did not have a local OAuth config file (usually a link to SylSpace-Secrets.conf), so you cannot use direct or email based registration or authentication.  For now, you can only use this Syllabus webapp reasonably on lvh.me (i.e., localhost), which only allows "local cheating" authentication.</p>
+   <p style="font-size:small">You did not have a local OAuth config file (usually a link to SylSpace-Secrets.conf), so you cannot use direct registration or authentication.  For now, you can only use this Syllabus webapp reasonably on lvh.me (i.e., localhost), which only allows "local cheating" authentication.</p>
 
   <% } %>
 
@@ -201,10 +190,6 @@ MSGBODY
            <%== btnblock('/auth/testsetuser', '<i class="fa fa-users"></i> Choose Existing Listed User', '(works only on localhost, usually lvh.me)', 'btn-warning btn-md', 'w') %>
         </div>
       <% } %>
-
-    </div> <!-- row -->
-
-  </form>
 
 <p style="font-size:x-small;padding-top:1ex"><a href="/auth/magic">magic</a> is only useful to the cli site admin</p>
 
