@@ -18,7 +18,7 @@ get '/auth/instructorinfo' => sub {
 
   use Perl6::Slurp;
 
-  my $sitewide= slurp("public/html/instructorinfo.html");
+  my $sitewide= slurp("static/html/instructorinfo.html");
   $sitewide =~ s{.*<sitewide>(.*)</sitewide>}{$1}ms;
 
   $c->stash( allfaq => $sitewide, template => 'faq' );
@@ -49,4 +49,5 @@ __DATA__
   <p> More FAQ information is provided to logged-in users. </p>
 
 </main>
+
 
