@@ -774,7 +774,7 @@ sub equizrender( $course, $email, $equizname, $callbackurl ) {
 
   ## SECURITY FIX: Use Cwd instead of backticks for pwd
   use Cwd qw(getcwd);
-  my $executable = getcwd() . "/Model/eqbackend/eqbackend.pl";
+  my $executable = getcwd() . "/lib/SylSpace/Model/eqbackend/eqbackend.pl";
 
   my $secret= md5_base64( (-e "/usr/local/var/lib/dbus/machine-id") ? "/usr/local/var/lib/dbus/machine-id" : "/etc/machine-id" );
   ## must be same secret as in equizgrade()
@@ -991,5 +991,6 @@ sub paypallog( $type, $email, $ip, $referer, $msg ) {
 }
 
 1;
+
 
 
