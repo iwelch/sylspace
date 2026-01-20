@@ -404,13 +404,26 @@ post '/auth/passkey/login/finish' => sub {
     # stored inside clientDataJSON. Authen::WebAuthn compares them as strings.
     $c->app->log->info("challenge_b64 (keeping as base64url): $challenge");
     
+    # THEORY: Authen::WebAuthn might use base64url internally for everything.
+    # Let's try passing the ORIGINAL base64url values without conversion.
+    my $raw_pubkey = $stored_cred->{public_key};
+    my $raw_client_data = $assertion->{response}{clientDataJSON};
+    my $raw_auth_data = $assertion->{response}{authenticatorData};
+    my $raw_sig = $assertion->{response}{signature};
+    
+    $c->app->log->info("=== TRYING WITHOUT CONVERSION (raw base64url) ===");
+    $c->app->log->info("raw_pubkey: $raw_pubkey");
+    $c->app->log->info("raw_client_data: $raw_client_data");
+    $c->app->log->info("raw_auth_data: $raw_auth_data");
+    $c->app->log->info("raw_sig: $raw_sig");
+    
     $webauthn->validate_assertion(
       challenge_b64 => $challenge,
-      credential_pubkey => $pubkey_b64,
+      credential_pubkey => $raw_pubkey,
       stored_sign_count => $stored_cred->{sign_count} // 0,
-      client_data_json_b64 => $client_data_b64,
-      authenticator_data_b64 => $auth_data_b64,
-      signature_b64 => $sig_b64,
+      client_data_json_b64 => $raw_client_data,
+      authenticator_data_b64 => $raw_auth_data,
+      signature_b64 => $raw_sig,
       requested_uv => 'preferred',
     );
     
@@ -557,6 +570,7 @@ document.getElementById('passkey-login-btn').addEventListener('click', async fun
   }
 });
 </script>
+
 
 
 
