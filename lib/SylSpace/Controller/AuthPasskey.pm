@@ -419,7 +419,7 @@ post '/auth/passkey/login/finish' => sub {
     
     $webauthn->validate_assertion(
       challenge_b64 => $challenge,
-      credential_pubkey => $raw_pubkey,
+      credential_pubkey_b64 => $raw_pubkey,
       stored_sign_count => $stored_cred->{sign_count} // 0,
       client_data_json_b64 => $raw_client_data,
       authenticator_data_b64 => $raw_auth_data,
@@ -570,6 +570,7 @@ document.getElementById('passkey-login-btn').addEventListener('click', async fun
   }
 });
 </script>
+
 
 
 
