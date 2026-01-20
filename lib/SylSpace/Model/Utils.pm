@@ -136,7 +136,7 @@ sub _saferead( $sfilename ) {
   ## problem: the below will change Model/filename to model/filename, which
   ## works under osx, but not under linux;
 
-  $sfilename= ($sfilename =~ m{^Model/[ubc]settings-schema\.yml}) ? $sfilename : _checkfilepath($sfilename);  ## do not uppercase
+  $sfilename= ($sfilename =~ m{^(Model|lib/SylSpace/Model)/[ubc]settings-schema\.yml}) ? $sfilename : _checkfilepath($sfilename);  ## do not uppercase
 
   ## the .yml extension is hardcoded
   if ($sfilename =~ /\.ya?ml$/) {
@@ -254,3 +254,4 @@ sub _encodeencrypt {
 
 
 1;
+
