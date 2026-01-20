@@ -144,12 +144,12 @@ sub _random_base64url {
 post '/auth/passkey/register/begin' => sub {
   my $c = shift;
   
-  my $email = $c->param('email');
-  my $name = $c->param('name') // $email;
-  
-  unless ($email && $email =~ /.+@.+\..+/) {
-    return $c->render(json => { error => 'Valid email required' }, status => 400);
+  # SECURITY: Only allow registration for authenticated users
+  my $email = $c->session('uemail');
+  unless ($email) {
+    return $c->render(json => { error => 'You must be logged in to register a passkey' }, status => 401);
   }
+  my $name = $c->session('name') // $email;
   
   my $rp_id = _get_rp_id($c);
   my $challenge = _random_base64url(32);
@@ -366,7 +366,7 @@ __DATA__
 
 <main>
 
-<h2>Passkey Authentication</h2>
+<h2>Sign in with Passkey</h2>
 
 <p>Passkeys let you sign in securely using Face ID, Touch ID, Windows Hello, or a security key — no password needed.</p>
 
@@ -374,7 +374,6 @@ __DATA__
 
 <hr />
 
-<h3>Sign in with Passkey</h3>
 <p>If you've already registered a passkey, click below to sign in:</p>
 <button id="passkey-login-btn" class="btn btn-primary btn-lg">
   <i class="fa fa-key"></i> Sign in with Passkey
@@ -382,22 +381,8 @@ __DATA__
 
 <hr />
 
-<h3>Register a new Passkey</h3>
-<p>First time? Enter your email to create a passkey for this device:</p>
+<p style="font-size:small;"><b>Don't have a passkey yet?</b> First sign in with Google, GitHub, or Facebook, then go to your <a href="/auth/bioform">profile settings</a> to register a passkey for future logins.</p>
 
-<div class="form-group">
-  <label for="passkey-email">Email:</label>
-  <input type="email" id="passkey-email" class="form-control" placeholder="you@example.com" required />
-</div>
-<div class="form-group">
-  <label for="passkey-name">Name (optional):</label>
-  <input type="text" id="passkey-name" class="form-control" placeholder="Your Name" />
-</div>
-<button id="passkey-register-btn" class="btn btn-success btn-lg">
-  <i class="fa fa-plus"></i> Register Passkey
-</button>
-
-<hr />
 <p><a href="/auth/authenticator">&larr; Back to other sign-in options</a></p>
 
 </main>
@@ -436,72 +421,7 @@ function showStatus(msg, isError) {
 if (!window.PublicKeyCredential) {
   showStatus('Passkeys are not supported in this browser. Please use a modern browser.', true);
   document.getElementById('passkey-login-btn').disabled = true;
-  document.getElementById('passkey-register-btn').disabled = true;
 }
-
-// Register passkey
-document.getElementById('passkey-register-btn').addEventListener('click', async function() {
-  const email = document.getElementById('passkey-email').value;
-  const name = document.getElementById('passkey-name').value || email;
-  
-  if (!email || !email.includes('@')) {
-    showStatus('Please enter a valid email address.', true);
-    return;
-  }
-  
-  try {
-    // Get registration options from server
-    const optionsRes = await fetch('/auth/passkey/register/begin', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: 'email=' + encodeURIComponent(email) + '&name=' + encodeURIComponent(name)
-    });
-    const options = await optionsRes.json();
-    
-    if (options.error) {
-      showStatus(options.error, true);
-      return;
-    }
-    
-    // Convert base64url to ArrayBuffer
-    options.publicKey.challenge = base64urlToBuffer(options.publicKey.challenge);
-    options.publicKey.user.id = base64urlToBuffer(options.publicKey.user.id);
-    if (options.publicKey.excludeCredentials) {
-      options.publicKey.excludeCredentials = options.publicKey.excludeCredentials.map(c => ({
-        ...c,
-        id: base64urlToBuffer(c.id)
-      }));
-    }
-    
-    // Create credential
-    const credential = await navigator.credentials.create(options);
-    
-    // Send to server
-    const finishRes = await fetch('/auth/passkey/register/finish', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        id: credential.id,
-        rawId: bufferToBase64url(credential.rawId),
-        type: credential.type,
-        response: {
-          clientDataJSON: bufferToBase64url(credential.response.clientDataJSON),
-          attestationObject: bufferToBase64url(credential.response.attestationObject)
-        }
-      })
-    });
-    const result = await finishRes.json();
-    
-    if (result.success) {
-      showStatus('Passkey registered! You can now sign in with it.', false);
-    } else {
-      showStatus(result.error || 'Registration failed', true);
-    }
-  } catch (err) {
-    console.error(err);
-    showStatus('Error: ' + err.message, true);
-  }
-});
 
 // Login with passkey
 document.getElementById('passkey-login-btn').addEventListener('click', async function() {
