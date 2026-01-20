@@ -11,3 +11,5 @@ log/
 #no vim tmp files
 *.sw?
 *~
+.bash*
+.profile
