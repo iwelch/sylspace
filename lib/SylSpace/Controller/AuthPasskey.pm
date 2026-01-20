@@ -375,13 +375,29 @@ post '/auth/passkey/login/finish' => sub {
     $c->app->log->info("signature_b64: " . ($assertion->{response}{signature} // 'UNDEF'));
     $c->app->log->info("=== PASSKEY DEBUG END ===");
     
+    # IMPORTANT: Browser sends ALL data in base64url format, but Authen::WebAuthn
+    # uses MIME::Base64::decode_base64 which expects standard base64.
+    # Convert all base64url inputs to standard base64.
+    my $client_data_b64 = _b64url_to_b64($assertion->{response}{clientDataJSON});
+    my $auth_data_b64 = _b64url_to_b64($assertion->{response}{authenticatorData});
+    my $sig_b64 = _b64url_to_b64($assertion->{response}{signature});
+    
+    $c->app->log->info("=== AFTER CONVERSION ===");
+    $c->app->log->info("client_data_b64: $client_data_b64");
+    $c->app->log->info("auth_data_b64: $auth_data_b64");
+    $c->app->log->info("sig_b64: $sig_b64");
+    
+    # NOTE: challenge should stay as base64url because that's what the browser
+    # stored inside clientDataJSON. Authen::WebAuthn compares them as strings.
+    $c->app->log->info("challenge_b64 (keeping as base64url): $challenge");
+    
     $webauthn->validate_assertion(
       challenge_b64 => $challenge,
       credential_pubkey => $pubkey_b64,
       stored_sign_count => $stored_cred->{sign_count} // 0,
-      client_data_json_b64 => $assertion->{response}{clientDataJSON},
-      authenticator_data_b64 => $assertion->{response}{authenticatorData},
-      signature_b64 => $assertion->{response}{signature},
+      client_data_json_b64 => $client_data_b64,
+      authenticator_data_b64 => $auth_data_b64,
+      signature_b64 => $sig_b64,
       requested_uv => 'preferred',
     );
     
@@ -528,5 +544,6 @@ document.getElementById('passkey-login-btn').addEventListener('click', async fun
   }
 });
 </script>
+
 
 
