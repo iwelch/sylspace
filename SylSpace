@@ -27,6 +27,24 @@ $ENV{SYLSPACE_jumboscolor}='darkblue'; $ENV{SYLSPACE_jumboicolor}='darkred';
 my $has_oauth;
 helper has_oauth => sub { $has_oauth };
 
+# Helper to get last modification time of Controller/Model files
+helper last_code_update => sub {
+  my $c = shift;
+  my $max_mtime = 0;
+  for my $dir (qw(lib/SylSpace/Controller lib/SylSpace/Model)) {
+    my $path = app->home->child($dir);
+    next unless -d $path;
+    opendir(my $dh, $path) or next;
+    while (my $file = readdir($dh)) {
+      next unless $file =~ /\.pm$/;
+      my $mtime = (stat("$path/$file"))[9];
+      $max_mtime = $mtime if $mtime && $mtime > $max_mtime;
+    }
+    closedir($dh);
+  }
+  return $max_mtime ? scalar(localtime($max_mtime)) : 'unknown';
+};
+
 if (-e $configfname) {
   app->log
      ->debug("$0: good: your config is $configfname");
