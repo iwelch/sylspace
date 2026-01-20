@@ -523,7 +523,7 @@ sub readschema( $metaschemafletter ) {
 
   my $fname= $metaschemafletter."settings-schema.yml";
   #TODO- if we wanna remove symlinks, then change this
-  (!(-e $fname)) and $fname="Model/$fname";
+  (!(-e $fname)) and $fname="lib/SylSpace/Model/$fname";
   (!(-e $fname)) and $fname="sylspace/$fname";
   my $metaptr= _saferead($fname);  ## needs to be external, so that form controller and viewer know it, too
   (defined($metaptr)) or die "schema '$metaschemafletter' ($fname) is not readable from ".`pwd`."!\n";
