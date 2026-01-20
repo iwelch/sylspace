@@ -50,7 +50,7 @@ get '/testquestion' => sub {
 
   ## SECURITY FIX: Use Cwd instead of backticks for pwd
   use Cwd qw(getcwd);
-  my $executable = getcwd() . "/Model/eqbackend/eqbackend.pl";
+  my $executable = getcwd() . "/lib/SylSpace/Model/eqbackend/eqbackend.pl";
 
   ## my $quizretcode= system($executable); # `perl $executable < $filecontent`;
   use File::Temp qw/ tempfile /;
@@ -153,4 +153,5 @@ __DATA__
                 $('#ecode').autogrow(options);
         </script>
 </main>
+
 
