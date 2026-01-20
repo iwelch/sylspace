@@ -23,7 +23,7 @@ get '/instructor/faq' => sub {
   my $isfaq= (fileexistsi($course, 'faq')) ? filereadi( $course, 'faq' ) : "<p>This instructor has not added an own student FAQ.</p>\n" ;
 
   use Perl6::Slurp;
-  my $body= slurp("public/html/faq.html");
+  my $body= slurp("static/html/faq.html");
 
   $c->stash( allfaq => $body, isfaq => $isfaq );
 };
@@ -310,4 +310,5 @@ __DATA__
   <%== $isfaq %>
 
 </main>
+
 
