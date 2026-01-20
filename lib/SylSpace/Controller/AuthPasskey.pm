@@ -164,12 +164,12 @@ sub _random_base64url {
 post '/auth/passkey/register/begin' => sub {
   my $c = shift;
   
-  my $email = $c->param('email');
-  my $name = $c->param('name') // $email;
-  
-  unless ($email && $email =~ /.+@.+\..+/) {
-    return $c->render(json => { error => 'Valid email required' }, status => 400);
+  # SECURITY: Only allow registration for already-authenticated users
+  my $email = $c->session('uemail');
+  unless ($email) {
+    return $c->render(json => { error => 'You must be logged in to register a passkey' }, status => 401);
   }
+  my $name = $c->session('name') // $email;
   
   my $rp_id = _get_rp_id($c);
   my $challenge = _random_base64url(32);
