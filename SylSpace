@@ -27,9 +27,9 @@ $ENV{SYLSPACE_jumboscolor}='darkblue'; $ENV{SYLSPACE_jumboicolor}='darkred';
 my $has_oauth;
 helper has_oauth => sub { $has_oauth };
 
-# Helper to get last modification time of Controller/Model files
-helper last_code_update => sub {
-  my $c = shift;
+# Compute last modification time of Controller/Model files ONCE at startup
+my $last_code_update_cached;
+{
   my $max_mtime = 0;
   for my $dir (qw(lib/SylSpace/Controller lib/SylSpace/Model)) {
     my $path = app->home->child($dir);
@@ -42,8 +42,9 @@ helper last_code_update => sub {
     }
     closedir($dh);
   }
-  return $max_mtime ? scalar(localtime($max_mtime)) : 'unknown';
-};
+  $last_code_update_cached = $max_mtime ? scalar(localtime($max_mtime)) : 'unknown';
+}
+helper last_code_update => sub { $last_code_update_cached };
 
 if (-e $configfname) {
   app->log
