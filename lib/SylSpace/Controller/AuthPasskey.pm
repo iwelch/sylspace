@@ -255,13 +255,11 @@ post '/auth/passkey/register/finish' => sub {
       requested_uv => 'preferred',
     );
     
-    # Store the credential
-    # Base64 encode the public key for JSON storage
-    my $pubkey_hex = _hex_encode($result->{credential_pubkey});
+    # Store the credential - credential_pubkey as-is from Authen::WebAuthn
     _store_credential(
       $email,
       $credential->{id},
-      $pubkey_hex,
+      $result->{credential_pubkey},
       $name
     );
     
@@ -338,11 +336,9 @@ post '/auth/passkey/login/finish' => sub {
       origin => $origin,
     );
     
-    # Decode the base64-encoded public key
-    my $pubkey = _hex_decode($stored_cred->{public_key});
     $webauthn->validate_assertion(
       challenge_b64 => $challenge,
-      credential_pubkey => $pubkey,
+      credential_pubkey => $stored_cred->{public_key},
       stored_sign_count => $stored_cred->{sign_count} // 0,
       client_data_json_b64 => $assertion->{response}{clientDataJSON},
       authenticator_data_b64 => $assertion->{response}{authenticatorData},
