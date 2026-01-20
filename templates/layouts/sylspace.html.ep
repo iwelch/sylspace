@@ -14,8 +14,8 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
-    <link rel="stylesheet" type="text/css" property="href" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet" type="text/css" property="href" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css" />
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 
@@ -37,7 +37,7 @@
       <nav id="w0" class="navbar-inverse navbar-fixed-top navbar">
 	<div class="container-fluid" id="nbh">
 	  <div class="navbar-header">
-            <%== '<span style="background-color:yellow">LOCALHOST</a>' if app->mode eq 'development' %>
+            <%== '<span style="background-color:yellow">LOCALHOST</span>' if app->mode eq 'development' %>
 
 	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w0-collapse"><span class="icon-bar"></span></button>
 	    <a class="navbar-brand" href="/">
