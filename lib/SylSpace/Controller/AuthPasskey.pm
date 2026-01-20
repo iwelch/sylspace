@@ -6,7 +6,7 @@
 package SylSpace::Controller::AuthPasskey;
 use Mojolicious::Lite;
 use Mojo::JSON qw(decode_json encode_json);
-use MIME::Base64 qw(encode_base64 decode_base64);
+use MIME::Base64 qw(encode_base64);
 
 use SylSpace::Model::Model qw(superseclog);
 use SylSpace::Model::Controller qw(global_redirect standard);
@@ -17,41 +17,13 @@ use Authen::WebAuthn;
 my $vardir = _getvar();
 my $passkey_dir = "$vardir/passkeys";
 
-# Ensure passkey storage directory exists
-# URL-safe base64 encoding/decoding (more portable than MIME::Base64::encode_base64url)
-# Simple hex encoding for binary data (more reliable than base64)
-sub _hex_encode {
-  my $data = shift;
-  return unpack('H*', $data);
-}
-
-sub _hex_decode {
-  my $hex = shift;
-  return pack('H*', $hex);
-}
-
-# Keep base64url for challenges (browser expects this format)
+# URL-safe base64 encoding (browser expects this format)
 sub _b64url_encode {
   my $data = shift;
   my $b64 = encode_base64($data, '');
   $b64 =~ tr|+/=|-_|d;
   return $b64;
 }
-
-# Convert base64url to standard base64 (for Authen::WebAuthn compatibility)
-# Authen::WebAuthn::validate_registration returns base64url,
-# but validate_assertion uses MIME::Base64::decode_base64 which expects standard base64
-sub _b64url_to_b64 {
-  my $b64url = shift;
-  return '' unless defined $b64url && length($b64url);
-  my $b64 = $b64url;
-  $b64 =~ tr/-_/+\//;  # Convert base64url chars to standard base64
-  # Add padding if needed
-  my $pad = length($b64) % 4;
-  $b64 .= '=' x (4 - $pad) if $pad;
-  return $b64;
-}
-
 
 sub _ensure_passkey_dir {
   unless (-d $passkey_dir) {
@@ -63,15 +35,13 @@ sub _ensure_passkey_dir {
 sub _get_rp_id {
   my $c = shift;
   my $site = $c->config->{site_name} // 'lvh.me';
-  # RP ID should be the domain without port
-  $site =~ s/:.*//;
+  $site =~ s/:.*//;  # Remove port if present
   return $site;
 }
 
 # Get origin URL
 sub _get_origin {
   my $c = shift;
-  # Use actual request URL to handle subdomains like auth.syllabus.space
   my $url = $c->req->url->to_abs;
   my $origin = $url->scheme . "://" . $url->host;
   $origin .= ":" . $url->port if $url->port && $url->port != 80 && $url->port != 443;
@@ -269,7 +239,7 @@ post '/auth/passkey/register/finish' => sub {
       requested_uv => 'preferred',
     );
     
-    # Store the credential - credential_pubkey as-is from Authen::WebAuthn
+    # Store the credential (credential_pubkey is base64url from Authen::WebAuthn)
     _store_credential(
       $email,
       $credential->{id},
@@ -304,7 +274,6 @@ post '/auth/passkey/login/begin' => sub {
   
   $c->session(passkey_auth_challenge => $challenge);
   
-  # For discoverable credentials, we don't need to specify allowCredentials
   my $options = {
     publicKey => {
       challenge => $challenge,
@@ -350,81 +319,16 @@ post '/auth/passkey/login/finish' => sub {
       origin => $origin,
     );
     
-    # DEBUG: Log what we're working with
-    $c->app->log->info("=== PASSKEY DEBUG START ===");
-    $c->app->log->info("rp_id: $rp_id");
-    $c->app->log->info("origin: $origin");
-    $c->app->log->info("challenge_b64: $challenge");
-    $c->app->log->info("credential_id: $credential_id");
-    $c->app->log->info("email found: $email");
-    $c->app->log->info("stored_cred keys: " . join(", ", keys %$stored_cred));
-    $c->app->log->info("stored public_key (raw): " . ($stored_cred->{public_key} // 'UNDEF'));
-    $c->app->log->info("stored public_key length: " . length($stored_cred->{public_key} // ''));
-    
-    # IMPORTANT: Authen::WebAuthn::validate_registration returns credential_pubkey
-    # in base64url format, but validate_assertion uses MIME::Base64::decode_base64
-    # which expects standard base64. Convert before passing.
-    my $pubkey_b64 = _b64url_to_b64($stored_cred->{public_key});
-    $c->app->log->info("pubkey after _b64url_to_b64: $pubkey_b64");
-    $c->app->log->info("pubkey_b64 length after conversion: " . length($pubkey_b64));
-    
-    # DEBUG: Test decode to see what we actually get
-    my $decoded = decode_base64($pubkey_b64);
-    $c->app->log->info("decoded pubkey length: " . length($decoded));
-    $c->app->log->info("decoded pubkey hex (first 20 bytes): " . unpack('H*', substr($decoded, 0, 20)));
-    $c->app->log->info("decoded first byte as decimal: " . ord(substr($decoded, 0, 1)));
-    
-    # DEBUG: Log assertion data
-    $c->app->log->info("clientDataJSON_b64: " . ($assertion->{response}{clientDataJSON} // 'UNDEF'));
-    $c->app->log->info("authenticatorData_b64: " . ($assertion->{response}{authenticatorData} // 'UNDEF'));
-    $c->app->log->info("signature_b64: " . ($assertion->{response}{signature} // 'UNDEF'));
-    $c->app->log->info("=== PASSKEY DEBUG END ===");
-    
-    # IMPORTANT: Browser sends ALL data in base64url format, but Authen::WebAuthn
-    # uses MIME::Base64::decode_base64 which expects standard base64.
-    # Convert all base64url inputs to standard base64.
-    my $client_data_b64 = _b64url_to_b64($assertion->{response}{clientDataJSON} // '');
-    my $auth_data_b64 = _b64url_to_b64($assertion->{response}{authenticatorData} // '');
-    my $sig_b64 = _b64url_to_b64($assertion->{response}{signature} // '');
-    
-    $c->app->log->info("=== AFTER CONVERSION ===");
-    $c->app->log->info("pubkey_b64 length: " . length($pubkey_b64));
-    $c->app->log->info("pubkey_b64 value: $pubkey_b64");
-    $c->app->log->info("client_data_b64 length: " . length($client_data_b64));
-    $c->app->log->info("auth_data_b64 length: " . length($auth_data_b64));
-    $c->app->log->info("sig_b64 length: " . length($sig_b64));
-    
-    # DEBUG: Manually verify the pubkey decodes to valid CBOR
-    my $test_decode = decode_base64($pubkey_b64);
-    $c->app->log->info("TEST: pubkey decoded length: " . length($test_decode));
-    $c->app->log->info("TEST: pubkey decoded hex (all): " . unpack('H*', $test_decode));
-    $c->app->log->info("TEST: first byte decimal: " . ord(substr($test_decode, 0, 1)));
-    
-    # NOTE: challenge should stay as base64url because that's what the browser
-    # stored inside clientDataJSON. Authen::WebAuthn compares them as strings.
-    $c->app->log->info("challenge_b64 (keeping as base64url): $challenge");
-    
-    # THEORY: Authen::WebAuthn might use base64url internally for everything.
-    # Let's try passing the ORIGINAL base64url values without conversion.
-    my $raw_pubkey = $stored_cred->{public_key};
-    my $raw_client_data = $assertion->{response}{clientDataJSON};
-    my $raw_auth_data = $assertion->{response}{authenticatorData};
-    my $raw_sig = $assertion->{response}{signature};
-    
-    $c->app->log->info("=== TRYING WITHOUT CONVERSION (raw base64url) ===");
-    $c->app->log->info("raw_pubkey: $raw_pubkey");
-    $c->app->log->info("raw_client_data: $raw_client_data");
-    $c->app->log->info("raw_auth_data: $raw_auth_data");
-    $c->app->log->info("raw_sig: $raw_sig");
-    
+    # Authen::WebAuthn expects all values in base64url format (which is what
+    # validate_registration returns and what the browser sends)
     $webauthn->validate_assertion(
-      challenge_b64 => $challenge,
-      credential_pubkey_b64 => $raw_pubkey,
-      stored_sign_count => $stored_cred->{sign_count} // 0,
-      client_data_json_b64 => $raw_client_data,
-      authenticator_data_b64 => $raw_auth_data,
-      signature_b64 => $raw_sig,
-      requested_uv => 'preferred',
+      challenge_b64          => $challenge,
+      credential_pubkey_b64  => $stored_cred->{public_key},
+      stored_sign_count      => $stored_cred->{sign_count} // 0,
+      client_data_json_b64   => $assertion->{response}{clientDataJSON},
+      authenticator_data_b64 => $assertion->{response}{authenticatorData},
+      signature_b64          => $assertion->{response}{signature},
+      requested_uv           => 'preferred',
     );
     
     # Clear challenge
@@ -570,9 +474,3 @@ document.getElementById('passkey-login-btn').addEventListener('click', async fun
   }
 });
 </script>
-
-
-
-
-
-
