@@ -170,11 +170,10 @@ MSGBODY
   <p style="font-size:small;padding-top:1em;"><b>Passkey Authentication</b> lets you sign in with Face ID, Touch ID, Windows Hello, or a security key — no password needed.</p>
 
    <div class="row text-center">
-     <%== btnblock '/auth/passkey',
-          '<i class="fa fa-key"></i> Sign in with Passkey',
-          'Use Face ID, Touch ID, or Security Key',
-          'btn-info btn-lg'
-        %>
+     <div class="col-xs-12 col-md-12">
+       <a class="btn btn-block btn-info btn-lg" href="/auth/passkey"><h2><i class="fa fa-key"></i> Sign in with Passkey</h2></a>
+       <p>Use Face ID, Touch ID, or Security Key</p>
+     </div>
    </div>
 
   <% } else { %>
