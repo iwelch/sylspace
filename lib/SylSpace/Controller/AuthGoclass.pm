@@ -186,7 +186,7 @@ __DATA__
 <h3> Change Biographical Information and Settings, and Add Passkeys </h3>
 
    <div class="row top-buffer text-center">
-     <div class="col-xs-12 col-md-4">
+     <div class="col-xs-12 col-md-12">
        <a class="btn btn-block btn-default" href="/auth/bioform">
          <h3><i class="fa fa-user"></i> <%= $self->session->{uemail} %></h3>
        </a>
