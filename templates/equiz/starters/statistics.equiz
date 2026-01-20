@@ -103,12 +103,12 @@
 
 :N: min and max
 
-:I: $x1=rseq(1,100), $x2=rseq(1,100); $min=min($x1,$x2); $max=max($x1,$x2); $ANS= 0
+:I: $x1=rseq(1,100); $x2=rseq(1,100); $min=min($x1,$x2); $max=max($x1,$x2); $ANS= 0
 
 :Q: The min() function (of just two numbers) is $min, the max is $max
 
 <pre>
-	&#36;x1=rseq(1,100), &#36;x2=rseq(1,100); &#36;min=min($x1,$x2); &#36;max=max($x1,$x2); $ANS= 0
+	&#36;x1=rseq(1,100); &#36;x2=rseq(1,100); &#36;min=min($x1,$x2); &#36;max=max($x1,$x2); $ANS= 0
 </pre>
 
 :A: 0 is nothing to explain
@@ -134,3 +134,4 @@
 ################################################################
 
 ::END::
+
