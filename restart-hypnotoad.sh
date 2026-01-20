@@ -1,17 +1,23 @@
 #!/bin/bash
 
-# Restart SylSpace hypnotoad server via systemd
+# Restart SylSpace hypnotoad server
 
-echo "Restarting SylSpace.service..."
-sudo systemctl restart SylSpace.service
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$SCRIPT_DIR" || exit 1
 
-# Verify
+echo "=== Stopping SylSpace ==="
+./stop-hypnotoad.sh
+
+echo ""
+echo "=== Starting SylSpace ==="
+sudo systemctl start SylSpace.service
+
 sleep 2
+
 if systemctl is-active --quiet SylSpace.service; then
     echo "SylSpace restarted successfully."
-    systemctl status SylSpace.service --no-pager | head -5
 else
-    echo "WARNING: SylSpace.service failed to start"
-    systemctl status SylSpace.service --no-pager
+    echo "WARNING: SylSpace.service may not have started properly"
+    systemctl status SylSpace.service --no-pager | head -10
     exit 1
 fi
