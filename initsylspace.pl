@@ -90,7 +90,7 @@ touch("$varsyl/general.log")or die "internal error: I could not touch $varsyl/ge
 chmod(0777, "$varsyl/general.log") or die "chmod: failed on opening $varsyl/general.log to the public: $!\n";
 say STDERR "made $varsyl/general.log";
 
-foreach (qw(users courses tmp templates)) {
+foreach (qw(users courses tmp templates passkeys)) {
   (-e "$varsyl/$_") and next; ## actually should not happen usually
   mkdir("$varsyl/$_") or die "cannot make $varsyl/$_: $!\n";
   chmod(0777, "$varsyl/$_") or die "chmod: failed on chmod-ing $varsyl/$_ to the public: $!\n";

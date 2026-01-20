@@ -1,6 +1,7 @@
 ## run with 'carton install'
 requires 'App::Yath', '>= 1.0';
 requires 'Archive::Zip';
+requires 'Authen::WebAuthn';
 requires 'Class::Inspector';
 requires 'Crypt::Blowfish';
 requires 'Crypt::CBC';
