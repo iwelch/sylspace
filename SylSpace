@@ -5,6 +5,10 @@ use lib 'lib';
 use SylSpace::Model::Utils qw(_getvar);
 my $vardir=_getvar();
 
+# Put logs in data directory instead of app directory
+mkdir "$vardir/log" unless -d "$vardir/log";
+app->log->path("$vardir/log/production.log") if app->mode eq 'production';
+
 plugin 'Mojolyst' => {controllers => 'SylSpace::Controller'};
 plugin 'RenderFile';
 plugin 'browser_detect';
@@ -111,3 +115,4 @@ WARNIT
 
 
 app->start();
+
