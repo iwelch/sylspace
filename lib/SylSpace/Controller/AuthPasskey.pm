@@ -68,12 +68,44 @@ sub _store_credential {
     credential_id => $credential_id,
     public_key => $public_key,
     name => $name,
+    email => $email,  # Store email in JSON to avoid filename mangling issues
     created => time(),
+    sign_count => 0,
   };
   
   open my $fh, '>', $user_file or die "Cannot write $user_file: $!";
   print $fh encode_json($creds);
   close $fh;
+}
+
+# Update sign_count for a credential after successful authentication
+sub _update_sign_count {
+  my ($email, $credential_id, $new_sign_count) = @_;
+  _ensure_passkey_dir();
+  
+  my $user_file = "$passkey_dir/" . _email_to_filename($email);
+  return unless -e $user_file;
+  
+  local $/;
+  open my $fh, '<', $user_file or return;
+  my $json = <$fh>;
+  close $fh;
+  
+  my $creds = decode_json($json) // [];
+  my $updated = 0;
+  for my $cred (@$creds) {
+    if ($cred->{credential_id} eq $credential_id) {
+      $cred->{sign_count} = $new_sign_count;
+      $updated = 1;
+      last;
+    }
+  }
+  
+  if ($updated) {
+    open my $fh, '>', $user_file or return;
+    print $fh encode_json($creds);
+    close $fh;
+  }
 }
 
 # Get stored credentials for user
@@ -110,7 +142,8 @@ sub _find_user_by_credential {
     my $creds = decode_json($json) // [];
     for my $cred (@$creds) {
       if ($cred->{credential_id} eq $credential_id) {
-        my $email = _filename_to_email($file);
+        # Use email from JSON if present, fall back to filename for old records
+        my $email = $cred->{email} // _filename_to_email($file);
         closedir $dh;
         return ($email, $cred);
       }
@@ -127,7 +160,7 @@ sub _email_to_filename {
   return $email . '.json';
 }
 
-# Convert filename back to email
+# Convert filename back to email (only for old records without email in JSON)
 sub _filename_to_email {
   my $file = shift;
   $file =~ s/\.json$//;
@@ -321,7 +354,7 @@ post '/auth/passkey/login/finish' => sub {
     
     # Authen::WebAuthn expects all values in base64url format (which is what
     # validate_registration returns and what the browser sends)
-    $webauthn->validate_assertion(
+    my $result = $webauthn->validate_assertion(
       challenge_b64          => $challenge,
       credential_pubkey_b64  => $stored_cred->{public_key},
       stored_sign_count      => $stored_cred->{sign_count} // 0,
@@ -330,6 +363,11 @@ post '/auth/passkey/login/finish' => sub {
       signature_b64          => $assertion->{response}{signature},
       requested_uv           => 'preferred',
     );
+    
+    # Update sign_count to detect cloned authenticators
+    if (defined $result->{signature_count}) {
+      _update_sign_count($email, $credential_id, $result->{signature_count});
+    }
     
     # Clear challenge
     delete $c->session->{passkey_auth_challenge};
