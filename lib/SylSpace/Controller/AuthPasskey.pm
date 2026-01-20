@@ -36,11 +36,10 @@ sub _get_rp_id {
 # Get origin URL
 sub _get_origin {
   my $c = shift;
-  # Use actual request origin, not config
-  my $url = $c->req->url->to_abs;
-  return $url->scheme . "://" . $url->host_port;
+  my $site = $c->config->{site_name} // 'lvh.me';
+  my $scheme = ($c->app->mode eq 'development') ? 'http' : 'https';
+  return "$scheme://$site";
 }
-
 
 # Store passkey credential for user
 sub _store_credential {
@@ -234,10 +233,12 @@ post '/auth/passkey/register/finish' => sub {
     );
     
     # Store the credential
+    # Base64 encode the public key for JSON storage
+    my $pubkey_b64 = encode_base64url($result->{credential_pubkey});
     _store_credential(
       $email,
       $credential->{id},
-      $result->{credential_pubkey},
+      $pubkey_b64,
       $name
     );
     
@@ -314,9 +315,11 @@ post '/auth/passkey/login/finish' => sub {
       origin => $origin,
     );
     
+    # Decode the base64-encoded public key
+    my $pubkey = decode_base64url($stored_cred->{public_key});
     $webauthn->validate_assertion(
       challenge_b64 => $challenge,
-      credential_pubkey => $stored_cred->{public_key},
+      credential_pubkey => $pubkey,
       stored_sign_count => $stored_cred->{sign_count} // 0,
       client_data_json_b64 => $assertion->{response}{clientDataJSON},
       authenticator_data_b64 => $assertion->{response}{authenticatorData},
