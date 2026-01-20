@@ -36,10 +36,11 @@ sub _get_rp_id {
 # Get origin URL
 sub _get_origin {
   my $c = shift;
-  my $site = $c->config->{site_name} // 'lvh.me';
-  my $scheme = ($c->app->mode eq 'development') ? 'http' : 'https';
-  return "$scheme://$site";
+  # Use actual request origin, not config
+  my $url = $c->req->url->to_abs;
+  return $url->scheme . "://" . $url->host_port;
 }
+
 
 # Store passkey credential for user
 sub _store_credential {
