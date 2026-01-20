@@ -9,6 +9,9 @@ my $vardir=_getvar();
 mkdir "$vardir/log" unless -d "$vardir/log";
 app->log->path("$vardir/log/production.log") if app->mode eq 'production';
 
+# Use 'static' directory for static files (instead of default 'public')
+app->static->paths->[0] = app->home->child('static');
+
 plugin 'Mojolyst' => {controllers => 'SylSpace::Controller'};
 plugin 'RenderFile';
 plugin 'browser_detect';
@@ -115,4 +118,5 @@ WARNIT
 
 
 app->start();
+
 
