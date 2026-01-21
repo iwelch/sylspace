@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Return on Equity (ROE)
 :I: $net_income=rseq(60,180)*1000; $avg_equity=rseq(250,600)*1000; $ANS=$net_income/$avg_equity*100
 :Q: Net income $$net_income, average equity $$avg_equity. ROE?
 :A: ROE = Net income / Avg equity = $net_income / $avg_equity = $ANS%.
 :T: 10
 :E:
+
 
 :N: DuPont ROE
 :I: $margin=rseq(5,12)/100; $turnover=rseq(0.8,1.5); $leverage=rseq(1.5,2.5); $ANS=$margin*$turnover*$leverage*100
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Return on Invested Capital (ROIC)
 :I: $nopat=rseq(80,200)*1000; $invested_cap=rseq(400,900)*1000; $ANS=$nopat/$invested_cap*100
 :Q: NOPAT $$nopat, invested capital $$invested_cap. ROIC?
 :A: ROIC = NOPAT / Invested capital = $nopat / $invested_cap = $ANS%.
 :T: 10
 :E:
+
 
 :N: NOPAT Calculation
 :I: $ebit=rseq(120,300)*1000; $tax_rate=rseq(20,30)/100; $ANS=$ebit*(1-$tax_rate)
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Gross Profit Margin
 :I: $revenue=rseq(600,1200)*1000; $cogs=rseq(350,750)*1000; $gross=$revenue-$cogs; $ANS=$gross/$revenue*100
 :Q: Revenue $$revenue, COGS $$cogs. Gross profit margin?
 :A: Gross margin = (Revenue - COGS) / Revenue = $gross / $revenue = $ANS%.
 :T: 10
 :E:
+
 
 :N: Operating Margin
 :I: $revenue=rseq(600,1200)*1000; $operating_income=rseq(60,200)*1000; $ANS=$operating_income/$revenue*100
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Net Profit Margin
 :I: $revenue=rseq(600,1200)*1000; $net_income=rseq(40,150)*1000; $ANS=$net_income/$revenue*100
 :Q: Revenue $$revenue, net income $$net_income. Net profit margin?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: EBITDA Margin
 :I: $revenue=rseq(600,1200)*1000; $ebitda=rseq(100,280)*1000; $ANS=$ebitda/$revenue*100
 :Q: Revenue $$revenue, EBITDA $$ebitda. EBITDA margin?
 :A: EBITDA margin = EBITDA / Revenue = $ebitda / $revenue = $ANS%.
 :T: 10
 :E:
+
 
 :N: Sustainable Growth Rate
 :I: $roe=rseq(10,20)/100; $retention=rseq(50,80)/100; $ANS=$roe*$retention*100
