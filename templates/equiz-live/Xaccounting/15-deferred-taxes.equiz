@@ -15,28 +15,28 @@
 :N: Deferred Tax Liability - Depreciation
 :I: $book_depr=rseq(40,80)*1000; $tax_depr=rseq(70,120)*1000; $tax_rate=rseq(20,30)/100; $temp_diff=$tax_depr-$book_depr; $ANS=$temp_diff*$tax_rate
 :Q: Book depreciation $$book_depr, tax depreciation $$tax_depr, tax rate $tax_rate. DTL created this year?
-:A: Temp difference = $tax_depr - $book_depr = $$temp_diff. DTL = Diff × Rate = $$ANS.
+:A: Temp difference = $tax_depr - $book_depr = $$temp_diff. DTL = Diff * Rate = $$ANS.
 :T: 10
 :E:
 
 :N: Deferred Tax Asset - Bad Debt
 :I: $book_expense=rseq(15,40)*1000; $tax_deduction=rseq(5,20)*1000; $tax_rate=rseq(20,30)/100; $temp_diff=$book_expense-$tax_deduction; $ANS=$temp_diff*$tax_rate
 :Q: Book bad debt expense $$book_expense, tax deduction (actual write-offs) $$tax_deduction, rate $tax_rate. DTA created?
-:A: Temp difference = $book_expense - $tax_deduction = $$temp_diff. DTA = Diff × Rate = $$ANS.
+:A: Temp difference = $book_expense - $tax_deduction = $$temp_diff. DTA = Diff * Rate = $$ANS.
 :T: 10
 :E:
 
 :N: Current Tax Expense
 :I: $taxable_income=rseq(100,300)*1000; $tax_rate=rseq(20,30)/100; $ANS=$taxable_income*$tax_rate
 :Q: Taxable income $$taxable_income, tax rate $tax_rate. Current tax expense (taxes payable)?
-:A: Current tax = Taxable income × Rate = $taxable_income × $tax_rate = $$ANS.
+:A: Current tax = Taxable income * Rate = $taxable_income * $tax_rate = $$ANS.
 :T: 10
 :E:
 
 :N: Total Tax Expense
 :I: $current_tax=rseq(30,80)*1000; $dtl_change=rseq(5,20)*1000; $dta_change=rseq(-10,10)*1000; $ANS=$current_tax+$dtl_change-$dta_change
-:Q: Current tax $$current_tax, ΔDTL $$dtl_change, ΔDTA $$dta_change. Total tax expense?
-:A: Tax expense = Current + ΔDTL - ΔDTA = $current_tax + $dtl_change - $dta_change = $$ANS.
+:Q: Current tax $$current_tax, \(\Delta\)DTL $$dtl_change, \(\Delta\)DTA $$dta_change. Total tax expense?
+:A: Tax expense = Current + \(\Delta\)DTL - \(\Delta\)DTA = $current_tax + $dtl_change - $dta_change = $$ANS.
 :T: 10
 :E:
 
@@ -50,21 +50,21 @@
 :N: Valuation Allowance
 :I: $gross_dta=rseq(30,80)*1000; $realizable_pct=rseq(50,80)/100; $allowance=$gross_dta*(1-$realizable_pct); $ANS=$gross_dta-$allowance
 :Q: Gross DTA $$gross_dta, expect $realizable_pct to be realized. Net DTA after valuation allowance?
-:A: Allowance = $gross_dta × (1 - $realizable_pct) = $$allowance. Net DTA = $$ANS.
+:A: Allowance = $gross_dta * (1 - $realizable_pct) = $$allowance. Net DTA = $$ANS.
 :T: 10
 :E:
 
 :N: Tax Rate Change Impact on DTL
 :I: $dtl_balance=rseq(50,150)*1000; $old_rate=0.35; $new_rate=rseq(20,28)/100; $ANS=$dtl_balance*($new_rate-$old_rate)/$old_rate
 :Q: DTL balance $$dtl_balance at old 35% rate. Tax rate changes to $new_rate. DTL adjustment?
-:A: New DTL = Old DTL × (New rate / Old rate). Change = $$ANS.
+:A: New DTL = Old DTL * (New rate / Old rate). Change = $$ANS.
 :T: 10
 :E:
 
 :N: Permanent Difference
 :I: $pretax_book=rseq(100,250)*1000; $perm_diff=rseq(5,20)*1000; $tax_rate=rseq(20,30)/100; $taxable=$pretax_book-$perm_diff; $ANS=($pretax_book-$taxable)*$tax_rate
 :Q: Pre-tax book income $$pretax_book, permanent difference $$perm_diff reduces taxable income. Tax savings?
-:A: Tax savings = Permanent diff × Rate = $perm_diff × $tax_rate = $$ANS.
+:A: Tax savings = Permanent diff * Rate = $perm_diff * $tax_rate = $$ANS.
 :T: 10
 :E:
 
@@ -78,7 +78,7 @@
 :N: DTL Reversal
 :I: $book_depr=rseq(50,100)*1000; $tax_depr=rseq(30,70)*1000; $tax_rate=rseq(20,30)/100; $reversal=$book_depr-$tax_depr; $ANS=$reversal*$tax_rate
 :Q: In later year, book depreciation $$book_depr exceeds tax depreciation $$tax_depr. DTL reversal at $tax_rate?
-:A: Reversal = (Book - Tax) × Rate = ($book_depr - $tax_depr) × $tax_rate = $$ANS.
+:A: Reversal = (Book - Tax) * Rate = ($book_depr - $tax_depr) * $tax_rate = $$ANS.
 :T: 10
 :E:
 
