@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Dual Floater Coupon
 :I: $multiplier=2; $libor=rseq(3,5); $ANS=$multiplier*$libor
 :Q: Dual floater pays 2 * LIBOR. LIBOR is $libor%. Coupon rate?
 :A: Coupon = 2 * LIBOR = 2 * $libor = $ANS%.
 :T: 10
 :E:
+
 
 :N: Range Accrual Days
 :I: $lower=rseq(3,4); $upper=rseq(5,6); $rates="3.5,4.2,4.8,5.5,6.0"; $ANS=3
@@ -33,12 +35,14 @@
 :T: 20
 :E:
 
+
 :N: Principal Protected Note Participation
 :I: $initial=1000; $index_return=rseq(10,25)/100; $participation=rseq(70,90)/100; $ANS=$initial*(1+$index_return*$participation)
 :Q: PPN: $1000 principal protected, $participation participation in index. Index up $index_return. Redemption?
 :A: Redemption = Principal * (1 + Return * Participation) = $initial * (1 + $index_return * $participation) = $$ANS.
 :T: 10
 :E:
+
 
 :N: Capped Floater
 :I: $libor=rseq(5,8); $cap=rseq(6,7); $spread=rseq(0.5,1.5); $ANS=min($libor+$spread,$cap+$spread)
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: CMO PAC Tranche Support
 :I: $collateral_cf=rseq(80,120)*1000; $pac_scheduled=rseq(50,70)*1000; $ANS=$collateral_cf-$pac_scheduled
 :Q: CMO collateral pays $$collateral_cf. PAC tranche scheduled $$pac_scheduled. Support tranche receives?
 :A: Support = Collateral - PAC = $collateral_cf - $pac_scheduled = $$ANS.
 :T: 10
 :E:
+
 
 :N: IO Strip Value Change
 :I: $io_value=rseq(5,12); $rate_change=rseq(-100,-50); $io_duration=rseq(-3,-1); $ANS=$io_value*(-$io_duration)*$rate_change/10000*100
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Convertible Bond Parity
 :I: $stock=rseq(40,60); $conversion_ratio=rseq(20,30); $ANS=$stock*$conversion_ratio
 :Q: Convertible: conversion ratio $conversion_ratio shares. Stock at $$stock. Conversion (parity) value?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Convertible Premium
 :I: $bond_price=rseq(110,130); $parity=rseq(90,115); $ANS=($bond_price/$parity-1)*100
 :Q: Convertible bond price $$bond_price, parity value $$parity. Conversion premium?
 :A: Premium = (Price/Parity) - 1 = ($bond_price/$parity) - 1 = $ANS%.
 :T: 10
 :E:
+
 
 :N: Credit-Linked Note Loss
 :I: $notional=rseq(5,15)*1000000; $recovery=rseq(30,50)/100; $ANS=$notional*(1-$recovery)
