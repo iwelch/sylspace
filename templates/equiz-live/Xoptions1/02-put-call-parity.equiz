@@ -15,7 +15,7 @@
 :N: Put-Call Parity - Find Call Price
 :I: $S=rseq(48,52); $K=rseq(50,55); $rp=rseq(4,8); $r=$rp/100; $Tm=rseq(3,12); $T=$Tm/12; $P=rseq(3,6); $PVK=$K*exp(-$r*$T); $ANS=$P+$S-$PVK
 :Q: A stock trades at $$S. A put option with strike $$K and $Tm months to expiration trades at $$P. The continuously compounded risk-free rate is $rp%. Using put-call parity, what is the price of a call with the same strike and expiration?
-:A: Put-call parity: C = P + S - PV(K) = $P + $S - $K×exp(-$r×$T) = $$ANS.
+:A: Put-call parity: C = P + S - PV(K) = $P + $S - $K*exp(-$r*$T) = $$ANS.
 :T: 10
 :E:
 
@@ -36,7 +36,7 @@
 :N: Put-Call Parity - Find Strike
 :I: $S=rseq(48,52); $C=rseq(5,8); $P=rseq(2,4); $rp=rseq(4,6); $r=$rp/100; $Tm=rseq(3,6); $T=$Tm/12; $ANS=($S+$P-$C)*exp($r*$T)
 :Q: Stock at $$S. Call at $$C, put at $$P, both with $Tm months expiration. Risk-free rate $rp%. What strike K is implied by put-call parity?
-:A: From C - P = S - PV(K), we get K = (S + P - C)×exp(r×T) = $$ANS.
+:A: From C - P = S - PV(K), we get K = (S + P - C)*exp(r*T) = $$ANS.
 :T: 10
 :E:
 
@@ -64,14 +64,14 @@
 :N: Box Spread Value
 :I: $K1=rseq(45,48); $K2=rseq(52,55); $rp=rseq(4,6); $r=$rp/100; $Tm=rseq(3,6); $T=$Tm/12; $ANS=($K2-$K1)*exp(-$r*$T)
 :Q: A box spread uses strikes $$K1 and $$K2, expiring in $Tm months. Risk-free rate is $rp%. What is the fair value of this box spread?
-:A: Box spread pays K2 - K1 at expiration. Fair value = ($K2-$K1)×exp(-r×T) = $$ANS.
+:A: Box spread pays K2 - K1 at expiration. Fair value = ($K2-$K1)*exp(-r*T) = $$ANS.
 :T: 10
 :E:
 
 :N: Forward Price from Options
 :I: $C=rseq(5,9); $P=rseq(2,5); $K=rseq(48,52); $rp=rseq(4,8); $r=$rp/100; $Tm=rseq(3,9); $T=$Tm/12; $S=$C-$P+$K*exp(-$r*$T); $ANS=$S*exp($r*$T)
 :Q: Call at $$C, put at $$P, both strike $$K, $Tm months. Risk-free rate $rp%. What forward price is implied?
-:A: S = C - P + PV(K). Forward F = S×exp(r×T) = $$ANS.
+:A: S = C - P + PV(K). Forward F = S*exp(r*T) = $$ANS.
 :T: 10
 :E:
 
