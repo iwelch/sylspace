@@ -36,7 +36,7 @@
 :N: Pro Forma EPS
 :I: $combined_ni=rseq(200,500)*1000; $pro_forma_shares=rseq(60,180)*1000; $ANS=$combined_ni/($pro_forma_shares*1000)
 :Q: Combined NI $$combined_ni, pro forma shares $pro_forma_shares K. Pro forma EPS?
-:A: EPS = NI / Shares = $combined_ni / ($pro_forma_shares×1000) = $$ANS.
+:A: EPS = NI / Shares = $combined_ni / ($pro_forma_shares*1000) = $$ANS.
 :T: 10
 :E:
 
@@ -57,21 +57,21 @@
 :N: Interest Expense on Debt Financing
 :I: $debt=rseq(200,500)*1000; $rate=rseq(5,8)/100; $tax=rseq(20,30)/100; $ANS=$debt*$rate*(1-$tax)
 :Q: Debt financing $$debt at $rate, tax rate $tax. After-tax interest expense?
-:A: Interest (AT) = Debt × Rate × (1-T) = $debt × $rate × (1-$tax) = $$ANS.
+:A: Interest (AT) = Debt * Rate * (1-T) = $debt * $rate * (1-$tax) = $$ANS.
 :T: 10
 :E:
 
 :N: Foregone Interest on Cash
 :I: $cash_used=rseq(100,300)*1000; $yield=rseq(2,4)/100; $tax=rseq(20,30)/100; $ANS=$cash_used*$yield*(1-$tax)
 :Q: Cash used $$cash_used, after-tax yield $yield (pre-tax), tax $tax. Foregone interest (AT)?
-:A: Foregone = Cash × Yield × (1-T) = $cash_used × $yield × (1-$tax) = $$ANS.
+:A: Foregone = Cash * Yield * (1-T) = $cash_used * $yield * (1-$tax) = $$ANS.
 :T: 10
 :E:
 
 :N: Breakeven Synergies
 :I: $standalone_eps=rseq(3,6); $shares_pre=rseq(50,120)*1000; $shares_post=rseq(60,140)*1000; $target_ni=rseq(30,80)*1000; $required_ni=$standalone_eps*$shares_post*1000; $base_ni=$standalone_eps*$shares_pre*1000+$target_ni; $ANS=$required_ni-$base_ni
 :Q: Standalone EPS $$standalone_eps. Pre-deal shares $shares_pre K, post $shares_post K. Target NI $$target_ni. Synergies needed to break even?
-:A: Required NI = EPS × Post shares. Base NI = Pre earnings + Target. Synergies = Required - Base = $$ANS.
+:A: Required NI = EPS * Post shares. Base NI = Pre earnings + Target. Synergies = Required - Base = $$ANS.
 :T: 20
 :E:
 
