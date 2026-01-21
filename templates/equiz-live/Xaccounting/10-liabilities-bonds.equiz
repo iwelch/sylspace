@@ -36,14 +36,14 @@
 :N: Interest Expense (Effective Interest)
 :I: $carrying=rseq(950,1100)*1000; $market_rate=rseq(4,8)/100; $ANS=$carrying*$market_rate
 :Q: Bond carrying value $$carrying, effective rate $market_rate. Interest expense?
-:A: Interest expense = Carrying × Market rate = $carrying × $market_rate = $$ANS.
+:A: Interest expense = Carrying * Market rate = $carrying * $market_rate = $$ANS.
 :T: 10
 :E:
 
 :N: Cash Interest Payment
 :I: $face=1000000; $coupon_rate=rseq(5,8)/100; $ANS=$face*$coupon_rate
 :Q: Bond face $1M, coupon rate $coupon_rate. Annual cash interest payment?
-:A: Cash interest = Face × Coupon rate = $face × $coupon_rate = $$ANS.
+:A: Cash interest = Face * Coupon rate = $face * $coupon_rate = $$ANS.
 :T: 10
 :E:
 
@@ -71,14 +71,14 @@
 :N: Deferred Tax Liability
 :I: $book_depr=rseq(40,80)*1000; $tax_depr=rseq(60,120)*1000; $tax_rate=rseq(20,30)/100; $ANS=($tax_depr-$book_depr)*$tax_rate
 :Q: Book depreciation $$book_depr, tax depreciation $$tax_depr, tax rate $tax_rate. DTL created?
-:A: Temporary diff = $tax_depr - $book_depr. DTL = Diff × Rate = $$ANS.
+:A: Temporary diff = $tax_depr - $book_depr. DTL = Diff * Rate = $$ANS.
 :T: 10
 :E:
 
 :N: Operating Lease - Right of Use Asset
 :I: $annual_payment=rseq(40,100)*1000; $n=rseq(3,7); $rate=rseq(5,8)/100; $ANS=$annual_payment*(1-(1+$rate)^(-$n))/$rate
 :Q: Lease: $$annual_payment/year for $n years, discount rate $rate. ROU asset at inception?
-:A: ROU = PV of payments = $annual_payment × annuity factor = $$ANS.
+:A: ROU = PV of payments = $annual_payment * annuity factor = $$ANS.
 :T: 10
 :E:
 
