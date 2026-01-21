@@ -42,22 +42,22 @@
 
 :N: Exit Multiple Sensitivity
 :I: $ebitda_exit=rseq(100,200)*1000; $mult_base=rseq(7,9); $mult_high=$mult_base+1; $ANS=$ebitda_exit*$mult_high-$ebitda_exit*$mult_base
-:Q: Exit EBITDA $$ebitda_exit. Base exit multiple $mult_base×, high case $mult_high×. EV difference?
-:A: Difference = EBITDA × (High - Base) = $ebitda_exit × ($mult_high - $mult_base) = $$ANS.
+:Q: Exit EBITDA $$ebitda_exit. Base exit multiple $mult_base*, high case $mult_high*. EV difference?
+:A: Difference = EBITDA * (High - Base) = $ebitda_exit * ($mult_high - $mult_base) = $$ANS.
 :T: 10
 :E:
 
 :N: Margin Sensitivity
 :I: $revenue=rseq(500,1000)*1000; $margin_base=rseq(15,25)/100; $margin_change=0.02; $multiple=rseq(8,12); $ebitda_change=$revenue*$margin_change; $ANS=$ebitda_change*$multiple
-:Q: Revenue $$revenue. If EBITDA margin improves by 2% (from $margin_base), EBITDA changes by $$ebitda_change. At $multiple× multiple, EV impact?
-:A: EV impact = ΔEBITDA × Multiple = $ebitda_change × $multiple = $$ANS.
+:Q: Revenue $$revenue. If EBITDA margin improves by 2% (from $margin_base), EBITDA changes by $$ebitda_change. At $multiple* multiple, EV impact?
+:A: EV impact = \(\Delta\)EBITDA * Multiple = $ebitda_change * $multiple = $$ANS.
 :T: 10
 :E:
 
 :N: Revenue Growth Sensitivity
 :I: $base_rev=rseq(400,800)*1000; $growth_low=rseq(3,5)/100; $growth_high=rseq(8,12)/100; $margin=rseq(18,25)/100; $multiple=rseq(7,10); $ebitda_low=$base_rev*(1+$growth_low)^5*$margin; $ebitda_high=$base_rev*(1+$growth_high)^5*$margin; $ANS=$ebitda_high*$multiple-$ebitda_low*$multiple
-:Q: Base rev $$base_rev. Year 5 EBITDA at $growth_low growth = $$ebitda_low, at $growth_high = $$ebitda_high. EV difference at $multiple×?
-:A: EV difference = ($ebitda_high - $ebitda_low) × $multiple = $$ANS.
+:Q: Base rev $$base_rev. Year 5 EBITDA at $growth_low growth = $$ebitda_low, at $growth_high = $$ebitda_high. EV difference at $multiple*?
+:A: EV difference = ($ebitda_high - $ebitda_low) * $multiple = $$ANS.
 :T: 10
 :E:
 
@@ -71,7 +71,7 @@
 :N: Implied Multiple at Target Price
 :I: $target_price=rseq(50,80); $shares=rseq(40,80)*1000; $net_debt=rseq(150,350)*1000; $ebitda=rseq(100,200)*1000; $equity=$target_price*$shares*1000; $ev=$equity+$net_debt; $ANS=$ev/$ebitda
 :Q: Target $$target_price, shares $shares K, net debt $$net_debt, EBITDA $$ebitda. Implied EV/EBITDA?
-:A: Equity = $$equity. EV = $$ev. Multiple = EV/EBITDA = $ANS×.
+:A: Equity = $$equity. EV = $$ev. Multiple = EV/EBITDA = $ANS*.
 :T: 10
 :E:
 
