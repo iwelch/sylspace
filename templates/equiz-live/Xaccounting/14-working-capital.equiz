@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Days Sales Outstanding
 :I: $ar=rseq(80,200)*1000; $revenue=rseq(600,1200)*1000; $ANS=$ar/($revenue/365)
 :Q: A/R $$ar, annual revenue $$revenue. Days sales outstanding?
 :A: DSO = A/R / (Revenue / 365) = $ar / ($revenue / 365) = $ANS days.
 :T: 10
 :E:
+
 
 :N: Days Inventory Outstanding
 :I: $inventory=rseq(100,250)*1000; $cogs=rseq(400,900)*1000; $ANS=$inventory/($cogs/365)
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Days Payable Outstanding
 :I: $ap=rseq(60,150)*1000; $cogs=rseq(400,900)*1000; $ANS=$ap/($cogs/365)
 :Q: A/P $$ap, COGS $$cogs. Days payable outstanding?
 :A: DPO = A/P / (COGS / 365) = $ap / ($cogs / 365) = $ANS days.
 :T: 10
 :E:
+
 
 :N: Net Working Capital
 :I: $ca=rseq(300,600)*1000; $cl=rseq(150,350)*1000; $ANS=$ca-$cl
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Operating Working Capital
 :I: $ar=rseq(80,180)*1000; $inventory=rseq(100,220)*1000; $ap=rseq(60,140)*1000; $accruals=rseq(20,60)*1000; $ANS=$ar+$inventory-$ap-$accruals
 :Q: A/R $$ar, Inventory $$inventory, A/P $$ap, Accruals $$accruals. Operating working capital?
 :A: OWC = A/R + Inv - A/P - Accruals = $ar + $inventory - $ap - $accruals = $$ANS.
 :T: 10
 :E:
+
 
 :N: Change in Working Capital
 :I: $nwc_end=rseq(150,300)*1000; $nwc_begin=rseq(120,280)*1000; $ANS=$nwc_end-$nwc_begin
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Working Capital as % of Revenue
 :I: $nwc=rseq(100,250)*1000; $revenue=rseq(600,1200)*1000; $ANS=$nwc/$revenue*100
 :Q: NWC $$nwc, Revenue $$revenue. Working capital as % of revenue?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Required Increase in A/R
 :I: $revenue_old=rseq(500,900)*1000; $revenue_new=rseq(600,1100)*1000; $dso=rseq(40,55); $ar_old=$revenue_old*$dso/365; $ar_new=$revenue_new*$dso/365; $ANS=$ar_new-$ar_old
 :Q: Revenue grows from $$revenue_old to $$revenue_new. DSO stays at $dso days. A/R increase needed?
 :A: Old A/R = $$ar_old. New A/R = $$ar_new. Increase = $$ANS.
 :T: 10
 :E:
+
 
 :N: WC Investment for Growth
 :I: $rev_growth=rseq(80,200)*1000; $wc_pct=rseq(15,25)/100; $ANS=$rev_growth*$wc_pct
