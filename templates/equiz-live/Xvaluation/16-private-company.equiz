@@ -22,21 +22,21 @@
 :N: Illiquidity Discount
 :I: $control_value=rseq(500,1000)*1000; $illiquidity=rseq(20,35)/100; $ANS=$control_value*(1-$illiquidity)
 :Q: Control value $$control_value. Illiquidity discount $illiquidity. Minority marketable value?
-:A: Value = Control × (1 - Illiquidity) = $control_value × (1 - $illiquidity) = $$ANS.
+:A: Value = Control * (1 - Illiquidity) = $control_value * (1 - $illiquidity) = $$ANS.
 :T: 10
 :E:
 
 :N: Control Premium
 :I: $minority_value=rseq(400,800)*1000; $control_premium=rseq(25,40)/100; $ANS=$minority_value*(1+$control_premium)
 :Q: Minority interest value $$minority_value. Control premium $control_premium. Control value?
-:A: Control = Minority × (1 + Premium) = $minority_value × (1 + $control_premium) = $$ANS.
+:A: Control = Minority * (1 + Premium) = $minority_value * (1 + $control_premium) = $$ANS.
 :T: 10
 :E:
 
 :N: Key Person Discount
 :I: $base_value=rseq(300,700)*1000; $key_person_discount=rseq(10,25)/100; $ANS=$base_value*(1-$key_person_discount)
 :Q: Business value $$base_value. Key person risk: $key_person_discount discount. Adjusted value?
-:A: Value = Base × (1 - Discount) = $base_value × (1 - $key_person_discount) = $$ANS.
+:A: Value = Base * (1 - Discount) = $base_value * (1 - $key_person_discount) = $$ANS.
 :T: 10
 :E:
 
@@ -64,7 +64,7 @@
 :N: Discount for Lack of Marketability
 :I: $marketable_value=rseq(500,900)*1000; $dlom=rseq(25,40)/100; $ANS=$marketable_value*(1-$dlom)
 :Q: Marketable minority value $$marketable_value. DLOM $dlom. Non-marketable minority value?
-:A: Value = Marketable × (1 - DLOM) = $marketable_value × (1 - $dlom) = $$ANS.
+:A: Value = Marketable * (1 - DLOM) = $marketable_value * (1 - $dlom) = $$ANS.
 :T: 10
 :E:
 
