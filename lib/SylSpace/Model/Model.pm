@@ -996,30 +996,64 @@ sub equizpreview( $course, $equizname ) {
     close($fh);
   }
 
-  ## Format output as HTML
-  $output =~ s/&/&amp;/g;
-  $output =~ s/</&lt;/g;
-  $output =~ s/>/&gt;/g;
+  ## Parse the answer mode output and format as nice HTML
+  my @questions;
+  my @chunks = split(/^-{10,}/m, $output);
   
-  ## Style the sections
-  $output =~ s/^-{10,}(.+?):/\n<hr><h3>$1<\/h3>/gm;
-  $output =~ s/^(LOCAL INITS:|QUESTION:|ANSWER \([^)]+\):)/<strong>$1<\/strong>/gm;
-  
-  ## Restore some HTML that was in the original quiz
-  $output =~ s/&lt;p&gt;/<p>/g;
-  $output =~ s/&lt;\/p&gt;/<\/p>/g;
-  $output =~ s/&lt;br\s*\/?&gt;/<br>/g;
+  foreach my $chunk (@chunks) {
+    next unless $chunk =~ /NAME\s*=\s*N\d+=([^:]+):/;
+    my $name = $1;
+    $name =~ s/^\s+|\s+$//g;
+    
+    my ($question, $answer_val, $answer_text) = ('', '', '');
+    
+    if ($chunk =~ /QUESTION:\s*(.+?)(?=ANSWER|\z)/s) {
+      $question = $1;
+      $question =~ s/^\s+|\s+$//g;
+      $question =~ s/\s*\|\s*/ /g;  # clean up pipe separators
+    }
+    
+    if ($chunk =~ /ANSWER\s*\(([^)]+)\):\s*A:\s*(.+?)(?=\[DUMPED|\z)/s) {
+      $answer_val = $1;
+      $answer_text = $2;
+      $answer_text =~ s/^\s+|\s+$//g;
+      $answer_text =~ s/\s*\|\s*/ /g;
+    }
+    
+    push @questions, {
+      name => $name,
+      question => $question,
+      answer_val => $answer_val,
+      answer_text => $answer_text,
+    } if $name;
+  }
 
-  my $rv = qq(
-<style>
-  .equiz-preview { font-family: monospace; white-space: pre-wrap; background: #f5f5f5; padding: 1em; border-radius: 5px; }
-  .equiz-preview h3 { color: #337ab7; margin-top: 1em; font-family: sans-serif; }
-  .equiz-preview strong { color: #333; }
-</style>
-<div class="equiz-preview">
-$output
-</div>
-);
+  ## Build HTML output similar to equizanswerrender
+  my $rv = '<style>
+      .preview-question { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; background: #fafafa; }
+      .preview-question .qname { font-size: 1.2em; font-weight: bold; color: #337ab7; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+      .preview-question .qtext { margin: 10px 0; }
+      .preview-question .qtext::before { content: "Question: "; font-weight: bold; }
+      .preview-question .atext { margin: 10px 0; color: #555; }
+      .preview-question .atext::before { content: "Answer Explanation: "; font-weight: bold; }
+      .preview-question .aval { margin: 10px 0; padding: 8px; background: #d4edda; border-radius: 3px; }
+      .preview-question .aval::before { content: "Correct Answer: "; font-weight: bold; }
+    </style>';
+
+  my $qnum = 0;
+  foreach my $q (@questions) {
+    $qnum++;
+    $rv .= qq(
+      <div class="preview-question">
+        <div class="qname">$qnum. $q->{name}</div>
+        <div class="qtext">$q->{question}</div>
+        <div class="aval">$q->{answer_val}</div>
+        <div class="atext">$q->{answer_text}</div>
+      </div>
+    );
+  }
+
+  ($qnum == 0) and $rv .= "<p><em>No questions found or parse error.</em></p><pre>$output</pre>";
 
   return $rv;
 }
@@ -1046,6 +1080,7 @@ sub paypallog( $type, $email, $ip, $referer, $msg ) {
 }
 
 1;
+
 
 
 
