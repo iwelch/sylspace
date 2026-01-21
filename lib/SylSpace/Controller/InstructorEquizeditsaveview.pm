@@ -70,7 +70,7 @@ sub _check_syntax {
   my $exitcode;
   {
     local $SIG{CHLD} = 'DEFAULT';
-    open(my $ph, '-|', @cmd) or return "Cannot run syntax checker: $!";
+    open(my $ph, '-|', @cmd, '2>&1') or return "Cannot run syntax checker: $!";
     local $/;
     $output = <$ph>;
     close($ph);
@@ -79,14 +79,16 @@ sub _check_syntax {
 
   unlink $tmpfile;
 
-  if ($exitcode == 0 && $output =~ /successful/i) {
+  # Exit code 0 means success - eqbackend.pl outputs HTML on success
+  # Non-zero exit code means error - output contains the error message
+  if ($exitcode == 0) {
     return undef;  # no error
   }
 
   # Clean up error message
   $output =~ s/\s+$//;
   $output =~ s/^\s+//;
-  return $output || "Syntax check failed";
+  return $output || "Syntax check failed (exit code $exitcode)";
 }
 
 1;
