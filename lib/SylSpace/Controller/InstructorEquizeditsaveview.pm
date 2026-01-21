@@ -14,7 +14,7 @@ use SylSpace::Model::Controller qw(global_redirect standard);
 
 ################################################################
 
-post '/instructor/equizeditsaveview' => sub {
+post 'instructor/equizeditsaveview' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
 
@@ -110,4 +110,5 @@ __DATA__
 <button onclick="window.close();" class="btn btn-primary">Close This Window</button>
 
 </main>
+
 
