@@ -64,7 +64,7 @@
 :N: Tax Expense
 :I: $pretax=rseq(100,300)*1000; $tax_rate=rseq(20,30); $ANS=$pretax*$tax_rate/100
 :Q: Pre-tax income $$pretax, tax rate $tax_rate%. Tax expense?
-:A: Tax = Pre-tax × Rate = $pretax × $tax_rate% = $$ANS.
+:A: Tax = Pre-tax * Rate = $pretax * $tax_rate% = $$ANS.
 :T: 10
 :E:
 
@@ -78,7 +78,7 @@
 :N: Earnings Per Share
 :I: $net_income=rseq(80,250)*1000; $shares=rseq(40,100)*1000; $ANS=$net_income/($shares*1000)
 :Q: Net income $$net_income, shares outstanding $shares thousand. EPS?
-:A: EPS = Net income / Shares = $net_income / ($shares × 1000) = $$ANS.
+:A: EPS = Net income / Shares = $net_income / ($shares * 1000) = $$ANS.
 :T: 10
 :E:
 
