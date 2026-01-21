@@ -8,46 +8,33 @@ use Mojolicious::Lite;
 use lib qw(.. ../..); ## make syntax checking easier
 use strict;
 
-use SylSpace::Model::Model qw(sudo);
-use SylSpace::Model::Files qw(eqlistalifiles eqlisti cptemplate rmtemplatescmd listtemplates);
-use SylSpace::Model::Controller qw(global_redirect ifilehash2table  standard fileuploadform dropzoneform btn);
+use feature ':5.20';
+use feature 'signatures';
+no warnings qw(experimental::signatures);
+
+use SylSpace::Model::Model qw(sudo tzi);
+use SylSpace::Model::Files qw(eqlisti listtemplates eqsettimes);
+use SylSpace::Model::Controller qw(global_redirect  standard);
 
 ################################################################
 
-get 'instructor/equizcenter' => sub {
+get '/instructor/equizcenter' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
 
   sudo( $course, $c->session->{uemail} );
 
-  my $tzi= $c->session->{tzi};
-
-  $c->stash( filelist => eqlisti($course), templatelist => listtemplates(), tzi => $tzi );
+  $c->stash(
+	    filelist => eqlisti($course),
+	    templatelist => listtemplates(),
+	    tzi => tzi( $c->session->{uemail} ) );
 };
 
-get 'instructor/cptemplate' => sub {
-  my $c = shift;
-  (my $course = standard( $c )) or return global_redirect($c);
-  sudo( $course, $c->session->{uemail} );
-  my $tname= $c->req->query_params->param('templatename');
-  my @r=cptemplate($course, $tname);
-  $c->flash( message => "copied @r" )->redirect_to('/instructor/equizcenter');
-};
-
-get 'instructor/rmtemplates' => sub {
-  my $c = shift;
-  (my $course = standard( $c )) or return global_redirect($c);
-  sudo( $course, $c->session->{uemail} );
-  my @r=rmtemplatescmd($course);
-  $c->flash( message => "deleted @r" )->redirect_to('/instructor/equizcenter');
-};
-
-get 'instructor/equizpublishall' => sub {
+get '/instructor/equizpublishall' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
   sudo( $course, $c->session->{uemail} );
   
-  use SylSpace::Model::Files qw(eqsettimes);
   my $filelist = eqlisti($course);
   my $count = 0;
   my $future = time() + 180*24*60*60;  # 6 months from now
@@ -58,12 +45,11 @@ get 'instructor/equizpublishall' => sub {
   $c->flash( message => "Published all $count equizzes (due date set to 6 months from now)" )->redirect_to('/instructor/equizcenter');
 };
 
-get 'instructor/equizunpublishall' => sub {
+get '/instructor/equizunpublishall' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
   sudo( $course, $c->session->{uemail} );
   
-  use SylSpace::Model::Files qw(eqsettimes);
   my $filelist = eqlisti($course);
   my $count = 0;
   foreach my $f (keys %$filelist) {
@@ -75,11 +61,14 @@ get 'instructor/equizunpublishall' => sub {
 
 1;
 
+
 ################################################################
 
 __DATA__
 
 @@ instructorequizcenter.html.ep
+
+<% use SylSpace::Model::Controller qw(ifilehash2table fileuploadform dropzoneform); %>
 
 %title 'equiz center';
 %layout 'instructor';
@@ -128,6 +117,8 @@ __DATA__
       <div class="col-xs-offset-1 col-xs-4"> <a href="/testquestion" class="btn btn-default">quick test any question</a></div>
     </div> <!--row-->
   </div> <!--formgroup-->
+
+  <p> To learn more about equizzes, please read the <a href="/aboutus"> intro </a>, and copy the set of sample templates into your directory for experimentation and examples.  </p>
 
 
 </main>
