@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Bull Call Spread - Max Profit
 :I: $K1=rseq(45,48); $K2=rseq(52,55); $C1=rseq(6,9); $C2=rseq(2,4); $cost=$C1-$C2; $ANS=$K2-$K1-$cost
 :Q: Bull call spread: strikes $$K1 and $$K2, net cost $$cost. What is the maximum profit?
 :A: Max profit = (K2 - K1) - cost = ($K2 - $K1) - $cost = $$ANS.
 :T: 10
 :E:
+
 
 :N: Bull Call Spread - Max Loss
 :I: $K1=rseq(45,48); $K2=rseq(52,55); $C1=rseq(6,9); $C2=rseq(2,4); $ANS=$C1-$C2
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Bull Call Spread - Breakeven
 :I: $K1=rseq(45,48); $K2=rseq(52,55); $C1=rseq(6,9); $C2=rseq(2,4); $cost=$C1-$C2; $ANS=$K1+$cost
 :Q: Bull call spread: long $$K1 call, short $$K2 call, net cost $$cost. What is the breakeven stock price?
 :A: Breakeven = Lower strike + net cost = $K1 + $cost = $$ANS.
 :T: 10
 :E:
+
 
 :N: Bear Put Spread - Cost
 :I: $K1=rseq(45,48); $K2=rseq(52,55); $P1=rseq(2,4); $P2=rseq(6,9); $ANS=$P2-$P1
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Bear Put Spread - Max Profit
 :I: $K1=rseq(45,48); $K2=rseq(52,55); $P1=rseq(2,4); $P2=rseq(6,9); $cost=$P2-$P1; $ANS=$K2-$K1-$cost
 :Q: Bear put spread: strikes $$K1 and $$K2, cost $$cost. What is the maximum profit?
 :A: Max profit = (K2 - K1) - cost = ($K2 - $K1) - $cost = $$ANS.
 :T: 10
 :E:
+
 
 :N: Call Credit Spread - Premium Received
 :I: $K1=rseq(48,50); $K2=rseq(53,55); $C1=rseq(5,7); $C2=rseq(2,4); $ANS=$C1-$C2
@@ -61,12 +67,14 @@
 :T: 10
 :E:
 
+
 :N: Put Credit Spread - Max Loss
 :I: $K1=rseq(45,48); $K2=rseq(50,53); $P1=rseq(2,3); $P2=rseq(4,6); $credit=$P2-$P1; $ANS=$K2-$K1-$credit
 :Q: Bull put spread (credit): Sell $$K2 put at $$P2, buy $$K1 put at $$P1. Credit=$$credit. Max loss?
 :A: Max loss = (K2 - K1) - credit = ($K2 - $K1) - $credit = $$ANS.
 :T: 10
 :E:
+
 
 :N: Vertical Spread Payoff at Expiration
 :I: $K1=45; $K2=55; $cost=rseq(3,5); $S_T=rseq(48,52); $payoff=$S_T-$K1; $ANS=$payoff-$cost
@@ -75,12 +83,14 @@
 :T: 10
 :E:
 
+
 :N: Calendar Spread Cost
 :I: $K=50; $C_near=rseq(2,4); $C_far=rseq(5,8); $ANS=$C_far-$C_near
 :Q: Calendar spread: Sell near-term call ($$C_near), buy far-term call ($$C_far), both strike $50. Net cost?
 :A: Net cost = Far premium - Near premium = $C_far - $C_near = $$ANS.
 :T: 10
 :E:
+
 
 :N: Diagonal Spread Cost
 :I: $K1=rseq(48,50); $K2=rseq(52,54); $C1_near=rseq(3,5); $C2_far=rseq(4,7); $ANS=$C2_far-$C1_near
