@@ -531,7 +531,7 @@ sub ifilehash2table( $filehashptr, $actionchoices, $type, $tzi ) {
     my $publish= ($_->{duetime}>time()) ?
       qq(<a href="${type}more?$fq"> ).epochtwo($_->{duetime}).'</a> '. btn("filesetdue?$fq&amp;dueepoch=".(time()-2), "unpub", 'btn-info btn-xs')
       :
-      btn("filesetdue?$fq&amp;dueepoch=".(time()+24*3600*180), "publish", 'btn-primary btn-xs');
+      'not '.btn("filesetdue?$fq&amp;dueepoch=".(time()+24*3600*180), "publish", 'btn-primary btn-xs').'ed';
 
     my $achoices= actionchoices( $actionchoices, $_->{sfilename} );
 
@@ -657,3 +657,4 @@ sub webbrowser {
 
 
 1;
+
