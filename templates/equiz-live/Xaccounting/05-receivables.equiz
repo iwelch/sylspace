@@ -15,14 +15,14 @@
 :N: Bad Debt Expense (% of Sales)
 :I: $credit_sales=rseq(500,1200)*1000; $bad_debt_pct=rseq(1,3); $ANS=$credit_sales*$bad_debt_pct/100
 :Q: Credit sales $$credit_sales. Historical bad debt is $bad_debt_pct% of sales. Bad debt expense?
-:A: Bad debt expense = Sales × Rate = $credit_sales × $bad_debt_pct% = $$ANS.
+:A: Bad debt expense = Sales * Rate = $credit_sales * $bad_debt_pct% = $$ANS.
 :T: 10
 :E:
 
 :N: Allowance for Doubtful Accounts
 :I: $ar=rseq(150,400)*1000; $allowance_pct=rseq(3,8); $ANS=$ar*$allowance_pct/100
 :Q: A/R balance $$ar. Estimate $allowance_pct% uncollectible. Required allowance?
-:A: Allowance = A/R × Rate = $ar × $allowance_pct% = $$ANS.
+:A: Allowance = A/R * Rate = $ar * $allowance_pct% = $$ANS.
 :T: 10
 :E:
 
