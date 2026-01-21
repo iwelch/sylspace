@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Swap Floating Payment
 :I: $notional=rseq(10,50)*1000000; $libor=rseq(2,5)/100; $ANS=$notional*$libor/2
 :Q: Swap notional $$notional, current LIBOR $libor, semi-annual. What is the next floating payment?
 :A: Floating payment = Notional * LIBOR / 2 = $notional * $libor / 2 = $$ANS.
 :T: 10
 :E:
+
 
 :N: Swap Net Payment
 :I: $notional=rseq(10,30)*1000000; $fixed=rseq(4,6)/100; $floating=rseq(3,5)/100; $ANS=$notional*($fixed-$floating)/2
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Swap Rate Calculation
 :I: $d1=rseq(97,99)/100; $d2=rseq(94,97)/100; $d3=rseq(91,95)/100; $d4=rseq(88,93)/100; $sum=$d1+$d2+$d3+$d4; $ANS=(1-$d4)/$sum*200
 :Q: Semi-annual swap. Discount factors: d0.5=$d1, d1=$d2, d1.5=$d3, d2=$d4. What is the 2-year swap rate (annualized %)?
 :A: Swap rate = (1 - d_n) / \(\Sigma\)d * 2 = (1 - $d4) / $sum * 2 = $ANS%.
 :T: 10
 :E:
+
 
 :N: Swap Value - Pay Fixed
 :I: $notional=10000000; $fixed=0.05; $new_swap_rate=rseq(4,6)/100; $years_left=rseq(2,4); $d_avg=rseq(92,97)/100; $ANS=$notional*($new_swap_rate-$fixed)*$years_left*$d_avg
@@ -47,12 +51,14 @@
 :T: 20
 :E:
 
+
 :N: Swap Duration
 :I: $maturity=rseq(3,7); $fixed_dur=$maturity*0.75; $float_dur=0.25; $ANS=$fixed_dur-$float_dur
 :Q: $maturity-year swap. Fixed leg duration ~ $fixed_dur years, floating leg ~ $float_dur years. Pay-fixed swap duration?
 :A: Duration = Fixed duration - Float duration = $fixed_dur - $float_dur = $ANS years.
 :T: 10
 :E:
+
 
 :N: Swap Spread
 :I: $swap_rate=rseq(4,6); $treasury=rseq(3.5,5); $ANS=($swap_rate-$treasury)*100
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Basis Swap Payment
 :I: $notional=rseq(20,50)*1000000; $libor_3m=rseq(3,5)/100; $libor_6m=rseq(3.2,5.2)/100; $spread=rseq(5,15)/10000; $ANS=$notional*($libor_3m+$spread-$libor_6m/2)
 :Q: Basis swap: pay 3M LIBOR + $spread spread, receive 6M LIBOR. 3M LIBOR=$libor_3m, 6M LIBOR=$libor_6m. Quarterly net (approx)?
@@ -68,12 +75,14 @@
 :T: 20
 :E:
 
+
 :N: Swap Hedging Notional
 :I: $bond_value=rseq(50,100)*1000000; $bond_dur=rseq(5,8); $swap_dur=rseq(3,5); $ANS=$bond_value*$bond_dur/$swap_dur
 :Q: Hedge $bond_value bond portfolio (duration $bond_dur) with swaps (duration $swap_dur). Required swap notional?
 :A: Notional = Bond value * Bond dur / Swap dur = $bond_value * $bond_dur / $swap_dur = $$ANS.
 :T: 10
 :E:
+
 
 :N: Overnight Index Swap (OIS)
 :I: $notional=rseq(10,30)*1000000; $ois_rate=rseq(2,4)/100; $realized_avg=rseq(2.2,4.2)/100; $days=rseq(30,90); $ANS=$notional*($realized_avg-$ois_rate)*$days/360
