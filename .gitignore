@@ -1,5 +1,5 @@
 local/
-templates/equiz-norepo/
+templates/equiz-norepo/*
 
 SylSpace-Secrets.conf
 
