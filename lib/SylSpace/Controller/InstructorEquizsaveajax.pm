@@ -14,7 +14,7 @@ use SylSpace::Model::Controller qw(global_redirect standard);
 
 ################################################################
 
-post '/instructor/equizsaveajax' => sub {
+post 'instructor/equizsaveajax' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return $c->render(json => { ok => 0, error => 'not authorized' });
 
@@ -37,3 +37,4 @@ post '/instructor/equizsaveajax' => sub {
 };
 
 1;
+
