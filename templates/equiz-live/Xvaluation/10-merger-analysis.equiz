@@ -36,21 +36,21 @@
 :N: Total Deal Value
 :I: $offer_price=rseq(40,70); $target_shares=rseq(30,60)*1000; $target_debt=rseq(100,300)*1000; $target_cash=rseq(20,80)*1000; $equity=$offer_price*$target_shares*1000; $ANS=$equity+$target_debt-$target_cash
 :Q: Offer $$offer_price/share, target shares $target_shares K, target debt $$target_debt, cash $$target_cash. Deal EV?
-:A: Equity = $offer_price × $target_shares K = $$equity. EV = Equity + Debt - Cash = $$ANS.
+:A: Equity = $offer_price * $target_shares K = $$equity. EV = Equity + Debt - Cash = $$ANS.
 :T: 10
 :E:
 
 :N: Synergy Required for Breakeven
 :I: $acquirer_pe=rseq(15,25); $target_pe=rseq(12,20); $target_earnings=rseq(50,120)*1000; $premium=rseq(20,40)/100; $fair_value=$target_earnings*$target_pe; $deal_value=$fair_value*(1+$premium); $ANS=$deal_value-$target_earnings*$acquirer_pe
-:Q: Acquirer P/E $acquirer_pe×, target P/E $target_pe×, target earnings $$target_earnings, premium $premium. Synergies needed to avoid dilution?
-:A: Deal value = $$deal_value. At acquirer P/E, worth $target_earnings×$acquirer_pe. Gap = $$ANS.
+:Q: Acquirer P/E $acquirer_pe*, target P/E $target_pe*, target earnings $$target_earnings, premium $premium. Synergies needed to avoid dilution?
+:A: Deal value = $$deal_value. At acquirer P/E, worth $target_earnings*$acquirer_pe. Gap = $$ANS.
 :T: 20
 :E:
 
 :N: Cash vs Stock Consideration
 :I: $deal_value=rseq(500,1200)*1000; $cash_pct=rseq(40,70)/100; $ANS=$deal_value*$cash_pct
 :Q: Deal value $$deal_value, $cash_pct paid in cash. Cash consideration?
-:A: Cash = Deal value × Cash% = $deal_value × $cash_pct = $$ANS.
+:A: Cash = Deal value * Cash% = $deal_value * $cash_pct = $$ANS.
 :T: 10
 :E:
 
@@ -64,7 +64,7 @@
 :N: Pro Forma Shares Outstanding
 :I: $acquirer_shares=rseq(80,150)*1000; $target_shares=rseq(30,60)*1000; $exchange_ratio=rseq(0.7,1.3); $ANS=$acquirer_shares+$target_shares*$exchange_ratio
 :Q: Acquirer shares $acquirer_shares K, target shares $target_shares K, exchange ratio $exchange_ratio. Pro forma shares?
-:A: Pro forma = Acquirer + (Target × ER) = $acquirer_shares + $target_shares × $exchange_ratio = $ANS K.
+:A: Pro forma = Acquirer + (Target * ER) = $acquirer_shares + $target_shares * $exchange_ratio = $ANS K.
 :T: 10
 :E:
 
