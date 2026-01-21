@@ -81,8 +81,6 @@ __DATA__
 
 <main>
 
-<p>Please note: We are rewriting to improve the content of all corporate finance equizzes.  Expect completion in early Sep 2017.</p>
-
   <%== ifilehash2table($filelist, [ 'equizrun', 'view', 'download', 'edit' ], 'equiz', $tzi) %>
 
   <div class="form-group" id="narrow" style="margin-top:1em; margin-bottom:1em;">
@@ -132,4 +130,5 @@ __DATA__
 
 
 </main>
+
 
