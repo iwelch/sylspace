@@ -11,7 +11,7 @@ use base 'Exporter';
 our @EXPORT_OK =qw(  standard global_redirect global_redirectmsg
 		     timedelta epochof epochtwo timezones
 		     btn btnsubmit btnblock btnxs
-		     msghash2string ifilehash2table
+		     msghash2string ifilehash2table dropzoneform
 		     drawform drawmore fileuploadform displaylog mkdatatable
 		     webbrowser
 		     obscure unobscure
@@ -562,6 +562,12 @@ sub ifilehash2table( $filehashptr, $actionchoices, $type, $tzi ) {
        $filestring
     </tbody>
   </table>
+
+EOT
+}
+
+sub dropzoneform {
+  return <<'EOT';
   <form action="/uploadsave" method="post" class="dropzone" id="dropzoneform" enctype="multipart/form-data">
   </form>
 
@@ -584,7 +590,6 @@ sub ifilehash2table( $filehashptr, $actionchoices, $type, $tzi ) {
 		}
 	};
   </script>
-
 EOT
 }
 
@@ -657,4 +662,5 @@ sub webbrowser {
 
 
 1;
+
 
