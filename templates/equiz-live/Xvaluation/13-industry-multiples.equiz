@@ -15,14 +15,14 @@
 :N: EV/Revenue for Tech
 :I: $ev=rseq(800,2000)*1000; $revenue=rseq(150,400)*1000; $ANS=$ev/$revenue
 :Q: High-growth tech company: EV $$ev, Revenue $$revenue. EV/Revenue multiple?
-:A: EV/Revenue = $ev / $revenue = $ANS×.
+:A: EV/Revenue = $ev / $revenue = $ANS*.
 :T: 10
 :E:
 
 :N: Price/FFO for REITs
 :I: $price=rseq(40,80); $ffo=rseq(3,6); $ANS=$price/$ffo
 :Q: REIT stock price $$price, FFO per share $$ffo. Price/FFO multiple?
-:A: P/FFO = $price / $ffo = $ANS×.
+:A: P/FFO = $price / $ffo = $ANS*.
 :T: 10
 :E:
 
@@ -36,7 +36,7 @@
 :N: Price/Book for Banks
 :I: $price=rseq(30,60); $bvps=rseq(25,45); $ANS=$price/$bvps
 :Q: Bank stock $$price, book value $$bvps per share. P/B ratio?
-:A: P/B = Price / BVPS = $price / $bvps = $ANS×.
+:A: P/B = Price / BVPS = $price / $bvps = $ANS*.
 :T: 10
 :E:
 
@@ -70,7 +70,7 @@
 
 :N: Price/Earnings/Growth (PEG)
 :I: $pe=rseq(15,30); $growth=rseq(10,25); $ANS=$pe/$growth
-:Q: P/E ratio $pe×, expected earnings growth $growth%. PEG ratio?
+:Q: P/E ratio $pe*, expected earnings growth $growth%. PEG ratio?
 :A: PEG = P/E / Growth = $pe / $growth = $ANS.
 :T: 10
 :E:
