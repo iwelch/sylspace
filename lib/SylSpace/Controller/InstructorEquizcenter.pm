@@ -13,7 +13,7 @@ use feature 'signatures';
 no warnings qw(experimental::signatures);
 
 use SylSpace::Model::Model qw(sudo tzi);
-use SylSpace::Model::Files qw(eqlisti listtemplates);
+use SylSpace::Model::Files qw(eqlisti eqsetdue listtemplates);
 use SylSpace::Model::Controller qw(global_redirect  standard);
 
 ################################################################
@@ -28,6 +28,41 @@ get '/instructor/equizcenter' => sub {
 	    filelist => eqlisti($course),
 	    templatelist => listtemplates(),
 	    tzi => tzi( $c->session->{uemail} ) );
+};
+
+get '/instructor/equizpublishall' => sub {
+  my $c = shift;
+  (my $course = standard( $c )) or return global_redirect($c);
+
+  sudo( $course, $c->session->{uemail} );
+
+  my $filelist = eqlisti($course);
+  my $count = 0;
+  my $sixmonths = time() + 6*30*24*60*60;  ## 6 months from now
+
+  foreach my $f (@$filelist) {
+    eqsetdue($course, $f->{sfilename}, $sixmonths);
+    ++$count;
+  }
+
+  $c->flash(message => "Published $count equiz files (due in 6 months)")->redirect_to('equizcenter');
+};
+
+get '/instructor/equizunpublishall' => sub {
+  my $c = shift;
+  (my $course = standard( $c )) or return global_redirect($c);
+
+  sudo( $course, $c->session->{uemail} );
+
+  my $filelist = eqlisti($course);
+  my $count = 0;
+
+  foreach my $f (@$filelist) {
+    eqsetdue($course, $f->{sfilename}, 0);
+    ++$count;
+  }
+
+  $c->flash(message => "Unpublished $count equiz files")->redirect_to('equizcenter');
 };
 
 1;
@@ -50,6 +85,13 @@ __DATA__
 
   <%== ifilehash2table($filelist, [ 'equizrun', 'view', 'download', 'edit' ], 'equiz', $tzi) %>
 
+  <div class="form-group" id="narrow" style="margin-top:1em; margin-bottom:1em;">
+    <div class="row" style="text-align:center;">
+       <div class="col-xs-3"><a href="/instructor/equizpublishall" class="btn btn-success btn-block">Publish All</a></div>
+       <div class="col-xs-3"><a href="/instructor/equizunpublishall" class="btn btn-warning btn-block">Unpublish All</a></div>
+    </div>
+  </div>
+
   <%== fileuploadform() %>
 
 <hr />
@@ -63,7 +105,7 @@ __DATA__
        <%
           my $rv= "";
           foreach (@$templatelist) {
-	    $rv .= '<div class="col-xs-2" style="margin-bottom:10px;"> <a href="/instructor/cptemplate?templatename='.$_.'" class="btn btn-default btn-block">'.$_.'</a></div>'."\n";
+	    $rv .= '<div class="col-xs-2" style="margin-bottom:10px;"> <a href="/instructor/cptemplate?templatename='.$_.'\" class="btn btn-default btn-block">'.$_.'</a></div>'."\n";
 	  }
        %>
        <%== $rv %>
@@ -90,5 +132,4 @@ __DATA__
 
 
 </main>
-
 
