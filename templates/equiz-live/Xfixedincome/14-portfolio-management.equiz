@@ -15,7 +15,7 @@
 :N: Portfolio Duration
 :I: $w1=rseq(30,50)/100; $d1=rseq(2,4); $w2=1-$w1; $d2=rseq(6,10); $ANS=$w1*$d1+$w2*$d2
 :Q: Portfolio: $w1 weight in bonds with duration $d1, rest in duration $d2 bonds. Portfolio duration?
-:A: Duration = w1×D1 + w2×D2 = $w1×$d1 + $w2×$d2 = $ANS years.
+:A: Duration = w1*D1 + w2*D2 = $w1*$d1 + $w2*$d2 = $ANS years.
 :T: 10
 :E:
 
@@ -57,7 +57,7 @@
 :N: Portfolio Yield
 :I: $w1=rseq(40,60)/100; $y1=rseq(3,5)/100; $w2=1-$w1; $y2=rseq(5,8)/100; $ANS=($w1*$y1+$w2*$y2)*100
 :Q: Bond 1: weight $w1, yield $y1. Bond 2: weight $w2, yield $y2. Portfolio yield?
-:A: Yield = w1×y1 + w2×y2 = $w1×$y1 + $w2×$y2 = $ANS%.
+:A: Yield = w1*y1 + w2*y2 = $w1*$y1 + $w2*$y2 = $ANS%.
 :T: 10
 :E:
 
@@ -71,7 +71,7 @@
 :N: Spread Duration Contribution
 :I: $spread_dur=rseq(4,7); $spread_change=rseq(-30,30)/10000; $ANS=-$spread_dur*$spread_change*100
 :Q: Spread duration $spread_dur, spread change $spread_change. Return contribution from spread?
-:A: Contribution = -SpreadDur × Δspread = -$spread_dur × $spread_change = $ANS%.
+:A: Contribution = -SpreadDur * \(\Delta\)spread = -$spread_dur * $spread_change = $ANS%.
 :T: 10
 :E:
 
