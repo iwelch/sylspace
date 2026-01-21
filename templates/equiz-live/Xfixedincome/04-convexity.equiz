@@ -15,7 +15,7 @@
 :N: Convexity Effect on Price
 :I: $convexity=rseq(50,120); $dy=rseq(50,150)/10000; $price=1000; $ANS=0.5*$convexity*$dy^2*$price
 :Q: Bond price $1000, convexity $convexity. Yield changes by $dy. Convexity adjustment to price?
-:A: Convexity adjustment = 0.5 × C × (Δy)² × P = 0.5 × $convexity × $dy² × 1000 = $$ANS.
+:A: Convexity adjustment = 0.5 * C * (\(\Delta\)y)^2 * P = 0.5 * $convexity * $dy^2 * 1000 = $$ANS.
 :T: 10
 :E:
 
@@ -36,21 +36,21 @@
 :N: Effective Convexity
 :I: $P0=1000; $P_up=rseq(940,970); $P_down=rseq(1030,1060); $dy=0.01; $ANS=($P_up+$P_down-2*$P0)/($P0*$dy^2)
 :Q: P0=$1000. If yield +1%, P=$$P_up. If yield -1%, P=$$P_down. Effective convexity?
-:A: Convexity = (P_up + P_down - 2P0) / (P0 × Δy²) = ($P_up + $P_down - 2000) / (1000 × 0.01²) = $ANS.
+:A: Convexity = (P_up + P_down - 2P0) / (P0 * \(\Delta\)y^2) = ($P_up + $P_down - 2000) / (1000 * 0.01^2) = $ANS.
 :T: 10
 :E:
 
 :N: Zero-Coupon Bond Convexity
 :I: $n=rseq(5,15); $y=rseq(4,7)/100; $ANS=$n*($n+1)/(1+$y)^2
-:Q: $n-year zero-coupon bond, yield $y. Convexity = n(n+1)/(1+y)². Calculate.
-:A: Convexity = $n × ($n+1) / (1+$y)² = $ANS.
+:Q: $n-year zero-coupon bond, yield $y. Convexity = n(n+1)/(1+y)^2. Calculate.
+:A: Convexity = $n * ($n+1) / (1+$y)^2 = $ANS.
 :T: 10
 :E:
 
 :N: Convexity vs Duration Relationship
 :I: $dur=rseq(5,10); $y=rseq(4,7)/100; $approx_conv=$dur^2+$dur; $ANS=$approx_conv
-:Q: For a zero-coupon bond, convexity ≈ D² + D where D is modified duration. If ModDur=$dur, approximate convexity?
-:A: Convexity ≈ $dur² + $dur = $ANS.
+:Q: For a zero-coupon bond, convexity ~ D^2 + D where D is modified duration. If ModDur=$dur, approximate convexity?
+:A: Convexity ~ $dur^2 + $dur = $ANS.
 :T: 20
 :E:
 
@@ -64,21 +64,21 @@
 :N: Convexity Benefit
 :I: $conv1=rseq(60,80); $conv2=rseq(90,120); $dy=0.01; $benefit=0.5*($conv2-$conv1)*$dy^2*100; $ANS=$benefit
 :Q: Bond A has convexity $conv1, Bond B has convexity $conv2. Same duration. If yield changes by 1%, what's the convexity advantage of B (in %)?
-:A: Advantage = 0.5 × (C_B - C_A) × Δy² × 100 = 0.5 × ($conv2-$conv1) × 0.01² × 100 = $ANS%.
+:A: Advantage = 0.5 * (C_B - C_A) * \(\Delta\)y^2 * 100 = 0.5 * ($conv2-$conv1) * 0.01^2 * 100 = $ANS%.
 :T: 10
 :E:
 
 :N: Negative Convexity
 :I: $P0=1000; $P_up=rseq(970,990); $P_down=rseq(1005,1015); $dy=0.005; $ANS=($P_up+$P_down-2*$P0)/($P0*$dy^2)
 :Q: Callable bond: P0=$1000, P(+50bps)=$$P_up, P(-50bps)=$$P_down. Calculate effective convexity.
-:A: Convexity = ($P_up + $P_down - 2000) / (1000 × 0.005²) = $ANS. (Negative or low = callable feature.)
+:A: Convexity = ($P_up + $P_down - 2000) / (1000 * 0.005^2) = $ANS. (Negative or low = callable feature.)
 :T: 10
 :E:
 
 :N: Dollar Convexity
 :I: $convexity=rseq(70,100); $price=rseq(980,1020); $ANS=$convexity*$price/100
 :Q: Convexity=$convexity, price=$$price. Dollar convexity (per 1% yield change squared)?
-:A: Dollar convexity = Convexity × Price / 100 = $convexity × $price / 100 = $$ANS.
+:A: Dollar convexity = Convexity * Price / 100 = $convexity * $price / 100 = $$ANS.
 :T: 10
 :E:
 
