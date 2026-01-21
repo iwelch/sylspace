@@ -15,21 +15,21 @@
 :N: Revenue Recognition - Percentage of Completion
 :I: $contract=rseq(500,1500)*1000; $costs_incurred=rseq(150,450)*1000; $total_est_cost=rseq(400,1000)*1000; $pct=$costs_incurred/$total_est_cost; $ANS=$contract*$pct
 :Q: Contract $$contract, costs incurred $$costs_incurred, total estimated cost $$total_est_cost. Revenue to recognize?
-:A: % complete = $costs_incurred / $total_est_cost = $pct. Revenue = $contract × $pct = $$ANS.
+:A: % complete = $costs_incurred / $total_est_cost = $pct. Revenue = $contract * $pct = $$ANS.
 :T: 10
 :E:
 
 :N: Gross Profit - Percentage of Completion
 :I: $contract=rseq(500,1200)*1000; $est_cost=rseq(350,800)*1000; $costs_incurred=rseq(100,400)*1000; $pct=$costs_incurred/$est_cost; $revenue=$contract*$pct; $ANS=$revenue-$costs_incurred
 :Q: Contract $$contract, estimated cost $$est_cost, costs this period $$costs_incurred. Gross profit recognized?
-:A: Revenue = $contract × $pct = $$revenue. GP = Revenue - Costs = $revenue - $costs_incurred = $$ANS.
+:A: Revenue = $contract * $pct = $$revenue. GP = Revenue - Costs = $revenue - $costs_incurred = $$ANS.
 :T: 10
 :E:
 
 :N: Deferred Revenue
 :I: $advance=rseq(60,180)*1000; $months_total=12; $months_elapsed=rseq(3,9); $ANS=$advance*$months_elapsed/$months_total
 :Q: Received $$advance for 12-month service. After $months_elapsed months, revenue recognized?
-:A: Revenue = Advance × (months elapsed / total) = $advance × $months_elapsed/12 = $$ANS.
+:A: Revenue = Advance * (months elapsed / total) = $advance * $months_elapsed/12 = $$ANS.
 :T: 10
 :E:
 
@@ -43,42 +43,42 @@
 :N: Accrued Revenue
 :I: $daily_rate=rseq(500,1500); $days=rseq(10,25); $ANS=$daily_rate*$days
 :Q: Service at $$daily_rate/day. At period end, $days days unbilled. Accrued revenue?
-:A: Accrued = Rate × Days = $daily_rate × $days = $$ANS.
+:A: Accrued = Rate * Days = $daily_rate * $days = $$ANS.
 :T: 10
 :E:
 
 :N: Prepaid Expense - Amortization
 :I: $prepaid=rseq(24,60)*1000; $months=rseq(12,24); $elapsed=rseq(3,12); $ANS=$prepaid*$elapsed/$months
 :Q: Prepaid $$prepaid for $months months. After $elapsed months, expense recognized?
-:A: Expense = Prepaid × (elapsed/total) = $prepaid × $elapsed/$months = $$ANS.
+:A: Expense = Prepaid * (elapsed/total) = $prepaid * $elapsed/$months = $$ANS.
 :T: 10
 :E:
 
 :N: Accrued Wages Expense
 :I: $weekly_payroll=rseq(40,100)*1000; $days_accrued=rseq(2,4); $ANS=$weekly_payroll*$days_accrued/5
 :Q: Weekly payroll $$weekly_payroll (5-day week). Period ends with $days_accrued days unpaid. Accrued wages?
-:A: Accrued = Weekly × (days/5) = $weekly_payroll × $days_accrued/5 = $$ANS.
+:A: Accrued = Weekly * (days/5) = $weekly_payroll * $days_accrued/5 = $$ANS.
 :T: 10
 :E:
 
 :N: Interest Accrual
 :I: $principal=rseq(200,600)*1000; $rate=rseq(5,10)/100; $days=rseq(30,90); $ANS=$principal*$rate*$days/360
 :Q: Note payable $$principal, rate $rate, $days days since last payment. Accrued interest?
-:A: Interest = Principal × Rate × (days/360) = $principal × $rate × $days/360 = $$ANS.
+:A: Interest = Principal * Rate * (days/360) = $principal * $rate * $days/360 = $$ANS.
 :T: 10
 :E:
 
 :N: Warranty Expense
 :I: $sales=rseq(500,1200)*1000; $warranty_pct=rseq(2,5)/100; $ANS=$sales*$warranty_pct
 :Q: Sales $$sales. Estimated warranty cost $warranty_pct of sales. Warranty expense?
-:A: Expense = Sales × Rate = $sales × $warranty_pct = $$ANS.
+:A: Expense = Sales * Rate = $sales * $warranty_pct = $$ANS.
 :T: 10
 :E:
 
 :N: Bad Debt Expense (% of Credit Sales)
 :I: $credit_sales=rseq(400,900)*1000; $bad_debt_pct=rseq(1,3)/100; $ANS=$credit_sales*$bad_debt_pct
 :Q: Credit sales $$credit_sales. Bad debt estimated at $bad_debt_pct of credit sales. Expense?
-:A: Bad debt expense = Credit sales × Rate = $credit_sales × $bad_debt_pct = $$ANS.
+:A: Bad debt expense = Credit sales * Rate = $credit_sales * $bad_debt_pct = $$ANS.
 :T: 10
 :E:
 
