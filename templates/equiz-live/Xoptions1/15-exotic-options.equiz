@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Binary Put Payoff
 :I: $K=rseq(48,52); $Q=rseq(80,120); $S_T=rseq(45,60); $ANS=($S_T<$K)?$Q:0
 :Q: Binary put: K=$$K, payout $$Q if S<K. At expiration S=$$S_T. Payoff?
 :A: Payoff = $Q if S_T < K, else 0. Since $S_T vs $K: Payoff = $$ANS.
 :T: 10
 :E:
+
 
 :N: Binary Call Price Approximation
 :I: $K=50; $S=50; $r=0.05; $T=0.25; $sigma=0.30; $d2=(ln($S/$K)+($r-$sigma^2/2)*$T)/($sigma*sqrt($T)); $Q=100; $ANS=$Q*exp(-$r*$T)*CumNorm($d2)
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Asian Option - Average Price
 :I: $S1=rseq(48,52); $S2=rseq(49,53); $S3=rseq(47,54); $S4=rseq(50,55); $ANS=($S1+$S2+$S3+$S4)/4
 :Q: Asian option based on arithmetic average. Observed prices: $$S1, $$S2, $$S3, $$S4. Average?
 :A: Average = ($S1 + $S2 + $S3 + $S4) / 4 = $$ANS.
 :T: 10
 :E:
+
 
 :N: Asian Call Payoff
 :I: $S1=rseq(48,52); $S2=rseq(49,53); $S3=rseq(50,54); $S4=rseq(51,55); $avg=($S1+$S2+$S3+$S4)/4; $K=50; $ANS=max($avg-$K,0)
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Barrier Option - Knock-In
 :I: $S=rseq(48,52); $K=50; $barrier=rseq(55,60); $S_max=rseq(50,62); $vanilla_call=rseq(3,6); $ANS=($S_max>=$barrier)?$vanilla_call:0
 :Q: Up-and-in call: K=$50, barrier=$$barrier. Maximum stock price reached=$$S_max. Vanilla call value=$$vanilla_call. What's the knock-in call worth?
 :A: Knocked in if S_max >= barrier. Since $S_max vs $barrier: Value = $$ANS.
 :T: 10
 :E:
+
 
 :N: Barrier Option - Knock-Out
 :I: $S=rseq(48,52); $K=50; $barrier=rseq(42,46); $S_min=rseq(43,50); $vanilla_call=rseq(3,6); $ANS=($S_min<=$barrier)?0:$vanilla_call
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Lookback Call Payoff
 :I: $S_T=rseq(50,58); $S_min=rseq(42,48); $ANS=$S_T-$S_min
 :Q: Lookback call (strike = minimum price). S_T=$$S_T, S_min=$$S_min. Payoff?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Chooser Option
 :I: $call=rseq(3,6); $put=rseq(2,5); $ANS=max($call,$put)
 :Q: Chooser option: at choice date, call worth $$call, put worth $$put. What is the chooser worth?
 :A: Chooser value = max(Call, Put) = max($call, $put) = $$ANS.
 :T: 10
 :E:
+
 
 :N: Compound Option
 :I: $underlying_call=rseq(4,8); $strike_compound=rseq(2,4); $ANS=max($underlying_call-$strike_compound,0)
