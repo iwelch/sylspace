@@ -1,11 +1,11 @@
 local/
+templates/equiz-norepo/
 
 SylSpace-Secrets.conf
 
 *.pid
 
 #generated files
-2medium.equiz
 log/
 
 #no vim tmp files
