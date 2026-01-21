@@ -49,7 +49,7 @@ my $varsyl=_getvar();
 (-w "$varsyl") or die "internal error: I cannot write to the $varsyl directory.  please run this script as a user who can";
 
 
-(-e "./templates/equiz/starters") or die "internal error: you don't seem to have any starter templates here";
+(-e "./templates/equiz-live/starters") or die "internal error: you don't seem to have any starter templates here";
 
 #TODO- are these symlinks necessary? w/o refactoring, yes
 (!(-e './Controller') && (-e './lib/SylSpace/Controller')) and system("ln -s lib/SylSpace/Controller .");
@@ -97,7 +97,7 @@ foreach (qw(users courses tmp templates passkeys)) {
   say STDERR "made $varsyl/$_";
 }
 
-system("cp -a templates/equiz/* $varsyl/templates/");
+system("cp -a templates/equiz-live/* $varsyl/templates/");
 if (!(-e "$varsyl/secrets.txt")) {
   open(my $FO, ">", "$varsyl/secrets.txt");
   for (0..30) {
@@ -135,3 +135,4 @@ sub mkrandomstring {
   $string .= $chars[rand @chars] for 1..($_[0]||32);
   return $string;
 }
+
