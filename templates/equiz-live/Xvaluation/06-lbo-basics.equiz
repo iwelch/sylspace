@@ -14,15 +14,15 @@
 
 :N: Purchase Price
 :I: $ebitda=rseq(80,180)*1000; $entry_multiple=rseq(7,11); $ANS=$ebitda*$entry_multiple
-:Q: Target EBITDA $$ebitda, entry multiple $entry_multiple×. Purchase price (EV)?
-:A: Purchase price = EBITDA × Multiple = $ebitda × $entry_multiple = $$ANS.
+:Q: Target EBITDA $$ebitda, entry multiple $entry_multiple*. Purchase price (EV)?
+:A: Purchase price = EBITDA * Multiple = $ebitda * $entry_multiple = $$ANS.
 :T: 10
 :E:
 
 :N: Debt Financing
 :I: $purchase=rseq(600,1200)*1000; $debt_pct=rseq(50,70)/100; $ANS=$purchase*$debt_pct
 :Q: Purchase price $$purchase, financed with $debt_pct debt. Debt amount?
-:A: Debt = Purchase × Debt% = $purchase × $debt_pct = $$ANS.
+:A: Debt = Purchase * Debt% = $purchase * $debt_pct = $$ANS.
 :T: 10
 :E:
 
@@ -35,8 +35,8 @@
 
 :N: Exit Value
 :I: $exit_ebitda=rseq(100,220)*1000; $exit_multiple=rseq(7,11); $ANS=$exit_ebitda*$exit_multiple
-:Q: Exit EBITDA $$exit_ebitda, exit multiple $exit_multiple×. Exit enterprise value?
-:A: Exit EV = EBITDA × Multiple = $exit_ebitda × $exit_multiple = $$ANS.
+:Q: Exit EBITDA $$exit_ebitda, exit multiple $exit_multiple*. Exit enterprise value?
+:A: Exit EV = EBITDA * Multiple = $exit_ebitda * $exit_multiple = $$ANS.
 :T: 10
 :E:
 
@@ -50,28 +50,28 @@
 :N: Multiple of Money (MoM)
 :I: $exit_equity=rseq(400,900)*1000; $entry_equity=rseq(200,400)*1000; $ANS=$exit_equity/$entry_equity
 :Q: Exit equity $$exit_equity, initial equity $$entry_equity. MoM?
-:A: MoM = Exit equity / Entry equity = $exit_equity / $entry_equity = $ANS×.
+:A: MoM = Exit equity / Entry equity = $exit_equity / $entry_equity = $ANS*.
 :T: 10
 :E:
 
 :N: IRR Approximation
 :I: $mom=rseq(2.0,3.5); $years=rseq(4,6); $ANS=($mom^(1/$years)-1)*100
-:Q: MoM of $mom× over $years years. Approximate IRR?
-:A: IRR ≈ MoM^(1/years) - 1 = $mom^(1/$years) - 1 = $ANS%.
+:Q: MoM of $mom* over $years years. Approximate IRR?
+:A: IRR ~ MoM^(1/years) - 1 = $mom^(1/$years) - 1 = $ANS%.
 :T: 10
 :E:
 
 :N: Debt Paydown from FCF
 :I: $fcf=rseq(40,100)*1000; $years=rseq(4,6); $ANS=$fcf*$years
 :Q: Annual FCF $$fcf available for debt paydown over $years years. Total paydown?
-:A: Paydown = FCF × Years = $fcf × $years = $$ANS.
+:A: Paydown = FCF * Years = $fcf * $years = $$ANS.
 :T: 10
 :E:
 
 :N: Debt/EBITDA at Entry
 :I: $debt=rseq(400,800)*1000; $ebitda=rseq(90,180)*1000; $ANS=$debt/$ebitda
 :Q: Entry debt $$debt, EBITDA $$ebitda. Entry Debt/EBITDA?
-:A: Leverage = Debt / EBITDA = $debt / $ebitda = $ANS×.
+:A: Leverage = Debt / EBITDA = $debt / $ebitda = $ANS*.
 :T: 10
 :E:
 
