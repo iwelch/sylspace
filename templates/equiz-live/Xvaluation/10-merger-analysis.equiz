@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Exchange Ratio
 :I: $offer_price=rseq(35,60); $acquirer_price=rseq(40,80); $ANS=$offer_price/$acquirer_price
 :Q: Offer price $$offer_price per target share, acquirer stock price $$acquirer_price. Exchange ratio?
 :A: Exchange ratio = Offer / Acquirer price = $offer_price / $acquirer_price = $ANS.
 :T: 10
 :E:
+
 
 :N: Acquisition Premium
 :I: $offer=rseq(40,70); $pre_price=rseq(30,55); $ANS=($offer/$pre_price-1)*100
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Total Deal Value
 :I: $offer_price=rseq(40,70); $target_shares=rseq(30,60)*1000; $target_debt=rseq(100,300)*1000; $target_cash=rseq(20,80)*1000; $equity=$offer_price*$target_shares*1000; $ANS=$equity+$target_debt-$target_cash
 :Q: Offer $$offer_price/share, target shares $target_shares K, target debt $$target_debt, cash $$target_cash. Deal EV?
 :A: Equity = $offer_price * $target_shares K = $$equity. EV = Equity + Debt - Cash = $$ANS.
 :T: 10
 :E:
+
 
 :N: Synergy Required for Breakeven
 :I: $acquirer_pe=rseq(15,25); $target_pe=rseq(12,20); $target_earnings=rseq(50,120)*1000; $premium=rseq(20,40)/100; $fair_value=$target_earnings*$target_pe; $deal_value=$fair_value*(1+$premium); $ANS=$deal_value-$target_earnings*$acquirer_pe
@@ -47,12 +51,14 @@
 :T: 20
 :E:
 
+
 :N: Cash vs Stock Consideration
 :I: $deal_value=rseq(500,1200)*1000; $cash_pct=rseq(40,70)/100; $ANS=$deal_value*$cash_pct
 :Q: Deal value $$deal_value, $cash_pct paid in cash. Cash consideration?
 :A: Cash = Deal value * Cash% = $deal_value * $cash_pct = $$ANS.
 :T: 10
 :E:
+
 
 :N: Goodwill Calculation
 :I: $purchase_price=rseq(600,1200)*1000; $fair_value_assets=rseq(400,800)*1000; $fair_value_liab=rseq(100,300)*1000; $net_assets=$fair_value_assets-$fair_value_liab; $ANS=$purchase_price-$net_assets
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Pro Forma Shares Outstanding
 :I: $acquirer_shares=rseq(80,150)*1000; $target_shares=rseq(30,60)*1000; $exchange_ratio=rseq(0.7,1.3); $ANS=$acquirer_shares+$target_shares*$exchange_ratio
 :Q: Acquirer shares $acquirer_shares K, target shares $target_shares K, exchange ratio $exchange_ratio. Pro forma shares?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Cost Synergies PV
 :I: $annual_synergies=rseq(20,60)*1000; $wacc=rseq(8,12)/100; $g=rseq(1,3)/100; $ANS=$annual_synergies/($wacc-$g)
 :Q: Expected annual cost synergies $$annual_synergies (growing at $g), WACC $wacc. PV of synergies?
 :A: PV = Synergies / (WACC - g) = $annual_synergies / ($wacc - $g) = $$ANS.
 :T: 10
 :E:
+
 
 :N: Ownership Dilution
 :I: $acquirer_shares=rseq(80,120)*1000; $new_shares=rseq(20,50)*1000; $total=$acquirer_shares+$new_shares; $ANS=$acquirer_shares/$total*100
