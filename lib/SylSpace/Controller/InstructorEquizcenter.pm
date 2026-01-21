@@ -13,7 +13,7 @@ use feature 'signatures';
 no warnings qw(experimental::signatures);
 
 use SylSpace::Model::Model qw(sudo tzi);
-use SylSpace::Model::Files qw(eqlisti listtemplates eqsettimes);
+use SylSpace::Model::Files qw(eqlisti listtemplates eqsetdue);
 use SylSpace::Model::Controller qw(global_redirect  standard);
 
 ################################################################
@@ -39,7 +39,7 @@ get '/instructor/equizpublishall' => sub {
   my $count = 0;
   my $future = time() + 180*24*60*60;  # 6 months from now
   foreach my $f (keys %$filelist) {
-    eqsettimes($course, $f, $future);
+    eqsetdue($course, $f, $future);
     $count++;
   }
   $c->flash( message => "Published all $count equizzes (due date set to 6 months from now)" )->redirect_to('/instructor/equizcenter');
@@ -53,7 +53,7 @@ get '/instructor/equizunpublishall' => sub {
   my $filelist = eqlisti($course);
   my $count = 0;
   foreach my $f (keys %$filelist) {
-    eqsettimes($course, $f, 0);
+    eqsetdue($course, $f, 0);
     $count++;
   }
   $c->flash( message => "Unpublished all $count equizzes (due date set to 0)" )->redirect_to('/instructor/equizcenter');
