@@ -594,9 +594,10 @@ EOT
 }
 
 sub actionchoices( $actionchoices, $fname ) {
+  my $viewurl = ($fname =~ /\.equiz$/i) ? "equizview?f=$fname" : "view?f=$fname";
   my $selector= {
 		 equizrun => btn("/equizrender?f=$fname", 'run', 'btn-xs btn-default'),
-		 view => btn("view?f=$fname", 'view', 'btn-xs btn-default'),
+		 view => btn($viewurl, 'view', 'btn-xs btn-default'),
 		 download => btn("download?f=$fname", 'download', 'btn-xs btn-default'),
 		 edit => btn("edit?f=$fname", 'edit', 'btn-xs btn-default') };
 
