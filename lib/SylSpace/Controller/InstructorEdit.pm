@@ -46,20 +46,19 @@ __DATA__
 
 <style> 
   textarea.textarea {  font-family: monospace;  display:block;  height:80vh;  width:100%;  line-height:16px;  padding:5px;  margin:0px auto;  }
-  #syntaxError { display: none; margin: 10px 0; padding: 15px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; color: #721c24; }
-  #syntaxError.show { display: block; }
 </style>
 
 
 <main>
 
   <% if ($is_equiz) { %>
-  <div style="margin-bottom: 15px;">
-    <button id="saveViewBtn" class="btn btn-lg btn-primary btn-block" style="font-size:large;">
+  <form method="POST" action="equizeditsaveview" target="_blank" style="margin-bottom: 15px;">
+    <input type="hidden" name="fname" value="<%= $filename %>" />
+    <textarea name="content" id="textarea2" style="display:none;"></textarea>
+    <button type="submit" class="btn btn-lg btn-primary btn-block" style="font-size:large;" onclick="document.getElementById('textarea2').value = document.getElementById('textarea').value;">
       <i class="fa fa-save"></i> Save and View in New Window
     </button>
-  </div>
-  <div id="syntaxError"></div>
+  </form>
   <% } %>
 
   <form method="POST" action="editsave" id="editForm">
@@ -80,105 +79,6 @@ __DATA__
   </div> <!--row-->
 
   </form>
-
-  <% if ($is_equiz) { %>
-  <script>
-  document.getElementById('saveViewBtn').addEventListener('click', function(e) {
-    var btn = this;
-    var errorDiv = document.getElementById('syntaxError');
-    var textarea = document.getElementById('textarea');
-    var content = textarea.value;
-    var fname = '<%= $filename %>';
-    
-    // Open the window IMMEDIATELY (synchronously) to avoid popup blocker
-    var viewWindow = window.open('about:blank', '_blank');
-    if (!viewWindow) {
-      alert('Popup blocked! Please allow popups for this site.');
-      return;
-    }
-    viewWindow.document.write('<html><head><title>Loading...</title></head><body><h2>Checking syntax and saving...</h2></body></html>');
-    
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Checking syntax...';
-    errorDiv.className = '';
-    errorDiv.style.display = 'none';
-    
-    // Step 1: Syntax check
-    fetch('/instructor/equizsyntax', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: 'content=' + encodeURIComponent(content)
-    })
-    .then(function(response) { return response.json(); })
-    .then(function(data) {
-      if (!data.ok) {
-        // Syntax error - close the window and show error
-        viewWindow.close();
-        errorDiv.innerHTML = '<strong>Syntax Error:</strong> ' + data.error;
-        if (data.line) {
-          errorDiv.innerHTML += '<br><em>Near line ' + data.line + '</em>';
-          // Scroll to that line
-          var lines = content.split('\n');
-          var pos = 0;
-          for (var i = 0; i < data.line - 1 && i < lines.length; i++) {
-            pos += lines[i].length + 1;
-          }
-          textarea.focus();
-          textarea.setSelectionRange(pos, pos + (lines[data.line-1] || '').length);
-        }
-        errorDiv.className = 'show';
-        errorDiv.style.display = 'block';
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa fa-save"></i> Save and View in New Window';
-        return Promise.reject('syntax error');
-      }
-      
-      // Step 2: Save
-      btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Saving...';
-      viewWindow.document.body.innerHTML = '<h2>Saving...</h2>';
-      return fetch('/instructor/equizsaveajax', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: 'fname=' + encodeURIComponent(fname) + '&content=' + encodeURIComponent(content)
-      });
-    })
-    .then(function(response) { 
-      return response.json(); 
-    })
-    .then(function(data) {
-      if (!data.ok) {
-        viewWindow.close();
-        errorDiv.innerHTML = '<strong>Save Error:</strong> ' + data.error;
-        errorDiv.className = 'show';
-        errorDiv.style.display = 'block';
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa fa-save"></i> Save and View in New Window';
-        return;
-      }
-      
-      // Step 3: Navigate the window to the view
-      btn.innerHTML = '<i class="fa fa-check"></i> Saved!';
-      viewWindow.location.href = '/instructor/equizview?f=' + encodeURIComponent(fname);
-      
-      // Reset button
-      setTimeout(function() {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa fa-save"></i> Save and View in New Window';
-      }, 1000);
-    })
-    .catch(function(err) {
-      if (err !== 'syntax error') {
-        viewWindow.close();
-        errorDiv.innerHTML = '<strong>Error:</strong> ' + err;
-        errorDiv.className = 'show';
-        errorDiv.style.display = 'block';
-      }
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fa fa-save"></i> Save and View in New Window';
-    });
-  });
-  </script>
-  <% } %>
 
 </main>
 
