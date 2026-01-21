@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Interest Portion of Payment
 :I: $balance=rseq(200,350)*1000; $annual_rate=rseq(4,7)/100; $monthly_rate=$annual_rate/12; $ANS=$balance*$monthly_rate
 :Q: Remaining balance $$balance, annual rate $annual_rate. Interest portion of this month's payment?
 :A: Interest = Balance * Monthly rate = $balance * $monthly_rate = $$ANS.
 :T: 10
 :E:
+
 
 :N: Principal Portion of Payment
 :I: $payment=rseq(1500,2500); $interest=rseq(800,1500); $ANS=$payment-$interest
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: CPR to SMM
 :I: $cpr=rseq(4,12); $ANS=(1-(1-$cpr/100)^(1/12))*100
 :Q: CPR (annual prepayment rate) is $cpr%. What is the SMM (single monthly mortality)?
 :A: SMM = 1 - (1 - CPR)^(1/12) = 1 - (1 - $cpr/100)^(1/12) = $ANS%.
 :T: 10
 :E:
+
 
 :N: SMM to CPR
 :I: $smm=rseq(0.3,1.2); $ANS=(1-(1-$smm/100)^12)*100
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Prepayment Amount
 :I: $balance=rseq(180,300)*1000; $smm=rseq(0.4,1.0)/100; $scheduled_principal=rseq(300,600); $ANS=$smm*($balance-$scheduled_principal)
 :Q: Balance $$balance, scheduled principal $$scheduled_principal, SMM $smm. Prepayment this month?
 :A: Prepayment = SMM * (Balance - Scheduled principal) = $smm * ($balance - $scheduled_principal) = $$ANS.
 :T: 10
 :E:
+
 
 :N: PSA Speed
 :I: $cpr=rseq(4,10); $month=rseq(15,40); $base_cpr=min(6,$month*0.2); $ANS=$cpr/$base_cpr*100
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Weighted Average Life
 :I: $prin_1=rseq(15,25); $prin_2=rseq(20,30); $prin_3=rseq(25,35); $total=$prin_1+$prin_2+$prin_3; $ANS=(1*$prin_1+2*$prin_2+3*$prin_3)/$total
 :Q: Principal payments: Year 1 $$prin_1M, Year 2 $$prin_2M, Year 3 $$prin_3M. WAL?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Extension Risk
 :I: $wal_base=rseq(5,8); $wal_high_rate=rseq(8,12); $ANS=$wal_high_rate-$wal_base
 :Q: MBS WAL at base rates: $wal_base years. WAL if rates rise (slower prepay): $wal_high_rate years. Extension?
 :A: Extension = $wal_high_rate - $wal_base = $ANS years.
 :T: 10
 :E:
+
 
 :N: Contraction Risk
 :I: $wal_base=rseq(6,9); $wal_low_rate=rseq(3,5); $ANS=$wal_base-$wal_low_rate
