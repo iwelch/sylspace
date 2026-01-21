@@ -42,7 +42,7 @@
 
 :N: Theta vs Gamma Tradeoff
 :I: $gamma=rseq(3,6)/100; $S=50; $sigma=rseq(25,35)/100; $theta=-0.5*$S^2*$sigma^2*$gamma/365; $ANS=$theta
-:Q: You're long gamma ($gamma). S=$50, \(\sigma\)=$sigma. Daily theta cost (using \(\theta\) ~ -½S^2\(\sigma\)^2\(\Gamma\)/365)?
+:Q: You're long gamma ($gamma). S=$50, \(\sigma\)=$sigma. Daily theta cost (using \(\theta\) ~ -(1/2)S^2\(\sigma\)^2\(\Gamma\)/365)?
 :A: Daily theta = -0.5 * $S^2 * $sigma^2 * $gamma / 365 = $$ANS.
 :T: 10
 :E:
