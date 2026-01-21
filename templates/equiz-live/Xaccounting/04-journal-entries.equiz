@@ -78,7 +78,7 @@
 :N: Issue Common Stock
 :I: $shares=rseq(10,50)*1000; $par=1; $issue_price=rseq(15,40); $common=$shares*$par; $apic=$shares*($issue_price-$par); $ANS=$apic
 :Q: Issue $shares shares ($1 par) at $$issue_price each. Credit to APIC?
-:A: DR Cash $shares×$issue_price, CR Common Stock $$common, CR APIC $$ANS.
+:A: DR Cash $shares*$issue_price, CR Common Stock $$common, CR APIC $$ANS.
 :T: 10
 :E:
 
