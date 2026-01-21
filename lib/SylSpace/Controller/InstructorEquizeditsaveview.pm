@@ -8,20 +8,24 @@ use Mojolicious::Lite;
 use lib qw(.. ../..); ## make syntax checking easier
 use strict;
 
+use feature ':5.20';
+use feature 'signatures';
+no warnings qw(experimental::signatures);
+
 use SylSpace::Model::Model qw(sudo);
 use SylSpace::Model::Files qw(eqwrite);
 use SylSpace::Model::Controller qw(global_redirect standard);
 
 ################################################################
 
-post 'instructor/equizeditsaveview' => sub {
+post '/instructor/equizeditsaveview' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
 
   sudo( $course, $c->session->{uemail} );
 
-  my $fname = $c->req->params->param('fname');
-  my $content = $c->req->params->param('content') // '';
+  my $fname = $c->req->body_params->param('fname');
+  my $content = $c->req->body_params->param('content') // '';
   
   $content =~ s/\r\n/\r/g;
   $content =~ s/\r/\n/g;
@@ -110,5 +114,4 @@ __DATA__
 <button onclick="window.close();" class="btn btn-primary">Close This Window</button>
 
 </main>
-
 
