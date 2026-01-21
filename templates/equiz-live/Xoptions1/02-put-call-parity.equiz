@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Put-Call Parity - Find Put Price
 :I: $S=rseq(48,52); $K=rseq(45,50); $rp=rseq(4,8); $r=$rp/100; $Tm=rseq(3,12); $T=$Tm/12; $C=rseq(4,8); $PVK=$K*exp(-$r*$T); $ANS=$C-$S+$PVK
 :Q: A stock trades at $$S. A call option with strike $$K and $Tm months to expiration trades at $$C. The continuously compounded risk-free rate is $rp%. Using put-call parity, what is the price of a put with the same strike and expiration?
 :A: Put-call parity: P = C - S + PV(K) = $C - $S + $PVK = $$ANS.
 :T: 10
 :E:
+
 
 :N: Put-Call Parity - Find Stock Price
 :I: $C=rseq(5,9); $P=rseq(2,5); $K=rseq(48,52); $rp=rseq(4,8); $r=$rp/100; $Tm=rseq(3,9); $T=$Tm/12; $PVK=$K*exp(-$r*$T); $ANS=$C-$P+$PVK
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Put-Call Parity - Find Strike
 :I: $S=rseq(48,52); $C=rseq(5,8); $P=rseq(2,4); $rp=rseq(4,6); $r=$rp/100; $Tm=rseq(3,6); $T=$Tm/12; $ANS=($S+$P-$C)*exp($r*$T)
 :Q: Stock at $$S. Call at $$C, put at $$P, both with $Tm months expiration. Risk-free rate $rp%. What strike K is implied by put-call parity?
 :A: From C - P = S - PV(K), we get K = (S + P - C)*exp(r*T) = $$ANS.
 :T: 10
 :E:
+
 
 :N: Synthetic Long Stock
 :I: $C=rseq(6,10); $P=rseq(2,5); $K=rseq(48,52); $rp=rseq(4,6); $r=$rp/100; $Tm=rseq(3,6); $T=$Tm/12; $PVK=$K*exp(-$r*$T); $ANS=$C-$P+$PVK
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Synthetic Long Call
 :I: $S=rseq(48,52); $P=rseq(3,6); $K=rseq(48,52); $rp=rseq(4,6); $r=$rp/100; $Tm=rseq(3,6); $T=$Tm/12; $PVK=$K*exp(-$r*$T); $ANS=$S+$P-$PVK
 :Q: You create a synthetic long call by buying stock at $$S, buying a put at $$P with strike $$K, and borrowing PV(K). Risk-free rate $rp%, $Tm months. What is the synthetic call cost?
 :A: Synthetic call = S + P - PV(K) = $S + $P - $PVK = $$ANS.
 :T: 10
 :E:
+
 
 :N: Arbitrage - Overpriced Call
 :I: $S=50; $K=50; $rp=5; $r=0.05; $T=0.5; $P=rseq(2,4); $PVK=$K*exp(-$r*$T); $C_fair=$P+$S-$PVK; $C_mkt=$C_fair+rseq(1,3); $ANS=$C_mkt-$C_fair
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Box Spread Value
 :I: $K1=rseq(45,48); $K2=rseq(52,55); $rp=rseq(4,6); $r=$rp/100; $Tm=rseq(3,6); $T=$Tm/12; $ANS=($K2-$K1)*exp(-$r*$T)
 :Q: A box spread uses strikes $$K1 and $$K2, expiring in $Tm months. Risk-free rate is $rp%. What is the fair value of this box spread?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Forward Price from Options
 :I: $C=rseq(5,9); $P=rseq(2,5); $K=rseq(48,52); $rp=rseq(4,8); $r=$rp/100; $Tm=rseq(3,9); $T=$Tm/12; $S=$C-$P+$K*exp(-$r*$T); $ANS=$S*exp($r*$T)
 :Q: Call at $$C, put at $$P, both strike $$K, $Tm months. Risk-free rate $rp%. What forward price is implied?
 :A: S = C - P + PV(K). Forward F = S*exp(r*T) = $$ANS.
 :T: 10
 :E:
+
 
 :N: Put-Call Parity with Dividends
 :I: $S=rseq(48,52); $K=rseq(48,52); $rp=rseq(4,8); $r=$rp/100; $Tm=rseq(6,12); $T=$Tm/12; $P=rseq(2,5); $D=rseq(1,2); $PVK=$K*exp(-$r*$T); $PVD=$D*exp(-$r*$T/2); $ANS=$P+$S-$PVD-$PVK
