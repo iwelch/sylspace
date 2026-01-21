@@ -63,7 +63,7 @@
 
 :N: Theta-Gamma Tradeoff
 :I: $S=50; $sigma=rseq(25,35)/100; $gamma=rseq(3,6)/100; $r=rseq(4,6)/100; $ANS=-0.5*$S^2*$sigma^2*$gamma
-:Q: The theta-gamma relationship: Theta ~ -½S^2\(\sigma\)^2\(\Gamma\) (ignoring rho term). S=$50, \(\sigma\)=$sigma, \(\Gamma\)=$gamma. What is theta?
+:Q: The theta-gamma relationship: Theta ~ -(1/2)S^2\(\sigma\)^2\(\Gamma\) (ignoring rho term). S=$50, \(\sigma\)=$sigma, \(\Gamma\)=$gamma. What is theta?
 :A: Theta ~ -0.5 * $S^2 * $sigma^2 * $gamma = $$ANS.
 :T: 20
 :E:
