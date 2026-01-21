@@ -13,7 +13,7 @@ use SylSpace::Model::Controller qw(global_redirect standard);
 
 ################################################################
 
-get '/instructor/equizview' => sub {
+get 'instructor/equizview' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
 
@@ -66,4 +66,5 @@ __DATA__
 <%== $content %>
 
 </main>
+
 
