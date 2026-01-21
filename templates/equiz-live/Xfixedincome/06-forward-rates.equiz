@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: 1-Year Forward Rate (2y1y)
 :I: $r2=rseq(4,5)/100; $r3=rseq(4.5,6)/100; $ANS=((1+$r3)^3/(1+$r2)^2-1)*100
 :Q: 2-year spot = $r2, 3-year spot = $r3. What is the 1-year forward rate starting in 2 years (2y1y)?
 :A: f(2,3) = (1+r3)^3/(1+r2)^2 - 1 = (1+$r3)^3/(1+$r2)^2 - 1 = $ANS%.
 :T: 10
 :E:
+
 
 :N: 2-Year Forward Rate (1y2y)
 :I: $r1=rseq(3,4)/100; $r3=rseq(4.5,6)/100; $ANS=(((1+$r3)^3/(1+$r1))^0.5-1)*100
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Forward Rate Agreement (FRA) Payment
 :I: $notional=rseq(5,15)*1000000; $fra_rate=rseq(4,6)/100; $libor=rseq(3,7)/100; $days=90; $ANS=$notional*($libor-$fra_rate)*($days/360)/(1+$libor*$days/360)
 :Q: FRA: notional $$notional, FRA rate $fra_rate, settlement LIBOR $libor, $days days. Payment at settlement?
 :A: Payment = Notional * (LIBOR - FRA) * (days/360) / (1 + LIBOR*days/360) = $$ANS.
 :T: 10
 :E:
+
 
 :N: FRA Rate
 :I: $r6m=rseq(3,5)/100; $r9m=rseq(3.5,5.5)/100; $ANS=(($r9m*270/360-$r6m*180/360)/(90/360))*100
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Forward Price from Spot Rates
 :I: $S=rseq(95,105); $r=rseq(4,6)/100; $T=rseq(6,12)/12; $ANS=$S*exp($r*$T)
 :Q: Spot price $$S, continuously compounded rate $r, T=$T years. Forward price?
 :A: F = S * e^(rT) = $S * e^($r*$T) = $$ANS.
 :T: 10
 :E:
+
 
 :N: Implied Forward from Discount Factors
 :I: $d1=rseq(96,98)/100; $d2=rseq(92,95)/100; $ANS=($d1/$d2-1)*100
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Expectations Hypothesis
 :I: $r1=rseq(3,4); $expected_short=rseq(4,6); $ANS=($r1+$expected_short)/2
 :Q: Under pure expectations, 1-year rate = $r1%, expected 1-year rate next year = $expected_short%. What should the 2-year rate be?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Continuous Forward Rate
 :I: $r1=rseq(3,5)/100; $r2=rseq(4,6)/100; $T1=1; $T2=2; $ANS=($r2*$T2-$r1*$T1)/($T2-$T1)*100
 :Q: Continuous: 1-year spot $r1, 2-year spot $r2. Instantaneous forward rate for year 2?
 :A: f = (r2*T2 - r1*T1) / (T2 - T1) = ($r2*2 - $r1*1) / 1 = $ANS%.
 :T: 10
 :E:
+
 
 :N: Term Premium
 :I: $forward_rate=rseq(5,7); $expected_rate=rseq(4,5.5); $ANS=$forward_rate-$expected_rate
