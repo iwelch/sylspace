@@ -15,7 +15,7 @@
 :N: Future Value - Single Sum
 :I: $pv=rseq(5,20)*1000; $r=rseq(5,10)/100; $n=rseq(3,10); $ANS=$pv*(1+$r)^$n
 :Q: Invest $$pv at $r per year for $n years. Future value?
-:A: FV = PV × (1+r)^n = $pv × (1+$r)^$n = $$ANS.
+:A: FV = PV * (1+r)^n = $pv * (1+$r)^$n = $$ANS.
 :T: 10
 :E:
 
@@ -29,14 +29,14 @@
 :N: Present Value of Annuity
 :I: $pmt=rseq(2,10)*1000; $r=rseq(5,10)/100; $n=rseq(5,15); $ANS=$pmt*(1-(1+$r)^(-$n))/$r
 :Q: Receive $$pmt per year for $n years. Discount rate $r. Present value?
-:A: PV = PMT × [1 - (1+r)^(-n)] / r = $pmt × [1 - (1+$r)^(-$n)] / $r = $$ANS.
+:A: PV = PMT * [1 - (1+r)^(-n)] / r = $pmt * [1 - (1+$r)^(-$n)] / $r = $$ANS.
 :T: 10
 :E:
 
 :N: Future Value of Annuity
 :I: $pmt=rseq(2,8)*1000; $r=rseq(5,10)/100; $n=rseq(5,15); $ANS=$pmt*((1+$r)^$n-1)/$r
 :Q: Deposit $$pmt per year for $n years at $r. Future value?
-:A: FV = PMT × [(1+r)^n - 1] / r = $pmt × [(1+$r)^$n - 1] / $r = $$ANS.
+:A: FV = PMT * [(1+r)^n - 1] / r = $pmt * [(1+$r)^$n - 1] / $r = $$ANS.
 :T: 10
 :E:
 
@@ -57,7 +57,7 @@
 :N: Growing Annuity
 :I: $cf1=rseq(5,15)*1000; $r=rseq(8,12)/100; $g=rseq(2,4)/100; $n=rseq(10,20); $ANS=$cf1/($r-$g)*(1-((1+$g)/(1+$r))^$n)
 :Q: Year 1 CF $$cf1, growing at $g for $n years. Rate $r. Present value?
-:A: PV = CF1/(r-g) × [1 - ((1+g)/(1+r))^n] = $$ANS.
+:A: PV = CF1/(r-g) * [1 - ((1+g)/(1+r))^n] = $$ANS.
 :T: 10
 :E:
 
@@ -71,7 +71,7 @@
 :N: NPV of Cash Flows
 :I: $cf0=-rseq(50,150)*1000; $cf1=rseq(20,50)*1000; $cf2=rseq(25,60)*1000; $cf3=rseq(30,70)*1000; $r=rseq(8,15)/100; $ANS=$cf0+$cf1/(1+$r)+$cf2/(1+$r)^2+$cf3/(1+$r)^3
 :Q: Investment: CF0=$$cf0, CF1=$$cf1, CF2=$$cf2, CF3=$$cf3. Rate $r. NPV?
-:A: NPV = CF0 + CF1/(1+r) + CF2/(1+r)² + CF3/(1+r)³ = $$ANS.
+:A: NPV = CF0 + CF1/(1+r) + CF2/(1+r)^2 + CF3/(1+r)^3 = $$ANS.
 :T: 10
 :E:
 
