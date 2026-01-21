@@ -40,7 +40,7 @@ __DATA__
 
 @@ instructorhwcenter.html.ep
 
-<% use SylSpace::Model::Controller qw( ifilehash2table fileuploadform); %>
+<% use SylSpace::Model::Controller qw( ifilehash2table fileuploadform dropzoneform); %>
 
 %title 'homework center';
 %layout 'instructor';
@@ -49,6 +49,9 @@ __DATA__
 
   <%== ifilehash2table($filetable,  [ 'view', 'download', 'edit' ], 'hw', $tzi) %>
 
+  <%== dropzoneform() %>
+
   <%== fileuploadform() %>
 
 </main>
+
