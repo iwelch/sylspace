@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: YTM Approximation
 :I: $FV=1000; $price=rseq(900,1100); $cp=rseq(5,8); $C=$FV*$cp/100; $n=rseq(5,10); $approx=($C+($FV-$price)/$n)/(($FV+$price)/2); $ANS=$approx*100
 :Q: Bond: $cp% coupon, price $$price, $n years, FV=$$FV. Approximate YTM using (C+(FV-P)/n)/((FV+P)/2)?
 :A: YTM ~ ($C + ($FV-$price)/$n) / (($FV+$price)/2) = $ANS%.
 :T: 10
 :E:
+
 
 :N: Semi-Annual YTM to Annual
 :I: $ytm_semi=rseq(2,4); $r=$ytm_semi/100; $ANS=((1+$r)^2-1)*100
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: BEY (Bond Equivalent Yield)
 :I: $ytm_semi=rseq(2,4); $ANS=$ytm_semi*2
 :Q: Semi-annual YTM is $ytm_semi%. What is the bond equivalent yield (BEY)?
 :A: BEY = 2 * semi-annual YTM = 2 * $ytm_semi = $ANS%.
 :T: 10
 :E:
+
 
 :N: YTM vs Current Yield (Premium)
 :I: $cp=rseq(6,8); $price=rseq(1050,1150); $current_yield=$cp*10/$price*100; $ANS=$current_yield
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: YTM vs Current Yield (Discount)
 :I: $cp=rseq(4,6); $price=rseq(850,950); $current_yield=$cp*10/$price*100; $ANS=$current_yield
 :Q: Discount bond: $cp% coupon, price $$price. Current yield?
 :A: Current yield = $cp*10 / $price = $ANS%. (YTM > current yield > coupon for discount bonds.)
 :T: 10
 :E:
+
 
 :N: Holding Period Return
 :I: $price_begin=rseq(950,1000); $price_end=rseq(980,1050); $coupon=rseq(40,60); $ANS=($price_end-$price_begin+$coupon)/$price_begin*100
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Realized Compound Return
 :I: $FV=1000; $price=rseq(900,950); $n=5; $total_return=rseq(1300,1500); $ANS=(($total_return/$price)^(1/$n)-1)*100
 :Q: Bought bond at $$price. After $n years, total value (principal + reinvested coupons) = $$total_return. Realized compound return?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Yield Spread
 :I: $corp_ytm=rseq(5,8); $treasury_ytm=rseq(3,5); $ANS=$corp_ytm-$treasury_ytm
 :Q: Corporate bond YTM = $corp_ytm%, Treasury YTM = $treasury_ytm%. Yield spread?
 :A: Spread = Corporate - Treasury = $corp_ytm - $treasury_ytm = $ANS%.
 :T: 10
 :E:
+
 
 :N: Yield Spread in Basis Points
 :I: $corp_ytm=rseq(5,8); $treasury_ytm=rseq(3,5); $ANS=($corp_ytm-$treasury_ytm)*100
