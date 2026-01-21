@@ -92,7 +92,7 @@
 :N: Implied Move from Straddle
 :I: $K=rseq(95,105); $straddle_price=rseq(8,15); $ANS=$straddle_price/$K*100
 :Q: ATM straddle (K=$$K) costs $$straddle_price. What percentage move does the market imply?
-:A: Implied move ≈ Straddle price / Strike = $straddle_price / $K = $ANS%.
+:A: Implied move ~ Straddle price / Strike = $straddle_price / $K = $ANS%.
 :T: 10
 :E:
 
