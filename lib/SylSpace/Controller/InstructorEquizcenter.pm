@@ -63,7 +63,7 @@ __DATA__
        <%
           my $rv= "";
           foreach (@$templatelist) {
-	    $rv .= '<div class="col-xs-2"> <a href="/instructor/cptemplate?templatename='.$_.'" class="btn btn-default btn-block">'.$_.'</a></div>'."\n";
+	    $rv .= '<div class="col-xs-2" style="margin-bottom:10px;"> <a href="/instructor/cptemplate?templatename='.$_.'" class="btn btn-default btn-block">'.$_.'</a></div>'."\n";
 	  }
        %>
        <%== $rv %>
@@ -90,4 +90,5 @@ __DATA__
 
 
 </main>
+
 
