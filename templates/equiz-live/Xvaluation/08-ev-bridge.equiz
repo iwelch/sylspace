@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Equity from EV
 :I: $ev=rseq(600,1400)*1000; $debt=rseq(200,500)*1000; $cash=rseq(40,150)*1000; $ANS=$ev-$debt+$cash
 :Q: EV $$ev, debt $$debt, cash $$cash. Equity value?
 :A: Equity = EV - Debt + Cash = $ev - $debt + $cash = $$ANS.
 :T: 10
 :E:
+
 
 :N: EV with Preferred Stock
 :I: $equity=rseq(500,1000)*1000; $debt=rseq(150,400)*1000; $preferred=rseq(30,100)*1000; $cash=rseq(40,120)*1000; $ANS=$equity+$debt+$preferred-$cash
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: EV with Minority Interest
 :I: $equity=rseq(500,1000)*1000; $debt=rseq(150,400)*1000; $minority=rseq(20,80)*1000; $cash=rseq(40,120)*1000; $ANS=$equity+$debt+$minority-$cash
 :Q: Equity $$equity, debt $$debt, minority interest $$minority, cash $$cash. Enterprise value?
 :A: EV = Equity + Debt + Minority - Cash = $equity + $debt + $minority - $cash = $$ANS.
 :T: 10
 :E:
+
 
 :N: Net Debt
 :I: $total_debt=rseq(300,700)*1000; $cash=rseq(50,200)*1000; $ANS=$total_debt-$cash
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Diluted Equity Value
 :I: $basic_shares=rseq(50,150)*1000; $options=rseq(5,20)*1000; $strike=rseq(20,40); $price=rseq(50,80); $itm_options=$options*($price-$strike)/$price; $diluted=$basic_shares+$itm_options; $ANS=$diluted*$price
 :Q: Basic shares $basic_shares K, options $options K at $$strike strike, price $$price. Diluted equity value?
 :A: Treasury stock method: ITM options add $itm_options K shares. Diluted = $diluted K. Value = $$ANS K.
 :T: 10
 :E:
+
 
 :N: Equity Value per Share
 :I: $equity=rseq(500,1200)*1000; $shares=rseq(30,80)*1000; $ANS=$equity/($shares*1000)
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: EV with Pension Liability
 :I: $equity=rseq(500,1000)*1000; $debt=rseq(150,400)*1000; $pension=rseq(40,100)*1000; $cash=rseq(50,150)*1000; $ANS=$equity+$debt+$pension-$cash
 :Q: Equity $$equity, debt $$debt, unfunded pension $$pension, cash $$cash. EV (including pension)?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Invested Capital
 :I: $equity=rseq(400,800)*1000; $debt=rseq(200,500)*1000; $cash=rseq(50,150)*1000; $ANS=$equity+$debt-$cash
 :Q: Equity $$equity, debt $$debt, excess cash $$cash. Invested capital?
 :A: Invested capital = Equity + Debt - Excess cash = $equity + $debt - $cash = $$ANS.
 :T: 10
 :E:
+
 
 :N: Implied EV Multiple
 :I: $mkt_cap=rseq(600,1400)*1000; $net_debt=rseq(100,400)*1000; $ebitda=rseq(80,180)*1000; $ev=$mkt_cap+$net_debt; $ANS=$ev/$ebitda
