@@ -30,7 +30,7 @@ use base 'Exporter';
 
 	       tweet showtweets showlasttweet seclog showseclog superseclog
 
-	       equizrender equizgrade equizanswerrender   	       equizrate
+	       equizrender equizgrade equizanswerrender equizpreview   	       equizrate
 
 	       _msglistnotread
 
@@ -970,6 +970,61 @@ sub equizanswerrender( $decodedarray ) {
 }
 
 
+################################################################
+## equizpreview - render equiz with answers shown (for instructor view)
+################################################################
+
+sub equizpreview( $course, $equizname ) {
+  _setsudo();  # need sudo for eqreadi
+  my $equizcontent = eqreadi($course, $equizname);
+  _unsetsudo();
+
+  my $fullequizname = longfilename($course, $equizname);
+
+  ## Use eqbackend.pl in 'answer' mode to get text with answers
+  use Cwd qw(getcwd);
+  my $executable = getcwd() . "/lib/SylSpace/Model/eqbackend/eqbackend.pl";
+
+  my @cmd = ($executable, $fullequizname, 'answer');
+
+  my $output;
+  {
+    local $SIG{CHLD} = 'DEFAULT';
+    open(my $fh, '-|', @cmd) or die "Cannot execute equiz backend: $!";
+    local $/;
+    $output = <$fh>;
+    close($fh);
+  }
+
+  ## Format output as HTML
+  $output =~ s/&/&amp;/g;
+  $output =~ s/</&lt;/g;
+  $output =~ s/>/&gt;/g;
+  
+  ## Style the sections
+  $output =~ s/^-{10,}(.+?):/\n<hr><h3>$1<\/h3>/gm;
+  $output =~ s/^(LOCAL INITS:|QUESTION:|ANSWER \([^)]+\):)/<strong>$1<\/strong>/gm;
+  
+  ## Restore some HTML that was in the original quiz
+  $output =~ s/&lt;p&gt;/<p>/g;
+  $output =~ s/&lt;\/p&gt;/<\/p>/g;
+  $output =~ s/&lt;br\s*\/?&gt;/<br>/g;
+
+  my $rv = qq(
+<style>
+  .equiz-preview { font-family: monospace; white-space: pre-wrap; background: #f5f5f5; padding: 1em; border-radius: 5px; }
+  .equiz-preview h3 { color: #337ab7; margin-top: 1em; font-family: sans-serif; }
+  .equiz-preview strong { color: #333; }
+</style>
+<div class="equiz-preview">
+$output
+</div>
+);
+
+  return $rv;
+}
+
+
 sub equizrate( $ip, $course, $hash ) {
   (my $comments= $hash->{comments}) =~ s/[:\n]/;/g;
   my $errmsg= "$hash->{equizrate} : $hash->{equizgradename} : $hash->{clarity} : $hash->{difficulty} : $comments ";
@@ -991,6 +1046,7 @@ sub paypallog( $type, $email, $ip, $referer, $msg ) {
 }
 
 1;
+
 
 
 
