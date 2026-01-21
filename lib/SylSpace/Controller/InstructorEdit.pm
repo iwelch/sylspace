@@ -83,12 +83,20 @@ __DATA__
 
   <% if ($is_equiz) { %>
   <script>
-  document.getElementById('saveViewBtn').addEventListener('click', function() {
+  document.getElementById('saveViewBtn').addEventListener('click', function(e) {
     var btn = this;
     var errorDiv = document.getElementById('syntaxError');
     var textarea = document.getElementById('textarea');
     var content = textarea.value;
     var fname = '<%= $filename %>';
+    
+    // Open the window IMMEDIATELY (synchronously) to avoid popup blocker
+    var viewWindow = window.open('about:blank', '_blank');
+    if (!viewWindow) {
+      alert('Popup blocked! Please allow popups for this site.');
+      return;
+    }
+    viewWindow.document.write('<html><head><title>Loading...</title></head><body><h2>Checking syntax and saving...</h2></body></html>');
     
     btn.disabled = true;
     btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Checking syntax...';
@@ -104,11 +112,12 @@ __DATA__
     .then(function(response) { return response.json(); })
     .then(function(data) {
       if (!data.ok) {
-        // Syntax error
+        // Syntax error - close the window and show error
+        viewWindow.close();
         errorDiv.innerHTML = '<strong>Syntax Error:</strong> ' + data.error;
         if (data.line) {
           errorDiv.innerHTML += '<br><em>Near line ' + data.line + '</em>';
-          // Try to scroll to that line
+          // Scroll to that line
           var lines = content.split('\n');
           var pos = 0;
           for (var i = 0; i < data.line - 1 && i < lines.length; i++) {
@@ -121,11 +130,12 @@ __DATA__
         errorDiv.style.display = 'block';
         btn.disabled = false;
         btn.innerHTML = '<i class="fa fa-save"></i> Save and View in New Window';
-        return;
+        return Promise.reject('syntax error');
       }
       
       // Step 2: Save
       btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Saving...';
+      viewWindow.document.body.innerHTML = '<h2>Saving...</h2>';
       return fetch('/instructor/equizsaveajax', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -133,11 +143,11 @@ __DATA__
       });
     })
     .then(function(response) { 
-      if (response) return response.json(); 
+      return response.json(); 
     })
     .then(function(data) {
-      if (!data) return; // syntax error already handled
       if (!data.ok) {
+        viewWindow.close();
         errorDiv.innerHTML = '<strong>Save Error:</strong> ' + data.error;
         errorDiv.className = 'show';
         errorDiv.style.display = 'block';
@@ -146,9 +156,9 @@ __DATA__
         return;
       }
       
-      // Step 3: Open view in new window
-      btn.innerHTML = '<i class="fa fa-check"></i> Saved! Opening view...';
-      window.open('/instructor/equizview?f=' + encodeURIComponent(fname), '_blank');
+      // Step 3: Navigate the window to the view
+      btn.innerHTML = '<i class="fa fa-check"></i> Saved!';
+      viewWindow.location.href = '/instructor/equizview?f=' + encodeURIComponent(fname);
       
       // Reset button
       setTimeout(function() {
@@ -157,9 +167,12 @@ __DATA__
       }, 1000);
     })
     .catch(function(err) {
-      errorDiv.innerHTML = '<strong>Error:</strong> ' + err;
-      errorDiv.className = 'show';
-      errorDiv.style.display = 'block';
+      if (err !== 'syntax error') {
+        viewWindow.close();
+        errorDiv.innerHTML = '<strong>Error:</strong> ' + err;
+        errorDiv.className = 'show';
+        errorDiv.style.display = 'block';
+      }
       btn.disabled = false;
       btn.innerHTML = '<i class="fa fa-save"></i> Save and View in New Window';
     });
