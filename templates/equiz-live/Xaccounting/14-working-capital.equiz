@@ -57,7 +57,7 @@
 :N: Change in Working Capital
 :I: $nwc_end=rseq(150,300)*1000; $nwc_begin=rseq(120,280)*1000; $ANS=$nwc_end-$nwc_begin
 :Q: NWC end of year $$nwc_end, beginning $$nwc_begin. Change in working capital?
-:A: ΔNWC = End - Begin = $nwc_end - $nwc_begin = $$ANS.
+:A: \(\Delta\)NWC = End - Begin = $nwc_end - $nwc_begin = $$ANS.
 :T: 10
 :E:
 
@@ -78,7 +78,7 @@
 :N: WC Investment for Growth
 :I: $rev_growth=rseq(80,200)*1000; $wc_pct=rseq(15,25)/100; $ANS=$rev_growth*$wc_pct
 :Q: Revenue increases by $$rev_growth. WC typically runs $wc_pct of revenue. WC investment needed?
-:A: Investment = ΔRevenue × WC% = $rev_growth × $wc_pct = $$ANS.
+:A: Investment = \(\Delta\)Revenue * WC% = $rev_growth * $wc_pct = $$ANS.
 :T: 10
 :E:
 
