@@ -78,7 +78,7 @@
 :N: Variance Swap Strike
 :I: $IV_p1=rseq(25,30)/100; $IV_p2=rseq(28,33)/100; $IV_atm=rseq(23,27)/100; $IV_c1=rseq(21,25)/100; $IV_c2=rseq(19,23)/100; $ANS=sqrt(($IV_p1^2+$IV_p2^2+$IV_atm^2+$IV_c1^2+$IV_c2^2)/5)
 :Q: IVs across strikes: $IV_p1, $IV_p2, $IV_atm, $IV_c1, $IV_c2. Approximate variance swap strike (RMS)?
-:A: Var swap ~ √(average of squared IVs) = $ANS.
+:A: Var swap ~ \sqrt(average of squared IVs) = $ANS.
 :T: 20
 :E:
 
