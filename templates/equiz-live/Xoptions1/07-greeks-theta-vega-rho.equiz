@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Option Value Change from Theta
 :I: $theta_day=rseq(-5,-2)/100; $days=rseq(5,15); $ANS=$theta_day*$days
 :Q: Daily theta is $$theta_day. How much does the option value change over $days days (assuming nothing else changes)?
 :A: Value change = theta * days = $theta_day * $days = $$ANS.
 :T: 10
 :E:
+
 
 :N: ATM Theta Approximation
 :I: $S=rseq(48,52); $sigma=rseq(25,35)/100; $r=rseq(4,6)/100; $T=rseq(3,9)/12; $ANS=-$S*$sigma/(2*sqrt($T))*Norm(0)-$r*$S*exp(-$r*$T)*0.5
@@ -33,12 +35,14 @@
 :T: 20
 :E:
 
+
 :N: Vega - Sensitivity to Volatility
 :I: $S=50; $K=50; $r=0.05; $sigma=0.30; $T=0.5; $d1=(ln($S/$K)+($r+$sigma^2/2)*$T)/($sigma*sqrt($T)); $ANS=$S*sqrt($T)*Norm($d1)
 :Q: S=$50, K=$50, r=5%, \(\sigma\)=30%, T=0.5 years. Calculate vega = S*sqrt(T)*N'(d1).
 :A: d1 = $d1. Vega = $S * sqrt($T) * N'($d1) = $$ANS.
 :T: 10
 :E:
+
 
 :N: Option Price Change from Vega
 :I: $vega=rseq(10,18); $vol_change=rseq(1,3)/100; $ANS=$vega*$vol_change
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Rho - Sensitivity to Interest Rate
 :I: $K=rseq(48,52); $r=0.05; $T=rseq(3,12)/12; $S=50; $sigma=0.30; $d1=(ln($S/$K)+($r+$sigma^2/2)*$T)/($sigma*sqrt($T)); $d2=$d1-$sigma*sqrt($T); $ANS=$K*$T*exp(-$r*$T)*CumNorm($d2)
 :Q: Call rho = K*T*e^(-rT)*N(d2). K=$$K, T=$T, r=5%, d2=$d2. What is rho?
 :A: Rho = $K * $T * e^(-$r*$T) * N($d2) = $$ANS.
 :T: 10
 :E:
+
 
 :N: Put Rho
 :I: $K=rseq(48,52); $r=0.05; $T=rseq(3,12)/12; $S=50; $sigma=0.30; $d1=(ln($S/$K)+($r+$sigma^2/2)*$T)/($sigma*sqrt($T)); $d2=$d1-$sigma*sqrt($T); $ANS=-$K*$T*exp(-$r*$T)*CumNorm(-$d2)
@@ -61,12 +67,14 @@
 :T: 10
 :E:
 
+
 :N: Theta-Gamma Tradeoff
 :I: $S=50; $sigma=rseq(25,35)/100; $gamma=rseq(3,6)/100; $r=rseq(4,6)/100; $ANS=-0.5*$S^2*$sigma^2*$gamma
 :Q: The theta-gamma relationship: Theta ~ -(1/2)S^2\(\sigma\)^2\(\Gamma\) (ignoring rho term). S=$50, \(\sigma\)=$sigma, \(\Gamma\)=$gamma. What is theta?
 :A: Theta ~ -0.5 * $S^2 * $sigma^2 * $gamma = $$ANS.
 :T: 20
 :E:
+
 
 :N: Portfolio Vega
 :I: $vega1=rseq(12,18); $qty1=rseq(10,20); $vega2=rseq(8,12); $qty2=rseq(-15,-5); $ANS=$vega1*$qty1+$vega2*$qty2
@@ -75,12 +83,14 @@
 :T: 10
 :E:
 
+
 :N: Vega Neutral Hedge
 :I: $port_vega=rseq(100,200); $hedge_vega=rseq(12,18); $ANS=-$port_vega/$hedge_vega
 :Q: Portfolio vega is $port_vega. A hedging option has vega $hedge_vega. How many options to become vega neutral?
 :A: Options needed = -Portfolio vega / Option vega = -$port_vega / $hedge_vega = $ANS.
 :T: 10
 :E:
+
 
 :N: Weekend Theta
 :I: $daily_theta=rseq(-8,-3)/100; $ANS=$daily_theta*3
