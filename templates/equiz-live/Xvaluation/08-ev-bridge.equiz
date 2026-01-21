@@ -57,7 +57,7 @@
 :N: Equity Value per Share
 :I: $equity=rseq(500,1200)*1000; $shares=rseq(30,80)*1000; $ANS=$equity/($shares*1000)
 :Q: Equity value $$equity, shares $shares thousand. Value per share?
-:A: Per share = Equity / Shares = $equity / ($shares×1000) = $$ANS.
+:A: Per share = Equity / Shares = $equity / ($shares*1000) = $$ANS.
 :T: 10
 :E:
 
@@ -78,7 +78,7 @@
 :N: Implied EV Multiple
 :I: $mkt_cap=rseq(600,1400)*1000; $net_debt=rseq(100,400)*1000; $ebitda=rseq(80,180)*1000; $ev=$mkt_cap+$net_debt; $ANS=$ev/$ebitda
 :Q: Market cap $$mkt_cap, net debt $$net_debt, EBITDA $$ebitda. Implied EV/EBITDA?
-:A: EV = Mkt cap + Net debt = $$ev. EV/EBITDA = $ev / $ebitda = $ANS×.
+:A: EV = Mkt cap + Net debt = $$ev. EV/EBITDA = $ev / $ebitda = $ANS*.
 :T: 10
 :E:
 
