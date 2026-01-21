@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Zero Price from Spot Rate
 :I: $FV=1000; $rp=rseq(3,6); $r=$rp/100; $n=rseq(3,8); $ANS=$FV/(1+$r)^$n
 :Q: $n-year spot rate is $rp%. What is the price of a $n-year zero-coupon bond (FV=$$FV)?
 :A: Price = FV / (1+r)^n = $FV / (1+$r)^$n = $$ANS.
 :T: 10
 :E:
+
 
 :N: Discount Factor
 :I: $rp=rseq(3,6); $r=$rp/100; $n=rseq(2,6); $ANS=1/(1+$r)^$n
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Bootstrapping - 2-Year Spot
 :I: $r1=rseq(3,5)/100; $C=rseq(40,60); $FV=1000; $price=rseq(980,1020); $PV1=$C/(1+$r1); $remaining=$price-$PV1; $ANS=(sqrt(($C+$FV)/$remaining)-1)*100
 :Q: 1-year spot=$r1. 2-year bond: $$C coupon, $$FV face, price=$$price. PV of year-1 CF=$$PV1. Find 2-year spot.
 :A: Remaining = $price - $PV1 = $$remaining = (C+FV)/(1+r2)^2. Solving: r2 = $ANS%.
 :T: 10
 :E:
+
 
 :N: Bond Price from Spot Rates
 :I: $r1=rseq(3,4)/100; $r2=rseq(4,5)/100; $r3=rseq(5,6)/100; $C=50; $FV=1000; $ANS=$C/(1+$r1)+$C/(1+$r2)^2+($C+$FV)/(1+$r3)^3
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Par Rate
 :I: $d1=rseq(95,98)/100; $d2=rseq(90,95)/100; $d3=rseq(85,92)/100; $ANS=(1-$d3)/($d1+$d2+$d3)*100
 :Q: Discount factors: d1=$d1, d2=$d2, d3=$d3. What is the 3-year par rate?
 :A: Par rate = (1 - d3) / (d1 + d2 + d3) = (1 - $d3) / ($d1+$d2+$d3) = $ANS%.
 :T: 10
 :E:
+
 
 :N: Upward Sloping Curve
 :I: $r1=rseq(2,3); $r2=$r1+rseq(0.5,1); $r3=$r2+rseq(0.5,1); $ANS=$r3-$r1
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Inverted Curve
 :I: $r1=rseq(5,6); $r2=$r1-rseq(0.3,0.7); $r3=$r2-rseq(0.3,0.7); $ANS=$r3-$r1
 :Q: Spot rates: 1-year=$r1%, 2-year=$r2%, 3-year=$r3%. What is the slope (inverted curve)?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Continuous Spot Rate
 :I: $price=rseq(850,950); $FV=1000; $T=rseq(3,7); $ANS=-ln($price/$FV)/$T*100
 :Q: Zero bond: price=$$price, FV=$$FV, T=$T years. Continuous spot rate?
 :A: r = -ln(P/FV) / T = -ln($price/$FV) / $T = $ANS%.
 :T: 10
 :E:
+
 
 :N: Z-Spread
 :I: $treasury_1=rseq(3,4)/100; $treasury_2=rseq(3.5,4.5)/100; $treasury_3=rseq(4,5)/100; $C=60; $FV=1000; $corp_price=rseq(970,990); $z=rseq(100,200)/10000; $calc_price=$C/(1+$treasury_1+$z)+$C/(1+$treasury_2+$z)^2+($C+$FV)/(1+$treasury_3+$z)^3; $ANS=$z*10000
