@@ -71,7 +71,7 @@
 :N: Calibrating u from Volatility
 :I: $sigma=rseq(20,40)/100; $Td=rseq(30,90); $T=$Td/365; $ANS=exp($sigma*sqrt($T))
 :Q: Volatility \(\sigma\)=$sigma, time step = $Td days. Using u = exp(\(\sigma\)sqrt(T)), what is u?
-:A: u = exp($sigma * √($Td/365)) = exp($sigma * sqrt($T)) = $ANS.
+:A: u = exp($sigma * \sqrt($Td/365)) = exp($sigma * sqrt($T)) = $ANS.
 :T: 10
 :E:
 
