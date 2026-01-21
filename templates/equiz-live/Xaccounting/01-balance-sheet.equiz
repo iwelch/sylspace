@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Accounting Equation - Find Assets
 :I: $liabilities=rseq(200,400)*1000; $equity=rseq(300,500)*1000; $ANS=$liabilities+$equity
 :Q: Total liabilities = $$liabilities, shareholders' equity = $$equity. What are total assets?
 :A: Assets = Liabilities + Equity = $liabilities + $equity = $$ANS.
 :T: 10
 :E:
+
 
 :N: Accounting Equation - Find Liabilities
 :I: $assets=rseq(600,1000)*1000; $equity=rseq(300,500)*1000; $ANS=$assets-$equity
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Current Assets
 :I: $cash=rseq(50,150)*1000; $ar=rseq(80,200)*1000; $inventory=rseq(100,300)*1000; $prepaid=rseq(10,40)*1000; $ANS=$cash+$ar+$inventory+$prepaid
 :Q: Cash $$cash, A/R $$ar, Inventory $$inventory, Prepaid expenses $$prepaid. Total current assets?
 :A: Current assets = $cash + $ar + $inventory + $prepaid = $$ANS.
 :T: 10
 :E:
+
 
 :N: Current Liabilities
 :I: $ap=rseq(60,150)*1000; $accrued=rseq(30,80)*1000; $short_debt=rseq(50,150)*1000; $ANS=$ap+$accrued+$short_debt
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Working Capital
 :I: $current_assets=rseq(400,700)*1000; $current_liab=rseq(200,400)*1000; $ANS=$current_assets-$current_liab
 :Q: Current assets $$current_assets, current liabilities $$current_liab. Working capital?
 :A: Working capital = Current assets - Current liabilities = $current_assets - $current_liab = $$ANS.
 :T: 10
 :E:
+
 
 :N: Total Equity Components
 :I: $common=rseq(100,300)*1000; $apic=rseq(200,500)*1000; $retained=rseq(150,400)*1000; $treasury=rseq(20,80)*1000; $ANS=$common+$apic+$retained-$treasury
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Book Value Per Share
 :I: $equity=rseq(400,800)*1000; $shares=rseq(50,150)*1000; $ANS=$equity/$shares
 :Q: Total equity $$equity, shares outstanding $shares thousand. Book value per share?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Net Fixed Assets
 :I: $gross_ppe=rseq(500,1000)*1000; $accum_depr=rseq(150,400)*1000; $ANS=$gross_ppe-$accum_depr
 :Q: Gross PP&E $$gross_ppe, accumulated depreciation $$accum_depr. Net fixed assets?
 :A: Net PP&E = Gross - Accumulated depreciation = $gross_ppe - $accum_depr = $$ANS.
 :T: 10
 :E:
+
 
 :N: Balance Sheet Balances
 :I: $cash=rseq(100,200)*1000; $ar=rseq(150,250)*1000; $inventory=rseq(200,350)*1000; $ppe=rseq(400,600)*1000; $ap=rseq(100,200)*1000; $debt=rseq(300,500)*1000; $assets=$cash+$ar+$inventory+$ppe; $liab=$ap+$debt; $ANS=$assets-$liab
