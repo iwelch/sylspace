@@ -29,21 +29,21 @@
 :N: FIFO Cost of Goods Sold
 :I: $units_sold=rseq(80,150); $old_units=rseq(50,100); $old_cost=rseq(8,12); $new_units=100; $new_cost=rseq(10,15); $from_old=min($units_sold,$old_units); $from_new=$units_sold-$from_old; $ANS=$from_old*$old_cost+$from_new*$new_cost
 :Q: FIFO: Sold $units_sold units. Old layer: $old_units units @ $$old_cost. New layer: $new_units @ $$new_cost. COGS?
-:A: FIFO uses oldest first: $from_old × $old_cost + $from_new × $new_cost = $$ANS.
+:A: FIFO uses oldest first: $from_old * $old_cost + $from_new * $new_cost = $$ANS.
 :T: 10
 :E:
 
 :N: LIFO Cost of Goods Sold
 :I: $units_sold=rseq(80,150); $old_units=100; $old_cost=rseq(8,12); $new_units=rseq(60,120); $new_cost=rseq(11,16); $from_new=min($units_sold,$new_units); $from_old=$units_sold-$from_new; $ANS=$from_new*$new_cost+$from_old*$old_cost
 :Q: LIFO: Sold $units_sold units. Old layer: $old_units @ $$old_cost. New layer: $new_units @ $$new_cost. COGS?
-:A: LIFO uses newest first: $from_new × $new_cost + $from_old × $old_cost = $$ANS.
+:A: LIFO uses newest first: $from_new * $new_cost + $from_old * $old_cost = $$ANS.
 :T: 10
 :E:
 
 :N: Weighted Average Cost
 :I: $units1=rseq(80,120); $cost1=rseq(8,12); $units2=rseq(100,150); $cost2=rseq(10,14); $total_cost=$units1*$cost1+$units2*$cost2; $total_units=$units1+$units2; $ANS=$total_cost/$total_units
 :Q: Purchase 1: $units1 units @ $$cost1. Purchase 2: $units2 @ $$cost2. Weighted average cost per unit?
-:A: Avg cost = Total cost / Total units = ($units1×$cost1 + $units2×$cost2) / ($units1 + $units2) = $$ANS.
+:A: Avg cost = Total cost / Total units = ($units1*$cost1 + $units2*$cost2) / ($units1 + $units2) = $$ANS.
 :T: 10
 :E:
 
@@ -78,7 +78,7 @@
 :N: Gross Profit Method
 :I: $begin_inv=rseq(50,100)*1000; $purchases=rseq(200,400)*1000; $sales=rseq(300,500)*1000; $gp_pct=rseq(30,40); $cogs=$sales*(100-$gp_pct)/100; $ANS=$begin_inv+$purchases-$cogs
 :Q: Begin inv $$begin_inv, purchases $$purchases, sales $$sales, GP margin $gp_pct%. Estimated ending inventory?
-:A: COGS = Sales × (1 - GP%) = $$cogs. Ending = Begin + Purch - COGS = $$ANS.
+:A: COGS = Sales * (1 - GP%) = $$cogs. Ending = Begin + Purch - COGS = $$ANS.
 :T: 10
 :E:
 
