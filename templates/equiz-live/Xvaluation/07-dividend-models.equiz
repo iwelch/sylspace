@@ -36,7 +36,7 @@
 :N: Two-Stage DDM - Stage 1 PV
 :I: $div0=rseq(1.5,3); $g1=rseq(12,20)/100; $ke=rseq(10,14)/100; $n=5; $div1=$div0*(1+$g1); $div2=$div1*(1+$g1); $div3=$div2*(1+$g1); $div4=$div3*(1+$g1); $div5=$div4*(1+$g1); $ANS=$div1/(1+$ke)+$div2/(1+$ke)^2+$div3/(1+$ke)^3+$div4/(1+$ke)^4+$div5/(1+$ke)^5
 :Q: D0 = $$div0, Stage 1 growth $g1 for 5 years, Ke = $ke. PV of Stage 1 dividends?
-:A: PV = D1/(1+Ke) + D2/(1+Ke)^2 + ... + D5/(1+Ke)⁵ = $$ANS.
+:A: PV = D1/(1+Ke) + D2/(1+Ke)^2 + ... + D5/(1+Ke)^5 = $$ANS.
 :T: 10
 :E:
 
