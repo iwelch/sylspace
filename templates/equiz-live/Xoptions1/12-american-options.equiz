@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: American Call - Early Exercise with Dividend
 :I: $S=rseq(55,60); $K=50; $D=rseq(3,5); $r=0.05; $T=0.5; $value_exercise=$S-$K; $value_hold=$S-$D*exp(-$r*0.1)-$K*exp(-$r*$T); $ANS=max($value_exercise,$value_hold)
 :Q: S=$$S, K=$50, dividend $$D soon, r=5%, T=0.5. Intrinsic if exercised now = $$value_exercise. Estimated hold value ~ $$value_hold. American call value?
 :A: American call = max(exercise, hold) = max($value_exercise, $value_hold) ~ $$ANS.
 :T: 20
 :E:
+
 
 :N: American Put - Early Exercise Value
 :I: $S=rseq(38,44); $K=50; $r=0.05; $T=0.5; $sigma=0.30; $intrinsic=$K-$S; $euro=BlackScholes($S,$K,$T,$r,$sigma)-$S+$K*exp(-$r*$T); $ANS=max($euro,$intrinsic)
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Early Exercise Premium
 :I: $american=rseq(8,12); $european=rseq(6,10); $ANS=$american-$european
 :Q: American put is worth $$american, European put $$european. What is the early exercise premium?
 :A: Early exercise premium = American - European = $american - $european = $$ANS.
 :T: 10
 :E:
+
 
 :N: Put Exercise Boundary
 :I: $K=50; $r=rseq(4,8)/100; $T=rseq(3,12)/12; $sigma=0.30; $ANS=$K*(1-2*$sigma*sqrt($T))
@@ -47,12 +51,14 @@
 :T: 20
 :E:
 
+
 :N: Dividend Capture Strategy
 :I: $S=rseq(52,58); $K=50; $D=rseq(2,4); $C=rseq(4,7); $profit_exercise=$S-$K-$C+$D; $ANS=$profit_exercise
 :Q: Call cost $$C, S=$$S, K=$50. Dividend $$D tomorrow. If you exercise today, profit = S - K - C + D. Calculate.
 :A: Profit from early exercise = $S - $K - $C + $D = $$ANS.
 :T: 10
 :E:
+
 
 :N: Time Value of American Put
 :I: $S=rseq(44,48); $K=50; $american=rseq(5,8); $intrinsic=$K-$S; $ANS=$american-$intrinsic
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Deep ITM American Put
 :I: $S=rseq(25,35); $K=50; $r=0.05; $T=1; $intrinsic=$K-$S; $PV_intrinsic=$intrinsic*exp(-$r*$T); $ANS=$intrinsic
 :Q: Deep ITM American put: S=$$S, K=$50, r=5%, T=1 year. Intrinsic=$$intrinsic, PV(intrinsic)=$$PV_intrinsic. Should you exercise?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: American Call on Dividend Stock
 :I: $S=rseq(52,58); $K=50; $D=rseq(1,3); $call_now=$S-$K; $ex_div_S=$S-$D; $ANS=$call_now
 :Q: Just before ex-div: S=$$S, K=$50, dividend $$D. Exercise value = $$call_now. After ex-div S=$$ex_div_S. Value captured by exercising?
 :A: Exercise captures $S - $K = $$ANS (but forfeits remaining time value).
 :T: 10
 :E:
+
 
 :N: Bermudan Option
 :I: $american=rseq(7,10); $european=rseq(5,8); $ANS=($american+$european)/2
