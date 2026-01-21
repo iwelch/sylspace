@@ -36,21 +36,21 @@
 :N: Two-Stage DDM - Stage 1 PV
 :I: $div0=rseq(1.5,3); $g1=rseq(12,20)/100; $ke=rseq(10,14)/100; $n=5; $div1=$div0*(1+$g1); $div2=$div1*(1+$g1); $div3=$div2*(1+$g1); $div4=$div3*(1+$g1); $div5=$div4*(1+$g1); $ANS=$div1/(1+$ke)+$div2/(1+$ke)^2+$div3/(1+$ke)^3+$div4/(1+$ke)^4+$div5/(1+$ke)^5
 :Q: D0 = $$div0, Stage 1 growth $g1 for 5 years, Ke = $ke. PV of Stage 1 dividends?
-:A: PV = D1/(1+Ke) + D2/(1+Ke)² + ... + D5/(1+Ke)⁵ = $$ANS.
+:A: PV = D1/(1+Ke) + D2/(1+Ke)^2 + ... + D5/(1+Ke)⁵ = $$ANS.
 :T: 10
 :E:
 
 :N: Terminal Value in DDM
 :I: $div5=rseq(3,6); $g2=rseq(3,5)/100; $ke=rseq(10,14)/100; $tv=$div5*(1+$g2)/($ke-$g2); $n=5; $ANS=$tv/(1+$ke)^$n
 :Q: D5 = $$div5, perpetual growth $g2 after year 5, Ke = $ke. PV of terminal value?
-:A: TV = D6 / (Ke - g) = $div5×(1+$g2) / ($ke-$g2) = $$tv. PV = TV/(1+Ke)^5 = $$ANS.
+:A: TV = D6 / (Ke - g) = $div5*(1+$g2) / ($ke-$g2) = $$tv. PV = TV/(1+Ke)^5 = $$ANS.
 :T: 10
 :E:
 
 :N: Sustainable Growth Rate
 :I: $roe=rseq(12,20)/100; $payout=rseq(30,50)/100; $retention=1-$payout; $ANS=$roe*$retention*100
 :Q: ROE $roe, payout ratio $payout. Sustainable growth rate?
-:A: g = ROE × Retention = $roe × (1 - $payout) = $ANS%.
+:A: g = ROE * Retention = $roe * (1 - $payout) = $ANS%.
 :T: 10
 :E:
 
