@@ -15,7 +15,7 @@
 :N: Up and Down Stock Prices
 :I: $S=rseq(40,50); $up=rseq(110,125); $u=$up/100; $dp=rseq(80,92); $d=$dp/100; $Su=$S*$u; $ANS=$S*$d
 :Q: Stock is at $$S. Up factor u=$u, down factor d=$d. If up, stock is $$Su. What is the stock price if it goes down?
-:A: Sd = S × d = $S × $d = $$ANS.
+:A: Sd = S * d = $S * $d = $$ANS.
 :T: 10
 :E:
 
@@ -29,21 +29,21 @@
 :N: Call Value - One Period (ITM both)
 :I: $S=50; $K=rseq(42,46); $u=1.20; $d=0.90; $r=0.05; $Su=$S*$u; $Sd=$S*$d; $Cu=$Su-$K; $Cd=$Sd-$K; $p=(exp($r)-$d)/($u-$d); $ANS=exp(-$r)*($p*$Cu+(1-$p)*$Cd)
 :Q: S=$50, K=$$K, u=1.20, d=0.90, r=5%. Su=$$Su, Sd=$$Sd. Cu=$$Cu, Cd=$$Cd. What is the call price?
-:A: p* = $p. Call = exp(-r)[p*×Cu + (1-p*)×Cd] = $$ANS.
+:A: p* = $p. Call = exp(-r)[p**Cu + (1-p*)*Cd] = $$ANS.
 :T: 10
 :E:
 
 :N: Call Value - One Period (Mixed)
 :I: $S=50; $K=rseq(50,54); $u=1.15; $d=0.88; $r=0.04; $Su=$S*$u; $Sd=$S*$d; $Cu=max($Su-$K,0); $Cd=max($Sd-$K,0); $p=(exp($r)-$d)/($u-$d); $ANS=exp(-$r)*($p*$Cu+(1-$p)*$Cd)
 :Q: S=$50, K=$$K, u=1.15, d=0.88, r=4%. Su=$$Su, Sd=$$Sd. What is the call option price?
-:A: Cu = max($Su-$K, 0) = $$Cu. Cd = max($Sd-$K, 0) = $$Cd. p* = $p. Call = exp(-r)[p*×Cu + (1-p*)×Cd] = $$ANS.
+:A: Cu = max($Su-$K, 0) = $$Cu. Cd = max($Sd-$K, 0) = $$Cd. p* = $p. Call = exp(-r)[p**Cu + (1-p*)*Cd] = $$ANS.
 :T: 10
 :E:
 
 :N: Put Value - One Period
 :I: $S=50; $K=rseq(48,54); $u=1.18; $d=0.86; $r=0.05; $Su=$S*$u; $Sd=$S*$d; $Pu=max($K-$Su,0); $Pd=max($K-$Sd,0); $p=(exp($r)-$d)/($u-$d); $ANS=exp(-$r)*($p*$Pu+(1-$p)*$Pd)
 :Q: S=$50, K=$$K, u=1.18, d=0.86, r=5%. What is the put option price?
-:A: Pu = max($K-$Su, 0) = $$Pu. Pd = max($K-$Sd, 0) = $$Pd. p* = $p. Put = exp(-r)[p*×Pu + (1-p*)×Pd] = $$ANS.
+:A: Pu = max($K-$Su, 0) = $$Pu. Pd = max($K-$Sd, 0) = $$Pd. p* = $p. Put = exp(-r)[p**Pu + (1-p*)*Pd] = $$ANS.
 :T: 10
 :E:
 
@@ -57,21 +57,21 @@
 :N: Bond Position in Replicating Portfolio
 :I: $S=50; $K=48; $u=1.20; $d=0.85; $r=0.05; $Su=$S*$u; $Sd=$S*$d; $Cu=max($Su-$K,0); $Cd=max($Sd-$K,0); $delta=($Cu-$Cd)/($Su-$Sd); $ANS=exp(-$r)*($Cu-$delta*$Su)
 :Q: S=$50, K=$48, u=1.20, d=0.85, r=5%. Delta=$delta. What is the bond position B in the replicating portfolio?
-:A: B = exp(-r)×(Cu - delta×Su) = exp(-0.05)×($Cu - $delta×$Su) = $$ANS.
+:A: B = exp(-r)*(Cu - delta*Su) = exp(-0.05)*($Cu - $delta*$Su) = $$ANS.
 :T: 10
 :E:
 
 :N: Verify Replicating Portfolio
 :I: $S=50; $K=50; $u=1.15; $d=0.88; $r=0.04; $Su=$S*$u; $Sd=$S*$d; $Cu=max($Su-$K,0); $Cd=max($Sd-$K,0); $delta=($Cu-$Cd)/($Su-$Sd); $B=exp(-$r)*($Cu-$delta*$Su); $ANS=$delta*$S+$B
-:Q: S=$50, K=$50, u=1.15, d=0.88, r=4%. Delta=$delta, B=$$B. Verify the option price as delta×S + B.
-:A: Option price = delta×S + B = $delta×$S + $B = $$ANS.
+:Q: S=$50, K=$50, u=1.15, d=0.88, r=4%. Delta=$delta, B=$$B. Verify the option price as delta*S + B.
+:A: Option price = delta*S + B = $delta*$S + $B = $$ANS.
 :T: 10
 :E:
 
 :N: Calibrating u from Volatility
 :I: $sigma=rseq(20,40)/100; $Td=rseq(30,90); $T=$Td/365; $ANS=exp($sigma*sqrt($T))
-:Q: Volatility σ=$sigma, time step = $Td days. Using u = exp(σ√T), what is u?
-:A: u = exp($sigma × √($Td/365)) = exp($sigma × √$T) = $ANS.
+:Q: Volatility \(\sigma\)=$sigma, time step = $Td days. Using u = exp(\(\sigma\)sqrt(T)), what is u?
+:A: u = exp($sigma * √($Td/365)) = exp($sigma * sqrt($T)) = $ANS.
 :T: 10
 :E:
 
