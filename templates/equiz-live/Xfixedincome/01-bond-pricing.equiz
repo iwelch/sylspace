@@ -22,14 +22,14 @@
 :N: Zero-Coupon Bond Price (Continuous)
 :I: $FV=1000; $rp=rseq(3,7); $r=$rp/100; $T=rseq(2,10); $ANS=$FV*exp(-$r*$T)
 :Q: Zero-coupon bond, FV=$$FV, $T years, continuously compounded rate $rp%. Price?
-:A: Price = FV × e^(-rT) = $FV × e^(-$r×$T) = $$ANS.
+:A: Price = FV * e^(-rT) = $FV * e^(-$r*$T) = $$ANS.
 :T: 10
 :E:
 
 :N: Coupon Bond Price
 :I: $FV=1000; $cp=rseq(4,8); $C=$FV*$cp/100; $rp=rseq(3,7); $r=$rp/100; $n=rseq(3,8); $coupon_pv=$C*(1-(1+$r)^(-$n))/$r; $face_pv=$FV/(1+$r)^$n; $ANS=$coupon_pv+$face_pv
 :Q: Bond: FV=$$FV, coupon $cp% annual, YTM $rp%, $n years to maturity. Price?
-:A: PV(coupons) = $C × [1-(1+$r)^(-$n)]/$r = $$coupon_pv. PV(face) = $$face_pv. Price = $$ANS.
+:A: PV(coupons) = $C * [1-(1+$r)^(-$n)]/$r = $$coupon_pv. PV(face) = $$face_pv. Price = $$ANS.
 :T: 10
 :E:
 
@@ -57,7 +57,7 @@
 :N: Accrued Interest
 :I: $FV=1000; $cp=rseq(4,8); $annual_C=$FV*$cp/100; $days_since=rseq(30,150); $days_period=180; $ANS=$annual_C/2*$days_since/$days_period
 :Q: Bond: $cp% semi-annual coupon, FV=$$FV. $days_since days since last coupon (180-day period). Accrued interest?
-:A: Accrued = (Annual coupon / 2) × (days / period) = ($annual_C/2) × ($days_since/180) = $$ANS.
+:A: Accrued = (Annual coupon / 2) * (days / period) = ($annual_C/2) * ($days_since/180) = $$ANS.
 :T: 10
 :E:
 
