@@ -15,7 +15,7 @@
 :N: Option to Expand - Value
 :I: $base_npv=rseq(50,150)*1000; $expansion_npv=rseq(80,200)*1000; $expansion_cost=rseq(50,120)*1000; $prob_success=rseq(40,70)/100; $ANS=$base_npv+$prob_success*max($expansion_npv-$expansion_cost,0)
 :Q: Base NPV $$base_npv. If successful (prob $prob_success), can expand: NPV $$expansion_npv, cost $$expansion_cost. Project value?
-:A: Value = Base NPV + P(success) × max(Expansion NPV - Cost, 0) = $$ANS.
+:A: Value = Base NPV + P(success) * max(Expansion NPV - Cost, 0) = $$ANS.
 :T: 10
 :E:
 
@@ -43,7 +43,7 @@
 :N: Staging Investment
 :I: $stage1_cost=rseq(20,50)*1000; $stage2_cost=rseq(50,100)*1000; $final_value=rseq(150,300)*1000; $prob_continue=rseq(50,75)/100; $r=0.1; $ANS=-$stage1_cost+$prob_continue*(-$stage2_cost+$final_value)/(1+$r)
 :Q: Stage 1: invest $$stage1_cost. If proceed (prob $prob_continue), Stage 2: $$stage2_cost for $$final_value. Project NPV?
-:A: NPV = -Stage1 + P(continue) × (-Stage2 + Value)/(1+r) = $$ANS.
+:A: NPV = -Stage1 + P(continue) * (-Stage2 + Value)/(1+r) = $$ANS.
 :T: 10
 :E:
 
@@ -64,7 +64,7 @@
 :N: Learning Option
 :I: $pilot_cost=rseq(5,15)*1000; $full_cost=rseq(50,100)*1000; $success_value=rseq(120,250)*1000; $prob_success=rseq(30,60)/100; $r=0.1; $ANS=-$pilot_cost+$prob_success*max($success_value-$full_cost,0)/(1+$r)
 :Q: Pilot study costs $$pilot_cost. If successful (prob $prob_success), full investment $$full_cost yields $$success_value. NPV?
-:A: NPV = -Pilot + P(success) × max(Value - Full cost, 0)/(1+r) = $$ANS.
+:A: NPV = -Pilot + P(success) * max(Value - Full cost, 0)/(1+r) = $$ANS.
 :T: 10
 :E:
 
