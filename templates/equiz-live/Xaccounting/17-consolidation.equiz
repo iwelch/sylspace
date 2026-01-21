@@ -15,7 +15,7 @@
 :N: Equity Method Income
 :I: $ownership=rseq(20,45)/100; $investee_ni=rseq(50,150)*1000; $ANS=$ownership*$investee_ni
 :Q: Own $ownership of investee. Investee net income $$investee_ni. Equity method income?
-:A: Income = Ownership × Investee NI = $ownership × $investee_ni = $$ANS.
+:A: Income = Ownership * Investee NI = $ownership * $investee_ni = $$ANS.
 :T: 10
 :E:
 
@@ -36,7 +36,7 @@
 :N: Minority Interest in Net Income
 :I: $sub_ni=rseq(40,100)*1000; $parent_ownership=rseq(60,90)/100; $minority=1-$parent_ownership; $ANS=$minority*$sub_ni
 :Q: Subsidiary NI $$sub_ni. Parent owns $parent_ownership. Minority interest in NI?
-:A: Minority NI = (1 - $parent_ownership) × $sub_ni = $minority × $sub_ni = $$ANS.
+:A: Minority NI = (1 - $parent_ownership) * $sub_ni = $minority * $sub_ni = $$ANS.
 :T: 10
 :E:
 
@@ -50,7 +50,7 @@
 :N: Unrealized Profit Elimination
 :I: $intercompany_sales=rseq(80,200)*1000; $margin=rseq(25,40)/100; $pct_unsold=rseq(20,50)/100; $ANS=$intercompany_sales*$margin*$pct_unsold
 :Q: Intercompany sales $$intercompany_sales at $margin margin. $pct_unsold still in inventory. Unrealized profit to eliminate?
-:A: Unrealized = Sales × Margin × % unsold = $intercompany_sales × $margin × $pct_unsold = $$ANS.
+:A: Unrealized = Sales * Margin * % unsold = $intercompany_sales * $margin * $pct_unsold = $$ANS.
 :T: 10
 :E:
 
@@ -71,7 +71,7 @@
 :N: Proportionate Consolidation (JV)
 :I: $jv_revenue=rseq(100,300)*1000; $jv_assets=rseq(200,500)*1000; $ownership=0.5; $ANS=$jv_revenue*$ownership
 :Q: JV revenue $$jv_revenue, assets $$jv_assets. Own 50%. Proportionate revenue consolidated?
-:A: Consolidated revenue = JV revenue × 50% = $jv_revenue × 0.5 = $$ANS.
+:A: Consolidated revenue = JV revenue * 50% = $jv_revenue * 0.5 = $$ANS.
 :T: 10
 :E:
 
