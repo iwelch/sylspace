@@ -42,7 +42,7 @@
 
 :N: Rebalancing Needed
 :I: $port_dur=rseq(5.5,7.5); $target_dur=rseq(6,7); $tolerance=0.25; $deviation=abs($port_dur-$target_dur); $ANS=$deviation
-:Q: Portfolio duration $port_dur, target $target_dur, tolerance ±0.25. Deviation from target?
+:Q: Portfolio duration $port_dur, target $target_dur, tolerance \pm 0.25. Deviation from target?
 :A: Deviation = |$port_dur - $target_dur| = $ANS years. Rebalance if > 0.25.
 :T: 10
 :E:
