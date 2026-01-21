@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Common Size Balance Sheet
 :I: $total_assets=rseq(600,1200)*1000; $inventory=rseq(80,200)*1000; $ANS=$inventory/$total_assets*100
 :Q: Total assets $$total_assets, inventory $$inventory. Inventory as % of assets?
 :A: Inventory % = Inventory / Assets = $inventory / $total_assets = $ANS%.
 :T: 10
 :E:
+
 
 :N: Horizontal Analysis - Growth Rate
 :I: $this_year=rseq(500,900)*1000; $last_year=rseq(450,800)*1000; $ANS=($this_year/$last_year-1)*100
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Cash Conversion Cycle
 :I: $dso=rseq(35,55); $dio=rseq(40,70); $dpo=rseq(30,50); $ANS=$dso+$dio-$dpo
 :Q: DSO = $dso days, DIO = $dio days, DPO = $dpo days. Cash conversion cycle?
 :A: CCC = DSO + DIO - DPO = $dso + $dio - $dpo = $ANS days.
 :T: 10
 :E:
+
 
 :N: Altman Z-Score Component
 :I: $working_cap=rseq(100,300)*1000; $total_assets=rseq(600,1200)*1000; $ANS=$working_cap/$total_assets
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Operating Leverage
 :I: $ebit_change=rseq(15,30); $revenue_change=rseq(8,15); $ANS=$ebit_change/$revenue_change
 :Q: EBIT grew $ebit_change%, revenue grew $revenue_change%. Degree of operating leverage?
 :A: DOL = %\(\Delta\)EBIT / %\(\Delta\)Revenue = $ebit_change / $revenue_change = $ANS.
 :T: 10
 :E:
+
 
 :N: Financial Leverage (DFL)
 :I: $ebit=rseq(100,250)*1000; $interest=rseq(20,60)*1000; $ANS=$ebit/($ebit-$interest)
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Quality of Earnings - Accruals Ratio
 :I: $net_income=rseq(80,200)*1000; $cfo=rseq(60,180)*1000; $avg_assets=rseq(500,1200)*1000; $accruals=$net_income-$cfo; $ANS=$accruals/$avg_assets*100
 :Q: NI $$net_income, CFO $$cfo, avg assets $$avg_assets. Accruals ratio?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Revenue per Employee
 :I: $revenue=rseq(500,1500)*1000; $employees=rseq(100,500); $ANS=$revenue/$employees
 :Q: Revenue $$revenue, employees $employees. Revenue per employee?
 :A: Rev/Employee = $revenue / $employees = $$ANS.
 :T: 10
 :E:
+
 
 :N: Interest Burden
 :I: $ebt=rseq(80,180)*1000; $ebit=rseq(100,220)*1000; $ANS=$ebt/$ebit
