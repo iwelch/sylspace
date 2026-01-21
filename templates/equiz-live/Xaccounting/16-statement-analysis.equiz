@@ -50,7 +50,7 @@
 :N: Operating Leverage
 :I: $ebit_change=rseq(15,30); $revenue_change=rseq(8,15); $ANS=$ebit_change/$revenue_change
 :Q: EBIT grew $ebit_change%, revenue grew $revenue_change%. Degree of operating leverage?
-:A: DOL = %ΔEBIT / %ΔRevenue = $ebit_change / $revenue_change = $ANS.
+:A: DOL = %\(\Delta\)EBIT / %\(\Delta\)Revenue = $ebit_change / $revenue_change = $ANS.
 :T: 10
 :E:
 
