@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Forward Price - Continuous Dividend
 :I: $S=rseq(95,105); $rp=rseq(4,7); $r=$rp/100; $qp=rseq(1,3); $q=$qp/100; $Tm=rseq(6,12); $T=$Tm/12; $ANS=$S*exp(($r-$q)*$T)
 :Q: Stock at $$S, rate $rp%, dividend yield $qp%, $Tm months. Forward price?
 :A: F = S * e^((r-q)T) = $S * e^(($r-$q) * $T) = $$ANS.
 :T: 10
 :E:
+
 
 :N: Forward Price - Discrete Dividend
 :I: $S=rseq(95,105); $rp=rseq(4,6); $r=$rp/100; $D=rseq(1,3); $T=0.5; $PVD=$D*exp(-$r*0.25); $ANS=($S-$PVD)*exp($r*$T)
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Forward Value to Long Position
 :I: $F0=rseq(100,105); $S=rseq(98,108); $rp=rseq(4,6); $r=$rp/100; $Tm=rseq(3,9); $T=$Tm/12; $Ft=$S*exp($r*$T); $ANS=($Ft-$F0)*exp(-$r*$T)
 :Q: Entered forward at F0=$$F0. Now S=$$S, $Tm months left, rate $rp%. Current forward Ft=$$Ft. Value of long position?
 :A: Value = (Ft - F0) * e^(-rT) = ($Ft - $F0) * e^(-$r * $T) = $$ANS.
 :T: 10
 :E:
+
 
 :N: Cost of Carry
 :I: $S=rseq(95,105); $F=rseq(100,110); $Tm=rseq(6,12); $T=$Tm/12; $ANS=ln($F/$S)/$T
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Futures Marking to Market
 :I: $F_prev=rseq(100,105); $F_today=rseq(98,108); $contracts=rseq(5,15); $mult=100; $ANS=($F_today-$F_prev)*$contracts*$mult
 :Q: You are long $contracts futures (multiplier $mult). Yesterday's settle $$F_prev, today $$F_today. Daily P&L?
 :A: Daily P&L = (F_today - F_prev) * contracts * multiplier = ($F_today - $F_prev) * $contracts * $mult = $$ANS.
 :T: 10
 :E:
+
 
 :N: Index Futures Price
 :I: $Index=rseq(4800,5200); $rp=rseq(4,6); $r=$rp/100; $qp=rseq(1,2); $q=$qp/100; $days=rseq(30,90); $T=$days/365; $ANS=$Index*exp(($r-$q)*$T)
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Currency Forward
 :I: $S=rseq(120,140)/100; $rd=rseq(4,6)/100; $rf=rseq(1,3)/100; $Tm=rseq(6,12); $T=$Tm/12; $ANS=$S*exp(($rd-$rf)*$T)
 :Q: USD/EUR spot $S, US rate $rd, Euro rate $rf, $Tm months. Forward rate?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Commodity Forward with Storage
 :I: $S=rseq(60,80); $rp=rseq(4,6); $r=$rp/100; $up=rseq(2,4); $u=$up/100; $Tm=rseq(6,12); $T=$Tm/12; $ANS=$S*exp(($r+$u)*$T)
 :Q: Commodity spot $$S, rate $rp%, storage cost $up% p.a., $Tm months. Forward?
 :A: F = S * e^((r+u)T) = $S * e^(($r+$u) * $T) = $$ANS.
 :T: 10
 :E:
+
 
 :N: Convenience Yield
 :I: $S=rseq(60,80); $F=rseq(58,75); $rp=rseq(4,6); $r=$rp/100; $Tm=rseq(6,12); $T=$Tm/12; $ANS=$r-ln($F/$S)/$T
