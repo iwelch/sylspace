@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Present Value - Single Sum
 :I: $fv=rseq(15,50)*1000; $r=rseq(5,12)/100; $n=rseq(3,10); $ANS=$fv/(1+$r)^$n
 :Q: Receive $$fv in $n years. Discount rate $r. Present value?
 :A: PV = FV / (1+r)^n = $fv / (1+$r)^$n = $$ANS.
 :T: 10
 :E:
+
 
 :N: Present Value of Annuity
 :I: $pmt=rseq(2,10)*1000; $r=rseq(5,10)/100; $n=rseq(5,15); $ANS=$pmt*(1-(1+$r)^(-$n))/$r
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Future Value of Annuity
 :I: $pmt=rseq(2,8)*1000; $r=rseq(5,10)/100; $n=rseq(5,15); $ANS=$pmt*((1+$r)^$n-1)/$r
 :Q: Deposit $$pmt per year for $n years at $r. Future value?
 :A: FV = PMT * [(1+r)^n - 1] / r = $pmt * [(1+$r)^$n - 1] / $r = $$ANS.
 :T: 10
 :E:
+
 
 :N: Present Value of Perpetuity
 :I: $cf=rseq(5,20)*1000; $r=rseq(6,12)/100; $ANS=$cf/$r
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Growing Perpetuity
 :I: $cf=rseq(5,15)*1000; $r=rseq(8,12)/100; $g=rseq(2,4)/100; $ANS=$cf/($r-$g)
 :Q: Year 1 cash flow $$cf, growing at $g forever. Discount rate $r. Present value?
 :A: PV = CF / (r - g) = $cf / ($r - $g) = $$ANS.
 :T: 10
 :E:
+
 
 :N: Growing Annuity
 :I: $cf1=rseq(5,15)*1000; $r=rseq(8,12)/100; $g=rseq(2,4)/100; $n=rseq(10,20); $ANS=$cf1/($r-$g)*(1-((1+$g)/(1+$r))^$n)
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Effective Annual Rate
 :I: $apr=rseq(6,12)/100; $m=rseq(4,12); $ANS=((1+$apr/$m)^$m-1)*100
 :Q: APR $apr compounded $m times per year. Effective annual rate?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: NPV of Cash Flows
 :I: $cf0=-rseq(50,150)*1000; $cf1=rseq(20,50)*1000; $cf2=rseq(25,60)*1000; $cf3=rseq(30,70)*1000; $r=rseq(8,15)/100; $ANS=$cf0+$cf1/(1+$r)+$cf2/(1+$r)^2+$cf3/(1+$r)^3
 :Q: Investment: CF0=$$cf0, CF1=$$cf1, CF2=$$cf2, CF3=$$cf3. Rate $r. NPV?
 :A: NPV = CF0 + CF1/(1+r) + CF2/(1+r)^2 + CF3/(1+r)^3 = $$ANS.
 :T: 10
 :E:
+
 
 :N: Discount Factor
 :I: $r=rseq(5,12)/100; $n=rseq(3,10); $ANS=1/(1+$r)^$n
