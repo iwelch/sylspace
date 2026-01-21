@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Macaulay Duration Calculation
 :I: $y=rseq(4,7)/100; $n=3; $C=50; $FV=1000; $PV1=$C/(1+$y); $PV2=$C/(1+$y)^2; $PV3=($C+$FV)/(1+$y)^3; $P=$PV1+$PV2+$PV3; $ANS=(1*$PV1+2*$PV2+3*$PV3)/$P
 :Q: 3-year bond: $50 annual coupon, $1000 face, YTM=$y. PVs: Year1=$$PV1, Year2=$$PV2, Year3=$$PV3. Price=$$P. Macaulay duration?
 :A: MacDur = (1*$PV1 + 2*$PV2 + 3*$PV3) / $P = $ANS years.
 :T: 10
 :E:
+
 
 :N: Modified Duration
 :I: $mac_dur=rseq(4,8); $y=rseq(4,7)/100; $ANS=$mac_dur/(1+$y)
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Price Change Estimate (Duration)
 :I: $mod_dur=rseq(4,8); $price=rseq(950,1050); $dy=rseq(25,75)/10000; $ANS=-$mod_dur*$dy*$price
 :Q: Bond price $$price, modified duration $mod_dur. Yield increases by $dy. Estimated price change?
 :A: \(\Delta\)Price ~ -ModDur * \(\Delta\)y * Price = -$mod_dur * $dy * $price = $$ANS.
 :T: 10
 :E:
+
 
 :N: Percentage Price Change
 :I: $mod_dur=rseq(5,9); $dy=rseq(50,100)/10000; $ANS=-$mod_dur*$dy*100
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Dollar Duration
 :I: $mod_dur=rseq(5,8); $price=rseq(980,1020); $ANS=$mod_dur*$price/100
 :Q: Modified duration $mod_dur, price $$price. What is dollar duration (DV01 * 100)?
 :A: Dollar duration = ModDur * Price / 100 = $mod_dur * $price / 100 = $$ANS per 1% yield change.
 :T: 10
 :E:
+
 
 :N: DV01 (Dollar Value of 01)
 :I: $mod_dur=rseq(5,8); $price=rseq(980,1020); $ANS=$mod_dur*$price/10000
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Portfolio Duration
 :I: $w1=rseq(30,50)/100; $dur1=rseq(3,5); $w2=1-$w1; $dur2=rseq(7,10); $ANS=$w1*$dur1+$w2*$dur2
 :Q: Portfolio: $w1 in bonds with duration $dur1, $w2 in bonds with duration $dur2. Portfolio duration?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Duration of Perpetuity
 :I: $y=rseq(4,8)/100; $ANS=(1+$y)/$y
 :Q: What is the Macaulay duration of a perpetuity when yield is $y?
 :A: Perpetuity duration = (1+y)/y = (1+$y)/$y = $ANS years.
 :T: 10
 :E:
+
 
 :N: Effective Duration
 :I: $P0=rseq(980,1020); $P_up=rseq(960,1000); $P_down=rseq(1000,1040); $dy=0.005; $ANS=($P_down-$P_up)/(2*$P0*$dy)
