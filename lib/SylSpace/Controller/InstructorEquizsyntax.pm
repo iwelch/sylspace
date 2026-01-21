@@ -13,7 +13,7 @@ use SylSpace::Model::Controller qw(global_redirect standard);
 
 ################################################################
 
-post '/instructor/equizsyntax' => sub {
+post 'instructor/equizsyntax' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return $c->render(json => { error => 'not authorized' });
 
@@ -87,3 +87,4 @@ post '/instructor/equizsyntax' => sub {
 };
 
 1;
+
