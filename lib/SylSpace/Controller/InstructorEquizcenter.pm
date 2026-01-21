@@ -14,7 +14,7 @@ use SylSpace::Model::Controller qw(global_redirect ifilehash2table  standard fil
 
 ################################################################
 
-get '/instructor/equizcenter' => sub {
+get 'instructor/equizcenter' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
 
@@ -25,7 +25,7 @@ get '/instructor/equizcenter' => sub {
   $c->stash( filelist => eqlisti($course), templatelist => listtemplates(), tzi => $tzi );
 };
 
-get '/instructor/cptemplate' => sub {
+get 'instructor/cptemplate' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
   sudo( $course, $c->session->{uemail} );
@@ -34,7 +34,7 @@ get '/instructor/cptemplate' => sub {
   $c->flash( message => "copied @r" )->redirect_to('/instructor/equizcenter');
 };
 
-get '/instructor/rmtemplates' => sub {
+get 'instructor/rmtemplates' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
   sudo( $course, $c->session->{uemail} );
@@ -42,7 +42,7 @@ get '/instructor/rmtemplates' => sub {
   $c->flash( message => "deleted @r" )->redirect_to('/instructor/equizcenter');
 };
 
-get '/instructor/equizpublishall' => sub {
+get 'instructor/equizpublishall' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
   sudo( $course, $c->session->{uemail} );
@@ -58,7 +58,7 @@ get '/instructor/equizpublishall' => sub {
   $c->flash( message => "Published all $count equizzes (due date set to 6 months from now)" )->redirect_to('/instructor/equizcenter');
 };
 
-get '/instructor/equizunpublishall' => sub {
+get 'instructor/equizunpublishall' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
   sudo( $course, $c->session->{uemail} );
@@ -131,4 +131,5 @@ __DATA__
 
 
 </main>
+
 
