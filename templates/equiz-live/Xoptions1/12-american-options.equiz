@@ -14,21 +14,21 @@
 
 :N: American vs European Call (no dividends)
 :I: $S=rseq(52,58); $K=50; $r=0.05; $T=0.5; $sigma=0.30; $euro=BlackScholes($S,$K,$T,$r,$sigma); $ANS=$euro
-:Q: S=$$S, K=$50, r=5%, T=0.5, σ=30%. No dividends. European call = $$euro. What is the American call worth?
+:Q: S=$$S, K=$50, r=5%, T=0.5, \(\sigma\)=30%. No dividends. European call = $$euro. What is the American call worth?
 :A: With no dividends, American call = European call = $$ANS. Early exercise is never optimal.
 :T: 10
 :E:
 
 :N: American Call - Early Exercise with Dividend
 :I: $S=rseq(55,60); $K=50; $D=rseq(3,5); $r=0.05; $T=0.5; $value_exercise=$S-$K; $value_hold=$S-$D*exp(-$r*0.1)-$K*exp(-$r*$T); $ANS=max($value_exercise,$value_hold)
-:Q: S=$$S, K=$50, dividend $$D soon, r=5%, T=0.5. Intrinsic if exercised now = $$value_exercise. Estimated hold value ≈ $$value_hold. American call value?
-:A: American call = max(exercise, hold) = max($value_exercise, $value_hold) ≈ $$ANS.
+:Q: S=$$S, K=$50, dividend $$D soon, r=5%, T=0.5. Intrinsic if exercised now = $$value_exercise. Estimated hold value ~ $$value_hold. American call value?
+:A: American call = max(exercise, hold) = max($value_exercise, $value_hold) ~ $$ANS.
 :T: 20
 :E:
 
 :N: American Put - Early Exercise Value
 :I: $S=rseq(38,44); $K=50; $r=0.05; $T=0.5; $sigma=0.30; $intrinsic=$K-$S; $euro=BlackScholes($S,$K,$T,$r,$sigma)-$S+$K*exp(-$r*$T); $ANS=max($euro,$intrinsic)
-:Q: American put: S=$$S, K=$50, r=5%, T=0.5 years. Intrinsic=$$intrinsic. European put≈$$euro. American put?
+:Q: American put: S=$$S, K=$50, r=5%, T=0.5 years. Intrinsic=$$intrinsic. European put~$$euro. American put?
 :A: American put = max(European, intrinsic) = max($euro, $intrinsic) = $$ANS.
 :T: 10
 :E:
@@ -42,8 +42,8 @@
 
 :N: Put Exercise Boundary
 :I: $K=50; $r=rseq(4,8)/100; $T=rseq(3,12)/12; $sigma=0.30; $ANS=$K*(1-2*$sigma*sqrt($T))
-:Q: For American put (K=$50, r=$r, σ=30%, T=$T), approximate early exercise boundary S* ≈ K(1-2σ√T).
-:A: S* ≈ $K × (1 - 2×0.30×√$T) = $$ANS.
+:Q: For American put (K=$50, r=$r, \(\sigma\)=30%, T=$T), approximate early exercise boundary S* ~ K(1-2\(\sigma\)sqrt(T)).
+:A: S* ~ $K * (1 - 2*0.30*sqrt($T)) = $$ANS.
 :T: 20
 :E:
 
