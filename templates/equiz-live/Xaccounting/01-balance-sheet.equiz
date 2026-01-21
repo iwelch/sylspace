@@ -64,7 +64,7 @@
 :N: Book Value Per Share
 :I: $equity=rseq(400,800)*1000; $shares=rseq(50,150)*1000; $ANS=$equity/$shares
 :Q: Total equity $$equity, shares outstanding $shares thousand. Book value per share?
-:A: BVPS = Equity / Shares = $equity / ($shares × 1000) = $$ANS.
+:A: BVPS = Equity / Shares = $equity / ($shares * 1000) = $$ANS.
 :T: 10
 :E:
 
