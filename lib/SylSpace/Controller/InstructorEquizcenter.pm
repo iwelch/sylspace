@@ -38,8 +38,8 @@ get '/instructor/equizpublishall' => sub {
   my $filelist = eqlisti($course);
   my $count = 0;
   my $future = time() + 180*24*60*60;  # 6 months from now
-  foreach my $f (keys %$filelist) {
-    eqsetdue($course, $f, $future);
+  foreach my $f (@$filelist) {
+    eqsetdue($course, $f->{sfilename}, $future);
     $count++;
   }
   $c->flash( message => "Published all $count equizzes (due date set to 6 months from now)" )->redirect_to('/instructor/equizcenter');
@@ -52,8 +52,8 @@ get '/instructor/equizunpublishall' => sub {
   
   my $filelist = eqlisti($course);
   my $count = 0;
-  foreach my $f (keys %$filelist) {
-    eqsetdue($course, $f, 0);
+  foreach my $f (@$filelist) {
+    eqsetdue($course, $f->{sfilename}, 0);
     $count++;
   }
   $c->flash( message => "Unpublished all $count equizzes (due date set to 0)" )->redirect_to('/instructor/equizcenter');
