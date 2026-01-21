@@ -86,6 +86,7 @@
       <footer>
 	<div class="container" id="gohomeorup" style="margin-left:0em">
 	  <hr />
+          <p style="font-size:small; margin-bottom:0.5em; color:#666;"><%= $self->req->url->to_abs->host %></p>
           <a class="btn btn-default" href="/"> <i class="fa fa-home"></i> home</a>
           <a class="btn btn-default" href=".."> <i class="fa fa-arrow-up"></i> up</a>
           &nbsp;
@@ -96,8 +97,6 @@
           <a class="btn btn-danger" href="/logout"> <i class="fa fa-power-off"></i> logout user </a>
 	</div> <!--container:gohomeorup -->
 
-        <p style="text-align:center; font-size:small; margin-top:0.5em; color:#666;"><%= $self->req->url->to_abs->host %></p>
-
         <p style="font-size:x-small;padding:1em;margin:1em;">Please notify <a href="mailto:ivo.welch@gmail.com?subject=security+breach+on+<%= sitename %>">ivo welch</a> immediately if you discover an exploitable security bug that would allow unauthorized extraction of data. Last Update: <%= last_code_update() %></p>
       </footer>
 
@@ -106,4 +105,5 @@
 
   </body>
 </html>
+
 
