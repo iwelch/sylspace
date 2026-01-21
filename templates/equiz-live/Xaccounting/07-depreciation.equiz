@@ -22,28 +22,28 @@
 :N: Book Value After Depreciation
 :I: $cost=rseq(100,250)*1000; $annual_depr=rseq(15,40)*1000; $years=rseq(2,5); $accum=$annual_depr*$years; $ANS=$cost-$accum
 :Q: Asset cost $$cost, annual depreciation $$annual_depr, after $years years. Book value?
-:A: Accumulated = $annual_depr × $years = $$accum. Book value = $cost - $accum = $$ANS.
+:A: Accumulated = $annual_depr * $years = $$accum. Book value = $cost - $accum = $$ANS.
 :T: 10
 :E:
 
 :N: Double-Declining Balance
 :I: $cost=rseq(100,200)*1000; $life=rseq(5,10); $rate=2/$life; $ANS=$cost*$rate
 :Q: Asset cost $$cost, useful life $life years. Year 1 DDB depreciation?
-:A: Rate = 2/Life = 2/$life. Year 1 = Cost × Rate = $cost × $rate = $$ANS.
+:A: Rate = 2/Life = 2/$life. Year 1 = Cost * Rate = $cost * $rate = $$ANS.
 :T: 10
 :E:
 
 :N: DDB Year 2
 :I: $cost=rseq(100,200)*1000; $life=5; $rate=0.4; $year1=$cost*$rate; $book1=$cost-$year1; $ANS=$book1*$rate
 :Q: Asset cost $$cost, 5-year life, DDB (40% rate). Year 1 = $$year1, Book value = $$book1. Year 2 depreciation?
-:A: Year 2 = Book value × Rate = $book1 × 0.4 = $$ANS.
+:A: Year 2 = Book value * Rate = $book1 * 0.4 = $$ANS.
 :T: 10
 :E:
 
 :N: Units of Production
 :I: $cost=rseq(100,200)*1000; $salvage=rseq(10,30)*1000; $total_units=rseq(50,100)*1000; $units_used=rseq(8,20)*1000; $rate=($cost-$salvage)/$total_units; $ANS=$rate*$units_used
 :Q: Asset cost $$cost, salvage $$salvage, total capacity $total_units units. This period: $units_used units. Depreciation?
-:A: Rate = ($cost - $salvage) / $total_units = $$rate/unit. Depr = $rate × $units_used = $$ANS.
+:A: Rate = ($cost - $salvage) / $total_units = $$rate/unit. Depr = $rate * $units_used = $$ANS.
 :T: 10
 :E:
 
@@ -57,7 +57,7 @@
 :N: Capitalized Interest
 :I: $avg_expenditure=rseq(500,1500)*1000; $rate=rseq(5,8)/100; $months=rseq(6,12); $ANS=$avg_expenditure*$rate*$months/12
 :Q: Construction: average accumulated expenditure $$avg_expenditure, interest rate $rate, $months months. Capitalized interest?
-:A: Interest = Avg expend × Rate × (months/12) = $avg_expenditure × $rate × $months/12 = $$ANS.
+:A: Interest = Avg expend * Rate * (months/12) = $avg_expenditure * $rate * $months/12 = $$ANS.
 :T: 10
 :E:
 
