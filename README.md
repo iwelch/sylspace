@@ -195,7 +195,9 @@ which is in `Model/*.pm`.
 
 The equiz evaluator is completely separate and laid out into `Model/eqbackend`.
 
-All equizzes that come with the system are in `templates/equiz/`
+Equiz templates are organized in two directories:
+- `templates/equiz-live/` - In repo, deployed to site by `initsylspace.pl`
+- `templates/equiz-norepo/` - Server-only templates (not in repo, manually managed)
 
 ## File Itinerary
 
@@ -327,27 +329,26 @@ Testing fixtures that can be deployed for testing:
 * instructor.html.ep
 * student.html.ep
 
-### ./templates/equiz : Quizzes
+### ./templates/equiz-live : Quizzes (in repo)
 
-#### ./templates/equiz/tutorials:
-* 1simple.equiz
-* 2medium.equiz
-* 3advanced.equiz
+These templates are deployed to `/var/sylspace/templates/` by `initsylspace.pl`.
 
-#### ./templates/equiz/starters:
-* blackscholes.equiz
-* finance.equiz
-* headerinfo.equiz
-* math.equiz
-* message.equiz
-* multchoice.equiz
-* plain.equiz
-* statistics.equiz
-* various.eqz
+#### Course Templates:
+* **Xaccounting/** - 18 introductory accounting quizzes
+* **Xfixedincome/** - 16 fixed-income/bond quizzes
+* **Xoptions1/** - 18 options pricing quizzes
+* **Xvaluation/** - 17 finance/valuation quizzes
+* **options2/** - 6 additional options quizzes (232andrei series)
 
-#### ./templates/equiz/options:
-* 232andrei01.equiz through 232andrei06.equiz
+#### Starter Templates:
+* **starters/** - 8 example quizzes (blackscholes, finance, math, statistics, etc.)
+* **tutorials/** - 4 tutorial quizzes (1simple, 2medium, 3advanced, 4message)
+
+### ./templates/equiz-norepo : Server-only Quizzes (not in repo)
+
+Templates that exist only on the production server (e.g., corpfinintro). These must be manually copied to `/var/sylspace/templates/` and are not version controlled.
 
 ## License
 
 AGPL-3.0
+
