@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Illiquidity Discount
 :I: $control_value=rseq(500,1000)*1000; $illiquidity=rseq(20,35)/100; $ANS=$control_value*(1-$illiquidity)
 :Q: Control value $$control_value. Illiquidity discount $illiquidity. Minority marketable value?
 :A: Value = Control * (1 - Illiquidity) = $control_value * (1 - $illiquidity) = $$ANS.
 :T: 10
 :E:
+
 
 :N: Control Premium
 :I: $minority_value=rseq(400,800)*1000; $control_premium=rseq(25,40)/100; $ANS=$minority_value*(1+$control_premium)
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Key Person Discount
 :I: $base_value=rseq(300,700)*1000; $key_person_discount=rseq(10,25)/100; $ANS=$base_value*(1-$key_person_discount)
 :Q: Business value $$base_value. Key person risk: $key_person_discount discount. Adjusted value?
 :A: Value = Base * (1 - Discount) = $base_value * (1 - $key_person_discount) = $$ANS.
 :T: 10
 :E:
+
 
 :N: Normalized Earnings
 :I: $reported_ni=rseq(80,200)*1000; $excess_owner_comp=rseq(30,80)*1000; $one_time_expense=rseq(10,30)*1000; $ANS=$reported_ni+$excess_owner_comp+$one_time_expense
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Capitalization of Earnings
 :I: $normalized_earnings=rseq(80,180)*1000; $cap_rate=rseq(15,25)/100; $ANS=$normalized_earnings/$cap_rate
 :Q: Normalized earnings $$normalized_earnings. Capitalization rate $cap_rate. Business value?
 :A: Value = Earnings / Cap rate = $normalized_earnings / $cap_rate = $$ANS.
 :T: 10
 :E:
+
 
 :N: Excess Earnings Method
 :I: $tangible_assets=rseq(200,400)*1000; $return_on_tangibles=rseq(8,12)/100; $total_earnings=rseq(60,150)*1000; $tangible_return=$tangible_assets*$return_on_tangibles; $excess=$total_earnings-$tangible_return; $cap_rate=rseq(20,30)/100; $ANS=$tangible_assets+$excess/$cap_rate
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Discount for Lack of Marketability
 :I: $marketable_value=rseq(500,900)*1000; $dlom=rseq(25,40)/100; $ANS=$marketable_value*(1-$dlom)
 :Q: Marketable minority value $$marketable_value. DLOM $dlom. Non-marketable minority value?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Built-Up Cost of Capital
 :I: $rf=rseq(3,5)/100; $equity_premium=rseq(5,7)/100; $size_premium=rseq(4,6)/100; $specific_risk=rseq(2,5)/100; $ANS=($rf+$equity_premium+$size_premium+$specific_risk)*100
 :Q: Risk-free $rf, equity premium $equity_premium, size premium $size_premium, specific risk $specific_risk. Build-up Ke?
 :A: Ke = Rf + ERP + Size + Specific = $rf + $equity_premium + $size_premium + $specific_risk = $ANS%.
 :T: 10
 :E:
+
 
 :N: Asset-Based Valuation
 :I: $assets_fv=rseq(400,800)*1000; $liabilities_fv=rseq(150,350)*1000; $ANS=$assets_fv-$liabilities_fv
