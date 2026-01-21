@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Barbell vs Bullet Duration
 :I: $short_dur=rseq(1,3); $long_dur=rseq(8,12); $target_dur=rseq(5,7); $w_short=($long_dur-$target_dur)/($long_dur-$short_dur); $ANS=$w_short*100
 :Q: Target duration $target_dur. Barbell: short bonds ($short_dur years), long bonds ($long_dur years). Weight in short bonds?
 :A: w_short = (D_long - D_target) / (D_long - D_short) = ($long_dur - $target_dur) / ($long_dur - $short_dur) = $ANS%.
 :T: 10
 :E:
+
 
 :N: Immunization - Asset Duration
 :I: $liability_dur=rseq(6,10); $ANS=$liability_dur
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Immunization - Asset Value
 :I: $liability_pv=rseq(8,15)*1000000; $ANS=$liability_pv
 :Q: Liability PV is $$liability_pv. What asset value is needed for immunization?
 :A: Asset PV = Liability PV = $$ANS.
 :T: 10
 :E:
+
 
 :N: Rebalancing Needed
 :I: $port_dur=rseq(5.5,7.5); $target_dur=rseq(6,7); $tolerance=0.25; $deviation=abs($port_dur-$target_dur); $ANS=$deviation
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Tracking Error
 :I: $port_return=rseq(-2,5); $bench_return=rseq(-2,5); $ANS=$port_return-$bench_return
 :Q: Portfolio return $port_return%, benchmark return $bench_return%. Tracking difference?
 :A: Difference = Portfolio - Benchmark = $port_return - $bench_return = $ANS%.
 :T: 10
 :E:
+
 
 :N: Portfolio Yield
 :I: $w1=rseq(40,60)/100; $y1=rseq(3,5)/100; $w2=1-$w1; $y2=rseq(5,8)/100; $ANS=($w1*$y1+$w2*$y2)*100
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Total Return Attribution
 :I: $income=rseq(3,5)/100; $rolldown=rseq(0.2,0.8)/100; $price_change=rseq(-1,2)/100; $ANS=($income+$rolldown+$price_change)*100
 :Q: Income return $income, rolldown $rolldown, price change $price_change. Total return?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Spread Duration Contribution
 :I: $spread_dur=rseq(4,7); $spread_change=rseq(-30,30)/10000; $ANS=-$spread_dur*$spread_change*100
 :Q: Spread duration $spread_dur, spread change $spread_change. Return contribution from spread?
 :A: Contribution = -SpreadDur * \(\Delta\)spread = -$spread_dur * $spread_change = $ANS%.
 :T: 10
 :E:
+
 
 :N: Liability-Driven Investing Surplus
 :I: $assets=rseq(110,130)*1000000; $liabilities=rseq(100,120)*1000000; $ANS=$assets-$liabilities
