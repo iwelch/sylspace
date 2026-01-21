@@ -43,7 +43,7 @@
 :N: Yield to Call
 :I: $price=rseq(105,115); $call_price=100; $coupon=rseq(5,8); $years_to_call=rseq(2,5); $annual_loss=($price-$call_price)/$years_to_call; $ANS=($coupon-$annual_loss)/$price*100
 :Q: Bond price $$price, call price $100, coupon $coupon%, $years_to_call years to call. Approximate yield to call?
-:A: Loss/year = ($price - 100) / $years_to_call = $$annual_loss. YTC ≈ (Coupon - Loss) / Price = $ANS%.
+:A: Loss/year = ($price - 100) / $years_to_call = $$annual_loss. YTC ~ (Coupon - Loss) / Price = $ANS%.
 :T: 10
 :E:
 
@@ -64,14 +64,14 @@
 :N: Effective Convexity (Callable)
 :I: $P0=100; $P_up=rseq(97,99); $P_down=rseq(101,103); $dy=0.01; $ANS=($P_up+$P_down-2*$P0)/($P0*$dy^2)
 :Q: Callable bond: P0=$100, P(+100bps)=$$P_up, P(-100bps)=$$P_down. Effective convexity?
-:A: Convexity = (P_up + P_down - 2×P0) / (P0 × Δy²) = ($P_up + $P_down - 200) / (100 × 0.0001) = $ANS.
+:A: Convexity = (P_up + P_down - 2*P0) / (P0 * \(\Delta\)y^2) = ($P_up + $P_down - 200) / (100 * 0.0001) = $ANS.
 :T: 10
 :E:
 
 :N: Make-Whole Call Price
 :I: $remaining_coupons=rseq(8,16); $coupon=rseq(25,40); $spread=rseq(20,50)/10000; $treasury=rseq(3,5)/100; $discount=$treasury+$spread; $pv_coupons=$coupon*(1-(1+$discount/2)^(-$remaining_coupons))/($discount/2); $pv_face=1000/(1+$discount/2)^$remaining_coupons; $ANS=$pv_coupons+$pv_face
 :Q: Make-whole call: $remaining_coupons semi-annual coupons of $$coupon remaining, treasury $treasury + $spread spread. Call price?
-:A: Discount at Treasury + spread. PV ≈ $$ANS.
+:A: Discount at Treasury + spread. PV ~ $$ANS.
 :T: 20
 :E:
 
