@@ -21,14 +21,14 @@
 
 :N: Segment Value from Multiple
 :I: $ebitda=rseq(50,150)*1000; $multiple=rseq(6,12); $ANS=$ebitda*$multiple
-:Q: Segment EBITDA $$ebitda, industry multiple $multiple×. Segment value?
-:A: Value = EBITDA × Multiple = $ebitda × $multiple = $$ANS.
+:Q: Segment EBITDA $$ebitda, industry multiple $multiple*. Segment value?
+:A: Value = EBITDA * Multiple = $ebitda * $multiple = $$ANS.
 :T: 10
 :E:
 
 :N: Corporate Overhead Allocation
 :I: $gross_sotp=rseq(800,1500)*1000; $overhead=rseq(30,80)*1000; $overhead_multiple=rseq(6,10); $overhead_value=$overhead*$overhead_multiple; $ANS=$gross_sotp-$overhead_value
-:Q: Gross SOTP $$gross_sotp. Corporate overhead $$overhead at $overhead_multiple×. Net SOTP?
+:Q: Gross SOTP $$gross_sotp. Corporate overhead $$overhead at $overhead_multiple*. Net SOTP?
 :A: Overhead value = $$overhead_value. Net SOTP = $gross_sotp - $overhead_value = $$ANS.
 :T: 10
 :E:
@@ -50,7 +50,7 @@
 :N: Equity Stakes Value
 :I: $stake_pct=rseq(15,40)/100; $subsidiary_value=rseq(400,900)*1000; $ANS=$stake_pct*$subsidiary_value
 :Q: Company owns $stake_pct of subsidiary worth $$subsidiary_value. Stake value?
-:A: Stake = % × Value = $stake_pct × $subsidiary_value = $$ANS.
+:A: Stake = % * Value = $stake_pct * $subsidiary_value = $$ANS.
 :T: 10
 :E:
 
@@ -63,8 +63,8 @@
 
 :N: Weighted Multiple
 :I: $seg1_ebitda=rseq(60,120)*1000; $mult1=rseq(6,9); $seg2_ebitda=rseq(40,80)*1000; $mult2=rseq(10,14); $total_ebitda=$seg1_ebitda+$seg2_ebitda; $weighted=($seg1_ebitda*$mult1+$seg2_ebitda*$mult2)/$total_ebitda; $ANS=$weighted
-:Q: Seg1 EBITDA $$seg1_ebitda at $mult1×, Seg2 EBITDA $$seg2_ebitda at $mult2×. Weighted average multiple?
-:A: Weighted = (EBITDA1×M1 + EBITDA2×M2) / Total EBITDA = $ANS×.
+:Q: Seg1 EBITDA $$seg1_ebitda at $mult1*, Seg2 EBITDA $$seg2_ebitda at $mult2*. Weighted average multiple?
+:A: Weighted = (EBITDA1*M1 + EBITDA2*M2) / Total EBITDA = $ANS*.
 :T: 10
 :E:
 
@@ -78,7 +78,7 @@
 :N: Tax Leakage on Sale
 :I: $sale_proceeds=rseq(300,600)*1000; $tax_basis=rseq(100,300)*1000; $tax_rate=rseq(20,30)/100; $gain=$sale_proceeds-$tax_basis; $ANS=$gain*$tax_rate
 :Q: Sell division for $$sale_proceeds, tax basis $$tax_basis, tax rate $tax_rate. Tax leakage?
-:A: Gain = $sale_proceeds - $tax_basis = $$gain. Tax = Gain × Rate = $$ANS.
+:A: Gain = $sale_proceeds - $tax_basis = $$gain. Tax = Gain * Rate = $$ANS.
 :T: 10
 :E:
 
