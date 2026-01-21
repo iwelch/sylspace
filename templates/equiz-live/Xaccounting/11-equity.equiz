@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Additional Paid-In Capital
 :I: $shares=rseq(50,200)*1000; $par=rseq(1,2); $issue_price=rseq(15,40); $common=$shares*$par; $ANS=$shares*($issue_price-$par)
 :Q: Issue $shares shares ($$par par) at $$issue_price each. APIC?
 :A: APIC = Shares * (Price - Par) = $shares * ($issue_price - $par) = $$ANS.
 :T: 10
 :E:
+
 
 :N: Treasury Stock Purchase
 :I: $shares=rseq(10,50)*1000; $price=rseq(25,50); $ANS=$shares*$price
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Retained Earnings Change
 :I: $net_income=rseq(80,200)*1000; $dividends=rseq(20,60)*1000; $ANS=$net_income-$dividends
 :Q: Net income $$net_income, dividends declared $$dividends. Change in retained earnings?
 :A: \(\Delta\)RE = Net income - Dividends = $net_income - $dividends = $$ANS.
 :T: 10
 :E:
+
 
 :N: Dividends Per Share
 :I: $total_div=rseq(30,100)*1000; $shares=rseq(50,150)*1000; $ANS=$total_div/$shares
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Stock Dividend - Shares Issued
 :I: $shares_out=rseq(100,300)*1000; $dividend_pct=rseq(5,15); $ANS=$shares_out*$dividend_pct/100
 :Q: Shares outstanding $shares_out, $dividend_pct% stock dividend. New shares issued?
 :A: New shares = Outstanding * % = $shares_out * $dividend_pct% = $ANS.
 :T: 10
 :E:
+
 
 :N: Stock Dividend - Transfer to Capital
 :I: $shares_issued=rseq(10,40)*1000; $market_price=rseq(20,40); $ANS=$shares_issued*$market_price
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Stock Split Effect
 :I: $shares_before=rseq(50,150)*1000; $split_ratio=2; $ANS=$shares_before*$split_ratio
 :Q: $shares_before shares outstanding, 2-for-1 split. Shares after split?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Book Value Per Share
 :I: $common=rseq(100,300)*1000; $apic=rseq(200,500)*1000; $retained=rseq(150,400)*1000; $treasury=rseq(20,80)*1000; $shares=rseq(50,150)*1000; $equity=$common+$apic+$retained-$treasury; $ANS=$equity/($shares*1000)
 :Q: Common $$common, APIC $$apic, RE $$retained, Treasury $$treasury, Shares $shares thousand. BVPS?
 :A: Equity = $common + $apic + $retained - $treasury = $$equity. BVPS = $$ANS.
 :T: 10
 :E:
+
 
 :N: Payout Ratio
 :I: $dividends=rseq(30,80)*1000; $net_income=rseq(80,200)*1000; $ANS=$dividends/$net_income*100
