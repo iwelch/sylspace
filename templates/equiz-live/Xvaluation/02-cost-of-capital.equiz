@@ -15,7 +15,7 @@
 :N: Cost of Equity - CAPM
 :I: $rf=rseq(2,5)/100; $beta=rseq(80,150)/100; $mrp=rseq(5,8)/100; $ANS=($rf+$beta*$mrp)*100
 :Q: Risk-free rate $rf, beta $beta, market risk premium $mrp. Cost of equity (CAPM)?
-:A: Ke = Rf + β × MRP = $rf + $beta × $mrp = $ANS%.
+:A: Ke = Rf + \(\beta\) * MRP = $rf + $beta * $mrp = $ANS%.
 :T: 10
 :E:
 
@@ -29,28 +29,28 @@
 :N: Cost of Debt (After-Tax)
 :I: $rd=rseq(5,9)/100; $tax=rseq(20,30)/100; $ANS=$rd*(1-$tax)*100
 :Q: Pre-tax cost of debt $rd, tax rate $tax. After-tax cost of debt?
-:A: Kd(1-T) = $rd × (1 - $tax) = $ANS%.
+:A: Kd(1-T) = $rd * (1 - $tax) = $ANS%.
 :T: 10
 :E:
 
 :N: WACC Calculation
 :I: $we=rseq(60,80)/100; $ke=rseq(10,15)/100; $wd=1-$we; $kd=rseq(5,8)/100; $tax=rseq(20,30)/100; $ANS=($we*$ke+$wd*$kd*(1-$tax))*100
 :Q: Equity weight $we, cost of equity $ke. Debt weight $wd, cost of debt $kd, tax $tax. WACC?
-:A: WACC = we×Ke + wd×Kd×(1-T) = $we×$ke + $wd×$kd×(1-$tax) = $ANS%.
+:A: WACC = we*Ke + wd*Kd*(1-T) = $we*$ke + $wd*$kd*(1-$tax) = $ANS%.
 :T: 10
 :E:
 
 :N: Market Value of Equity
 :I: $price=rseq(30,80); $shares=rseq(10,50)*1000000; $ANS=$price*$shares/1000000
 :Q: Share price $$price, shares outstanding $shares. Market value of equity (in millions)?
-:A: MVE = Price × Shares = $price × $shares = $$ANS million.
+:A: MVE = Price * Shares = $price * $shares = $$ANS million.
 :T: 10
 :E:
 
 :N: Market Value of Debt
 :I: $face=rseq(200,600)*1000000; $price=rseq(95,105)/100; $ANS=$face*$price/1000000
 :Q: Debt face value $$face million, trading at $price of par. Market value of debt (millions)?
-:A: MVD = Face × Price = $face × $price = $$ANS million.
+:A: MVD = Face * Price = $face * $price = $$ANS million.
 :T: 10
 :E:
 
@@ -64,21 +64,21 @@
 :N: Unlevered Beta
 :I: $levered_beta=rseq(100,150)/100; $debt=rseq(200,500)*1000; $equity=rseq(500,1000)*1000; $tax=rseq(20,30)/100; $ANS=$levered_beta/(1+(1-$tax)*$debt/$equity)
 :Q: Levered beta $levered_beta, D/E = $debt/$equity, tax $tax. Unlevered beta?
-:A: βu = βL / [1 + (1-T)(D/E)] = $levered_beta / [1 + (1-$tax)×$debt/$equity] = $ANS.
+:A: \(\beta\)u = \(\beta\)L / [1 + (1-T)(D/E)] = $levered_beta / [1 + (1-$tax)*$debt/$equity] = $ANS.
 :T: 10
 :E:
 
 :N: Levered Beta
 :I: $unlevered=rseq(70,100)/100; $debt=rseq(300,600)*1000; $equity=rseq(500,900)*1000; $tax=rseq(20,30)/100; $ANS=$unlevered*(1+(1-$tax)*$debt/$equity)
 :Q: Unlevered beta $unlevered, D/E = $debt/$equity, tax $tax. Levered beta?
-:A: βL = βu × [1 + (1-T)(D/E)] = $unlevered × [1 + (1-$tax)×$debt/$equity] = $ANS.
+:A: \(\beta\)L = \(\beta\)u * [1 + (1-T)(D/E)] = $unlevered * [1 + (1-$tax)*$debt/$equity] = $ANS.
 :T: 10
 :E:
 
 :N: Required Return with Size Premium
 :I: $rf=rseq(3,5)/100; $beta=rseq(100,140)/100; $mrp=rseq(5,7)/100; $size_premium=rseq(2,4)/100; $ANS=($rf+$beta*$mrp+$size_premium)*100
 :Q: Rf $rf, beta $beta, MRP $mrp, size premium $size_premium. Required return?
-:A: R = Rf + β×MRP + Size premium = $rf + $beta×$mrp + $size_premium = $ANS%.
+:A: R = Rf + \(\beta\)*MRP + Size premium = $rf + $beta*$mrp + $size_premium = $ANS%.
 :T: 10
 :E:
 
