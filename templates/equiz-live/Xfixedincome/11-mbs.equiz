@@ -15,14 +15,14 @@
 :N: Monthly Mortgage Payment
 :I: $principal=rseq(200,400)*1000; $annual_rate=rseq(4,7)/100; $r=$annual_rate/12; $n=360; $ANS=$principal*$r*(1+$r)^$n/((1+$r)^$n-1)
 :Q: Mortgage: principal $$principal, rate $annual_rate (annual), 30 years. Monthly payment?
-:A: PMT = P × r(1+r)^n / ((1+r)^n - 1) = $$ANS.
+:A: PMT = P * r(1+r)^n / ((1+r)^n - 1) = $$ANS.
 :T: 10
 :E:
 
 :N: Interest Portion of Payment
 :I: $balance=rseq(200,350)*1000; $annual_rate=rseq(4,7)/100; $monthly_rate=$annual_rate/12; $ANS=$balance*$monthly_rate
 :Q: Remaining balance $$balance, annual rate $annual_rate. Interest portion of this month's payment?
-:A: Interest = Balance × Monthly rate = $balance × $monthly_rate = $$ANS.
+:A: Interest = Balance * Monthly rate = $balance * $monthly_rate = $$ANS.
 :T: 10
 :E:
 
@@ -50,21 +50,21 @@
 :N: Prepayment Amount
 :I: $balance=rseq(180,300)*1000; $smm=rseq(0.4,1.0)/100; $scheduled_principal=rseq(300,600); $ANS=$smm*($balance-$scheduled_principal)
 :Q: Balance $$balance, scheduled principal $$scheduled_principal, SMM $smm. Prepayment this month?
-:A: Prepayment = SMM × (Balance - Scheduled principal) = $smm × ($balance - $scheduled_principal) = $$ANS.
+:A: Prepayment = SMM * (Balance - Scheduled principal) = $smm * ($balance - $scheduled_principal) = $$ANS.
 :T: 10
 :E:
 
 :N: PSA Speed
 :I: $cpr=rseq(4,10); $month=rseq(15,40); $base_cpr=min(6,$month*0.2); $ANS=$cpr/$base_cpr*100
 :Q: Actual CPR is $cpr%, month $month of pool (baseline CPR at month $month = $base_cpr%). PSA speed?
-:A: PSA = Actual CPR / Baseline CPR × 100 = $cpr / $base_cpr × 100 = $ANS%.
+:A: PSA = Actual CPR / Baseline CPR * 100 = $cpr / $base_cpr * 100 = $ANS%.
 :T: 10
 :E:
 
 :N: Weighted Average Life
 :I: $prin_1=rseq(15,25); $prin_2=rseq(20,30); $prin_3=rseq(25,35); $total=$prin_1+$prin_2+$prin_3; $ANS=(1*$prin_1+2*$prin_2+3*$prin_3)/$total
 :Q: Principal payments: Year 1 $$prin_1M, Year 2 $$prin_2M, Year 3 $$prin_3M. WAL?
-:A: WAL = (1×$prin_1 + 2×$prin_2 + 3×$prin_3) / ($prin_1+$prin_2+$prin_3) = $ANS years.
+:A: WAL = (1*$prin_1 + 2*$prin_2 + 3*$prin_3) / ($prin_1+$prin_2+$prin_3) = $ANS years.
 :T: 10
 :E:
 
