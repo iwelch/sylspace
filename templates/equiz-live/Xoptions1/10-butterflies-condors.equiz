@@ -14,8 +14,8 @@
 
 :N: Long Call Butterfly - Cost
 :I: $K1=rseq(45,47); $K2=50; $K3=rseq(53,55); $C1=rseq(6,8); $C2=rseq(3,4); $C3=rseq(1,2); $ANS=$C1-2*$C2+$C3
-:Q: Long call butterfly: Buy $$K1 call ($$C1), sell 2× $50 calls ($$C2 each), buy $$K3 call ($$C3). Net cost?
-:A: Cost = C1 - 2×C2 + C3 = $C1 - 2×$C2 + $C3 = $$ANS.
+:Q: Long call butterfly: Buy $$K1 call ($$C1), sell 2* $50 calls ($$C2 each), buy $$K3 call ($$C3). Net cost?
+:A: Cost = C1 - 2*C2 + C3 = $C1 - 2*$C2 + $C3 = $$ANS.
 :T: 10
 :E:
 
@@ -28,8 +28,8 @@
 
 :N: Long Call Butterfly - Max Loss
 :I: $K1=rseq(45,47); $K2=50; $K3=rseq(53,55); $C1=rseq(6,8); $C2=rseq(3,4); $C3=rseq(1,2); $ANS=$C1-2*$C2+$C3
-:Q: Long call butterfly with net cost $$C1 - 2×$C2 + $$C3. What is the maximum loss?
-:A: Max loss = net cost = $C1 - 2×$C2 + $C3 = $$ANS.
+:Q: Long call butterfly with net cost $$C1 - 2*$C2 + $$C3. What is the maximum loss?
+:A: Max loss = net cost = $C1 - 2*$C2 + $C3 = $$ANS.
 :T: 10
 :E:
 
@@ -70,8 +70,8 @@
 
 :N: Put Butterfly - Cost
 :I: $K1=rseq(45,47); $K2=50; $K3=rseq(53,55); $P1=rseq(1,2); $P2=rseq(3,4); $P3=rseq(6,8); $ANS=$P1-2*$P2+$P3
-:Q: Long put butterfly: Buy $$K1 put ($$P1), sell 2× $50 puts ($$P2), buy $$K3 put ($$P3). Net cost?
-:A: Cost = P1 - 2×P2 + P3 = $P1 - 2×$P2 + $P3 = $$ANS.
+:Q: Long put butterfly: Buy $$K1 put ($$P1), sell 2* $50 puts ($$P2), buy $$K3 put ($$P3). Net cost?
+:A: Cost = P1 - 2*P2 + P3 = $P1 - 2*$P2 + $P3 = $$ANS.
 :T: 10
 :E:
 
