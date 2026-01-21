@@ -22,35 +22,35 @@
 :N: YTM Approximation
 :I: $FV=1000; $price=rseq(900,1100); $cp=rseq(5,8); $C=$FV*$cp/100; $n=rseq(5,10); $approx=($C+($FV-$price)/$n)/(($FV+$price)/2); $ANS=$approx*100
 :Q: Bond: $cp% coupon, price $$price, $n years, FV=$$FV. Approximate YTM using (C+(FV-P)/n)/((FV+P)/2)?
-:A: YTM ≈ ($C + ($FV-$price)/$n) / (($FV+$price)/2) = $ANS%.
+:A: YTM ~ ($C + ($FV-$price)/$n) / (($FV+$price)/2) = $ANS%.
 :T: 10
 :E:
 
 :N: Semi-Annual YTM to Annual
 :I: $ytm_semi=rseq(2,4); $r=$ytm_semi/100; $ANS=((1+$r)^2-1)*100
 :Q: A bond's semi-annual YTM is $ytm_semi%. What is the annual effective YTM?
-:A: Annual YTM = (1 + semi)² - 1 = (1 + $r)² - 1 = $ANS%.
+:A: Annual YTM = (1 + semi)^2 - 1 = (1 + $r)^2 - 1 = $ANS%.
 :T: 10
 :E:
 
 :N: BEY (Bond Equivalent Yield)
 :I: $ytm_semi=rseq(2,4); $ANS=$ytm_semi*2
 :Q: Semi-annual YTM is $ytm_semi%. What is the bond equivalent yield (BEY)?
-:A: BEY = 2 × semi-annual YTM = 2 × $ytm_semi = $ANS%.
+:A: BEY = 2 * semi-annual YTM = 2 * $ytm_semi = $ANS%.
 :T: 10
 :E:
 
 :N: YTM vs Current Yield (Premium)
 :I: $cp=rseq(6,8); $price=rseq(1050,1150); $current_yield=$cp*10/$price*100; $ANS=$current_yield
 :Q: Premium bond: $cp% coupon, price $$price (per $1000 face). Current yield?
-:A: Current yield = Coupon / Price = $cp×10 / $price = $ANS%. (YTM < current yield < coupon for premium bonds.)
+:A: Current yield = Coupon / Price = $cp*10 / $price = $ANS%. (YTM < current yield < coupon for premium bonds.)
 :T: 10
 :E:
 
 :N: YTM vs Current Yield (Discount)
 :I: $cp=rseq(4,6); $price=rseq(850,950); $current_yield=$cp*10/$price*100; $ANS=$current_yield
 :Q: Discount bond: $cp% coupon, price $$price. Current yield?
-:A: Current yield = $cp×10 / $price = $ANS%. (YTM > current yield > coupon for discount bonds.)
+:A: Current yield = $cp*10 / $price = $ANS%. (YTM > current yield > coupon for discount bonds.)
 :T: 10
 :E:
 
@@ -78,7 +78,7 @@
 :N: Yield Spread in Basis Points
 :I: $corp_ytm=rseq(5,8); $treasury_ytm=rseq(3,5); $ANS=($corp_ytm-$treasury_ytm)*100
 :Q: Corporate YTM = $corp_ytm%, Treasury = $treasury_ytm%. Spread in basis points?
-:A: Spread = ($corp_ytm - $treasury_ytm) × 100 = $ANS bps.
+:A: Spread = ($corp_ytm - $treasury_ytm) * 100 = $ANS bps.
 :T: 10
 :E:
 
