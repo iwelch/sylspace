@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Vega and IV Change
 :I: $vega=rseq(12,18); $price_change=rseq(0.3,0.8); $ANS=$price_change/$vega
 :Q: Option vega is $$vega. Price increased by $$price_change. Approximate change in implied volatility?
 :A: \(\Delta\)\(\sigma\) ~ \(\Delta\)Price / Vega = $price_change / $vega = $ANS (in decimal, e.g., 0.02 = 2%).
 :T: 10
 :E:
+
 
 :N: Volatility Smile - OTM Put IV
 :I: $ATM_IV=rseq(20,30)/100; $skew=rseq(1,3)/100; $ANS=$ATM_IV+$skew
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Volatility Term Structure
 :I: $IV_1m=rseq(25,35)/100; $IV_3m=rseq(22,28)/100; $ANS=($IV_3m-$IV_1m)*12
 :Q: 1-month IV = $IV_1m, 3-month IV = $IV_3m. Annualized slope of term structure?
 :A: Slope ~ (IV_3m - IV_1m) * 12 / (3-1) = ($IV_3m - $IV_1m) * 6 ... or per month * 12 = $ANS approx.
 :T: 20
 :E:
+
 
 :N: VIX Approximation
 :I: $put_iv=rseq(22,30)/100; $call_iv=rseq(18,26)/100; $ANS=($put_iv+$call_iv)/2*100
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Historical vs Implied Vol
 :I: $hist_vol=rseq(18,25)/100; $impl_vol=rseq(22,30)/100; $ANS=$impl_vol-$hist_vol
 :Q: Historical (realized) vol = $hist_vol, implied vol = $impl_vol. What is the volatility risk premium?
 :A: Vol risk premium = Implied - Historical = $impl_vol - $hist_vol = $ANS.
 :T: 10
 :E:
+
 
 :N: Moneyness and IV
 :I: $S=50; $K=rseq(45,55); $moneyness=ln($S/$K); $ATM_IV=0.25; $skew=-0.10; $ANS=$ATM_IV+$skew*$moneyness
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Put Skew
 :I: $K_90=rseq(28,35)/100; $K_100=rseq(23,28)/100; $K_110=rseq(20,25)/100; $ANS=$K_90-$K_110
 :Q: IV at 90% moneyness = $K_90, at 100% = $K_100, at 110% = $K_110. Put-call skew (90% - 110%)?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Forward Volatility
 :I: $var1=rseq(5,8)/100; $T1=rseq(1,3)/12; $var2=rseq(6,10)/100; $T2=rseq(4,6)/12; $forward_var=($var2*$T2-$var1*$T1)/($T2-$T1); $ANS=sqrt($forward_var)
 :Q: 1-month variance $var1 (T1=$T1), 3-month variance $var2 (T2=$T2). Forward vol for month 2-3?
 :A: Forward variance = (\(\sigma\)_2^2T_2 - \(\sigma\)_1^2T_1)/(T_2-T_1) = $forward_var. Forward vol = sqrt($forward_var) = $ANS.
 :T: 20
 :E:
+
 
 :N: Variance Swap Strike
 :I: $IV_p1=rseq(25,30)/100; $IV_p2=rseq(28,33)/100; $IV_atm=rseq(23,27)/100; $IV_c1=rseq(21,25)/100; $IV_c2=rseq(19,23)/100; $ANS=sqrt(($IV_p1^2+$IV_p2^2+$IV_atm^2+$IV_c1^2+$IV_c2^2)/5)
