@@ -14,15 +14,15 @@
 
 :N: CFO - Start with Net Income
 :I: $net_income=rseq(80,200)*1000; $depr=rseq(30,70)*1000; $delta_ar=rseq(-40,40)*1000; $delta_inv=rseq(-30,30)*1000; $delta_ap=rseq(-20,20)*1000; $ANS=$net_income+$depr-$delta_ar-$delta_inv+$delta_ap
-:Q: Net income $$net_income, D&A $$depr, ΔA/R $$delta_ar, ΔInventory $$delta_inv, ΔA/P $$delta_ap. CFO?
-:A: CFO = NI + D&A - ΔA/R - ΔInv + ΔA/P = $net_income + $depr - $delta_ar - $delta_inv + $delta_ap = $$ANS.
+:Q: Net income $$net_income, D&A $$depr, \(\Delta\)A/R $$delta_ar, \(\Delta\)Inventory $$delta_inv, \(\Delta\)A/P $$delta_ap. CFO?
+:A: CFO = NI + D&A - \(\Delta\)A/R - \(\Delta\)Inv + \(\Delta\)A/P = $net_income + $depr - $delta_ar - $delta_inv + $delta_ap = $$ANS.
 :T: 10
 :E:
 
 :N: Working Capital Change
 :I: $delta_ar=rseq(10,50)*1000; $delta_inv=rseq(15,40)*1000; $delta_ap=rseq(5,30)*1000; $ANS=$delta_ar+$delta_inv-$delta_ap
-:Q: ΔA/R = +$$delta_ar, ΔInventory = +$$delta_inv, ΔA/P = +$$delta_ap. Net use of cash from working capital?
-:A: WC use = ΔA/R + ΔInv - ΔA/P = $delta_ar + $delta_inv - $delta_ap = $$ANS.
+:Q: \(\Delta\)A/R = +$$delta_ar, \(\Delta\)Inventory = +$$delta_inv, \(\Delta\)A/P = +$$delta_ap. Net use of cash from working capital?
+:A: WC use = \(\Delta\)A/R + \(\Delta\)Inv - \(\Delta\)A/P = $delta_ar + $delta_inv - $delta_ap = $$ANS.
 :T: 10
 :E:
 
@@ -64,7 +64,7 @@
 :N: Change in Cash
 :I: $cfo=rseq(100,200)*1000; $cfi=rseq(-150,-50)*1000; $cff=rseq(-50,50)*1000; $ANS=$cfo+$cfi+$cff
 :Q: CFO $$cfo, CFI $$cfi, CFF $$cff. Change in cash?
-:A: ΔCash = CFO + CFI + CFF = $cfo + $cfi + $cff = $$ANS.
+:A: \(\Delta\)Cash = CFO + CFI + CFF = $cfo + $cfi + $cff = $$ANS.
 :T: 10
 :E:
 
