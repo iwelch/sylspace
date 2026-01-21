@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Consolidation and Investments
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Equity Method Income
+:I: $ownership=rseq(20,45)/100; $investee_ni=rseq(50,150)*1000; $ANS=$ownership*$investee_ni
+:Q: Own $ownership of investee. Investee net income $$investee_ni. Equity method income?
+:A: Income = Ownership × Investee NI = $ownership × $investee_ni = $$ANS.
+:T: 10
+:E:
+
+:N: Equity Method Investment Balance
+:I: $initial=rseq(80,200)*1000; $share_of_ni=rseq(15,50)*1000; $dividends_received=rseq(5,20)*1000; $ANS=$initial+$share_of_ni-$dividends_received
+:Q: Initial investment $$initial. Share of NI $$share_of_ni. Dividends received $$dividends_received. Investment balance?
+:A: Balance = Initial + Share of NI - Dividends = $initial + $share_of_ni - $dividends_received = $$ANS.
+:T: 10
+:E:
+
+:N: Goodwill Calculation
+:I: $purchase=rseq(300,600)*1000; $fair_value_net_assets=rseq(200,450)*1000; $ANS=$purchase-$fair_value_net_assets
+:Q: Acquisition price $$purchase. Fair value of identifiable net assets $$fair_value_net_assets. Goodwill?
+:A: Goodwill = Purchase - FV net assets = $purchase - $fair_value_net_assets = $$ANS.
+:T: 10
+:E:
+
+:N: Minority Interest in Net Income
+:I: $sub_ni=rseq(40,100)*1000; $parent_ownership=rseq(60,90)/100; $minority=1-$parent_ownership; $ANS=$minority*$sub_ni
+:Q: Subsidiary NI $$sub_ni. Parent owns $parent_ownership. Minority interest in NI?
+:A: Minority NI = (1 - $parent_ownership) × $sub_ni = $minority × $sub_ni = $$ANS.
+:T: 10
+:E:
+
+:N: Intercompany Elimination - Sales
+:I: $intercompany_sales=rseq(50,150)*1000; $ANS=$intercompany_sales
+:Q: Parent sold $$intercompany_sales to subsidiary. Amount to eliminate from consolidated revenue?
+:A: Eliminate 100% of intercompany sales = $$ANS from both revenue and COGS.
+:T: 10
+:E:
+
+:N: Unrealized Profit Elimination
+:I: $intercompany_sales=rseq(80,200)*1000; $margin=rseq(25,40)/100; $pct_unsold=rseq(20,50)/100; $ANS=$intercompany_sales*$margin*$pct_unsold
+:Q: Intercompany sales $$intercompany_sales at $margin margin. $pct_unsold still in inventory. Unrealized profit to eliminate?
+:A: Unrealized = Sales × Margin × % unsold = $intercompany_sales × $margin × $pct_unsold = $$ANS.
+:T: 10
+:E:
+
+:N: Available-for-Sale Gain to OCI
+:I: $cost=rseq(40,100)*1000; $fair_value=rseq(50,120)*1000; $ANS=$fair_value-$cost
+:Q: AFS investment cost $$cost, current fair value $$fair_value. Unrealized gain in OCI?
+:A: OCI gain = FV - Cost = $fair_value - $cost = $$ANS.
+:T: 10
+:E:
+
+:N: Trading Securities - Income Impact
+:I: $begin_fv=rseq(60,120)*1000; $end_fv=rseq(70,140)*1000; $ANS=$end_fv-$begin_fv
+:Q: Trading security: beginning FV $$begin_fv, ending FV $$end_fv. Income statement impact?
+:A: Unrealized gain/loss = End FV - Begin FV = $end_fv - $begin_fv = $$ANS.
+:T: 10
+:E:
+
+:N: Proportionate Consolidation (JV)
+:I: $jv_revenue=rseq(100,300)*1000; $jv_assets=rseq(200,500)*1000; $ownership=0.5; $ANS=$jv_revenue*$ownership
+:Q: JV revenue $$jv_revenue, assets $$jv_assets. Own 50%. Proportionate revenue consolidated?
+:A: Consolidated revenue = JV revenue × 50% = $jv_revenue × 0.5 = $$ANS.
+:T: 10
+:E:
+
+:N: Purchase Price Allocation - Intangibles
+:I: $purchase=rseq(400,800)*1000; $tangible_fv=rseq(200,400)*1000; $goodwill=rseq(80,200)*1000; $ANS=$purchase-$tangible_fv-$goodwill
+:Q: Purchase $$purchase. Tangible FV $$tangible_fv. Goodwill $$goodwill. Identifiable intangibles?
+:A: Intangibles = Purchase - Tangibles - Goodwill = $purchase - $tangible_fv - $goodwill = $$ANS.
+:T: 10
+:E:
+
+::END::

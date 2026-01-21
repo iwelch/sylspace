@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Butterflies and Condors
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Long Call Butterfly - Cost
+:I: $K1=rseq(45,47); $K2=50; $K3=rseq(53,55); $C1=rseq(6,8); $C2=rseq(3,4); $C3=rseq(1,2); $ANS=$C1-2*$C2+$C3
+:Q: Long call butterfly: Buy $$K1 call ($$C1), sell 2× $50 calls ($$C2 each), buy $$K3 call ($$C3). Net cost?
+:A: Cost = C1 - 2×C2 + C3 = $C1 - 2×$C2 + $C3 = $$ANS.
+:T: 10
+:E:
+
+:N: Long Call Butterfly - Max Profit
+:I: $K1=45; $K2=50; $K3=55; $cost=rseq(1,3); $ANS=$K2-$K1-$cost
+:Q: Long call butterfly: strikes $45/$50/$55, cost $$cost. What is the maximum profit?
+:A: Max profit = (K2 - K1) - cost = ($K2 - $K1) - $cost = $$ANS (occurs at S = K2).
+:T: 10
+:E:
+
+:N: Long Call Butterfly - Max Loss
+:I: $K1=rseq(45,47); $K2=50; $K3=rseq(53,55); $C1=rseq(6,8); $C2=rseq(3,4); $C3=rseq(1,2); $ANS=$C1-2*$C2+$C3
+:Q: Long call butterfly with net cost $$C1 - 2×$C2 + $$C3. What is the maximum loss?
+:A: Max loss = net cost = $C1 - 2×$C2 + $C3 = $$ANS.
+:T: 10
+:E:
+
+:N: Long Call Butterfly - Upper Breakeven
+:I: $K1=45; $K2=50; $K3=55; $cost=rseq(1,3); $ANS=$K3-$cost
+:Q: Long call butterfly: strikes $45/$50/$55, cost $$cost. Upper breakeven?
+:A: Upper breakeven = K3 - cost = $K3 - $cost = $$ANS.
+:T: 10
+:E:
+
+:N: Long Call Butterfly - Lower Breakeven
+:I: $K1=45; $K2=50; $K3=55; $cost=rseq(1,3); $ANS=$K1+$cost
+:Q: Long call butterfly: strikes $45/$50/$55, cost $$cost. Lower breakeven?
+:A: Lower breakeven = K1 + cost = $K1 + $cost = $$ANS.
+:T: 10
+:E:
+
+:N: Iron Butterfly - Premium Received
+:I: $K=50; $C=rseq(2,4); $P=rseq(2,4); $C_wing=rseq(0.5,1.5); $P_wing=rseq(0.5,1.5); $ANS=$C+$P-$C_wing-$P_wing
+:Q: Iron butterfly: Sell ATM call ($$C) and put ($$P) at K=$50. Buy OTM call ($$C_wing) and put ($$P_wing). Net premium?
+:A: Net premium = $C + $P - $C_wing - $P_wing = $$ANS.
+:T: 10
+:E:
+
+:N: Iron Condor - Premium Received
+:I: $K1=rseq(42,45); $K2=rseq(47,49); $K3=rseq(51,53); $K4=rseq(55,58); $P1=rseq(0.5,1); $P2=rseq(2,3); $C3=rseq(2,3); $C4=rseq(0.5,1); $ANS=$P2-$P1+$C3-$C4
+:Q: Iron condor: Buy $$K1 put ($$P1), sell $$K2 put ($$P2), sell $$K3 call ($$C3), buy $$K4 call ($$C4). Net premium?
+:A: Net premium = -P1 + P2 + C3 - C4 = -$P1 + $P2 + $C3 - $C4 = $$ANS.
+:T: 10
+:E:
+
+:N: Iron Condor - Max Loss
+:I: $K1=45; $K2=48; $K3=52; $K4=55; $premium=rseq(2,4); $ANS=$K2-$K1-$premium
+:Q: Iron condor: strikes $45/$48/$52/$55, premium received $$premium. What is max loss?
+:A: Max loss = (K2 - K1) - premium = ($K2 - $K1) - $premium = $$ANS.
+:T: 10
+:E:
+
+:N: Put Butterfly - Cost
+:I: $K1=rseq(45,47); $K2=50; $K3=rseq(53,55); $P1=rseq(1,2); $P2=rseq(3,4); $P3=rseq(6,8); $ANS=$P1-2*$P2+$P3
+:Q: Long put butterfly: Buy $$K1 put ($$P1), sell 2× $50 puts ($$P2), buy $$K3 put ($$P3). Net cost?
+:A: Cost = P1 - 2×P2 + P3 = $P1 - 2×$P2 + $P3 = $$ANS.
+:T: 10
+:E:
+
+:N: Broken Wing Butterfly Payoff
+:I: $K1=45; $K2=50; $K3=60; $cost=rseq(0,2); $S_T=rseq(51,58); $payoff1=$S_T-$K1; $payoff2=2*($K2-$K1); $net=$payoff1-$payoff2; $ANS=$net-$cost
+:Q: Broken wing butterfly: strikes $45/$50/$60 (uneven), cost $$cost. At S=$$S_T, long $45 call pays $$payoff1, short $50 calls net $$payoff2. Profit?
+:A: Net payoff = $payoff1 - $payoff2 = $$net. Profit = $net - $cost = $$ANS.
+:T: 20
+:E:
+
+::END::

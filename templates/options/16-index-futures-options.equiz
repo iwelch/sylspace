@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Options on Indices and Futures
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Index Option Settlement
+:I: $index=rseq(4800,5200); $K=rseq(4900,5100); $multiplier=100; $ANS=max($index-$K,0)*$multiplier
+:Q: S&P 500 index call, K=$K, index settles at $index. Multiplier $100. Cash settlement amount?
+:A: Settlement = max(Index - K, 0) × Multiplier = max($index - $K, 0) × 100 = $$ANS.
+:T: 10
+:E:
+
+:N: Index Put Settlement
+:I: $index=rseq(4700,5000); $K=rseq(5000,5200); $multiplier=100; $ANS=max($K-$index,0)*$multiplier
+:Q: Index put, K=$K, index at $index, multiplier $100. Settlement?
+:A: Settlement = max(K - Index, 0) × 100 = max($K - $index, 0) × 100 = $$ANS.
+:T: 10
+:E:
+
+:N: Futures Option - Call on Futures
+:I: $F=rseq(95,105); $K=rseq(98,102); $ANS=max($F-$K,0)
+:Q: Call on futures, futures price $F, strike $K. What is the call's intrinsic value?
+:A: Intrinsic = max(F - K, 0) = max($F - $K, 0) = $$ANS.
+:T: 10
+:E:
+
+:N: Black Model for Futures Call
+:I: $F=rseq(95,105); $K=rseq(95,105); $r=rseq(4,6)/100; $sigma=rseq(20,35)/100; $T=rseq(3,9)/12; $d1=(ln($F/$K)+$sigma^2/2*$T)/($sigma*sqrt($T)); $d2=$d1-$sigma*sqrt($T); $ANS=exp(-$r*$T)*($F*CumNorm($d1)-$K*CumNorm($d2))
+:Q: Black model: F=$F, K=$K, r=$r, σ=$sigma, T=$T. Futures call price?
+:A: C = e^(-rT)[F×N(d1) - K×N(d2)] = $$ANS.
+:T: 10
+:E:
+
+:N: VIX Option Value
+:I: $vix=rseq(15,30); $K=rseq(18,28); $ANS=max($vix-$K,0)
+:Q: VIX call option, K=$K. VIX settles at $vix. Intrinsic value?
+:A: Intrinsic = max(VIX - K, 0) = max($vix - $K, 0) = $$ANS.
+:T: 10
+:E:
+
+:N: Index Option Delta Hedge
+:I: $delta=rseq(50,70)/100; $contracts=rseq(10,30); $multiplier=100; $index=rseq(4900,5100); $ANS=$delta*$contracts*$multiplier*$index
+:Q: Long $contracts index call contracts (mult=$multiplier), delta $delta, index at $index. Dollar delta exposure?
+:A: Exposure = delta × contracts × multiplier × index = $delta × $contracts × 100 × $index = $$ANS.
+:T: 10
+:E:
+
+:N: Currency Option - Call Payoff
+:I: $spot=rseq(1.05,1.20); $K=rseq(1.08,1.15); $notional=rseq(100,500)*1000; $ANS=max($spot-$K,0)*$notional
+:Q: EUR call (USD put), K=$K EUR/USD, spot $spot, notional $notional EUR. USD payoff?
+:A: Payoff = max(Spot - K, 0) × Notional = max($spot - $K, 0) × $notional = $$ANS.
+:T: 10
+:E:
+
+:N: Futures Option Delta
+:I: $F=100; $K=rseq(95,105); $sigma=0.25; $T=0.25; $r=0.05; $d1=(ln($F/$K)+$sigma^2/2*$T)/($sigma*sqrt($T)); $ANS=exp(-$r*$T)*CumNorm($d1)
+:Q: Futures call: F=$100, K=$K, σ=25%, T=0.25, r=5%. Delta (Black model)?
+:A: Delta = e^(-rT) × N(d1) = $ANS.
+:T: 10
+:E:
+
+:N: Portfolio Insurance Cost
+:I: $portfolio=rseq(10,50)*1000000; $put_cost=rseq(2,5)/100; $ANS=$portfolio*$put_cost
+:Q: Portfolio $$portfolio, protective put costs $put_cost of portfolio value. Insurance cost?
+:A: Cost = Portfolio × Put% = $portfolio × $put_cost = $$ANS.
+:T: 10
+:E:
+
+:N: Collar on Index
+:I: $index=5000; $put_strike=rseq(4700,4900); $call_strike=rseq(5100,5300); $put_cost=rseq(40,80); $call_premium=rseq(30,60); $ANS=$call_premium-$put_cost
+:Q: Collar: buy $put_strike put (cost $$put_cost), sell $call_strike call (receive $$call_premium). Net cost?
+:A: Net = Call premium - Put cost = $call_premium - $put_cost = $$ANS.
+:T: 10
+:E:
+
+::END::

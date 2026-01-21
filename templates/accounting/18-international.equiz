@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: International Accounting and Currency
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Current Rate Translation - Assets
+:I: $foreign_assets=rseq(500,1000); $current_rate=rseq(1.1,1.4); $ANS=$foreign_assets*$current_rate
+:Q: Foreign sub assets 500 FC, current exchange rate $current_rate USD/FC. Translated assets (USD)?
+:A: Assets = FC × Current rate = 500 × $current_rate = $$ANS.
+:T: 10
+:E:
+
+:N: Temporal Method - Inventory
+:I: $inventory_fc=rseq(80,150); $historical_rate=rseq(1.15,1.35); $ANS=$inventory_fc*$historical_rate
+:Q: Inventory $inventory_fc FC (at cost), historical rate $historical_rate. Translated inventory (temporal)?
+:A: Inventory = FC × Historical rate = $inventory_fc × $historical_rate = $$ANS.
+:T: 10
+:E:
+
+:N: Translation Adjustment to OCI
+:I: $net_assets_fc=rseq(300,600); $begin_rate=rseq(1.15,1.25); $end_rate=rseq(1.20,1.35); $ANS=$net_assets_fc*($end_rate-$begin_rate)
+:Q: Net assets $net_assets_fc FC. Rate changed from $begin_rate to $end_rate. CTA?
+:A: CTA = Net assets × (End rate - Begin rate) = $net_assets_fc × ($end_rate - $begin_rate) = $$ANS.
+:T: 10
+:E:
+
+:N: Revenue Translation - Average Rate
+:I: $revenue_fc=rseq(400,800); $avg_rate=rseq(1.18,1.32); $ANS=$revenue_fc*$avg_rate
+:Q: Foreign revenue $revenue_fc FC, average exchange rate $avg_rate. Translated revenue?
+:A: Revenue = FC × Average rate = $revenue_fc × $avg_rate = $$ANS.
+:T: 10
+:E:
+
+:N: Remeasurement Gain/Loss
+:I: $monetary_fc=rseq(100,250); $begin_rate=rseq(1.20,1.30); $end_rate=rseq(1.25,1.40); $ANS=$monetary_fc*($end_rate-$begin_rate)
+:Q: Monetary assets $monetary_fc FC. Rate: $begin_rate to $end_rate. Remeasurement gain/loss (temporal)?
+:A: Gain/Loss = Monetary × (End - Begin) = $monetary_fc × ($end_rate - $begin_rate) = $$ANS (on I/S).
+:T: 10
+:E:
+
+:N: Hyperinflationary Adjustment
+:I: $book_value=rseq(100,200); $price_index_old=100; $price_index_new=rseq(150,250); $ANS=$book_value*$price_index_new/$price_index_old
+:Q: Fixed asset book value $book_value. Price index rose from 100 to $price_index_new. Restated value?
+:A: Restated = Book × (New index / Old index) = $book_value × $price_index_new / 100 = $$ANS.
+:T: 10
+:E:
+
+:N: Functional Currency Determination
+:I: $local_sales_pct=rseq(70,90); $parent_sales_pct=100-$local_sales_pct; $ANS=$local_sales_pct
+:Q: Sub has $local_sales_pct% local sales, $parent_sales_pct% to parent. Local currency likely functional if local > ?
+:A: If local sales $local_sales_pct% > 50%, local currency is likely functional.
+:T: 20
+:E:
+
+:N: Forward Contract - Hedging
+:I: $notional_fc=rseq(500,1000); $forward_rate=rseq(1.22,1.35); $spot_rate=rseq(1.18,1.30); $ANS=$notional_fc*($forward_rate-$spot_rate)
+:Q: Forward to sell $notional_fc FC at $forward_rate. Current spot $spot_rate. Forward premium?
+:A: Premium = Notional × (Forward - Spot) = $notional_fc × ($forward_rate - $spot_rate) = $$ANS.
+:T: 10
+:E:
+
+:N: Net Investment Hedge
+:I: $net_investment=rseq(400,800); $hedge_amount=rseq(350,700); $rate_change=rseq(-0.05,0.05); $investment_impact=$net_investment*$rate_change; $hedge_impact=-$hedge_amount*$rate_change; $ANS=$investment_impact+$hedge_impact
+:Q: Net investment $net_investment, hedge $hedge_amount. Rate changes $rate_change. Net OCI impact?
+:A: Investment: $investment_impact. Hedge: $hedge_impact. Net = $$ANS.
+:T: 10
+:E:
+
+:N: IFRS vs GAAP Inventory
+:I: $cost=rseq(80,150); $nrv=rseq(60,120); $replacement=rseq(55,110); $gaap_lcm=min($cost,max(min($nrv,$replacement),$nrv-rseq(5,15))); $ifrs_lcnrv=min($cost,$nrv); $ANS=$ifrs_lcnrv
+:Q: Inventory cost $$cost, NRV $$nrv. Under IFRS (lower of cost or NRV), inventory value?
+:A: IFRS: min(Cost, NRV) = min($cost, $nrv) = $$ANS.
+:T: 10
+:E:
+
+::END::

@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Spot Rates and Term Structure
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Spot Rate from Zero Price
+:I: $FV=1000; $price=rseq(850,950); $n=rseq(2,5); $ANS=(($FV/$price)^(1/$n)-1)*100
+:Q: $n-year zero-coupon bond: FV=$$FV, price=$$price. What is the $n-year spot rate?
+:A: Spot rate = (FV/P)^(1/n) - 1 = ($FV/$price)^(1/$n) - 1 = $ANS%.
+:T: 10
+:E:
+
+:N: Zero Price from Spot Rate
+:I: $FV=1000; $rp=rseq(3,6); $r=$rp/100; $n=rseq(3,8); $ANS=$FV/(1+$r)^$n
+:Q: $n-year spot rate is $rp%. What is the price of a $n-year zero-coupon bond (FV=$$FV)?
+:A: Price = FV / (1+r)^n = $FV / (1+$r)^$n = $$ANS.
+:T: 10
+:E:
+
+:N: Discount Factor
+:I: $rp=rseq(3,6); $r=$rp/100; $n=rseq(2,6); $ANS=1/(1+$r)^$n
+:Q: $n-year spot rate is $rp%. What is the $n-year discount factor?
+:A: d(n) = 1 / (1+r)^n = 1 / (1+$r)^$n = $ANS.
+:T: 10
+:E:
+
+:N: Bootstrapping - 2-Year Spot
+:I: $r1=rseq(3,5)/100; $C=rseq(40,60); $FV=1000; $price=rseq(980,1020); $PV1=$C/(1+$r1); $remaining=$price-$PV1; $ANS=(sqrt(($C+$FV)/$remaining)-1)*100
+:Q: 1-year spot=$r1. 2-year bond: $$C coupon, $$FV face, price=$$price. PV of year-1 CF=$$PV1. Find 2-year spot.
+:A: Remaining = $price - $PV1 = $$remaining = (C+FV)/(1+r2)². Solving: r2 = $ANS%.
+:T: 10
+:E:
+
+:N: Bond Price from Spot Rates
+:I: $r1=rseq(3,4)/100; $r2=rseq(4,5)/100; $r3=rseq(5,6)/100; $C=50; $FV=1000; $ANS=$C/(1+$r1)+$C/(1+$r2)^2+($C+$FV)/(1+$r3)^3
+:Q: Spot rates: r1=$r1, r2=$r2, r3=$r3. Price a 3-year bond with $50 annual coupon, $1000 face.
+:A: P = C/(1+r1) + C/(1+r2)² + (C+FV)/(1+r3)³ = $$ANS.
+:T: 10
+:E:
+
+:N: Par Rate
+:I: $d1=rseq(95,98)/100; $d2=rseq(90,95)/100; $d3=rseq(85,92)/100; $ANS=(1-$d3)/($d1+$d2+$d3)*100
+:Q: Discount factors: d1=$d1, d2=$d2, d3=$d3. What is the 3-year par rate?
+:A: Par rate = (1 - d3) / (d1 + d2 + d3) = (1 - $d3) / ($d1+$d2+$d3) = $ANS%.
+:T: 10
+:E:
+
+:N: Upward Sloping Curve
+:I: $r1=rseq(2,3); $r2=$r1+rseq(0.5,1); $r3=$r2+rseq(0.5,1); $ANS=$r3-$r1
+:Q: Spot rates: 1-year=$r1%, 2-year=$r2%, 3-year=$r3%. What is the slope (3yr - 1yr)?
+:A: Slope = r3 - r1 = $r3 - $r1 = $ANS%. (Upward sloping / normal curve.)
+:T: 10
+:E:
+
+:N: Inverted Curve
+:I: $r1=rseq(5,6); $r2=$r1-rseq(0.3,0.7); $r3=$r2-rseq(0.3,0.7); $ANS=$r3-$r1
+:Q: Spot rates: 1-year=$r1%, 2-year=$r2%, 3-year=$r3%. What is the slope (inverted curve)?
+:A: Slope = r3 - r1 = $r3 - $r1 = $ANS%. (Negative = inverted curve.)
+:T: 10
+:E:
+
+:N: Continuous Spot Rate
+:I: $price=rseq(850,950); $FV=1000; $T=rseq(3,7); $ANS=-ln($price/$FV)/$T*100
+:Q: Zero bond: price=$$price, FV=$$FV, T=$T years. Continuous spot rate?
+:A: r = -ln(P/FV) / T = -ln($price/$FV) / $T = $ANS%.
+:T: 10
+:E:
+
+:N: Z-Spread
+:I: $treasury_1=rseq(3,4)/100; $treasury_2=rseq(3.5,4.5)/100; $treasury_3=rseq(4,5)/100; $C=60; $FV=1000; $corp_price=rseq(970,990); $z=rseq(100,200)/10000; $calc_price=$C/(1+$treasury_1+$z)+$C/(1+$treasury_2+$z)^2+($C+$FV)/(1+$treasury_3+$z)^3; $ANS=$z*10000
+:Q: Treasury spots: r1=$treasury_1, r2=$treasury_2, r3=$treasury_3. Corporate bond (60 coupon) prices at $$corp_price. Z-spread ≈ $z. Express in basis points.
+:A: Z-spread = $z × 10000 = $ANS bps.
+:T: 10
+:E:
+
+::END::

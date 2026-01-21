@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Credit Risk and Spreads
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Credit Spread
+:I: $corp_yield=rseq(5,9); $treasury_yield=rseq(3,5); $ANS=$corp_yield-$treasury_yield
+:Q: Corporate bond yield $corp_yield%, Treasury yield $treasury_yield%. Credit spread?
+:A: Credit spread = Corporate - Treasury = $corp_yield - $treasury_yield = $ANS%.
+:T: 10
+:E:
+
+:N: Credit Spread in Basis Points
+:I: $corp_yield=rseq(5,9); $treasury_yield=rseq(3,5); $ANS=($corp_yield-$treasury_yield)*100
+:Q: Corporate yield $corp_yield%, Treasury $treasury_yield%. Spread in basis points?
+:A: Spread = ($corp_yield - $treasury_yield) × 100 = $ANS bps.
+:T: 10
+:E:
+
+:N: Default Probability from Spread
+:I: $spread_bps=rseq(100,300); $LGD=rseq(40,60)/100; $spread=$spread_bps/10000; $ANS=$spread/$LGD*100
+:Q: Credit spread $spread_bps bps. Loss given default (LGD) = $LGD. Approximate annual default probability?
+:A: PD ≈ Spread / LGD = $spread / $LGD = $ANS%.
+:T: 10
+:E:
+
+:N: Recovery Rate and LGD
+:I: $recovery=rseq(30,60); $ANS=100-$recovery
+:Q: Recovery rate is $recovery%. What is Loss Given Default (LGD)?
+:A: LGD = 1 - Recovery = 100% - $recovery% = $ANS%.
+:T: 10
+:E:
+
+:N: Expected Loss
+:I: $exposure=rseq(5,15)*1000000; $PD=rseq(1,5)/100; $LGD=rseq(40,60)/100; $ANS=$exposure*$PD*$LGD
+:Q: Exposure $$exposure, probability of default $PD, LGD $LGD. Expected loss?
+:A: EL = Exposure × PD × LGD = $exposure × $PD × $LGD = $$ANS.
+:T: 10
+:E:
+
+:N: Option-Adjusted Spread
+:I: $nominal_spread=rseq(150,250); $option_cost=rseq(20,50); $ANS=$nominal_spread-$option_cost
+:Q: Nominal spread $nominal_spread bps. Value of embedded option = $option_cost bps. OAS?
+:A: OAS = Nominal spread - Option cost = $nominal_spread - $option_cost = $ANS bps.
+:T: 10
+:E:
+
+:N: Credit Rating Migration
+:I: $notional=rseq(5,15)*1000000; $spread_old=rseq(100,150)/10000; $spread_new=rseq(200,300)/10000; $dur=rseq(4,7); $ANS=-$notional*$dur*($spread_new-$spread_old)
+:Q: Bond notional $$notional, duration $dur. Spread widens from $spread_old to $spread_new. Value change?
+:A: ΔValue ≈ -Notional × Duration × Δspread = -$notional × $dur × ($spread_new - $spread_old) = $$ANS.
+:T: 10
+:E:
+
+:N: CDS Spread
+:I: $cds_spread=rseq(80,200); $notional=rseq(5,15)*1000000; $ANS=$notional*$cds_spread/10000
+:Q: CDS spread $cds_spread bps on notional $$notional. Annual premium payment?
+:A: Premium = Notional × Spread = $notional × $cds_spread/10000 = $$ANS.
+:T: 10
+:E:
+
+:N: Credit VaR
+:I: $exposure=rseq(8,15)*1000000; $PD=rseq(2,5)/100; $LGD=rseq(45,60)/100; $conf=2.33; $unexpected_loss=$exposure*$LGD*sqrt($PD*(1-$PD))*$conf; $ANS=$unexpected_loss
+:Q: Exposure $$exposure, PD $PD, LGD $LGD. Credit VaR at 99% (z=2.33)?
+:A: Credit VaR ≈ Exposure × LGD × √(PD×(1-PD)) × z = $$ANS.
+:T: 20
+:E:
+
+:N: Spread Duration
+:I: $price=rseq(95,105); $mod_dur=rseq(5,8); $spread_change=rseq(25,75)/10000; $ANS=-$mod_dur*$spread_change*$price
+:Q: Bond price $$price, modified duration $mod_dur. Spread increases by $spread_change. Price change?
+:A: ΔPrice = -ModDur × Δspread × Price = -$mod_dur × $spread_change × $price = $$ANS.
+:T: 10
+:E:
+
+::END::

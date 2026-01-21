@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Sensitivity and Scenario Analysis
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: WACC Sensitivity - EV Change
+:I: $base_ev=rseq(800,1500)*1000; $base_wacc=rseq(9,11)/100; $new_wacc=rseq(10,12)/100; $fcf=rseq(60,120)*1000; $g=rseq(2,4)/100; $new_ev=$fcf*(1+$g)/($new_wacc-$g); $ANS=$new_ev-$base_ev
+:Q: Base EV $$base_ev at WACC $base_wacc. If WACC rises to $new_wacc, new EV=$$new_ev. Change?
+:A: Change = New EV - Base = $new_ev - $base_ev = $$ANS.
+:T: 10
+:E:
+
+:N: Growth Rate Sensitivity
+:I: $fcf=rseq(80,150)*1000; $wacc=rseq(9,12)/100; $g_base=rseq(2,3)/100; $g_new=rseq(3,4)/100; $ev_base=$fcf*(1+$g_base)/($wacc-$g_base); $ev_new=$fcf*(1+$g_new)/($wacc-$g_new); $ANS=($ev_new-$ev_base)/$ev_base*100
+:Q: FCF $$fcf, WACC $wacc. Growth from $g_base to $g_new. EV changes from $$ev_base to $$ev_new. % change?
+:A: % Change = ($ev_new - $ev_base) / $ev_base = $ANS%.
+:T: 10
+:E:
+
+:N: Exit Multiple Sensitivity
+:I: $ebitda=rseq(80,180)*1000; $mult_low=rseq(6,8); $mult_high=rseq(9,12); $ev_low=$ebitda*$mult_low; $ev_high=$ebitda*$mult_high; $ANS=$ev_high-$ev_low
+:Q: EBITDA $$ebitda. Exit multiple range $mult_low× to $mult_high×. EV range?
+:A: EV low = $$ev_low, EV high = $$ev_high. Range = $$ANS.
+:T: 10
+:E:
+
+:N: Margin Sensitivity - EBITDA
+:I: $revenue=rseq(500,1000)*1000; $base_margin=rseq(15,20)/100; $new_margin=rseq(17,22)/100; $base_ebitda=$revenue*$base_margin; $new_ebitda=$revenue*$new_margin; $ANS=$new_ebitda-$base_ebitda
+:Q: Revenue $$revenue. EBITDA margin rises from $base_margin to $new_margin. EBITDA change?
+:A: Change = $revenue × ($new_margin - $base_margin) = $new_ebitda - $base_ebitda = $$ANS.
+:T: 10
+:E:
+
+:N: Bull Case Scenario
+:I: $base_ev=rseq(800,1200)*1000; $upside_pct=rseq(20,40)/100; $ANS=$base_ev*(1+$upside_pct)
+:Q: Base case EV $$base_ev. Bull case assumes $upside_pct upside. Bull case EV?
+:A: Bull EV = Base × (1 + upside) = $base_ev × (1 + $upside_pct) = $$ANS.
+:T: 10
+:E:
+
+:N: Bear Case Scenario
+:I: $base_ev=rseq(800,1200)*1000; $downside_pct=rseq(15,30)/100; $ANS=$base_ev*(1-$downside_pct)
+:Q: Base case EV $$base_ev. Bear case assumes $downside_pct downside. Bear case EV?
+:A: Bear EV = Base × (1 - downside) = $base_ev × (1 - $downside_pct) = $$ANS.
+:T: 10
+:E:
+
+:N: Probability-Weighted Value
+:I: $bull=rseq(1200,1600)*1000; $p_bull=rseq(20,30)/100; $base=rseq(900,1100)*1000; $p_base=rseq(50,60)/100; $bear=rseq(600,800)*1000; $p_bear=1-$p_bull-$p_base; $ANS=$p_bull*$bull+$p_base*$base+$p_bear*$bear
+:Q: Bull $$bull (prob $p_bull), Base $$base (prob $p_base), Bear $$bear (prob $p_bear). Expected value?
+:A: EV = p_bull×Bull + p_base×Base + p_bear×Bear = $$ANS.
+:T: 10
+:E:
+
+:N: Revenue Growth Sensitivity
+:I: $base_rev=rseq(400,800)*1000; $growth_low=rseq(3,5)/100; $growth_high=rseq(8,12)/100; $years=5; $rev_low=$base_rev*(1+$growth_low)^$years; $rev_high=$base_rev*(1+$growth_high)^$years; $ANS=$rev_high-$rev_low
+:Q: Base revenue $$base_rev. Year 5 revenue at $growth_low growth: $$rev_low. At $growth_high: $$rev_high. Difference?
+:A: Difference = $rev_high - $rev_low = $$ANS.
+:T: 10
+:E:
+
+:N: Tax Rate Sensitivity
+:I: $ebit=rseq(100,250)*1000; $base_tax=rseq(25,30)/100; $new_tax=rseq(20,25)/100; $base_nopat=$ebit*(1-$base_tax); $new_nopat=$ebit*(1-$new_tax); $ANS=$new_nopat-$base_nopat
+:Q: EBIT $$ebit. Tax rate falls from $base_tax to $new_tax. NOPAT increase?
+:A: Increase = EBIT × (old_tax - new_tax) = $ebit × ($base_tax - $new_tax) = $$ANS.
+:T: 10
+:E:
+
+:N: Football Field Range
+:I: $dcf_low=rseq(40,55); $dcf_high=rseq(55,70); $comps_low=rseq(45,55); $comps_high=rseq(60,75); $low=min($dcf_low,$comps_low); $high=max($dcf_high,$comps_high); $ANS=$high-$low
+:Q: DCF range $$dcf_low-$$dcf_high. Comps range $$comps_low-$$comps_high. Overall value range width?
+:A: Overall: $$low to $$high. Width = $high - $low = $$ANS.
+:T: 10
+:E:
+
+::END::

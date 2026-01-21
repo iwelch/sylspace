@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Option Portfolio Management
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Portfolio Delta
+:I: $stock_shares=rseq(1000,3000); $call_delta=rseq(55,70)/100; $calls=rseq(10,30); $put_delta=rseq(-45,-30)/100; $puts=rseq(5,15); $mult=100; $ANS=$stock_shares+$call_delta*$calls*$mult+$put_delta*$puts*$mult
+:Q: Long $stock_shares shares, long $calls calls (Δ=$call_delta), long $puts puts (Δ=$put_delta). Portfolio delta?
+:A: Δ = Shares + CallΔ×Calls×100 + PutΔ×Puts×100 = $stock_shares + $call_delta×$calls×100 + $put_delta×$puts×100 = $ANS.
+:T: 10
+:E:
+
+:N: Portfolio Gamma
+:I: $call_gamma=rseq(2,4)/100; $calls=rseq(20,50); $put_gamma=rseq(2,4)/100; $puts=rseq(10,30); $mult=100; $ANS=$call_gamma*$calls*$mult+$put_gamma*$puts*$mult
+:Q: Long $calls calls (Γ=$call_gamma), long $puts puts (Γ=$put_gamma). Portfolio gamma?
+:A: Γ = CallΓ×Calls×100 + PutΓ×Puts×100 = $call_gamma×$calls×100 + $put_gamma×$puts×100 = $ANS.
+:T: 10
+:E:
+
+:N: Portfolio Theta
+:I: $call_theta=rseq(-0.04,-0.02); $calls=rseq(20,40); $put_theta=rseq(-0.03,-0.01); $puts=rseq(10,25); $mult=100; $ANS=($call_theta*$calls+$put_theta*$puts)*$mult
+:Q: Long $calls calls (θ=$call_theta/day), long $puts puts (θ=$put_theta/day). Daily portfolio theta?
+:A: θ = (CallΘ×Calls + PutΘ×Puts) × 100 = $$ANS per day.
+:T: 10
+:E:
+
+:N: Portfolio Vega
+:I: $call_vega=rseq(0.12,0.20); $calls=rseq(30,60); $put_vega=rseq(0.12,0.20); $puts=rseq(20,40); $mult=100; $ANS=($call_vega*$calls+$put_vega*$puts)*$mult
+:Q: Long $calls calls (ν=$call_vega), long $puts puts (ν=$put_vega). Portfolio vega?
+:A: ν = (Callν×Calls + Putν×Puts) × 100 = $ANS per 1% vol change.
+:T: 10
+:E:
+
+:N: Delta-Neutral Position
+:I: $stock_shares=rseq(2000,5000); $call_delta=rseq(0.50,0.65); $mult=100; $ANS=-$stock_shares/($call_delta*$mult)
+:Q: Long $stock_shares shares. Call delta $call_delta. How many calls to sell for delta neutral?
+:A: Calls = -Shares / (Δ × 100) = -$stock_shares / ($call_delta × 100) = $ANS contracts (sell).
+:T: 10
+:E:
+
+:N: Gamma-Neutral with Delta Hedge
+:I: $port_gamma=rseq(-150,-50); $option_gamma=rseq(0.03,0.05); $option_delta=rseq(0.45,0.60); $mult=100; $options=-$port_gamma/($option_gamma*$mult); $delta_from_opts=$options*$option_delta*$mult; $ANS=-$delta_from_opts
+:Q: Portfolio gamma $port_gamma. Option: Γ=$option_gamma, Δ=$option_delta. Buy $options options for gamma neutral. Shares to delta hedge?
+:A: Options add delta = $options × $option_delta × 100 = $delta_from_opts. Sell $ANS shares.
+:T: 10
+:E:
+
+:N: Covered Call Return
+:I: $stock_cost=rseq(45,55); $call_premium=rseq(2,4); $strike=rseq(50,55); $stock_final=$strike; $ANS=($strike-$stock_cost+$call_premium)/$stock_cost*100
+:Q: Buy stock at $$stock_cost, sell call for $$call_premium, strike $$strike. If assigned at expiry, return?
+:A: Return = (Strike - Cost + Premium) / Cost = ($strike - $stock_cost + $call_premium) / $stock_cost = $ANS%.
+:T: 10
+:E:
+
+:N: Protective Put Cost
+:I: $stock_price=rseq(48,52); $put_price=rseq(2,5); $strike=rseq(45,50); $ANS=($stock_price+$put_price-$strike)/$stock_price*100
+:Q: Stock at $$stock_price, buy put at $$put_price, strike $$strike. Maximum loss as % of stock price?
+:A: Max loss = Stock + Put - Strike = $stock_price + $put_price - $strike. As % = $ANS%.
+:T: 10
+:E:
+
+:N: Collar Net Cost
+:I: $put_cost=rseq(2,4); $call_received=rseq(1.5,3.5); $ANS=$put_cost-$call_received
+:Q: Buy protective put for $$put_cost, sell covered call for $$call_received. Net collar cost?
+:A: Net cost = Put - Call = $put_cost - $call_received = $$ANS.
+:T: 10
+:E:
+
+:N: Risk Reversal Position
+:I: $put_strike=rseq(45,48); $call_strike=rseq(52,55); $stock=50; $put_prem=rseq(1.5,3); $call_prem=rseq(1.5,3); $ANS=$call_prem-$put_prem
+:Q: Sell $$put_strike put (receive $$put_prem), buy $$call_strike call (pay $$call_prem). Net credit/debit?
+:A: Net = Call premium - Put premium = $call_prem - $put_prem = $$ANS (negative = debit).
+:T: 10
+:E:
+
+::END::

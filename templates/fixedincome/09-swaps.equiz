@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Interest Rate Swaps
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Swap Fixed Payment
+:I: $notional=rseq(10,50)*1000000; $fixed_rate=rseq(3,6)/100; $ANS=$notional*$fixed_rate/2
+:Q: Interest rate swap: notional $$notional, fixed rate $fixed_rate, semi-annual payments. What is each fixed payment?
+:A: Fixed payment = Notional × Fixed rate / 2 = $notional × $fixed_rate / 2 = $$ANS.
+:T: 10
+:E:
+
+:N: Swap Floating Payment
+:I: $notional=rseq(10,50)*1000000; $libor=rseq(2,5)/100; $ANS=$notional*$libor/2
+:Q: Swap notional $$notional, current LIBOR $libor, semi-annual. What is the next floating payment?
+:A: Floating payment = Notional × LIBOR / 2 = $notional × $libor / 2 = $$ANS.
+:T: 10
+:E:
+
+:N: Swap Net Payment
+:I: $notional=rseq(10,30)*1000000; $fixed=rseq(4,6)/100; $floating=rseq(3,5)/100; $ANS=$notional*($fixed-$floating)/2
+:Q: Pay-fixed swap: notional $$notional, fixed $fixed, LIBOR $floating, semi-annual. Net payment by fixed payer?
+:A: Net = Notional × (Fixed - Float) / 2 = $notional × ($fixed - $floating) / 2 = $$ANS.
+:T: 10
+:E:
+
+:N: Swap Rate Calculation
+:I: $d1=rseq(97,99)/100; $d2=rseq(94,97)/100; $d3=rseq(91,95)/100; $d4=rseq(88,93)/100; $sum=$d1+$d2+$d3+$d4; $ANS=(1-$d4)/$sum*200
+:Q: Semi-annual swap. Discount factors: d0.5=$d1, d1=$d2, d1.5=$d3, d2=$d4. What is the 2-year swap rate (annualized %)?
+:A: Swap rate = (1 - d_n) / Σd × 2 = (1 - $d4) / $sum × 2 = $ANS%.
+:T: 10
+:E:
+
+:N: Swap Value - Pay Fixed
+:I: $notional=10000000; $fixed=0.05; $new_swap_rate=rseq(4,6)/100; $years_left=rseq(2,4); $d_avg=rseq(92,97)/100; $ANS=$notional*($new_swap_rate-$fixed)*$years_left*$d_avg
+:Q: Pay-fixed swap at 5%, $years_left years left, notional $10M. New swap rate $new_swap_rate. Approximate value to fixed payer?
+:A: Value ≈ Notional × (New rate - Old rate) × Years × Avg discount = $$ANS.
+:T: 20
+:E:
+
+:N: Swap Duration
+:I: $maturity=rseq(3,7); $fixed_dur=$maturity*0.75; $float_dur=0.25; $ANS=$fixed_dur-$float_dur
+:Q: $maturity-year swap. Fixed leg duration ≈ $fixed_dur years, floating leg ≈ $float_dur years. Pay-fixed swap duration?
+:A: Duration = Fixed duration - Float duration = $fixed_dur - $float_dur = $ANS years.
+:T: 10
+:E:
+
+:N: Swap Spread
+:I: $swap_rate=rseq(4,6); $treasury=rseq(3.5,5); $ANS=($swap_rate-$treasury)*100
+:Q: 5-year swap rate = $swap_rate%, 5-year Treasury = $treasury%. Swap spread in basis points?
+:A: Swap spread = ($swap_rate - $treasury) × 100 = $ANS bps.
+:T: 10
+:E:
+
+:N: Basis Swap Payment
+:I: $notional=rseq(20,50)*1000000; $libor_3m=rseq(3,5)/100; $libor_6m=rseq(3.2,5.2)/100; $spread=rseq(5,15)/10000; $ANS=$notional*($libor_3m+$spread-$libor_6m/2)
+:Q: Basis swap: pay 3M LIBOR + $spread spread, receive 6M LIBOR. 3M LIBOR=$libor_3m, 6M LIBOR=$libor_6m. Quarterly net (approx)?
+:A: Net ≈ Notional × (3M + spread - 6M/2) = $$ANS.
+:T: 20
+:E:
+
+:N: Swap Hedging Notional
+:I: $bond_value=rseq(50,100)*1000000; $bond_dur=rseq(5,8); $swap_dur=rseq(3,5); $ANS=$bond_value*$bond_dur/$swap_dur
+:Q: Hedge $bond_value bond portfolio (duration $bond_dur) with swaps (duration $swap_dur). Required swap notional?
+:A: Notional = Bond value × Bond dur / Swap dur = $bond_value × $bond_dur / $swap_dur = $$ANS.
+:T: 10
+:E:
+
+:N: Overnight Index Swap (OIS)
+:I: $notional=rseq(10,30)*1000000; $ois_rate=rseq(2,4)/100; $realized_avg=rseq(2.2,4.2)/100; $days=rseq(30,90); $ANS=$notional*($realized_avg-$ois_rate)*$days/360
+:Q: OIS: notional $$notional, fixed rate $ois_rate, realized avg overnight rate $realized_avg, $days days. Net payment at maturity?
+:A: Net = Notional × (Realized - Fixed) × days/360 = $$ANS.
+:T: 10
+:E:
+
+::END::

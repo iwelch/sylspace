@@ -1,0 +1,99 @@
+::EQVERSION:: 1.0
+
+::NAME:: Option Strategies: Straddles and Strangles
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Long Straddle Cost
+:I: $K=rseq(48,52); $C=rseq(3,5); $P=rseq(2,4); $ANS=$C+$P
+:Q: Long straddle: Buy call and put both at strike $$K. Call costs $$C, put costs $$P. Total cost?
+:A: Straddle cost = C + P = $C + $P = $$ANS.
+:T: 10
+:E:
+
+:N: Long Straddle Upper Breakeven
+:I: $K=rseq(48,52); $C=rseq(3,5); $P=rseq(2,4); $cost=$C+$P; $ANS=$K+$cost
+:Q: Long straddle at strike $$K, total cost $$cost. What is the upper breakeven price?
+:A: Upper breakeven = K + cost = $K + $cost = $$ANS.
+:T: 10
+:E:
+
+:N: Long Straddle Lower Breakeven
+:I: $K=rseq(48,52); $C=rseq(3,5); $P=rseq(2,4); $cost=$C+$P; $ANS=$K-$cost
+:Q: Long straddle at strike $$K, total cost $$cost. What is the lower breakeven price?
+:A: Lower breakeven = K - cost = $K - $cost = $$ANS.
+:T: 10
+:E:
+
+:N: Long Straddle Profit - Stock Up
+:I: $K=50; $cost=rseq(6,10); $S_T=rseq(58,65); $payoff=$S_T-$K; $ANS=$payoff-$cost
+:Q: Long straddle: K=$50, cost $$cost. At expiration S=$$S_T. What is the profit?
+:A: Call payoff = $S_T - $K = $$payoff. Put worthless. Profit = $payoff - $cost = $$ANS.
+:T: 10
+:E:
+
+:N: Long Straddle Profit - Stock Down
+:I: $K=50; $cost=rseq(6,10); $S_T=rseq(38,44); $payoff=$K-$S_T; $ANS=$payoff-$cost
+:Q: Long straddle: K=$50, cost $$cost. At expiration S=$$S_T. What is the profit?
+:A: Put payoff = $K - $S_T = $$payoff. Call worthless. Profit = $payoff - $cost = $$ANS.
+:T: 10
+:E:
+
+:N: Long Straddle Max Loss
+:I: $K=rseq(48,52); $C=rseq(3,5); $P=rseq(2,4); $ANS=$C+$P
+:Q: Long straddle with call premium $$C and put premium $$P. What is the maximum loss?
+:A: Max loss = total premium = $C + $P = $$ANS (occurs if S = K at expiration).
+:T: 10
+:E:
+
+:N: Long Strangle Cost
+:I: $K_put=rseq(45,48); $K_call=rseq(52,55); $C=rseq(2,4); $P=rseq(1,3); $ANS=$C+$P
+:Q: Long strangle: Buy $$K_put put for $$P, buy $$K_call call for $$C. Total cost?
+:A: Strangle cost = C + P = $C + $P = $$ANS.
+:T: 10
+:E:
+
+:N: Long Strangle Upper Breakeven
+:I: $K_put=rseq(45,48); $K_call=rseq(52,55); $C=rseq(2,4); $P=rseq(1,3); $cost=$C+$P; $ANS=$K_call+$cost
+:Q: Long strangle: put strike $$K_put, call strike $$K_call, cost $$cost. Upper breakeven?
+:A: Upper breakeven = Call strike + cost = $K_call + $cost = $$ANS.
+:T: 10
+:E:
+
+:N: Long Strangle Lower Breakeven
+:I: $K_put=rseq(45,48); $K_call=rseq(52,55); $C=rseq(2,4); $P=rseq(1,3); $cost=$C+$P; $ANS=$K_put-$cost
+:Q: Long strangle: put strike $$K_put, call strike $$K_call, cost $$cost. Lower breakeven?
+:A: Lower breakeven = Put strike - cost = $K_put - $cost = $$ANS.
+:T: 10
+:E:
+
+:N: Short Straddle Premium
+:I: $K=rseq(48,52); $C=rseq(3,5); $P=rseq(2,4); $ANS=$C+$P
+:Q: Short straddle: Sell call at $$C and put at $$P, both strike $$K. Total premium received?
+:A: Premium received = $C + $P = $$ANS.
+:T: 10
+:E:
+
+:N: Short Straddle Max Profit
+:I: $K=rseq(48,52); $C=rseq(3,5); $P=rseq(2,4); $ANS=$C+$P
+:Q: Short straddle at strike $$K. Call premium $$C, put premium $$P. What is maximum profit?
+:A: Max profit = premium received = $C + $P = $$ANS (if S = K at expiration).
+:T: 10
+:E:
+
+:N: Implied Move from Straddle
+:I: $K=rseq(95,105); $straddle_price=rseq(8,15); $ANS=$straddle_price/$K*100
+:Q: ATM straddle (K=$$K) costs $$straddle_price. What percentage move does the market imply?
+:A: Implied move ≈ Straddle price / Strike = $straddle_price / $K = $ANS%.
+:T: 10
+:E:
+
+::END::

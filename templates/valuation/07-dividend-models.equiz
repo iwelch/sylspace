@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Dividend Discount Models
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Gordon Growth Model
+:I: $div1=rseq(2,5); $ke=rseq(10,14)/100; $g=rseq(3,6)/100; $ANS=$div1/($ke-$g)
+:Q: Expected dividend D1 = $$div1, cost of equity $ke, perpetual growth $g. Stock value?
+:A: P0 = D1 / (Ke - g) = $div1 / ($ke - $g) = $$ANS.
+:T: 10
+:E:
+
+:N: Implied Growth Rate
+:I: $price=rseq(40,80); $div1=rseq(2,4); $ke=rseq(10,14)/100; $ANS=($ke-$div1/$price)*100
+:Q: Stock price $$price, D1 = $$div1, cost of equity $ke. Implied growth rate?
+:A: g = Ke - D1/P0 = $ke - $div1/$price = $ANS%.
+:T: 10
+:E:
+
+:N: Implied Cost of Equity
+:I: $price=rseq(40,80); $div1=rseq(2,4); $g=rseq(3,6)/100; $ANS=($div1/$price+$g)*100
+:Q: Price $$price, D1 = $$div1, growth $g. Implied cost of equity?
+:A: Ke = D1/P0 + g = $div1/$price + $g = $ANS%.
+:T: 10
+:E:
+
+:N: Two-Stage DDM - Stage 1 PV
+:I: $div0=rseq(1.5,3); $g1=rseq(12,20)/100; $ke=rseq(10,14)/100; $n=5; $div1=$div0*(1+$g1); $div2=$div1*(1+$g1); $div3=$div2*(1+$g1); $div4=$div3*(1+$g1); $div5=$div4*(1+$g1); $ANS=$div1/(1+$ke)+$div2/(1+$ke)^2+$div3/(1+$ke)^3+$div4/(1+$ke)^4+$div5/(1+$ke)^5
+:Q: D0 = $$div0, Stage 1 growth $g1 for 5 years, Ke = $ke. PV of Stage 1 dividends?
+:A: PV = D1/(1+Ke) + D2/(1+Ke)² + ... + D5/(1+Ke)⁵ = $$ANS.
+:T: 10
+:E:
+
+:N: Terminal Value in DDM
+:I: $div5=rseq(3,6); $g2=rseq(3,5)/100; $ke=rseq(10,14)/100; $tv=$div5*(1+$g2)/($ke-$g2); $n=5; $ANS=$tv/(1+$ke)^$n
+:Q: D5 = $$div5, perpetual growth $g2 after year 5, Ke = $ke. PV of terminal value?
+:A: TV = D6 / (Ke - g) = $div5×(1+$g2) / ($ke-$g2) = $$tv. PV = TV/(1+Ke)^5 = $$ANS.
+:T: 10
+:E:
+
+:N: Sustainable Growth Rate
+:I: $roe=rseq(12,20)/100; $payout=rseq(30,50)/100; $retention=1-$payout; $ANS=$roe*$retention*100
+:Q: ROE $roe, payout ratio $payout. Sustainable growth rate?
+:A: g = ROE × Retention = $roe × (1 - $payout) = $ANS%.
+:T: 10
+:E:
+
+:N: Payout Ratio
+:I: $div=rseq(1.5,4); $eps=rseq(4,8); $ANS=$div/$eps*100
+:Q: DPS $$div, EPS $$eps. Payout ratio?
+:A: Payout = DPS / EPS = $div / $eps = $ANS%.
+:T: 10
+:E:
+
+:N: Dividend Yield
+:I: $div=rseq(1.5,4); $price=rseq(40,80); $ANS=$div/$price*100
+:Q: Annual dividend $$div, stock price $$price. Dividend yield?
+:A: Yield = Dividend / Price = $div / $price = $ANS%.
+:T: 10
+:E:
+
+:N: Expected Return from DDM
+:I: $div_yield=rseq(2,4)/100; $g=rseq(4,7)/100; $ANS=($div_yield+$g)*100
+:Q: Dividend yield $div_yield, expected growth $g. Expected return?
+:A: Expected return = Yield + Growth = $div_yield + $g = $ANS%.
+:T: 10
+:E:
+
+:N: Value with No Growth
+:I: $eps=rseq(4,8); $ke=rseq(10,14)/100; $ANS=$eps/$ke
+:Q: Company pays all earnings as dividends. EPS = $$eps, Ke = $ke. Stock value?
+:A: With 100% payout and no growth: P = EPS / Ke = $eps / $ke = $$ANS.
+:T: 10
+:E:
+
+::END::

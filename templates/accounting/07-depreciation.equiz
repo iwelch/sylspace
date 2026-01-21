@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Depreciation and Fixed Assets
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Straight-Line Depreciation
+:I: $cost=rseq(80,200)*1000; $salvage=rseq(5,20)*1000; $life=rseq(5,10); $ANS=($cost-$salvage)/$life
+:Q: Asset cost $$cost, salvage value $$salvage, useful life $life years. Annual straight-line depreciation?
+:A: Depreciation = (Cost - Salvage) / Life = ($cost - $salvage) / $life = $$ANS per year.
+:T: 10
+:E:
+
+:N: Book Value After Depreciation
+:I: $cost=rseq(100,250)*1000; $annual_depr=rseq(15,40)*1000; $years=rseq(2,5); $accum=$annual_depr*$years; $ANS=$cost-$accum
+:Q: Asset cost $$cost, annual depreciation $$annual_depr, after $years years. Book value?
+:A: Accumulated = $annual_depr × $years = $$accum. Book value = $cost - $accum = $$ANS.
+:T: 10
+:E:
+
+:N: Double-Declining Balance
+:I: $cost=rseq(100,200)*1000; $life=rseq(5,10); $rate=2/$life; $ANS=$cost*$rate
+:Q: Asset cost $$cost, useful life $life years. Year 1 DDB depreciation?
+:A: Rate = 2/Life = 2/$life. Year 1 = Cost × Rate = $cost × $rate = $$ANS.
+:T: 10
+:E:
+
+:N: DDB Year 2
+:I: $cost=rseq(100,200)*1000; $life=5; $rate=0.4; $year1=$cost*$rate; $book1=$cost-$year1; $ANS=$book1*$rate
+:Q: Asset cost $$cost, 5-year life, DDB (40% rate). Year 1 = $$year1, Book value = $$book1. Year 2 depreciation?
+:A: Year 2 = Book value × Rate = $book1 × 0.4 = $$ANS.
+:T: 10
+:E:
+
+:N: Units of Production
+:I: $cost=rseq(100,200)*1000; $salvage=rseq(10,30)*1000; $total_units=rseq(50,100)*1000; $units_used=rseq(8,20)*1000; $rate=($cost-$salvage)/$total_units; $ANS=$rate*$units_used
+:Q: Asset cost $$cost, salvage $$salvage, total capacity $total_units units. This period: $units_used units. Depreciation?
+:A: Rate = ($cost - $salvage) / $total_units = $$rate/unit. Depr = $rate × $units_used = $$ANS.
+:T: 10
+:E:
+
+:N: Gain on Sale of Asset
+:I: $cost=rseq(80,150)*1000; $accum_depr=rseq(40,100)*1000; $book=$cost-$accum_depr; $sale_price=rseq(30,80)*1000; $ANS=$sale_price-$book
+:Q: Asset cost $$cost, accumulated depreciation $$accum_depr, book value $$book. Sold for $$sale_price. Gain (loss)?
+:A: Gain/Loss = Sale price - Book value = $sale_price - $book = $$ANS.
+:T: 10
+:E:
+
+:N: Capitalized Interest
+:I: $avg_expenditure=rseq(500,1500)*1000; $rate=rseq(5,8)/100; $months=rseq(6,12); $ANS=$avg_expenditure*$rate*$months/12
+:Q: Construction: average accumulated expenditure $$avg_expenditure, interest rate $rate, $months months. Capitalized interest?
+:A: Interest = Avg expend × Rate × (months/12) = $avg_expenditure × $rate × $months/12 = $$ANS.
+:T: 10
+:E:
+
+:N: Impairment Loss
+:I: $book=rseq(100,200)*1000; $fair_value=rseq(60,150)*1000; $ANS=max(0,$book-$fair_value)
+:Q: Asset book value $$book, fair value $$fair_value. Impairment loss?
+:A: Loss = max(0, Book - Fair) = max(0, $book - $fair_value) = $$ANS.
+:T: 10
+:E:
+
+:N: Asset Turnover
+:I: $revenue=rseq(500,1200)*1000; $avg_assets=rseq(300,800)*1000; $ANS=$revenue/$avg_assets
+:Q: Revenue $$revenue, average total assets $$avg_assets. Asset turnover?
+:A: Turnover = Revenue / Avg assets = $revenue / $avg_assets = $ANS times.
+:T: 10
+:E:
+
+:N: Fixed Asset Turnover
+:I: $revenue=rseq(500,1200)*1000; $avg_fixed=rseq(150,400)*1000; $ANS=$revenue/$avg_fixed
+:Q: Revenue $$revenue, average net fixed assets $$avg_fixed. Fixed asset turnover?
+:A: Turnover = Revenue / Avg fixed assets = $revenue / $avg_fixed = $ANS times.
+:T: 10
+:E:
+
+::END::

@@ -1,0 +1,22 @@
+
+echo "also look at docs/LTI-readme.md"
+
+
+cd /home/sylspace
+git pull
+./restart-hypnotoad.sh
+
+# Create LTI directories
+mkdir -p /var/sylspace/lti/equizzes
+mkdir -p /var/sylspace/lti/links
+
+# Create config (edit the secret!)
+cat > /var/sylspace/lti/config.yml << 'EOF'
+consumers:
+  sylspace_canvas:
+    secret: "CHANGE_ME_TO_RANDOM_SECRET"
+EOF
+
+# Copy your equiz files
+cp /path/to/*.equiz /var/sylspace/lti/equizzes/
+

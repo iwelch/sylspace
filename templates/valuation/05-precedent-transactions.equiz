@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Precedent Transactions Analysis
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Transaction Value
+:I: $equity_paid=rseq(500,1200)*1000; $debt_assumed=rseq(100,400)*1000; $cash_acquired=rseq(20,100)*1000; $ANS=$equity_paid+$debt_assumed-$cash_acquired
+:Q: Buyer paid $$equity_paid for equity, assumed $$debt_assumed debt, target had $$cash_acquired cash. Transaction EV?
+:A: Transaction EV = Equity paid + Debt - Cash = $equity_paid + $debt_assumed - $cash_acquired = $$ANS.
+:T: 10
+:E:
+
+:N: Premium Paid
+:I: $offer_price=rseq(40,80); $pre_price=rseq(30,60); $ANS=($offer_price/$pre_price-1)*100
+:Q: Offer price $$offer_price, stock price before announcement $$pre_price. Premium paid?
+:A: Premium = (Offer / Pre-announcement) - 1 = ($offer_price / $pre_price) - 1 = $ANS%.
+:T: 10
+:E:
+
+:N: Implied Premium from Multiple
+:I: $target_ebitda=rseq(80,180)*1000; $deal_ev=rseq(700,1500)*1000; $trading_multiple=rseq(6,9); $implied_trading=$target_ebitda*$trading_multiple; $ANS=($deal_ev/$implied_trading-1)*100
+:Q: Target EBITDA $$target_ebitda. Deal EV $$deal_ev. Trading comps suggest $trading_multiple× EBITDA. Implied premium?
+:A: Trading EV = $target_ebitda × $trading_multiple = $$implied_trading. Premium = $deal_ev/$implied_trading - 1 = $ANS%.
+:T: 10
+:E:
+
+:N: Transaction EV/EBITDA
+:I: $deal_ev=rseq(600,1400)*1000; $ltm_ebitda=rseq(70,160)*1000; $ANS=$deal_ev/$ltm_ebitda
+:Q: Deal enterprise value $$deal_ev, LTM EBITDA $$ltm_ebitda. Transaction EV/EBITDA?
+:A: EV/EBITDA = $deal_ev / $ltm_ebitda = $ANS×.
+:T: 10
+:E:
+
+:N: Transaction EV/Revenue
+:I: $deal_ev=rseq(600,1400)*1000; $ltm_revenue=rseq(300,800)*1000; $ANS=$deal_ev/$ltm_revenue
+:Q: Deal EV $$deal_ev, LTM revenue $$ltm_revenue. Transaction EV/Revenue?
+:A: EV/Revenue = $deal_ev / $ltm_revenue = $ANS×.
+:T: 10
+:E:
+
+:N: Implied Target Value
+:I: $target_ebitda=rseq(90,200)*1000; $precedent_multiple=rseq(8,14); $ANS=$target_ebitda*$precedent_multiple
+:Q: Target EBITDA $$target_ebitda, precedent transaction multiple $precedent_multiple×. Implied EV?
+:A: EV = EBITDA × Multiple = $target_ebitda × $precedent_multiple = $$ANS.
+:T: 10
+:E:
+
+:N: Control Premium Adjustment
+:I: $trading_value=rseq(500,1000)*1000; $control_premium=rseq(20,40)/100; $ANS=$trading_value*(1+$control_premium)
+:Q: Trading-based value $$trading_value. Apply $control_premium control premium. Acquisition value?
+:A: Acquisition value = Trading × (1 + premium) = $trading_value × (1 + $control_premium) = $$ANS.
+:T: 10
+:E:
+
+:N: Offer Price per Share
+:I: $deal_equity=rseq(400,900)*1000; $shares=rseq(15,40)*1000; $ANS=$deal_equity/($shares*1000)
+:Q: Equity consideration $$deal_equity, target shares $shares thousand. Offer price per share?
+:A: Offer = Equity / Shares = $deal_equity / ($shares×1000) = $$ANS.
+:T: 10
+:E:
+
+:N: Synergy Value
+:I: $deal_ev=rseq(800,1500)*1000; $standalone_ev=rseq(600,1100)*1000; $ANS=$deal_ev-$standalone_ev
+:Q: Deal EV $$deal_ev, target standalone EV $$standalone_ev. Implied synergy value?
+:A: Synergies = Deal EV - Standalone = $deal_ev - $standalone_ev = $$ANS.
+:T: 10
+:E:
+
+:N: Weighted Average Transaction Multiple
+:I: $ev1=rseq(400,700)*1000; $ebitda1=rseq(50,80)*1000; $ev2=rseq(600,1000)*1000; $ebitda2=rseq(70,120)*1000; $mult1=$ev1/$ebitda1; $mult2=$ev2/$ebitda2; $total_ev=$ev1+$ev2; $ANS=($ev1*$mult1+$ev2*$mult2)/$total_ev
+:Q: Deal 1: EV $$ev1, EBITDA $$ebitda1. Deal 2: EV $$ev2, EBITDA $$ebitda2. EV-weighted average multiple?
+:A: Weighted avg = (EV1×M1 + EV2×M2) / (EV1+EV2) = $ANS×.
+:T: 20
+:E:
+
+::END::

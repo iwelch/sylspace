@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Callable and Putable Bonds
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Callable Bond Value
+:I: $straight=rseq(102,108); $call_option=rseq(2,5); $ANS=$straight-$call_option
+:Q: Straight bond value $$straight, embedded call option value $$call_option. Callable bond value?
+:A: Callable = Straight - Call option = $straight - $call_option = $$ANS.
+:T: 10
+:E:
+
+:N: Putable Bond Value
+:I: $straight=rseq(95,102); $put_option=rseq(1,4); $ANS=$straight+$put_option
+:Q: Straight bond value $$straight, embedded put option value $$put_option. Putable bond value?
+:A: Putable = Straight + Put option = $straight + $put_option = $$ANS.
+:T: 10
+:E:
+
+:N: OAS vs Z-Spread (Callable)
+:I: $z_spread=rseq(150,280); $option_cost=rseq(30,80); $ANS=$z_spread-$option_cost
+:Q: Callable bond Z-spread $z_spread bps, option cost $option_cost bps. OAS?
+:A: OAS = Z-spread - Option cost = $z_spread - $option_cost = $ANS bps.
+:T: 10
+:E:
+
+:N: Option Cost
+:I: $z_spread=rseq(180,300); $oas=rseq(120,220); $ANS=$z_spread-$oas
+:Q: Callable bond Z-spread $z_spread bps, OAS $oas bps. Option cost in bps?
+:A: Option cost = Z-spread - OAS = $z_spread - $oas = $ANS bps.
+:T: 10
+:E:
+
+:N: Yield to Call
+:I: $price=rseq(105,115); $call_price=100; $coupon=rseq(5,8); $years_to_call=rseq(2,5); $annual_loss=($price-$call_price)/$years_to_call; $ANS=($coupon-$annual_loss)/$price*100
+:Q: Bond price $$price, call price $100, coupon $coupon%, $years_to_call years to call. Approximate yield to call?
+:A: Loss/year = ($price - 100) / $years_to_call = $$annual_loss. YTC ≈ (Coupon - Loss) / Price = $ANS%.
+:T: 10
+:E:
+
+:N: Yield to Worst
+:I: $ytm=rseq(4,7); $ytc=rseq(3,6); $ANS=min($ytm,$ytc)
+:Q: YTM = $ytm%, YTC = $ytc%. Yield to worst?
+:A: YTW = min(YTM, YTC) = min($ytm, $ytc) = $ANS%.
+:T: 10
+:E:
+
+:N: Effective Duration (Callable)
+:I: $eff_dur_callable=rseq(3,6); $eff_dur_straight=rseq(6,10); $ANS=$eff_dur_straight-$eff_dur_callable
+:Q: Callable bond effective duration $eff_dur_callable years, equivalent straight bond $eff_dur_straight years. Duration reduction from call?
+:A: Reduction = Straight - Callable = $eff_dur_straight - $eff_dur_callable = $ANS years.
+:T: 10
+:E:
+
+:N: Effective Convexity (Callable)
+:I: $P0=100; $P_up=rseq(97,99); $P_down=rseq(101,103); $dy=0.01; $ANS=($P_up+$P_down-2*$P0)/($P0*$dy^2)
+:Q: Callable bond: P0=$100, P(+100bps)=$$P_up, P(-100bps)=$$P_down. Effective convexity?
+:A: Convexity = (P_up + P_down - 2×P0) / (P0 × Δy²) = ($P_up + $P_down - 200) / (100 × 0.0001) = $ANS.
+:T: 10
+:E:
+
+:N: Make-Whole Call Price
+:I: $remaining_coupons=rseq(8,16); $coupon=rseq(25,40); $spread=rseq(20,50)/10000; $treasury=rseq(3,5)/100; $discount=$treasury+$spread; $pv_coupons=$coupon*(1-(1+$discount/2)^(-$remaining_coupons))/($discount/2); $pv_face=1000/(1+$discount/2)^$remaining_coupons; $ANS=$pv_coupons+$pv_face
+:Q: Make-whole call: $remaining_coupons semi-annual coupons of $$coupon remaining, treasury $treasury + $spread spread. Call price?
+:A: Discount at Treasury + spread. PV ≈ $$ANS.
+:T: 20
+:E:
+
+:N: Put Value to Bondholder
+:I: $price_without_put=rseq(92,98); $price_with_put=rseq(96,102); $ANS=$price_with_put-$price_without_put
+:Q: Bond without put feature: $$price_without_put. With put: $$price_with_put. Value of put to holder?
+:A: Put value = With put - Without = $price_with_put - $price_without_put = $$ANS.
+:T: 10
+:E:
+
+::END::

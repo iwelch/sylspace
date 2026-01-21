@@ -1,0 +1,92 @@
+::EQVERSION:: 1.0
+
+::NAME:: Journal Entries and Debits/Credits
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Cash Sale - Revenue
+:I: $amount=rseq(5,25)*1000; $ANS=$amount
+:Q: Company makes a cash sale of $$amount. What is the credit to Sales Revenue?
+:A: DR Cash $$amount, CR Sales Revenue $$ANS. Revenue increases with a credit.
+:T: 10
+:E:
+
+:N: Credit Sale - A/R
+:I: $amount=rseq(8,30)*1000; $ANS=$amount
+:Q: Company makes a credit sale of $$amount. What is the debit to Accounts Receivable?
+:A: DR Accounts Receivable $$ANS, CR Sales Revenue $$amount. A/R (asset) increases with debit.
+:T: 10
+:E:
+
+:N: Collect Receivable
+:I: $amount=rseq(5,20)*1000; $ANS=$amount
+:Q: Company collects $$amount from a customer on account. Credit to Accounts Receivable?
+:A: DR Cash $$amount, CR Accounts Receivable $$ANS. A/R decreases with credit.
+:T: 10
+:E:
+
+:N: Purchase Inventory on Credit
+:I: $amount=rseq(10,40)*1000; $ANS=$amount
+:Q: Company buys inventory for $$amount on credit. Debit to Inventory?
+:A: DR Inventory $$ANS, CR Accounts Payable $$amount. Inventory (asset) increases with debit.
+:T: 10
+:E:
+
+:N: Pay Supplier
+:I: $amount=rseq(8,35)*1000; $ANS=$amount
+:Q: Company pays $$amount to a supplier. Debit to Accounts Payable?
+:A: DR Accounts Payable $$ANS, CR Cash $$amount. A/P (liability) decreases with debit.
+:T: 10
+:E:
+
+:N: Record Depreciation
+:I: $depr=rseq(5,20)*1000; $ANS=$depr
+:Q: Company records $$depr depreciation expense. Credit to Accumulated Depreciation?
+:A: DR Depreciation Expense $$depr, CR Accumulated Depreciation $$ANS.
+:T: 10
+:E:
+
+:N: Prepaid Expense Recognition
+:I: $total_prepaid=rseq(12,24)*1000; $months=12; $used=rseq(1,6); $ANS=$total_prepaid*$used/$months
+:Q: Prepaid insurance $$total_prepaid for 12 months. After $used months, expense to recognize?
+:A: DR Insurance Expense $$ANS, CR Prepaid Insurance $$ANS.
+:T: 10
+:E:
+
+:N: Accrued Wages
+:I: $daily_wage=rseq(2,5)*1000; $days=rseq(2,5); $ANS=$daily_wage*$days
+:Q: Wages of $$daily_wage/day accrued for $days days at period end. Wages Payable credit?
+:A: DR Wages Expense $$ANS, CR Wages Payable $$ANS.
+:T: 10
+:E:
+
+:N: Unearned Revenue
+:I: $advance=rseq(10,30)*1000; $earned_pct=rseq(30,70); $ANS=$advance*$earned_pct/100
+:Q: Received $$advance advance payment. By period end, $earned_pct% earned. Revenue to recognize?
+:A: DR Unearned Revenue $$ANS, CR Revenue $$ANS.
+:T: 10
+:E:
+
+:N: Issue Common Stock
+:I: $shares=rseq(10,50)*1000; $par=1; $issue_price=rseq(15,40); $common=$shares*$par; $apic=$shares*($issue_price-$par); $ANS=$apic
+:Q: Issue $shares shares ($1 par) at $$issue_price each. Credit to APIC?
+:A: DR Cash $shares×$issue_price, CR Common Stock $$common, CR APIC $$ANS.
+:T: 10
+:E:
+
+:N: Declare Dividend
+:I: $dividend=rseq(20,80)*1000; $ANS=$dividend
+:Q: Board declares $$dividend cash dividend. Credit to Dividends Payable?
+:A: DR Retained Earnings $$dividend, CR Dividends Payable $$ANS.
+:T: 10
+:E:
+
+::END::

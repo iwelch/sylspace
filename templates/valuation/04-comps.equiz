@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Comparable Company Analysis
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Enterprise Value from Market Data
+:I: $mkt_cap=rseq(500,1500)*1000; $debt=rseq(150,500)*1000; $cash=rseq(30,150)*1000; $ANS=$mkt_cap+$debt-$cash
+:Q: Market cap $$mkt_cap, total debt $$debt, cash $$cash. Enterprise value?
+:A: EV = Market cap + Debt - Cash = $mkt_cap + $debt - $cash = $$ANS.
+:T: 10
+:E:
+
+:N: EV/EBITDA Multiple
+:I: $ev=rseq(600,1500)*1000; $ebitda=rseq(80,200)*1000; $ANS=$ev/$ebitda
+:Q: Enterprise value $$ev, EBITDA $$ebitda. EV/EBITDA multiple?
+:A: EV/EBITDA = $ev / $ebitda = $ANS×.
+:T: 10
+:E:
+
+:N: EV/Revenue Multiple
+:I: $ev=rseq(600,1500)*1000; $revenue=rseq(400,1000)*1000; $ANS=$ev/$revenue
+:Q: Enterprise value $$ev, revenue $$revenue. EV/Revenue multiple?
+:A: EV/Revenue = $ev / $revenue = $ANS×.
+:T: 10
+:E:
+
+:N: P/E Multiple
+:I: $price=rseq(30,80); $eps=rseq(2,6); $ANS=$price/$eps
+:Q: Stock price $$price, EPS $$eps. P/E multiple?
+:A: P/E = Price / EPS = $price / $eps = $ANS×.
+:T: 10
+:E:
+
+:N: Implied EV from EBITDA Multiple
+:I: $ebitda=rseq(80,200)*1000; $multiple=rseq(6,12); $ANS=$ebitda*$multiple
+:Q: Target EBITDA $$ebitda, comparable EV/EBITDA multiple $multiple×. Implied EV?
+:A: EV = EBITDA × Multiple = $ebitda × $multiple = $$ANS.
+:T: 10
+:E:
+
+:N: Implied Equity Value from P/E
+:I: $earnings=rseq(50,150)*1000; $pe=rseq(12,25); $ANS=$earnings*$pe
+:Q: Target net income $$earnings, comparable P/E $pe×. Implied equity value?
+:A: Equity = Earnings × P/E = $earnings × $pe = $$ANS.
+:T: 10
+:E:
+
+:N: Implied Share Price
+:I: $equity=rseq(400,1000)*1000; $shares=rseq(20,60)*1000; $ANS=$equity/($shares*1000)
+:Q: Implied equity value $$equity, shares outstanding $shares thousand. Implied share price?
+:A: Price = Equity / Shares = $equity / ($shares×1000) = $$ANS.
+:T: 10
+:E:
+
+:N: EV/EBIT Multiple
+:I: $ev=rseq(600,1500)*1000; $ebit=rseq(60,180)*1000; $ANS=$ev/$ebit
+:Q: Enterprise value $$ev, EBIT $$ebit. EV/EBIT multiple?
+:A: EV/EBIT = $ev / $ebit = $ANS×.
+:T: 10
+:E:
+
+:N: Price-to-Book Multiple
+:I: $price=rseq(30,80); $bvps=rseq(15,40); $ANS=$price/$bvps
+:Q: Stock price $$price, book value per share $$bvps. P/B multiple?
+:A: P/B = Price / BVPS = $price / $bvps = $ANS×.
+:T: 10
+:E:
+
+:N: Median Multiple Calculation
+:I: $m1=rseq(6,8); $m2=rseq(7,9); $m3=rseq(8,10); $m4=rseq(9,11); $m5=rseq(10,12); $ANS=$m3
+:Q: Five comparable EV/EBITDA multiples: $m1×, $m2×, $m3×, $m4×, $m5× (already sorted). Median?
+:A: Median (middle value) = $ANS×.
+:T: 10
+:E:
+
+::END::

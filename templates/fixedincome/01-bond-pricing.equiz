@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Bond Pricing Basics
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Zero-Coupon Bond Price
+:I: $FV=1000; $rp=rseq(3,7); $r=$rp/100; $n=rseq(2,10); $ANS=$FV/(1+$r)^$n
+:Q: A zero-coupon bond with face value $$FV matures in $n years. YTM is $rp%. What is the price?
+:A: Price = FV / (1+r)^n = $FV / (1+$r)^$n = $$ANS.
+:T: 10
+:E:
+
+:N: Zero-Coupon Bond Price (Continuous)
+:I: $FV=1000; $rp=rseq(3,7); $r=$rp/100; $T=rseq(2,10); $ANS=$FV*exp(-$r*$T)
+:Q: Zero-coupon bond, FV=$$FV, $T years, continuously compounded rate $rp%. Price?
+:A: Price = FV × e^(-rT) = $FV × e^(-$r×$T) = $$ANS.
+:T: 10
+:E:
+
+:N: Coupon Bond Price
+:I: $FV=1000; $cp=rseq(4,8); $C=$FV*$cp/100; $rp=rseq(3,7); $r=$rp/100; $n=rseq(3,8); $coupon_pv=$C*(1-(1+$r)^(-$n))/$r; $face_pv=$FV/(1+$r)^$n; $ANS=$coupon_pv+$face_pv
+:Q: Bond: FV=$$FV, coupon $cp% annual, YTM $rp%, $n years to maturity. Price?
+:A: PV(coupons) = $C × [1-(1+$r)^(-$n)]/$r = $$coupon_pv. PV(face) = $$face_pv. Price = $$ANS.
+:T: 10
+:E:
+
+:N: Premium vs Discount Bond
+:I: $FV=1000; $cp=rseq(6,8); $rp=rseq(4,5); $C=$FV*$cp/100; $r=$rp/100; $n=5; $price=$C*(1-(1+$r)^(-$n))/$r+$FV/(1+$r)^$n; $ANS=$price-$FV
+:Q: Bond: $cp% coupon, $rp% YTM (coupon > YTM). FV=$1000. Price=$$price. Premium over par?
+:A: Premium = Price - FV = $price - $FV = $$ANS. (Sells at premium since coupon > YTM.)
+:T: 10
+:E:
+
+:N: Discount Bond
+:I: $FV=1000; $cp=rseq(3,5); $rp=rseq(6,8); $C=$FV*$cp/100; $r=$rp/100; $n=5; $price=$C*(1-(1+$r)^(-$n))/$r+$FV/(1+$r)^$n; $ANS=$FV-$price
+:Q: Bond: $cp% coupon, $rp% YTM (coupon < YTM). FV=$1000. Price=$$price. Discount below par?
+:A: Discount = FV - Price = $FV - $price = $$ANS.
+:T: 10
+:E:
+
+:N: Semi-Annual Coupon Bond
+:I: $FV=1000; $cp=rseq(4,8); $C=$FV*$cp/100/2; $rp=rseq(3,7); $r=$rp/100/2; $years=rseq(3,8); $n=$years*2; $coupon_pv=$C*(1-(1+$r)^(-$n))/$r; $face_pv=$FV/(1+$r)^$n; $ANS=$coupon_pv+$face_pv
+:Q: Bond: FV=$$FV, $cp% coupon (semi-annual), YTM $rp% (semi-annual compounding), $years years. Price?
+:A: Semi-annual: C=$C, r=$r, n=$n periods. Price = $$ANS.
+:T: 10
+:E:
+
+:N: Accrued Interest
+:I: $FV=1000; $cp=rseq(4,8); $annual_C=$FV*$cp/100; $days_since=rseq(30,150); $days_period=180; $ANS=$annual_C/2*$days_since/$days_period
+:Q: Bond: $cp% semi-annual coupon, FV=$$FV. $days_since days since last coupon (180-day period). Accrued interest?
+:A: Accrued = (Annual coupon / 2) × (days / period) = ($annual_C/2) × ($days_since/180) = $$ANS.
+:T: 10
+:E:
+
+:N: Clean vs Dirty Price
+:I: $clean=rseq(980,1020); $accrued=rseq(10,30); $ANS=$clean+$accrued
+:Q: Bond quoted (clean) price is $$clean. Accrued interest is $$accrued. What is the dirty (invoice) price?
+:A: Dirty price = Clean + Accrued = $clean + $accrued = $$ANS.
+:T: 10
+:E:
+
+:N: Current Yield
+:I: $FV=1000; $cp=rseq(5,8); $C=$FV*$cp/100; $price=rseq(900,1100); $ANS=$C/$price*100
+:Q: Bond: $cp% annual coupon ($$C), current price $$price. Current yield (in %)?
+:A: Current yield = C / Price = $C / $price = $ANS%.
+:T: 10
+:E:
+
+:N: Par Bond
+:I: $FV=1000; $cp=rseq(4,7); $ANS=$cp
+:Q: A bond sells at par (price = $$FV) with $cp% annual coupon. What is the YTM (in %)?
+:A: At par, YTM = coupon rate = $ANS%.
+:T: 10
+:E:
+
+::END::

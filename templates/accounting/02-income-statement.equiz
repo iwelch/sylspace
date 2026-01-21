@@ -1,0 +1,92 @@
+::EQVERSION:: 1.0
+
+::NAME:: Income Statement
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Gross Profit
+:I: $revenue=rseq(800,1500)*1000; $cogs=rseq(400,900)*1000; $ANS=$revenue-$cogs
+:Q: Revenue $$revenue, COGS $$cogs. What is gross profit?
+:A: Gross profit = Revenue - COGS = $revenue - $cogs = $$ANS.
+:T: 10
+:E:
+
+:N: Gross Margin Percentage
+:I: $revenue=rseq(800,1500)*1000; $cogs=rseq(400,900)*1000; $gross=$revenue-$cogs; $ANS=$gross/$revenue*100
+:Q: Revenue $$revenue, COGS $$cogs, Gross profit $$gross. Gross margin %?
+:A: Gross margin = Gross profit / Revenue = $gross / $revenue = $ANS%.
+:T: 10
+:E:
+
+:N: Operating Income (EBIT)
+:I: $gross=rseq(300,600)*1000; $sga=rseq(100,250)*1000; $rd=rseq(30,80)*1000; $depr=rseq(20,60)*1000; $ANS=$gross-$sga-$rd-$depr
+:Q: Gross profit $$gross, SG&A $$sga, R&D $$rd, Depreciation $$depr. Operating income?
+:A: Operating income = Gross - SG&A - R&D - Depreciation = $$ANS.
+:T: 10
+:E:
+
+:N: Operating Margin
+:I: $revenue=rseq(800,1500)*1000; $operating=rseq(100,300)*1000; $ANS=$operating/$revenue*100
+:Q: Revenue $$revenue, operating income $$operating. Operating margin %?
+:A: Operating margin = Operating income / Revenue = $operating / $revenue = $ANS%.
+:T: 10
+:E:
+
+:N: EBITDA
+:I: $operating=rseq(100,300)*1000; $depr=rseq(30,80)*1000; $amort=rseq(10,30)*1000; $ANS=$operating+$depr+$amort
+:Q: Operating income $$operating, depreciation $$depr, amortization $$amort. EBITDA?
+:A: EBITDA = Operating + D&A = $operating + $depr + $amort = $$ANS.
+:T: 10
+:E:
+
+:N: Interest Coverage
+:I: $ebit=rseq(100,300)*1000; $interest=rseq(15,50)*1000; $ANS=$ebit/$interest
+:Q: EBIT $$ebit, interest expense $$interest. Interest coverage ratio?
+:A: Coverage = EBIT / Interest = $ebit / $interest = $ANS times.
+:T: 10
+:E:
+
+:N: Pre-Tax Income
+:I: $operating=rseq(150,350)*1000; $interest=rseq(20,60)*1000; $other=rseq(-20,20)*1000; $ANS=$operating-$interest+$other
+:Q: Operating income $$operating, interest expense $$interest, other income $$other. Pre-tax income?
+:A: Pre-tax = Operating - Interest + Other = $operating - $interest + $other = $$ANS.
+:T: 10
+:E:
+
+:N: Tax Expense
+:I: $pretax=rseq(100,300)*1000; $tax_rate=rseq(20,30); $ANS=$pretax*$tax_rate/100
+:Q: Pre-tax income $$pretax, tax rate $tax_rate%. Tax expense?
+:A: Tax = Pre-tax × Rate = $pretax × $tax_rate% = $$ANS.
+:T: 10
+:E:
+
+:N: Net Income
+:I: $pretax=rseq(100,300)*1000; $tax_rate=rseq(20,30); $tax=$pretax*$tax_rate/100; $ANS=$pretax-$tax
+:Q: Pre-tax income $$pretax, tax rate $tax_rate%. Net income?
+:A: Net income = Pre-tax - Tax = $pretax - $tax = $$ANS.
+:T: 10
+:E:
+
+:N: Earnings Per Share
+:I: $net_income=rseq(80,250)*1000; $shares=rseq(40,100)*1000; $ANS=$net_income/($shares*1000)
+:Q: Net income $$net_income, shares outstanding $shares thousand. EPS?
+:A: EPS = Net income / Shares = $net_income / ($shares × 1000) = $$ANS.
+:T: 10
+:E:
+
+:N: Net Profit Margin
+:I: $revenue=rseq(800,1500)*1000; $net_income=rseq(60,200)*1000; $ANS=$net_income/$revenue*100
+:Q: Revenue $$revenue, net income $$net_income. Net profit margin %?
+:A: Net margin = Net income / Revenue = $net_income / $revenue = $ANS%.
+:T: 10
+:E:
+
+::END::

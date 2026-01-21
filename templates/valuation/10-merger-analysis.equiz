@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Merger Analysis
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Accretion/Dilution - Basic
+:I: $acquirer_eps=rseq(3,6); $target_eps=rseq(2,4); $acquirer_shares=rseq(50,100)*1000; $exchange_ratio=rseq(0.8,1.5); $target_shares=rseq(20,40)*1000; $new_shares=$target_shares*$exchange_ratio; $combined_earnings=$acquirer_eps*$acquirer_shares+$target_eps*$target_shares; $proforma_eps=$combined_earnings/($acquirer_shares+$new_shares); $ANS=($proforma_eps/$acquirer_eps-1)*100
+:Q: Acquirer EPS $$acquirer_eps ($acquirer_shares K shares), Target EPS $$target_eps ($target_shares K shares). Exchange ratio $exchange_ratio. Accretion/(dilution) %?
+:A: Pro forma EPS = $$proforma_eps. Change = ($proforma_eps/$acquirer_eps - 1) = $ANS%.
+:T: 10
+:E:
+
+:N: Exchange Ratio
+:I: $offer_price=rseq(35,60); $acquirer_price=rseq(40,80); $ANS=$offer_price/$acquirer_price
+:Q: Offer price $$offer_price per target share, acquirer stock price $$acquirer_price. Exchange ratio?
+:A: Exchange ratio = Offer / Acquirer price = $offer_price / $acquirer_price = $ANS.
+:T: 10
+:E:
+
+:N: Acquisition Premium
+:I: $offer=rseq(40,70); $pre_price=rseq(30,55); $ANS=($offer/$pre_price-1)*100
+:Q: Offer price $$offer, target pre-announcement price $$pre_price. Acquisition premium?
+:A: Premium = (Offer / Pre-price) - 1 = ($offer / $pre_price) - 1 = $ANS%.
+:T: 10
+:E:
+
+:N: Total Deal Value
+:I: $offer_price=rseq(40,70); $target_shares=rseq(30,60)*1000; $target_debt=rseq(100,300)*1000; $target_cash=rseq(20,80)*1000; $equity=$offer_price*$target_shares*1000; $ANS=$equity+$target_debt-$target_cash
+:Q: Offer $$offer_price/share, target shares $target_shares K, target debt $$target_debt, cash $$target_cash. Deal EV?
+:A: Equity = $offer_price × $target_shares K = $$equity. EV = Equity + Debt - Cash = $$ANS.
+:T: 10
+:E:
+
+:N: Synergy Required for Breakeven
+:I: $acquirer_pe=rseq(15,25); $target_pe=rseq(12,20); $target_earnings=rseq(50,120)*1000; $premium=rseq(20,40)/100; $fair_value=$target_earnings*$target_pe; $deal_value=$fair_value*(1+$premium); $ANS=$deal_value-$target_earnings*$acquirer_pe
+:Q: Acquirer P/E $acquirer_pe×, target P/E $target_pe×, target earnings $$target_earnings, premium $premium. Synergies needed to avoid dilution?
+:A: Deal value = $$deal_value. At acquirer P/E, worth $target_earnings×$acquirer_pe. Gap = $$ANS.
+:T: 20
+:E:
+
+:N: Cash vs Stock Consideration
+:I: $deal_value=rseq(500,1200)*1000; $cash_pct=rseq(40,70)/100; $ANS=$deal_value*$cash_pct
+:Q: Deal value $$deal_value, $cash_pct paid in cash. Cash consideration?
+:A: Cash = Deal value × Cash% = $deal_value × $cash_pct = $$ANS.
+:T: 10
+:E:
+
+:N: Goodwill Calculation
+:I: $purchase_price=rseq(600,1200)*1000; $fair_value_assets=rseq(400,800)*1000; $fair_value_liab=rseq(100,300)*1000; $net_assets=$fair_value_assets-$fair_value_liab; $ANS=$purchase_price-$net_assets
+:Q: Purchase price $$purchase_price. Target FV assets $$fair_value_assets, FV liabilities $$fair_value_liab. Goodwill?
+:A: Net assets = $$net_assets. Goodwill = Purchase - Net assets = $purchase_price - $net_assets = $$ANS.
+:T: 10
+:E:
+
+:N: Pro Forma Shares Outstanding
+:I: $acquirer_shares=rseq(80,150)*1000; $target_shares=rseq(30,60)*1000; $exchange_ratio=rseq(0.7,1.3); $ANS=$acquirer_shares+$target_shares*$exchange_ratio
+:Q: Acquirer shares $acquirer_shares K, target shares $target_shares K, exchange ratio $exchange_ratio. Pro forma shares?
+:A: Pro forma = Acquirer + (Target × ER) = $acquirer_shares + $target_shares × $exchange_ratio = $ANS K.
+:T: 10
+:E:
+
+:N: Cost Synergies PV
+:I: $annual_synergies=rseq(20,60)*1000; $wacc=rseq(8,12)/100; $g=rseq(1,3)/100; $ANS=$annual_synergies/($wacc-$g)
+:Q: Expected annual cost synergies $$annual_synergies (growing at $g), WACC $wacc. PV of synergies?
+:A: PV = Synergies / (WACC - g) = $annual_synergies / ($wacc - $g) = $$ANS.
+:T: 10
+:E:
+
+:N: Ownership Dilution
+:I: $acquirer_shares=rseq(80,120)*1000; $new_shares=rseq(20,50)*1000; $total=$acquirer_shares+$new_shares; $ANS=$acquirer_shares/$total*100
+:Q: Acquirer has $acquirer_shares K shares, issues $new_shares K for target. Acquirer shareholders' ownership %?
+:A: Ownership = Acquirer / Total = $acquirer_shares / $total = $ANS%.
+:T: 10
+:E:
+
+::END::

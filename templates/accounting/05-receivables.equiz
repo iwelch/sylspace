@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Accounts Receivable and Bad Debt
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Bad Debt Expense (% of Sales)
+:I: $credit_sales=rseq(500,1200)*1000; $bad_debt_pct=rseq(1,3); $ANS=$credit_sales*$bad_debt_pct/100
+:Q: Credit sales $$credit_sales. Historical bad debt is $bad_debt_pct% of sales. Bad debt expense?
+:A: Bad debt expense = Sales × Rate = $credit_sales × $bad_debt_pct% = $$ANS.
+:T: 10
+:E:
+
+:N: Allowance for Doubtful Accounts
+:I: $ar=rseq(150,400)*1000; $allowance_pct=rseq(3,8); $ANS=$ar*$allowance_pct/100
+:Q: A/R balance $$ar. Estimate $allowance_pct% uncollectible. Required allowance?
+:A: Allowance = A/R × Rate = $ar × $allowance_pct% = $$ANS.
+:T: 10
+:E:
+
+:N: Net Realizable Value
+:I: $ar=rseq(200,500)*1000; $allowance=rseq(10,40)*1000; $ANS=$ar-$allowance
+:Q: Gross A/R $$ar, Allowance for doubtful accounts $$allowance. Net realizable value?
+:A: NRV = Gross A/R - Allowance = $ar - $allowance = $$ANS.
+:T: 10
+:E:
+
+:N: Write-Off of Account
+:I: $write_off=rseq(5,20)*1000; $ar_before=rseq(200,400)*1000; $allowance_before=rseq(15,50)*1000; $ANS=$ar_before-$write_off
+:Q: A/R $$ar_before, Allowance $$allowance_before. Write off $$write_off. New A/R balance?
+:A: DR Allowance, CR A/R. New A/R = $ar_before - $write_off = $$ANS. (NRV unchanged.)
+:T: 10
+:E:
+
+:N: Bad Debt Expense Adjustment
+:I: $required_allowance=rseq(25,60)*1000; $current_allowance=rseq(10,30)*1000; $ANS=$required_allowance-$current_allowance
+:Q: Required allowance $$required_allowance, current balance $$current_allowance. Bad debt expense to record?
+:A: Expense = Required - Current = $required_allowance - $current_allowance = $$ANS.
+:T: 10
+:E:
+
+:N: Days Sales Outstanding
+:I: $ar=rseq(100,250)*1000; $annual_sales=rseq(800,1500)*1000; $ANS=$ar/($annual_sales/365)
+:Q: A/R $$ar, annual sales $$annual_sales. Days sales outstanding (DSO)?
+:A: DSO = A/R / (Sales/365) = $ar / ($annual_sales/365) = $ANS days.
+:T: 10
+:E:
+
+:N: A/R Turnover
+:I: $sales=rseq(800,1500)*1000; $avg_ar=rseq(100,250)*1000; $ANS=$sales/$avg_ar
+:Q: Annual sales $$sales, average A/R $$avg_ar. A/R turnover?
+:A: Turnover = Sales / Avg A/R = $sales / $avg_ar = $ANS times.
+:T: 10
+:E:
+
+:N: Aging Schedule - Total Allowance
+:I: $current=rseq(100,200)*1000; $pct1=1; $past30=rseq(30,80)*1000; $pct2=5; $past60=rseq(10,30)*1000; $pct3=20; $allow1=$current*$pct1/100; $allow2=$past30*$pct2/100; $allow3=$past60*$pct3/100; $ANS=$allow1+$allow2+$allow3
+:Q: A/R aging: Current $$current ($pct1% uncollect), 31-60 days $$past30 ($pct2%), >60 days $$past60 ($pct3%). Total allowance?
+:A: Allowance = $allow1 + $allow2 + $allow3 = $$ANS.
+:T: 10
+:E:
+
+:N: Recovery of Written-Off Account
+:I: $amount=rseq(3,12)*1000; $ANS=$amount
+:Q: Previously written-off account of $$amount is recovered. Credit to Cash?
+:A: First: DR A/R $$amount, CR Allowance $$amount. Then: DR Cash $$ANS, CR A/R $$amount.
+:T: 10
+:E:
+
+:N: Factoring Receivables
+:I: $ar_sold=rseq(80,200)*1000; $fee_pct=rseq(2,5); $fee=$ar_sold*$fee_pct/100; $ANS=$ar_sold-$fee
+:Q: Factor $$ar_sold of A/R. Fee is $fee_pct%. Cash received?
+:A: Cash = A/R - Fee = $ar_sold - $fee = $$ANS.
+:T: 10
+:E:
+
+::END::

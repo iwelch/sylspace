@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Money Markets and Short-Term Instruments
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: T-Bill Discount Rate
+:I: $face=10000; $price=rseq(9850,9950); $days=rseq(90,180); $ANS=($face-$price)/$face*360/$days*100
+:Q: T-bill: face $$face, price $$price, $days days to maturity. Discount rate?
+:A: d = (Face - Price) / Face × (360/days) = ($face - $price) / $face × (360/$days) = $ANS%.
+:T: 10
+:E:
+
+:N: T-Bill Price from Discount
+:I: $face=10000; $discount=rseq(3,6)/100; $days=rseq(90,180); $ANS=$face*(1-$discount*$days/360)
+:Q: T-bill: face $$face, discount rate $discount, $days days. Price?
+:A: Price = Face × (1 - d × days/360) = $face × (1 - $discount × $days/360) = $$ANS.
+:T: 10
+:E:
+
+:N: T-Bill Bond Equivalent Yield
+:I: $face=10000; $price=rseq(9850,9950); $days=rseq(90,180); $ANS=($face-$price)/$price*365/$days*100
+:Q: T-bill: face $$face, price $$price, $days days. Bond equivalent yield (BEY)?
+:A: BEY = (Face - Price) / Price × (365/days) = ($face - $price) / $price × (365/$days) = $ANS%.
+:T: 10
+:E:
+
+:N: Commercial Paper Yield
+:I: $face=1000000; $price=rseq(985000,995000); $days=rseq(30,90); $ANS=($face-$price)/$price*360/$days*100
+:Q: CP: face $$face, price $$price, $days days. Money market yield?
+:A: Yield = (Face - Price) / Price × (360/days) = $ANS%.
+:T: 10
+:E:
+
+:N: Repo Rate
+:I: $initial=rseq(98,100); $final=rseq(98.2,100.5); $days=rseq(1,7); $ANS=($final-$initial)/$initial*360/$days*100
+:Q: Repo: sell at $$initial, repurchase at $$final in $days days. Repo rate?
+:A: Repo rate = (Final - Initial) / Initial × (360/days) = $ANS%.
+:T: 10
+:E:
+
+:N: Repo Interest
+:I: $principal=rseq(5,20)*1000000; $rate=rseq(3,6)/100; $days=rseq(1,14); $ANS=$principal*$rate*$days/360
+:Q: Repo: principal $$principal, rate $rate, $days days. Interest owed?
+:A: Interest = Principal × Rate × (days/360) = $principal × $rate × $days/360 = $$ANS.
+:T: 10
+:E:
+
+:N: Haircut
+:I: $collateral=rseq(10,20)*1000000; $haircut=rseq(2,5)/100; $ANS=$collateral*(1-$haircut)
+:Q: Collateral value $$collateral, haircut $haircut. Amount you can borrow?
+:A: Loan = Collateral × (1 - haircut) = $collateral × (1 - $haircut) = $$ANS.
+:T: 10
+:E:
+
+:N: LIBOR vs OIS Spread
+:I: $libor=rseq(4,6); $ois=rseq(3.5,5.5); $ANS=($libor-$ois)*100
+:Q: 3-month LIBOR $libor%, 3-month OIS $ois%. LIBOR-OIS spread (bps)?
+:A: Spread = ($libor - $ois) × 100 = $ANS bps.
+:T: 10
+:E:
+
+:N: Effective Annual Rate
+:I: $quoted=rseq(4,7)/100; $m=rseq(4,12); $ANS=((1+$quoted/$m)^$m-1)*100
+:Q: Quoted rate $quoted compounded $m times per year. Effective annual rate?
+:A: EAR = (1 + r/m)^m - 1 = (1 + $quoted/$m)^$m - 1 = $ANS%.
+:T: 10
+:E:
+
+:N: Holding Period Return
+:I: $buy=rseq(98,99.5); $sell=rseq(99,100); $days=rseq(30,90); $ANS=($sell-$buy)/$buy*360/$days*100
+:Q: Buy at $$buy, sell at $$sell after $days days. Annualized HPR (360-day)?
+:A: HPR = (Sell - Buy) / Buy × (360/days) = $ANS%.
+:T: 10
+:E:
+
+::END::

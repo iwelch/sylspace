@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Convexity
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Convexity Effect on Price
+:I: $convexity=rseq(50,120); $dy=rseq(50,150)/10000; $price=1000; $ANS=0.5*$convexity*$dy^2*$price
+:Q: Bond price $1000, convexity $convexity. Yield changes by $dy. Convexity adjustment to price?
+:A: Convexity adjustment = 0.5 × C × (Δy)² × P = 0.5 × $convexity × $dy² × 1000 = $$ANS.
+:T: 10
+:E:
+
+:N: Duration + Convexity Price Change
+:I: $mod_dur=rseq(5,8); $convexity=rseq(60,100); $dy=rseq(50,100)/10000; $price=1000; $dur_effect=-$mod_dur*$dy*$price; $conv_effect=0.5*$convexity*$dy^2*$price; $ANS=$dur_effect+$conv_effect
+:Q: Price $1000, ModDur=$mod_dur, convexity=$convexity. Yield rises by $dy. Price change (duration + convexity)?
+:A: Duration effect = $$dur_effect. Convexity effect = $$conv_effect. Total = $$ANS.
+:T: 10
+:E:
+
+:N: Percentage Price Change with Convexity
+:I: $mod_dur=rseq(6,9); $convexity=rseq(70,110); $dy=rseq(-100,-50)/10000; $dur_pct=-$mod_dur*$dy*100; $conv_pct=0.5*$convexity*$dy^2*100; $ANS=$dur_pct+$conv_pct
+:Q: ModDur=$mod_dur, convexity=$convexity. Yield falls by $dy. Percentage price change?
+:A: Duration: $dur_pct%. Convexity: $conv_pct%. Total = $ANS%.
+:T: 10
+:E:
+
+:N: Effective Convexity
+:I: $P0=1000; $P_up=rseq(940,970); $P_down=rseq(1030,1060); $dy=0.01; $ANS=($P_up+$P_down-2*$P0)/($P0*$dy^2)
+:Q: P0=$1000. If yield +1%, P=$$P_up. If yield -1%, P=$$P_down. Effective convexity?
+:A: Convexity = (P_up + P_down - 2P0) / (P0 × Δy²) = ($P_up + $P_down - 2000) / (1000 × 0.01²) = $ANS.
+:T: 10
+:E:
+
+:N: Zero-Coupon Bond Convexity
+:I: $n=rseq(5,15); $y=rseq(4,7)/100; $ANS=$n*($n+1)/(1+$y)^2
+:Q: $n-year zero-coupon bond, yield $y. Convexity = n(n+1)/(1+y)². Calculate.
+:A: Convexity = $n × ($n+1) / (1+$y)² = $ANS.
+:T: 10
+:E:
+
+:N: Convexity vs Duration Relationship
+:I: $dur=rseq(5,10); $y=rseq(4,7)/100; $approx_conv=$dur^2+$dur; $ANS=$approx_conv
+:Q: For a zero-coupon bond, convexity ≈ D² + D where D is modified duration. If ModDur=$dur, approximate convexity?
+:A: Convexity ≈ $dur² + $dur = $ANS.
+:T: 20
+:E:
+
+:N: Barbell vs Bullet Convexity
+:I: $dur_target=6; $conv_barbell=rseq(80,100); $conv_bullet=rseq(50,70); $ANS=$conv_barbell-$conv_bullet
+:Q: Both portfolios have duration 6. Barbell convexity=$conv_barbell, bullet convexity=$conv_bullet. Convexity difference?
+:A: Barbell has higher convexity. Difference = $conv_barbell - $conv_bullet = $ANS.
+:T: 10
+:E:
+
+:N: Convexity Benefit
+:I: $conv1=rseq(60,80); $conv2=rseq(90,120); $dy=0.01; $benefit=0.5*($conv2-$conv1)*$dy^2*100; $ANS=$benefit
+:Q: Bond A has convexity $conv1, Bond B has convexity $conv2. Same duration. If yield changes by 1%, what's the convexity advantage of B (in %)?
+:A: Advantage = 0.5 × (C_B - C_A) × Δy² × 100 = 0.5 × ($conv2-$conv1) × 0.01² × 100 = $ANS%.
+:T: 10
+:E:
+
+:N: Negative Convexity
+:I: $P0=1000; $P_up=rseq(970,990); $P_down=rseq(1005,1015); $dy=0.005; $ANS=($P_up+$P_down-2*$P0)/($P0*$dy^2)
+:Q: Callable bond: P0=$1000, P(+50bps)=$$P_up, P(-50bps)=$$P_down. Calculate effective convexity.
+:A: Convexity = ($P_up + $P_down - 2000) / (1000 × 0.005²) = $ANS. (Negative or low = callable feature.)
+:T: 10
+:E:
+
+:N: Dollar Convexity
+:I: $convexity=rseq(70,100); $price=rseq(980,1020); $ANS=$convexity*$price/100
+:Q: Convexity=$convexity, price=$$price. Dollar convexity (per 1% yield change squared)?
+:A: Dollar convexity = Convexity × Price / 100 = $convexity × $price / 100 = $$ANS.
+:T: 10
+:E:
+
+::END::

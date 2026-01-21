@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Sensitivity Analysis and Football Fields
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Sensitivity to WACC
+:I: $fcf=rseq(80,150)*1000; $g=rseq(2,4)/100; $wacc_base=rseq(9,11)/100; $wacc_high=$wacc_base+0.01; $ev_base=$fcf*(1+$g)/($wacc_base-$g); $ev_high=$fcf*(1+$g)/($wacc_high-$g); $ANS=$ev_high-$ev_base
+:Q: FCF $$fcf, growth $g. Base WACC $wacc_base gives EV $$ev_base. WACC +1% gives EV $$ev_high. Change?
+:A: EV change = $ev_high - $ev_base = $$ANS.
+:T: 10
+:E:
+
+:N: Sensitivity to Growth
+:I: $fcf=rseq(80,150)*1000; $wacc=rseq(9,11)/100; $g_base=rseq(2,3)/100; $g_high=$g_base+0.01; $ev_base=$fcf*(1+$g_base)/($wacc-$g_base); $ev_high=$fcf*(1+$g_high)/($wacc-$g_high); $ANS=$ev_high-$ev_base
+:Q: FCF $$fcf, WACC $wacc. Base growth $g_base gives EV $$ev_base. Growth +1% gives $$ev_high. Impact?
+:A: EV change = $ev_high - $ev_base = $$ANS.
+:T: 10
+:E:
+
+:N: Percentage Change in EV
+:I: $ev_base=rseq(800,1400)*1000; $ev_new=rseq(700,1500)*1000; $ANS=($ev_new/$ev_base-1)*100
+:Q: Base case EV $$ev_base, scenario EV $$ev_new. Percentage change?
+:A: % Change = (New / Base) - 1 = ($ev_new / $ev_base) - 1 = $ANS%.
+:T: 10
+:E:
+
+:N: Implied Share Price Range
+:I: $ev_low=rseq(600,900)*1000; $ev_high=rseq(1000,1400)*1000; $net_debt=rseq(150,300)*1000; $shares=rseq(40,80)*1000; $equity_low=$ev_low-$net_debt; $equity_high=$ev_high-$net_debt; $price_low=$equity_low/($shares*1000); $ANS=$equity_high/($shares*1000)
+:Q: EV range $$ev_low - $$ev_high, net debt $$net_debt, shares $shares K. High end share price?
+:A: Equity high = $ev_high - $net_debt = $$equity_high. Price = $$ANS.
+:T: 10
+:E:
+
+:N: Exit Multiple Sensitivity
+:I: $ebitda_exit=rseq(100,200)*1000; $mult_base=rseq(7,9); $mult_high=$mult_base+1; $ANS=$ebitda_exit*$mult_high-$ebitda_exit*$mult_base
+:Q: Exit EBITDA $$ebitda_exit. Base exit multiple $mult_base×, high case $mult_high×. EV difference?
+:A: Difference = EBITDA × (High - Base) = $ebitda_exit × ($mult_high - $mult_base) = $$ANS.
+:T: 10
+:E:
+
+:N: Margin Sensitivity
+:I: $revenue=rseq(500,1000)*1000; $margin_base=rseq(15,25)/100; $margin_change=0.02; $multiple=rseq(8,12); $ebitda_change=$revenue*$margin_change; $ANS=$ebitda_change*$multiple
+:Q: Revenue $$revenue. If EBITDA margin improves by 2% (from $margin_base), EBITDA changes by $$ebitda_change. At $multiple× multiple, EV impact?
+:A: EV impact = ΔEBITDA × Multiple = $ebitda_change × $multiple = $$ANS.
+:T: 10
+:E:
+
+:N: Revenue Growth Sensitivity
+:I: $base_rev=rseq(400,800)*1000; $growth_low=rseq(3,5)/100; $growth_high=rseq(8,12)/100; $margin=rseq(18,25)/100; $multiple=rseq(7,10); $ebitda_low=$base_rev*(1+$growth_low)^5*$margin; $ebitda_high=$base_rev*(1+$growth_high)^5*$margin; $ANS=$ebitda_high*$multiple-$ebitda_low*$multiple
+:Q: Base rev $$base_rev. Year 5 EBITDA at $growth_low growth = $$ebitda_low, at $growth_high = $$ebitda_high. EV difference at $multiple×?
+:A: EV difference = ($ebitda_high - $ebitda_low) × $multiple = $$ANS.
+:T: 10
+:E:
+
+:N: Valuation Range Midpoint
+:I: $low=rseq(35,50); $high=rseq(55,75); $ANS=($low+$high)/2
+:Q: DCF range: $$low - $$high per share. Midpoint?
+:A: Midpoint = (Low + High) / 2 = ($low + $high) / 2 = $$ANS.
+:T: 10
+:E:
+
+:N: Implied Multiple at Target Price
+:I: $target_price=rseq(50,80); $shares=rseq(40,80)*1000; $net_debt=rseq(150,350)*1000; $ebitda=rseq(100,200)*1000; $equity=$target_price*$shares*1000; $ev=$equity+$net_debt; $ANS=$ev/$ebitda
+:Q: Target $$target_price, shares $shares K, net debt $$net_debt, EBITDA $$ebitda. Implied EV/EBITDA?
+:A: Equity = $$equity. EV = $$ev. Multiple = EV/EBITDA = $ANS×.
+:T: 10
+:E:
+
+:N: Discount Rate Impact (1% change)
+:I: $ev_9pct=rseq(1100,1600)*1000; $ev_10pct=rseq(950,1400)*1000; $ANS=($ev_9pct-$ev_10pct)/$ev_10pct*100
+:Q: EV at 9% WACC = $$ev_9pct, at 10% WACC = $$ev_10pct. % decline per 1% WACC increase?
+:A: % decline = ($ev_9pct - $ev_10pct) / $ev_10pct = $ANS%.
+:T: 10
+:E:
+
+::END::

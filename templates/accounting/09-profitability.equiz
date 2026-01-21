@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Financial Ratios: Profitability and Returns
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Return on Assets (ROA)
+:I: $net_income=rseq(60,180)*1000; $avg_assets=rseq(500,1200)*1000; $ANS=$net_income/$avg_assets*100
+:Q: Net income $$net_income, average total assets $$avg_assets. ROA?
+:A: ROA = Net income / Avg assets = $net_income / $avg_assets = $ANS%.
+:T: 10
+:E:
+
+:N: Return on Equity (ROE)
+:I: $net_income=rseq(60,180)*1000; $avg_equity=rseq(250,600)*1000; $ANS=$net_income/$avg_equity*100
+:Q: Net income $$net_income, average equity $$avg_equity. ROE?
+:A: ROE = Net income / Avg equity = $net_income / $avg_equity = $ANS%.
+:T: 10
+:E:
+
+:N: DuPont ROE
+:I: $margin=rseq(5,12)/100; $turnover=rseq(0.8,1.5); $leverage=rseq(1.5,2.5); $ANS=$margin*$turnover*$leverage*100
+:Q: Net margin $margin, asset turnover $turnover, leverage $leverage. DuPont ROE?
+:A: ROE = Margin × Turnover × Leverage = $margin × $turnover × $leverage = $ANS%.
+:T: 10
+:E:
+
+:N: Return on Invested Capital (ROIC)
+:I: $nopat=rseq(80,200)*1000; $invested_cap=rseq(400,900)*1000; $ANS=$nopat/$invested_cap*100
+:Q: NOPAT $$nopat, invested capital $$invested_cap. ROIC?
+:A: ROIC = NOPAT / Invested capital = $nopat / $invested_cap = $ANS%.
+:T: 10
+:E:
+
+:N: NOPAT Calculation
+:I: $ebit=rseq(120,300)*1000; $tax_rate=rseq(20,30)/100; $ANS=$ebit*(1-$tax_rate)
+:Q: EBIT $$ebit, tax rate $tax_rate. What is NOPAT?
+:A: NOPAT = EBIT × (1 - tax rate) = $ebit × (1 - $tax_rate) = $$ANS.
+:T: 10
+:E:
+
+:N: Gross Profit Margin
+:I: $revenue=rseq(600,1200)*1000; $cogs=rseq(350,750)*1000; $gross=$revenue-$cogs; $ANS=$gross/$revenue*100
+:Q: Revenue $$revenue, COGS $$cogs. Gross profit margin?
+:A: Gross margin = (Revenue - COGS) / Revenue = $gross / $revenue = $ANS%.
+:T: 10
+:E:
+
+:N: Operating Margin
+:I: $revenue=rseq(600,1200)*1000; $operating_income=rseq(60,200)*1000; $ANS=$operating_income/$revenue*100
+:Q: Revenue $$revenue, operating income $$operating_income. Operating margin?
+:A: Op margin = Operating income / Revenue = $operating_income / $revenue = $ANS%.
+:T: 10
+:E:
+
+:N: Net Profit Margin
+:I: $revenue=rseq(600,1200)*1000; $net_income=rseq(40,150)*1000; $ANS=$net_income/$revenue*100
+:Q: Revenue $$revenue, net income $$net_income. Net profit margin?
+:A: Net margin = Net income / Revenue = $net_income / $revenue = $ANS%.
+:T: 10
+:E:
+
+:N: EBITDA Margin
+:I: $revenue=rseq(600,1200)*1000; $ebitda=rseq(100,280)*1000; $ANS=$ebitda/$revenue*100
+:Q: Revenue $$revenue, EBITDA $$ebitda. EBITDA margin?
+:A: EBITDA margin = EBITDA / Revenue = $ebitda / $revenue = $ANS%.
+:T: 10
+:E:
+
+:N: Sustainable Growth Rate
+:I: $roe=rseq(10,20)/100; $retention=rseq(50,80)/100; $ANS=$roe*$retention*100
+:Q: ROE $roe, retention ratio $retention. Sustainable growth rate?
+:A: SGR = ROE × Retention = $roe × $retention = $ANS%.
+:T: 10
+:E:
+
+::END::

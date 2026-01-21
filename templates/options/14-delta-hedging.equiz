@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Delta Hedging and Risk Management
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Initial Delta Hedge - Shares
+:I: $delta=rseq(55,75)/100; $options=rseq(100,300); $ANS=-$delta*$options
+:Q: You sold $options call options, each with delta $delta. How many shares to delta hedge?
+:A: Shares = -delta × options = -$delta × $options = $ANS (buy shares since negative).
+:T: 10
+:E:
+
+:N: Portfolio Delta
+:I: $shares=rseq(500,1000); $calls_long=rseq(5,10); $call_delta=rseq(60,70)/100; $puts_short=rseq(3,8); $put_delta=rseq(-45,-35)/100; $mult=100; $ANS=$shares+$calls_long*$call_delta*$mult+$puts_short*(-$put_delta)*$mult
+:Q: Long $shares shares, long $calls_long calls (Δ=$call_delta), short $puts_short puts (Δ=$put_delta). Portfolio delta?
+:A: Delta = $shares + $calls_long×$call_delta×100 - $puts_short×$put_delta×100 = $ANS.
+:T: 10
+:E:
+
+:N: Rebalancing Delta Hedge
+:I: $prev_delta=rseq(55,65)/100; $new_delta=rseq(68,78)/100; $options=rseq(100,200); $ANS=-($new_delta-$prev_delta)*$options
+:Q: Delta was $prev_delta, now $new_delta. You're short $options calls. Shares adjustment needed?
+:A: Adjustment = -(new_delta - old_delta) × options = -($new_delta - $prev_delta) × $options = $ANS.
+:T: 10
+:E:
+
+:N: Gamma P&L
+:I: $gamma=rseq(2,5)/100; $dS=rseq(2,5); $options=100; $ANS=0.5*$gamma*$dS^2*$options
+:Q: You're long 100 options with gamma $gamma. Stock moves $$dS. Gamma P&L?
+:A: Gamma P&L = 0.5 × Γ × (ΔS)² × options = 0.5 × $gamma × $dS² × 100 = $$ANS.
+:T: 10
+:E:
+
+:N: Theta vs Gamma Tradeoff
+:I: $gamma=rseq(3,6)/100; $S=50; $sigma=rseq(25,35)/100; $theta=-0.5*$S^2*$sigma^2*$gamma/365; $ANS=$theta
+:Q: You're long gamma ($gamma). S=$50, σ=$sigma. Daily theta cost (using θ ≈ -½S²σ²Γ/365)?
+:A: Daily theta = -0.5 × $S² × $sigma² × $gamma / 365 = $$ANS.
+:T: 10
+:E:
+
+:N: Delta-Gamma Hedge
+:I: $port_delta=rseq(400,600); $port_gamma=rseq(-30,-15); $opt1_delta=0.5; $opt1_gamma=0.04; $opt2_delta=0.3; $opt2_gamma=0.03; $n_opt1=-$port_gamma/$opt1_gamma; $residual_delta=$port_delta+$n_opt1*$opt1_delta; $ANS=-$residual_delta
+:Q: Portfolio: Δ=$port_delta, Γ=$port_gamma. Option1: Δ=$opt1_delta, Γ=$opt1_gamma. First gamma-hedge with $n_opt1 Option1s. Remaining delta hedge (shares)?
+:A: After gamma hedge, residual delta = $port_delta + $n_opt1×$opt1_delta = $residual_delta. Shares needed = $ANS.
+:T: 10
+:E:
+
+:N: Vega Hedge
+:I: $port_vega=rseq(-500,-200); $hedge_vega=rseq(15,25); $ANS=-$port_vega/$hedge_vega
+:Q: Portfolio vega = $port_vega. Hedging option has vega $hedge_vega. Options needed for vega neutrality?
+:A: Options = -Portfolio vega / Option vega = -$port_vega / $hedge_vega = $ANS.
+:T: 10
+:E:
+
+:N: P&L Attribution - Delta
+:I: $delta=rseq(400,600); $dS=rseq(-3,3); $ANS=$delta*$dS
+:Q: Portfolio delta = $delta. Stock moved $$dS. Delta P&L contribution?
+:A: Delta P&L = Δ × ΔS = $delta × $dS = $$ANS.
+:T: 10
+:E:
+
+:N: P&L Attribution - Theta
+:I: $theta=rseq(-200,-80); $days=rseq(1,5); $ANS=$theta*$days/365
+:Q: Portfolio theta = $$theta per year. Over $days days, theta P&L?
+:A: Theta P&L = θ × days/365 = $theta × $days/365 = $$ANS.
+:T: 10
+:E:
+
+:N: Pin Risk
+:I: $K=50; $S_close=rseq(49.5,50.5); $options=rseq(50,150); $expected_exercise=($S_close>$K)?$options:0; $ANS=$expected_exercise
+:Q: You're short $options calls at K=$50. Stock closes at $$S_close. Expected assignment?
+:A: If S > K, expect full assignment = $expected_exercise options.
+:T: 20
+:E:
+
+::END::

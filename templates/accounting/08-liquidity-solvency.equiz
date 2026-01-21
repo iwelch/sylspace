@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Financial Ratios: Liquidity and Solvency
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Current Ratio
+:I: $current_assets=rseq(300,600)*1000; $current_liab=rseq(150,350)*1000; $ANS=$current_assets/$current_liab
+:Q: Current assets $$current_assets, current liabilities $$current_liab. Current ratio?
+:A: Current ratio = CA / CL = $current_assets / $current_liab = $ANS.
+:T: 10
+:E:
+
+:N: Quick Ratio (Acid Test)
+:I: $cash=rseq(50,150)*1000; $ar=rseq(80,200)*1000; $inventory=rseq(100,250)*1000; $current_liab=rseq(150,300)*1000; $ANS=($cash+$ar)/$current_liab
+:Q: Cash $$cash, A/R $$ar, Inventory $$inventory, Current liab $$current_liab. Quick ratio?
+:A: Quick = (Cash + A/R) / CL = ($cash + $ar) / $current_liab = $ANS.
+:T: 10
+:E:
+
+:N: Cash Ratio
+:I: $cash=rseq(50,150)*1000; $marketable=rseq(20,80)*1000; $current_liab=rseq(150,300)*1000; $ANS=($cash+$marketable)/$current_liab
+:Q: Cash $$cash, marketable securities $$marketable, current liabilities $$current_liab. Cash ratio?
+:A: Cash ratio = (Cash + Securities) / CL = ($cash + $marketable) / $current_liab = $ANS.
+:T: 10
+:E:
+
+:N: Debt-to-Equity Ratio
+:I: $total_debt=rseq(200,500)*1000; $equity=rseq(300,600)*1000; $ANS=$total_debt/$equity
+:Q: Total debt $$total_debt, shareholders' equity $$equity. Debt-to-equity ratio?
+:A: D/E = Debt / Equity = $total_debt / $equity = $ANS.
+:T: 10
+:E:
+
+:N: Debt-to-Assets Ratio
+:I: $total_debt=rseq(200,500)*1000; $total_assets=rseq(600,1200)*1000; $ANS=$total_debt/$total_assets
+:Q: Total debt $$total_debt, total assets $$total_assets. Debt-to-assets ratio?
+:A: D/A = Debt / Assets = $total_debt / $total_assets = $ANS.
+:T: 10
+:E:
+
+:N: Equity Multiplier
+:I: $assets=rseq(600,1200)*1000; $equity=rseq(300,600)*1000; $ANS=$assets/$equity
+:Q: Total assets $$assets, equity $$equity. Equity multiplier?
+:A: EM = Assets / Equity = $assets / $equity = $ANS.
+:T: 10
+:E:
+
+:N: Interest Coverage Ratio
+:I: $ebit=rseq(100,300)*1000; $interest=rseq(20,60)*1000; $ANS=$ebit/$interest
+:Q: EBIT $$ebit, interest expense $$interest. Interest coverage?
+:A: Coverage = EBIT / Interest = $ebit / $interest = $ANS times.
+:T: 10
+:E:
+
+:N: Cash Coverage Ratio
+:I: $ebit=rseq(100,300)*1000; $depr=rseq(20,60)*1000; $interest=rseq(20,50)*1000; $ANS=($ebit+$depr)/$interest
+:Q: EBIT $$ebit, D&A $$depr, interest $$interest. Cash coverage ratio?
+:A: Cash coverage = (EBIT + D&A) / Interest = ($ebit + $depr) / $interest = $ANS.
+:T: 10
+:E:
+
+:N: Net Debt
+:I: $total_debt=rseq(300,600)*1000; $cash=rseq(50,150)*1000; $ANS=$total_debt-$cash
+:Q: Total debt $$total_debt, cash $$cash. Net debt?
+:A: Net debt = Total debt - Cash = $total_debt - $cash = $$ANS.
+:T: 10
+:E:
+
+:N: Financial Leverage
+:I: $avg_assets=rseq(600,1200)*1000; $avg_equity=rseq(300,600)*1000; $ANS=$avg_assets/$avg_equity
+:Q: Average assets $$avg_assets, average equity $$avg_equity. Financial leverage?
+:A: Leverage = Avg assets / Avg equity = $avg_assets / $avg_equity = $ANS.
+:T: 10
+:E:
+
+::END::

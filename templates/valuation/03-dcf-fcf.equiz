@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: DCF Valuation: Free Cash Flow
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Free Cash Flow to Firm
+:I: $ebit=rseq(100,300)*1000; $tax=rseq(20,30)/100; $depr=rseq(30,80)*1000; $capex=rseq(40,100)*1000; $dwc=rseq(-20,30)*1000; $ANS=$ebit*(1-$tax)+$depr-$capex-$dwc
+:Q: EBIT $$ebit, tax $tax, D&A $$depr, CapEx $$capex, ΔWC $$dwc. FCFF?
+:A: FCFF = EBIT(1-T) + D&A - CapEx - ΔWC = $ebit×(1-$tax) + $depr - $capex - $dwc = $$ANS.
+:T: 10
+:E:
+
+:N: NOPAT
+:I: $ebit=rseq(100,300)*1000; $tax=rseq(20,30)/100; $ANS=$ebit*(1-$tax)
+:Q: EBIT $$ebit, tax rate $tax. NOPAT?
+:A: NOPAT = EBIT × (1 - T) = $ebit × (1 - $tax) = $$ANS.
+:T: 10
+:E:
+
+:N: Free Cash Flow to Equity
+:I: $fcff=rseq(80,200)*1000; $interest=rseq(20,50)*1000; $tax=rseq(20,30)/100; $net_debt=rseq(-30,30)*1000; $ANS=$fcff-$interest*(1-$tax)+$net_debt
+:Q: FCFF $$fcff, interest $$interest, tax $tax, net borrowing $$net_debt. FCFE?
+:A: FCFE = FCFF - Interest×(1-T) + Net debt = $fcff - $interest×(1-$tax) + $net_debt = $$ANS.
+:T: 10
+:E:
+
+:N: Terminal Value (Gordon Growth)
+:I: $fcf_last=rseq(80,180)*1000; $g=rseq(2,4)/100; $wacc=rseq(8,12)/100; $ANS=$fcf_last*(1+$g)/($wacc-$g)
+:Q: Last FCF $$fcf_last, perpetual growth $g, WACC $wacc. Terminal value?
+:A: TV = FCF × (1+g) / (WACC - g) = $fcf_last × (1+$g) / ($wacc - $g) = $$ANS.
+:T: 10
+:E:
+
+:N: Terminal Value (Exit Multiple)
+:I: $ebitda_terminal=rseq(100,250)*1000; $multiple=rseq(6,10); $ANS=$ebitda_terminal*$multiple
+:Q: Terminal year EBITDA $$ebitda_terminal, exit multiple $multiple×. Terminal value?
+:A: TV = EBITDA × Multiple = $ebitda_terminal × $multiple = $$ANS.
+:T: 10
+:E:
+
+:N: Enterprise Value
+:I: $pv_fcf=rseq(300,700)*1000; $pv_tv=rseq(400,900)*1000; $ANS=$pv_fcf+$pv_tv
+:Q: PV of forecast FCFs $$pv_fcf, PV of terminal value $$pv_tv. Enterprise value?
+:A: EV = PV(FCFs) + PV(TV) = $pv_fcf + $pv_tv = $$ANS.
+:T: 10
+:E:
+
+:N: Equity Value from EV
+:I: $ev=rseq(600,1200)*1000; $debt=rseq(150,400)*1000; $cash=rseq(30,100)*1000; $ANS=$ev-$debt+$cash
+:Q: Enterprise value $$ev, debt $$debt, cash $$cash. Equity value?
+:A: Equity = EV - Debt + Cash = $ev - $debt + $cash = $$ANS.
+:T: 10
+:E:
+
+:N: Share Price from Equity Value
+:I: $equity=rseq(400,900)*1000; $shares=rseq(20,50)*1000; $ANS=$equity/($shares*1000)
+:Q: Equity value $$equity, shares outstanding $shares thousand. Share price?
+:A: Price = Equity / Shares = $equity / ($shares×1000) = $$ANS.
+:T: 10
+:E:
+
+:N: Implied Growth Rate
+:I: $ev=rseq(800,1500)*1000; $fcf=rseq(60,120)*1000; $wacc=rseq(9,12)/100; $ANS=($wacc-$fcf/$ev)*100
+:Q: EV $$ev, FCF $$fcf, WACC $wacc. Implied perpetual growth rate?
+:A: EV = FCF / (WACC - g), so g = WACC - FCF/EV = $wacc - $fcf/$ev = $ANS%.
+:T: 10
+:E:
+
+:N: Present Value of FCF
+:I: $fcf1=rseq(50,100)*1000; $fcf2=rseq(55,110)*1000; $fcf3=rseq(60,120)*1000; $wacc=rseq(9,12)/100; $ANS=$fcf1/(1+$wacc)+$fcf2/(1+$wacc)^2+$fcf3/(1+$wacc)^3
+:Q: FCF1=$$fcf1, FCF2=$$fcf2, FCF3=$$fcf3, WACC=$wacc. PV of FCFs?
+:A: PV = FCF1/(1+WACC) + FCF2/(1+WACC)² + FCF3/(1+WACC)³ = $$ANS.
+:T: 10
+:E:
+
+::END::

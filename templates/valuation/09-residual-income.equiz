@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Residual Income and EVA
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Residual Income
+:I: $net_income=rseq(80,200)*1000; $equity=rseq(500,1000)*1000; $ke=rseq(10,14)/100; $equity_charge=$equity*$ke; $ANS=$net_income-$equity_charge
+:Q: Net income $$net_income, book equity $$equity, cost of equity $ke. Residual income?
+:A: RI = NI - (Equity × Ke) = $net_income - $equity_charge = $$ANS.
+:T: 10
+:E:
+
+:N: Economic Value Added (EVA)
+:I: $nopat=rseq(100,250)*1000; $invested_cap=rseq(600,1200)*1000; $wacc=rseq(8,12)/100; $capital_charge=$invested_cap*$wacc; $ANS=$nopat-$capital_charge
+:Q: NOPAT $$nopat, invested capital $$invested_cap, WACC $wacc. EVA?
+:A: EVA = NOPAT - (Capital × WACC) = $nopat - $capital_charge = $$ANS.
+:T: 10
+:E:
+
+:N: Capital Charge
+:I: $invested_cap=rseq(500,1000)*1000; $wacc=rseq(8,12)/100; $ANS=$invested_cap*$wacc
+:Q: Invested capital $$invested_cap, WACC $wacc. Capital charge?
+:A: Capital charge = Capital × WACC = $invested_cap × $wacc = $$ANS.
+:T: 10
+:E:
+
+:N: Value from RI Model
+:I: $book_equity=rseq(400,800)*1000; $ri1=rseq(30,80)*1000; $ri2=rseq(35,90)*1000; $ke=rseq(10,14)/100; $ANS=$book_equity+$ri1/(1+$ke)+$ri2/(1+$ke)^2
+:Q: Book equity $$book_equity, RI Year1 $$ri1, RI Year2 $$ri2, Ke $ke. Value (2-year RI model)?
+:A: V = Book + PV(RI) = $book_equity + $ri1/(1+$ke) + $ri2/(1+$ke)² = $$ANS.
+:T: 10
+:E:
+
+:N: Market Value Added
+:I: $market_cap=rseq(700,1500)*1000; $book_equity=rseq(400,900)*1000; $ANS=$market_cap-$book_equity
+:Q: Market cap $$market_cap, book equity $$book_equity. Market Value Added (MVA)?
+:A: MVA = Market cap - Book equity = $market_cap - $book_equity = $$ANS.
+:T: 10
+:E:
+
+:N: Spread (ROIC - WACC)
+:I: $roic=rseq(12,20)/100; $wacc=rseq(8,11)/100; $ANS=($roic-$wacc)*100
+:Q: ROIC $roic, WACC $wacc. Economic spread?
+:A: Spread = ROIC - WACC = $roic - $wacc = $ANS%.
+:T: 10
+:E:
+
+:N: EVA from Spread
+:I: $spread=rseq(2,6)/100; $invested_cap=rseq(500,1000)*1000; $ANS=$spread*$invested_cap
+:Q: Economic spread $spread, invested capital $$invested_cap. EVA?
+:A: EVA = Spread × Capital = $spread × $invested_cap = $$ANS.
+:T: 10
+:E:
+
+:N: Continuing Residual Income
+:I: $ri_n=rseq(40,100)*1000; $g=rseq(2,4)/100; $ke=rseq(10,14)/100; $ANS=$ri_n*(1+$g)/($ke-$g)
+:Q: Year N residual income $$ri_n, perpetual growth $g, Ke $ke. Continuing value of RI?
+:A: CV = RI_n × (1+g) / (Ke - g) = $ri_n × (1+$g) / ($ke - $g) = $$ANS.
+:T: 10
+:E:
+
+:N: Abnormal Earnings Growth
+:I: $ri_current=rseq(50,100)*1000; $ri_next=rseq(55,120)*1000; $ANS=$ri_next-$ri_current
+:Q: Current RI $$ri_current, next year RI $$ri_next. Abnormal earnings growth?
+:A: AEG = RI_next - RI_current = $ri_next - $ri_current = $$ANS.
+:T: 10
+:E:
+
+:N: Justified P/B from ROE
+:I: $roe=rseq(12,20)/100; $ke=rseq(10,14)/100; $g=rseq(3,6)/100; $ANS=($roe-$g)/($ke-$g)
+:Q: ROE $roe, Ke $ke, growth $g. Justified P/B ratio?
+:A: P/B = (ROE - g) / (Ke - g) = ($roe - $g) / ($ke - $g) = $ANS.
+:T: 10
+:E:
+
+::END::

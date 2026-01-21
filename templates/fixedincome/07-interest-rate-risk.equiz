@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Interest Rate Risk
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Price Value of Basis Point
+:I: $mod_dur=rseq(5,9); $price=rseq(980,1020); $ANS=$mod_dur*$price/10000
+:Q: Bond: modified duration $mod_dur, price $$price. What is PVBP (price change per 1 bp)?
+:A: PVBP = ModDur × Price / 10000 = $mod_dur × $price / 10000 = $$ANS.
+:T: 10
+:E:
+
+:N: Value at Risk (Duration Approach)
+:I: $port_value=rseq(8,15)*1000000; $mod_dur=rseq(5,8); $yield_vol=rseq(50,100)/10000; $z=1.65; $ANS=$port_value*$mod_dur*$yield_vol*$z
+:Q: Portfolio: $$port_value value, duration $mod_dur, daily yield volatility $yield_vol. 95% 1-day VaR?
+:A: VaR = Value × Duration × σ_yield × 1.65 = $port_value × $mod_dur × $yield_vol × 1.65 = $$ANS.
+:T: 10
+:E:
+
+:N: Parallel Shift Impact
+:I: $port_value=rseq(10,20)*1000000; $duration=rseq(5,8); $shift=rseq(25,100)/10000; $ANS=-$port_value*$duration*$shift
+:Q: Portfolio $$port_value, duration $duration. Rates rise by $shift. Portfolio value change?
+:A: ΔValue = -Value × Duration × Δy = -$port_value × $duration × $shift = $$ANS.
+:T: 10
+:E:
+
+:N: Key Rate Duration - 2 Year
+:I: $krd_2y=rseq(0.5,1.5); $krd_5y=rseq(2,3); $krd_10y=rseq(3,5); $shift_2y=rseq(10,30)/10000; $price=1000000; $ANS=-$krd_2y*$shift_2y*$price
+:Q: KRDs: 2y=$krd_2y, 5y=$krd_5y, 10y=$krd_10y. 2-year rate rises $shift_2y. Impact on $1M position?
+:A: Impact = -KRD_2y × Δr_2y × Value = -$krd_2y × $shift_2y × 1000000 = $$ANS.
+:T: 10
+:E:
+
+:N: Yield Curve Steepening
+:I: $dur_short=rseq(1,3); $dur_long=rseq(7,10); $short_chg=rseq(-20,-5)/10000; $long_chg=rseq(10,30)/10000; $value=1000000; $ANS=-$dur_short*$short_chg*$value-$dur_long*$long_chg*$value
+:Q: Barbell: short duration $dur_short, long duration $dur_long. Short rates change $short_chg, long rates $long_chg. Impact on $1M?
+:A: Impact = -D_short×Δr_short×V - D_long×Δr_long×V = $$ANS.
+:T: 10
+:E:
+
+:N: Immunization Target
+:I: $liability_pv=rseq(8,12)*1000000; $liability_dur=rseq(6,10); $asset_dur=rseq(4,8); $ANS=$liability_pv*$liability_dur/$asset_dur
+:Q: Liability: PV $$liability_pv, duration $liability_dur. Assets have duration $asset_dur. Asset value needed to immunize?
+:A: Asset value = Liability PV × (Liability dur / Asset dur) = $liability_pv × $liability_dur / $asset_dur = $$ANS.
+:T: 10
+:E:
+
+:N: Duration Gap
+:I: $asset_dur=rseq(4,7); $liability_dur=rseq(6,10); $ANS=$asset_dur-$liability_dur
+:Q: Bank assets have duration $asset_dur, liabilities duration $liability_dur. Duration gap?
+:A: Gap = Asset duration - Liability duration = $asset_dur - $liability_dur = $ANS years.
+:T: 10
+:E:
+
+:N: Basis Point Value Hedge Ratio
+:I: $port_bpv=rseq(5000,10000); $hedge_bpv=rseq(80,120); $ANS=-$port_bpv/$hedge_bpv
+:Q: Portfolio BPV = $$port_bpv. Hedging instrument BPV = $$hedge_bpv. Hedge ratio?
+:A: Hedge ratio = -Portfolio BPV / Hedge BPV = -$port_bpv / $hedge_bpv = $ANS contracts.
+:T: 10
+:E:
+
+:N: Spread Duration
+:I: $spread_dur=rseq(4,7); $spread_chg=rseq(20,50)/10000; $price=rseq(98,102); $ANS=-$spread_dur*$spread_chg*$price
+:Q: Corporate bond: spread duration $spread_dur, price $$price. Spread widens by $spread_chg. Price change?
+:A: ΔPrice = -SpreadDur × Δspread × Price = -$spread_dur × $spread_chg × $price = $$ANS.
+:T: 10
+:E:
+
+:N: Reinvestment Risk
+:I: $coupon=rseq(40,60); $periods=rseq(8,15); $rate_drop=rseq(1,2)/100; $old_rate=rseq(5,7)/100; $new_rate=$old_rate-$rate_drop; $fv_old=$coupon*((1+$old_rate)^$periods-1)/$old_rate; $fv_new=$coupon*((1+$new_rate)^$periods-1)/$new_rate; $ANS=$fv_old-$fv_new
+:Q: Coupons of $$coupon reinvested for $periods periods. If reinvestment rate drops by $rate_drop, how much less in terminal value?
+:A: FV at old rate = $$fv_old. FV at new rate = $$fv_new. Loss = $$ANS.
+:T: 10
+:E:
+
+::END::

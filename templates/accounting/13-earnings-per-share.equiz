@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Earnings Per Share
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Basic EPS
+:I: $net_income=rseq(80,200)*1000; $pref_div=rseq(5,20)*1000; $shares=rseq(40,100)*1000; $ANS=($net_income-$pref_div)/($shares*1000)
+:Q: Net income $$net_income, preferred dividends $$pref_div, common shares $shares thousand. Basic EPS?
+:A: Basic EPS = (NI - Pref div) / Shares = ($net_income - $pref_div) / ($shares×1000) = $$ANS.
+:T: 10
+:E:
+
+:N: Weighted Average Shares
+:I: $shares_jan=rseq(80,120)*1000; $new_shares=rseq(10,30)*1000; $months_new=rseq(3,9); $ANS=$shares_jan+$new_shares*$months_new/12
+:Q: $shares_jan K shares at Jan 1. Issued $new_shares K more $months_new months before year end. WASO?
+:A: WASO = $shares_jan + $new_shares × $months_new/12 = $ANS K shares.
+:T: 10
+:E:
+
+:N: Diluted EPS - Options
+:I: $net_income=rseq(100,200)*1000; $basic_shares=rseq(50,100)*1000; $options=rseq(5,15)*1000; $strike=rseq(20,35); $price=rseq(40,60); $dilutive=($price>$strike)?$options*($price-$strike)/$price:0; $diluted_shares=$basic_shares+$dilutive; $ANS=$net_income/($diluted_shares*1000)
+:Q: NI $$net_income, basic shares $basic_shares K, $options K options at $$strike strike, price $$price. Diluted EPS?
+:A: Dilutive shares = $options × ($price - $strike) / $price = $dilutive K. Diluted EPS = $net_income / $diluted_shares K = $$ANS.
+:T: 10
+:E:
+
+:N: Treasury Stock Method
+:I: $options=rseq(8,20)*1000; $strike=rseq(25,40); $price=rseq(50,70); $proceeds=$options*$strike*1000; $buyback=$proceeds/$price; $ANS=$options-$buyback/1000
+:Q: $options K options at $$strike, price $$price. Net new shares under treasury stock method?
+:A: Proceeds = $options × $strike = $$proceeds. Buyback = Proceeds / Price = $buyback. Net = $options - $buyback/1000 = $ANS K.
+:T: 10
+:E:
+
+:N: Convertible Bond Dilution
+:I: $net_income=rseq(100,200)*1000; $bond_interest=rseq(5,15)*1000; $tax=rseq(20,30)/100; $basic_shares=rseq(50,100)*1000; $convert_shares=rseq(10,25)*1000; $adj_income=$net_income+$bond_interest*(1-$tax); $diluted_shares=$basic_shares+$convert_shares; $ANS=$adj_income/($diluted_shares*1000)
+:Q: NI $$net_income, interest $$interest (tax $tax), basic shares $basic_shares K, converts to $convert_shares K. Diluted EPS?
+:A: Adj NI = $net_income + $bond_interest×(1-$tax) = $$adj_income. Diluted EPS = $adj_income / $diluted_shares K = $$ANS.
+:T: 10
+:E:
+
+:N: Anti-Dilutive Test
+:I: $basic_eps=rseq(3,6); $convert_income_add=rseq(3,8)*1000; $convert_shares=rseq(5,15)*1000; $incremental=$convert_income_add/($convert_shares*1000); $ANS=$incremental
+:Q: Basic EPS $$basic_eps. Converts add $$convert_income_add income and $convert_shares K shares. Incremental EPS?
+:A: Incremental = Added income / Added shares = $convert_income_add / ($convert_shares×1000) = $$ANS. If > Basic EPS, anti-dilutive.
+:T: 10
+:E:
+
+:N: Stock Split Adjustment
+:I: $eps_before=rseq(4,8); $split_ratio=2; $ANS=$eps_before/$split_ratio
+:Q: EPS before 2-for-1 split was $$eps_before. Adjusted EPS for comparability?
+:A: Adjusted EPS = Old EPS / Split ratio = $eps_before / 2 = $$ANS.
+:T: 10
+:E:
+
+:N: EPS Growth Rate
+:I: $eps_current=rseq(4,7); $eps_prior=rseq(3,5); $ANS=($eps_current/$eps_prior-1)*100
+:Q: Current EPS $$eps_current, prior year $$eps_prior. EPS growth rate?
+:A: Growth = (Current / Prior) - 1 = ($eps_current / $eps_prior) - 1 = $ANS%.
+:T: 10
+:E:
+
+:N: P/E Ratio
+:I: $price=rseq(40,80); $eps=rseq(3,6); $ANS=$price/$eps
+:Q: Stock price $$price, EPS $$eps. P/E ratio?
+:A: P/E = Price / EPS = $price / $eps = $ANS×.
+:T: 10
+:E:
+
+:N: Implied EPS from P/E
+:I: $price=rseq(50,90); $pe=rseq(15,25); $ANS=$price/$pe
+:Q: Stock price $$price, P/E ratio $pe×. Implied EPS?
+:A: EPS = Price / P/E = $price / $pe = $$ANS.
+:T: 10
+:E:
+
+::END::

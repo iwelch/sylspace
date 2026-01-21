@@ -1,0 +1,92 @@
+::EQVERSION:: 1.0
+
+::NAME:: Option Greeks: Theta, Vega, Rho
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Theta - Time Decay per Day
+:I: $theta_annual=rseq(-15,-8); $ANS=$theta_annual/365
+:Q: An option has annual theta of $$theta_annual. What is the daily theta (time decay per day)?
+:A: Daily theta = Annual theta / 365 = $theta_annual / 365 = $$ANS.
+:T: 10
+:E:
+
+:N: Option Value Change from Theta
+:I: $theta_day=rseq(-5,-2)/100; $days=rseq(5,15); $ANS=$theta_day*$days
+:Q: Daily theta is $$theta_day. How much does the option value change over $days days (assuming nothing else changes)?
+:A: Value change = theta × days = $theta_day × $days = $$ANS.
+:T: 10
+:E:
+
+:N: ATM Theta Approximation
+:I: $S=rseq(48,52); $sigma=rseq(25,35)/100; $r=rseq(4,6)/100; $T=rseq(3,9)/12; $ANS=-$S*$sigma/(2*sqrt($T))*Norm(0)-$r*$S*exp(-$r*$T)*0.5
+:Q: For ATM call: S=$$S, σ=$sigma, r=$r, T=$T. Use theta ≈ -S×σ×N'(0)/(2√T) - r×K×e^(-rT)×N(d2). Approximate.
+:A: Theta ≈ -$S×$sigma×0.3989/(2×√$T) - $r×$S×e^(-$r×$T)×0.5 = $$ANS per year.
+:T: 20
+:E:
+
+:N: Vega - Sensitivity to Volatility
+:I: $S=50; $K=50; $r=0.05; $sigma=0.30; $T=0.5; $d1=(ln($S/$K)+($r+$sigma^2/2)*$T)/($sigma*sqrt($T)); $ANS=$S*sqrt($T)*Norm($d1)
+:Q: S=$50, K=$50, r=5%, σ=30%, T=0.5 years. Calculate vega = S×√T×N'(d1).
+:A: d1 = $d1. Vega = $S × √$T × N'($d1) = $$ANS.
+:T: 10
+:E:
+
+:N: Option Price Change from Vega
+:I: $vega=rseq(10,18); $vol_change=rseq(1,3)/100; $ANS=$vega*$vol_change
+:Q: Vega is $$vega per 100% vol change. Volatility increases by $vol_change (e.g., from 30% to 31%). Price change?
+:A: Price change = Vega × Δσ = $vega × $vol_change = $$ANS.
+:T: 10
+:E:
+
+:N: Rho - Sensitivity to Interest Rate
+:I: $K=rseq(48,52); $r=0.05; $T=rseq(3,12)/12; $S=50; $sigma=0.30; $d1=(ln($S/$K)+($r+$sigma^2/2)*$T)/($sigma*sqrt($T)); $d2=$d1-$sigma*sqrt($T); $ANS=$K*$T*exp(-$r*$T)*CumNorm($d2)
+:Q: Call rho = K×T×e^(-rT)×N(d2). K=$$K, T=$T, r=5%, d2=$d2. What is rho?
+:A: Rho = $K × $T × e^(-$r×$T) × N($d2) = $$ANS.
+:T: 10
+:E:
+
+:N: Put Rho
+:I: $K=rseq(48,52); $r=0.05; $T=rseq(3,12)/12; $S=50; $sigma=0.30; $d1=(ln($S/$K)+($r+$sigma^2/2)*$T)/($sigma*sqrt($T)); $d2=$d1-$sigma*sqrt($T); $ANS=-$K*$T*exp(-$r*$T)*CumNorm(-$d2)
+:Q: Put rho = -K×T×e^(-rT)×N(-d2). K=$$K, T=$T, r=5%, d2=$d2. What is put rho?
+:A: Put Rho = -$K × $T × e^(-$r×$T) × N(-$d2) = $$ANS.
+:T: 10
+:E:
+
+:N: Theta-Gamma Tradeoff
+:I: $S=50; $sigma=rseq(25,35)/100; $gamma=rseq(3,6)/100; $r=rseq(4,6)/100; $ANS=-0.5*$S^2*$sigma^2*$gamma
+:Q: The theta-gamma relationship: Theta ≈ -½S²σ²Γ (ignoring rho term). S=$50, σ=$sigma, Γ=$gamma. What is theta?
+:A: Theta ≈ -0.5 × $S² × $sigma² × $gamma = $$ANS.
+:T: 20
+:E:
+
+:N: Portfolio Vega
+:I: $vega1=rseq(12,18); $qty1=rseq(10,20); $vega2=rseq(8,12); $qty2=rseq(-15,-5); $ANS=$vega1*$qty1+$vega2*$qty2
+:Q: Position 1: $qty1 options with vega $vega1. Position 2: $qty2 options with vega $vega2. Total portfolio vega?
+:A: Portfolio vega = $vega1×$qty1 + $vega2×$qty2 = $$ANS.
+:T: 10
+:E:
+
+:N: Vega Neutral Hedge
+:I: $port_vega=rseq(100,200); $hedge_vega=rseq(12,18); $ANS=-$port_vega/$hedge_vega
+:Q: Portfolio vega is $port_vega. A hedging option has vega $hedge_vega. How many options to become vega neutral?
+:A: Options needed = -Portfolio vega / Option vega = -$port_vega / $hedge_vega = $ANS.
+:T: 10
+:E:
+
+:N: Weekend Theta
+:I: $daily_theta=rseq(-8,-3)/100; $ANS=$daily_theta*3
+:Q: Daily theta is $$daily_theta. What is the total time decay over a weekend (Friday close to Monday open = 3 days)?
+:A: Weekend decay = daily theta × 3 = $daily_theta × 3 = $$ANS.
+:T: 10
+:E:
+
+::END::

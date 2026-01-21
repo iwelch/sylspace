@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Industry-Specific Multiples
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: EV/Revenue for Tech
+:I: $ev=rseq(800,2000)*1000; $revenue=rseq(150,400)*1000; $ANS=$ev/$revenue
+:Q: High-growth tech company: EV $$ev, Revenue $$revenue. EV/Revenue multiple?
+:A: EV/Revenue = $ev / $revenue = $ANS×.
+:T: 10
+:E:
+
+:N: Price/FFO for REITs
+:I: $price=rseq(40,80); $ffo=rseq(3,6); $ANS=$price/$ffo
+:Q: REIT stock price $$price, FFO per share $$ffo. Price/FFO multiple?
+:A: P/FFO = $price / $ffo = $ANS×.
+:T: 10
+:E:
+
+:N: EV/Reserves for Oil & Gas
+:I: $ev=rseq(2,8)*1000000000; $reserves=rseq(100,400)*1000000; $ANS=$ev/$reserves
+:Q: E&P company: EV $$ev, proved reserves $reserves barrels. EV per barrel of reserves?
+:A: EV/Reserves = $ev / $reserves = $$ANS per barrel.
+:T: 10
+:E:
+
+:N: Price/Book for Banks
+:I: $price=rseq(30,60); $bvps=rseq(25,45); $ANS=$price/$bvps
+:Q: Bank stock $$price, book value $$bvps per share. P/B ratio?
+:A: P/B = Price / BVPS = $price / $bvps = $ANS×.
+:T: 10
+:E:
+
+:N: EV/Subscriber for Telecom
+:I: $ev=rseq(20,60)*1000000000; $subs=rseq(30,80)*1000000; $ANS=$ev/$subs
+:Q: Telecom: EV $$ev, $subs subscribers. EV per subscriber?
+:A: EV/Sub = $ev / $subs = $$ANS per subscriber.
+:T: 10
+:E:
+
+:N: Price/AUM for Asset Managers
+:I: $market_cap=rseq(5,20)*1000000000; $aum=rseq(200,800)*1000000000; $ANS=$market_cap/$aum*100
+:Q: Asset manager: market cap $$market_cap, AUM $$aum. Market cap as % of AUM?
+:A: % of AUM = Market cap / AUM = $market_cap / $aum = $ANS%.
+:T: 10
+:E:
+
+:N: EV/Beds for Hospitals
+:I: $ev=rseq(500,1500)*1000; $beds=rseq(200,500); $ANS=$ev/$beds
+:Q: Hospital system: EV $$ev, $beds licensed beds. EV per bed?
+:A: EV/Bed = $ev / $beds = $$ANS per bed.
+:T: 10
+:E:
+
+:N: EV/MW for Utilities
+:I: $ev=rseq(3,10)*1000000000; $capacity=rseq(5000,15000); $ANS=$ev/$capacity/1000
+:Q: Utility: EV $$ev, generating capacity $capacity MW. EV per MW (in millions)?
+:A: EV/MW = $ev / $capacity = $$ANS million per MW.
+:T: 10
+:E:
+
+:N: Price/Earnings/Growth (PEG)
+:I: $pe=rseq(15,30); $growth=rseq(10,25); $ANS=$pe/$growth
+:Q: P/E ratio $pe×, expected earnings growth $growth%. PEG ratio?
+:A: PEG = P/E / Growth = $pe / $growth = $ANS.
+:T: 10
+:E:
+
+:N: EV/Store for Retail
+:I: $ev=rseq(2,8)*1000000000; $stores=rseq(500,2000); $ANS=$ev/$stores/1000000
+:Q: Retailer: EV $$ev, $stores stores. EV per store (millions)?
+:A: EV/Store = $ev / $stores = $$ANS million per store.
+:T: 10
+:E:
+
+::END::

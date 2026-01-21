@@ -1,11 +1,23 @@
 # SylSpace
+
 Course management software on syllabus.space
 
+**Live Server:** [https://auth.syllabus.space](https://auth.syllabus.space)
+
+## Features
+
+- **Course Management**: Create and manage multiple courses with separate instructor/student views
+- **Equizzes**: Randomized quizzes with automatic grading and unlimited retakes
+- **File Distribution**: Share course materials, collect homework submissions
+- **Grade Center**: Track and export student grades
+- **Messaging**: In-app communication between instructors and students
+- **LTI 1.1 Integration**: Embed in Canvas and other LMS platforms with grade passback
+- **Multiple Authentication**: OAuth (Google, Facebook), Passkeys (WebAuthn), and local authentication
 
 ## Installation
 
 Due to the outdated three-year-old 5.18.2 version of perl still
-running on MacOS, we do not recommend it.  If you need to install
+running on MacOS, we do not recommend it. If you need to install
 syllabus.space on osx, first learn brew and install a newer perl.
 
 ### Basic Steps:
@@ -15,74 +27,73 @@ applicable everywhere, though)
 
 * `$ sudo apt install git cpanminus make gcc libssl-dev carton`
 
-        to download, you need git.  to install mojolicious, you
-        need cpanminus, make, and gcc. we use carton to manage
-        dependencies
+  ```
+    to download, you need git.  to install mojolicious, you
+    need cpanminus, make, and gcc. we use carton to manage
+    dependencies
+  ```
 
 * `$ mkdir mysylspacedir ; cd mysylspacedir`
 
-        in this example, mysylspacedir is the directory in which
-        the webapp will be installed.  you can change this to anything you
-        like.  because all of sylspace will be cloned into its own
-        subdirectory, you could even omit this step altogether.
+  ```
+    in this example, mysylspacedir is the directory in which
+    the webapp will be installed.  you can change this to anything you
+    like.  because all of sylspace will be cloned into its own
+    subdirectory, you could even omit this step altogether.
+  ```
 
 * `$ git clone https://github.com/iwelch/sylspace ; cd sylspace`
 
-	you now should have a lot of files in the mysylspacedir/sylspace directory, which you can inspect with `$ ls`.
+  you now should have a lot of files in the mysylspacedir/sylspace directory, which you can inspect with `$ ls`.
 
 * `carton install`
 
-        this instructs perl to install all the cpan modules that
-        sylspace needs.  make sure that there are no errors in this step.
-        if there are, you will suffer endless pain later on.  warning:
-        this step may take 10 minutes.
+  ```
+    this instructs perl to install all the cpan modules that
+    sylspace needs.  make sure that there are no errors in this step.
+    if there are, you will suffer endless pain later on.  warning:
+    this step may take 10 minutes.
 
-        This makes a local environment where the expected versions
-        of the cpan modules used are installed, regardless of other
-        things you've installed. In order to run scripts in this
-        project, prefix them with `carton exec`, or add `local/lib/perl5`
-        to your PERL5LIB environment variable. (for more info, see
-        `perldoc Carton`)
+    This makes a local environment where the expected versions
+    of the cpan modules used are installed, regardless of other
+    things you've installed. In order to run scripts in this
+    project, prefix them with `carton exec`, or add `local/lib/perl5`
+    to your PERL5LIB environment variable. (for more info, see
+    `perldoc Carton`)
+  ```
 
 * `carton exec perl initsylspace.pl -f`
 
-        this builds the basic storage hierarchy in the
-        filesystem located at $ENV{SYLSPACE_PATH} (/var/sylspace/ by default)
-        such as $ENV{SYLSPACE_PATH}/courses, $ENV{SYLSPACE_PATH}/users,
-        $ENV{SYLSPACE_PATH}/templates/, etc.
+  ```
+    this builds the basic storage hierarchy in the
+    filesystem located at $ENV{SYLSPACE_PATH} (/var/sylspace/ by default)
+    such as $ENV{SYLSPACE_PATH}/courses, $ENV{SYLSPACE_PATH}/users,
+    $ENV{SYLSPACE_PATH}/templates/, etc.
+  ```
 
 * `carton exec perl bin/load_site startersite`
-	
-        this builds a nice starter site for test purposes.  for
-        example, it creates a corpfin website (in
-        /var/sylspace/courses/corpfin/) that the webapp will recognize as
-        a corporate finance website.
+
+  ```
+    this builds a nice starter site for test purposes.  for
+    example, it creates a corpfin website (in
+    /var/sylspace/courses/corpfin/) that the webapp will recognize as
+    a corporate finance website.
+  ```
 
 * `sudo updatedb`
 
-        runserver.pl uses `locate sylspace/SylSpace` to detect where it is installed, so it needs you to run updatedb at least once.
+  ```
+    runserver.pl uses `locate sylspace/SylSpace` to detect where it is installed, so it needs you to run updatedb at least once.
+  ```
 
-- `carton exec perl runserver.pl`
+* `carton exec perl SylSpace daemon`
 
-        runserver.pl is smart enough to figure out whether it
-        is running on http://*.syllabus.space domain (where it should use
-        hypnotoad) or on another computer (where there is only local test
-        user authentication and the tester wants to see what URLs are
-        being requested on the terminal).
+  ```
+    Starts the server in development mode. For production, use hypnotoad.
+  ```
 
-
-now open your  browser and point it to `http://lvh.me`.  when you
-are done, click back on your terminal window and ^C out of
-runserver.pl.
-
-If you aren't comfortable letting sylspace play around with your
-filesystem, then you can still test by using the included docker
-image. To pull the latest dev version built from the master
-branch, just use the supplied `run_docker` script, it will load
-your local copy of the repo into the container, and prefix all
-your commands to use carton. If no command is passed, then it will
-run morbo on port 3000.
-
+now open your browser and point it to `http://lvh.me`. when you
+are done, click back on your terminal window and ^C out.
 
 ### Real Operation
 
@@ -92,17 +103,19 @@ remote Internet users enabled.
 
 To enable remote authentication, create a file containing the
 proper set of secrets that the Google, Facebook, and Paypal
-Authentications need.  This can be a headache.  The
-`SylSpace-Secrets.template` file tries to give some guidance.  You
+Authentications need. This can be a headache. The
+`SylSpace-Secrets.template` file tries to give some guidance. You
 need a file
 
-	SylSpace-Secrets.conf
+```
+SylSpace-Secrets.conf
+```
 
 which contains your private authentication secrets (for oauth,
 google, paypal, gmail, etc).
 
 Again, the contents of the SylSpace-Secrets.conf file are
-illustrated in `SylSpace-Secrets.template`.  You can edit and
+illustrated in `SylSpace-Secrets.template`. You can edit and
 rename the template!
 
 The app won't work without at least one OAuth provider configured.
@@ -111,49 +124,52 @@ as expected across subdomains.
 
 If you see an error
 
-       Warning: 'message must be a string at (eval 253) line 63
+```
+   Warning: 'message must be a string at (eval 253) line 63
+```
 
 it probably means that your login credentials for email sending are
 off.
 
-## Running from the docker container
+## LTI 1.1 Integration (Canvas, etc.)
 
-To run the latest version of sylspace, simply do
+SylSpace supports LTI 1.1 for integration with Learning Management Systems like Canvas. See [docs/LTI-README.md](docs/LTI-README.md) for detailed setup instructions.
 
-    docker run -p 8080:8080 \
-      --mount type=bind,source=$YOUR_CONFIG_FILE,target=/usr/src/app/SylSpace-Secrets.conf \
-      sylspace/sylspace:latest
+### Quick Canvas Setup
 
-A quick word of explanation: In order to run, SylSpace needs a
-config file which provides at least one OAuth provider and a
-site_name. In the command above, replace $YOUR_CONFIG_FILE with
-the full path to your config file, and then it will be made
-available to the container.
+1. In Canvas, go to **Settings → Apps → +App**
+2. Select **Configuration Type: By URL** or **Manual Entry**
+3. Configure with:
+   - **Consumer Key**: Your LTI consumer key (from SylSpace-Secrets.conf)
+   - **Shared Secret**: Your LTI shared secret
+   - **Launch URL**: `https://COURSE.syllabus.space/lti` (replace COURSE with your course subdomain)
 
-Another word is the `-p` switch above maps a port on your machine
-(the first number) to the one on the container (the second). By
-default hypnotoad listens on 8080, so the above command is a safe
-bet. Of course, if you have a different listen location in your
-config file, or wish to listen on a different port (docker always
-runs as root, so you can map straight to port 80 or 443 if you
-want).
+### Grade Passback
 
-Also, you may want to add a volume to store the data directories,
-which are in /var/sylspace inside the container. An example switch
-to do this would be 
+SylSpace automatically sends grades back to Canvas when:
+- Students complete equizzes
+- The LTI launch included grade passback parameters (lis_outcome_service_url)
 
-    --mount source=my-volume-name,target=/var/sylspace
+### Configuration
 
-where it would then persist the data in the volume
-`my-volume-name`, and then you can load that in any container and
-stuff.
+Add to your `SylSpace-Secrets.conf`:
 
-If you plan on running it behind a reverse proxy (which is faaaar
-beyond the scope of this text), make sure to set the
-MOJO_REVERSE_PROXY environment variable for the container, via the
-following option to `docker run`
+```perl
+lti => {
+    consumer_key => 'your-key-here',
+    consumer_secret => 'your-secret-here',
+},
+```
 
-    -e MOJO_REVERSE_PROXY=1
+## Passkey Authentication (WebAuthn)
+
+SylSpace supports passwordless authentication via passkeys:
+
+1. Users register a passkey from their profile settings
+2. On subsequent logins, they can authenticate with fingerprint, Face ID, or security key
+3. Passkeys are tied to the user's email address
+
+Passkey data is stored in `/var/sylspace/passkeys/`.
 
 ## Automatic (Re-) Start
 
@@ -165,7 +181,6 @@ them over to one of your systems systemd directories
 `systemctl daemon-reload`, then `systemctl start SylSpace`. You
 can also run `systemctl enable SylSpace` to have it always turn on
 on startup.
-
 
 ## Developing
 
@@ -182,236 +197,145 @@ The equiz evaluator is completely separate and laid out into `Model/eqbackend`.
 
 All equizzes that come with the system are in `templates/equiz/`
 
-All default quizzes that course instructors can copy into their own home directories are in `templates/equiz/` .
-
-
-
-
 ## File Itinerary
 
 ### The Top Level
 
-* **initsylspace.pl**
-:	the most important file.  initializes the `/var/sylspace` hierarchy
+* **initsylspace.pl** : initializes the `/var/sylspace` hierarchy
+* **initsylspace.pm** : module for initialization
+* **SylSpace** : The Main Executable
+* **SylBackup** : Backup utility
+* cpanfile : describes all required perl modules
+* cpanfile.snapshot : locked versions
+* SylSpace-Secrets.template : template for secrets config
+* start-hypnotoad.sh, stop-hypnotoad.sh, restart-hypnotoad.sh : server control scripts
+* redirector : HTTP to HTTPS redirector
+* README.md : this file
 
-* **SylSpace**
-:	The Main Executable
+### ./docs
 
-* runserver.pl
-:	smartly starts the server, depending on the hostname, with hypnotoad or morbo
-
-
-The rest are also useful.
-
-* cpanfile
-:	describes all required perl modules.  Used only once during installation as `carton install`
-
-
-* SylSpace-Secrets.conf@
-:	A symlink to outside the hierarchy to keep secrets
-
-* SylSpace-Secrets.template
-:	Illustrates how the secret file should look like
-
-* SylSpace.service
-:	The systemd service file, to be copied into /lib/systemd/system/ for automatic (re-)start
-
-* start-hypnotoad.sh
-:	just a link to runserver.pl
-
-* stop-hypnotoad.sh
-:	reminder how to stop hypnotoad
-
-* FUTURE.md
-:	plans
-
-* README.md
-:	this file
-
-
-### ./lib/SylSpace: Testing tools
-
-* Test.pm - testing helpers. See `perldoc ./lib/SylSpace/Test.pm` for more info
-* Test/App.pm - an object to load the App into Test2::MojoX, with
-  some special helper functions
-* Test/Utils.pm - shared testing functions (not toooooo heavily used... yet)
-
+* LTI-README.md : LTI integration documentation
 
 ### ./lib/SylSpace/Controller: The URLs
 
-Each file corresponds to a URL.  Typically, a file such as `AuthGoclass` (note capitalization) is `/auth/goclass`.
+Each file corresponds to a URL. Typically, `AuthGoclass` → `/auth/goclass`.
 
+**Authentication:**
 * Aboutus.pm
-* AuthAuthenticator.pm
-* AuthBioform.pm
-* AuthBiosave.pm
-* AuthGoclass.pm
+* AuthAuthenticator.pm - Main login page with OAuth options
+* AuthBioform.pm, AuthBiosave.pm - User profile
+* AuthGoclass.pm - Class selection
 * AuthIndex.pm
-* AuthLocalverify.pm
-* AuthMagic.pm
+* AuthInstructorinfo.pm
+* AuthLocalverify.pm - Local/test authentication
+* AuthMagic.pm - Magic link login
+* AuthPasskey.pm - Passkey/WebAuthn authentication
 * AuthSendmail.pm
 * AuthSettimeout.pm
 * AuthTestsetuser.pm
 * AuthUserdisroll.pm
-* AuthUserenrollform.pm
-* AuthUserenrollsave.pm
-* Enter.pm
-* Equizcenter.pm
-* Equizgrade.pm
-* Equizrate.pm
-* Equizrender.pm
-* Faq.pm
-* Filecenter.pm
-* Hwcenter.pm
-* Index.pm
-* InstructorCiobuttonsave.pm
-* InstructorCioform.pm
-* InstructorCiosave.pm
-* InstructorCollectstudentanswers.pm
-* InstructorCptemplate.pm
-* InstructorDesign.pm
-* InstructorDownload.pm
-* InstructorEdit.pm
-* InstructorEditsave.pm
-* InstructorEquizcenter.pm
-* InstructorEquizmore.pm
-* InstructorFaq.pm
-* InstructorFilecenter.pm
-* InstructorFiledelete.pm
-* InstructorFilemore.pm
-* InstructorFilesetdue.pm
-* InstructorGradecenter.pm
-* InstructorGradedownload.pm
-* InstructorGradeform.pm
-* InstructorGradesave.pm
-* InstructorGradesave1.pm
-* InstructorGradetaskadd.pm
-* InstructorHwcenter.pm
-* InstructorHwmore.pm
-* InstructorIndex.pm
-* InstructorInstructor2student.pm
-* InstructorInstructoradd.pm
-* InstructorInstructordel.pm
-* InstructorInstructorlist.pm
-* InstructorMsgcenter.pm
-* InstructorMsgdelete.pm
-* InstructorMsgsave.pm
-* InstructorRmtemplates.pm
-* InstructorSilentdownload.pm
-* InstructorSitebackup.pm
-* InstructorStudentdetailedlist.pm
-* InstructorUserenroll.pm
-* InstructorView.pm
-* Login.pm
-* Logout.pm
-* Msgcenter.pm
-* Msgmarkasread.pm
-* PaypalHandler.pm
-* Showseclog.pm
-* Showtweets.pm
+* AuthUserenrollform.pm, AuthUserenrollsave.pm
+* Login.pm, Logout.pm
+* Privacy.pm
+
+**LTI:**
+* LTI.pm - LTI 1.1 launch and grade passback
+
+**Student:**
+* StudentAnswerdelete.pm
 * StudentEquizcenter.pm
 * StudentFaq.pm
-* StudentFilecenter.pm
-* StudentFileview.pm
+* StudentFilecenter.pm, StudentFileview.pm, StudentOwnfileview.pm
 * StudentGradecenter.pm
 * StudentHwcenter.pm
 * StudentIndex.pm
 * StudentMsgcenter.pm
-* StudentOwnfileview.pm
 * StudentQuickinfo.pm
 * StudentStudent2instructor.pm
-* Testquestion.pm
-* Testquestion.pm.save
-* Uploadform.pm
-* Uploadsave.pm
 
+**Instructor:**
+* InstructorCiobuttonsave.pm, InstructorCioform.pm, InstructorCiosave.pm
+* InstructorCollectstudentanswers.pm
+* InstructorCptemplate.pm
+* InstructorDesign.pm
+* InstructorDownload.pm, InstructorSilentdownload.pm
+* InstructorEdit.pm, InstructorEditsave.pm
+* InstructorEquizcenter.pm, InstructorEquizmore.pm
+* InstructorFaq.pm
+* InstructorFilecenter.pm, InstructorFiledelete.pm, InstructorFilemore.pm, InstructorFilesetdue.pm
+* InstructorGradecenter.pm, InstructorGradedownload.pm, InstructorGradeform.pm
+* InstructorGradesave.pm, InstructorGradesave1.pm, InstructorGradetaskadd.pm
+* InstructorHwcenter.pm, InstructorHwmore.pm
+* InstructorIndex.pm
+* InstructorInstructor2student.pm, InstructorInstructoradd.pm, InstructorInstructordel.pm, InstructorInstructorlist.pm
+* InstructorMsgcenter.pm, InstructorMsgdelete.pm, InstructorMsgsave.pm
+* InstructorRmtemplates.pm
+* InstructorSitebackup.pm
+* InstructorStudentdetailedlist.pm
+* InstructorUserenroll.pm
+* InstructorView.pm
+
+**Core/Shared:**
+* Enter.pm
+* Equizcenter.pm, Equizgrade.pm, Equizrate.pm, Equizrender.pm
+* Faq.pm
+* Filecenter.pm
+* Hwcenter.pm
+* Index.pm
+* Msgcenter.pm, Msgmarkasread.pm
+* PaypalHandler.pm
+* Showseclog.pm, Showtweets.pm
+* Testquestion.pm
+* Uploadform.pm, Uploadsave.pm
 
 ### ./bin: support scripts
-* addsite.pl  : CLI to add a new site with instructor
+
+* addsite.pl : CLI to add a new site with instructor
 * load_site : deploys a site layout based on configuration files in share/fixtures
 
 ### ./share/fixtures: site layouts
-These are testing fixtures that are used in the test suite, and
-also can be deployed on your live version of the app for live
-testing purposes.
 
-The format is basically self explanatory YAML (once you know what
-fields are expected by SylSpace)
+Testing fixtures that can be deployed for testing:
 
-* startersite.yml : contains the setup of a corpfin course with 2 users
-* messysite.yml : contains a setup of four different courses and many users
+* startersite.yml : setup of a corpfin course with 2 users
+* messysite.yml : setup of four different courses and many users
 
-### ./lib/SylSpace/Model:  The Workhorse.
+### ./lib/SylSpace/Model: The Workhorse
 
-* Controller.pm : all html-output related utility routines that are used many times over.
-* Model.pm : many of the main model functions, excepting Files, and Grades. For example, user management, sitebackup, bio, messages, tweeting, equiz interface
+* Controller.pm : HTML-output utility routines
+* Model.pm : core model functions (user management, sitebackup, bio, messages, equiz interface)
 * Files.pm : storing and retrieving homeworks, equizzes, and files
 * Grades.pm : storing and retrieving grades
-* Utils.pm : many common routines (e.g., globbing, file reading, etc.)
-* Webcourse.pm : creating and removing a new course, used in addsite.pl
-
-* csettings-schema.yml  : what course information is required and what it must satisfy
-* usettings-schema.yml  : what biographical information is required and what it must satisfy
-
+* Utils.pm : common routines (globbing, file reading, etc.)
+* Webcourse.pm : creating and removing courses
+* csettings-schema.yml : course settings schema
+* usettings-schema.yml : user settings schema
 
 ### ./lib/SylSpace/Model/eqbackend:
 
-* eqbackend.pl*  :  the main quiz evaluation program.
-  - solo = feed question from stdin
-  - syntax = check an equiz
-
+* eqbackend.pl : the main quiz evaluation program
 * EvalOneQuestion.pm
 * EvalStudentAnswers.pm
 * ParseTemplate.pm
 * RenderEquiz.pm
 
-this directory also contains some example equizzes for quicker testing
-
-* 1simple.equiz
-* tester.equiz
-* testsolo.equiz
-
-
-
-### Static Files
-
-#### ./public/css , ./public/html , ./public/images , ./public/js
-
-primarily lots of decorative image files, and some other browser support files.
-
- 
-#### ./public/html/ifaq:
-* syllabus-sophisticated.html
-* syllabus-sophisticated.png
-* syllabus.html
- 
-
-
 ### ./templates/layouts:
 
-* sylspace.html.ep : the key look of the website.  other ep files inherit it, and only change it a little
+* sylspace.html.ep : the main template
 * auth.html.ep
-* both.html.ep@
+* both.html.ep
 * instructor.html.ep
 * student.html.ep
 
- 
 ### ./templates/equiz : Quizzes
 
-
 #### ./templates/equiz/tutorials:
-
 * 1simple.equiz
 * 2medium.equiz
 * 3advanced.equiz
-* 4final-mba-2015.equiz  --- needs checking
-
 
 #### ./templates/equiz/starters:
-
 * blackscholes.equiz
-* bs-sample-answer.png
-* bs-sample-render.png
 * finance.equiz
 * headerinfo.equiz
 * math.equiz
@@ -421,43 +345,9 @@ primarily lots of decorative image files, and some other browser support files.
 * statistics.equiz
 * various.eqz
 
-
-#### ./templates/equiz/corpfinintro:
-
-* 02a-tvm.equiz
-* 02b-tvm.equiz
-* 03-perpann.equiz
-* 04a-capbudgrules.equiz
-* 04b-capbudgrules.equiz
-* 05a-yieldcurve.equiz
-* 05b-yieldcurve.equiz
-* 06a-uncertainty.equiz
-* 06b-uncertainty.equiz
-* 07-invintro.equiz
-* 08-invest.equiz
-* 09-benchmarking.equiz
-* 10-capm.equiz
-* 11-imperfect.equiz
-* 12-effmkts.equiz
-* 13-npvapplications.equiz
-* 14-valuation.equiz
-* 15-comparables.equiz
-* 16-capstruct-intro.equiz
-* 17-capstruct-more.equiz
-
-the following were for playing around:
-
-* eqformat.pl
-* final-mba-2015.equiuiz --- needs fixing
-* guidelines.txt
-
-
 #### ./templates/equiz/options:
+* 232andrei01.equiz through 232andrei06.equiz
 
-* 232andrei01.equiz
-* 232andrei02.equiz
-* 232andrei03.equiz
-* 232andrei04.equiz
-* 232andrei05.equiz
-* 232andrei06.equiz
+## License
 
+AGPL-3.0

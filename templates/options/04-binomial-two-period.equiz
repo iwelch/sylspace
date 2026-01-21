@@ -1,0 +1,85 @@
+::EQVERSION:: 1.0
+
+::NAME:: Binomial Model - Two Period
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Stock Price Suu
+:I: $S=rseq(40,50); $up=rseq(112,120); $u=$up/100; $ANS=$S*$u*$u
+:Q: Stock starts at $$S. Up factor u=$u. What is Suu (price after two up moves)?
+:A: Suu = S × u × u = $S × $u × $u = $$ANS.
+:T: 10
+:E:
+
+:N: Stock Price Sud
+:I: $S=rseq(40,50); $up=rseq(112,120); $u=$up/100; $dp=rseq(82,92); $d=$dp/100; $ANS=$S*$u*$d
+:Q: Stock at $$S. u=$u, d=$d. What is Sud (one up, one down)?
+:A: Sud = S × u × d = $S × $u × $d = $$ANS.
+:T: 10
+:E:
+
+:N: Stock Price Sdd
+:I: $S=rseq(40,50); $dp=rseq(82,92); $d=$dp/100; $ANS=$S*$d*$d
+:Q: Stock at $$S. Down factor d=$d. What is Sdd (two down moves)?
+:A: Sdd = S × d × d = $S × $d × $d = $$ANS.
+:T: 10
+:E:
+
+:N: European Call Two Period
+:I: $S=50; $K=50; $u=1.18; $d=0.86; $r=0.04; $Suu=$S*$u*$u; $Sud=$S*$u*$d; $Sdd=$S*$d*$d; $Cuu=max($Suu-$K,0); $Cud=max($Sud-$K,0); $Cdd=max($Sdd-$K,0); $p=(exp($r)-$d)/($u-$d); $Cu=exp(-$r)*($p*$Cuu+(1-$p)*$Cud); $Cd=exp(-$r)*($p*$Cud+(1-$p)*$Cdd); $ANS=exp(-$r)*($p*$Cu+(1-$p)*$Cd)
+:Q: S=$50, K=$50, u=1.18, d=0.86, r=4% per period. Terminal payoffs: Cuu=$$Cuu, Cud=$$Cud, Cdd=$$Cdd. What is the call price today?
+:A: p*=$p. Cu=$$Cu, Cd=$$Cd. C0 = exp(-r)[p*×Cu + (1-p*)×Cd] = $$ANS.
+:T: 10
+:E:
+
+:N: European Put Two Period
+:I: $S=50; $K=52; $u=1.15; $d=0.88; $r=0.03; $Suu=$S*$u*$u; $Sud=$S*$u*$d; $Sdd=$S*$d*$d; $Puu=max($K-$Suu,0); $Pud=max($K-$Sud,0); $Pdd=max($K-$Sdd,0); $p=(exp($r)-$d)/($u-$d); $Pu=exp(-$r)*($p*$Puu+(1-$p)*$Pud); $Pd=exp(-$r)*($p*$Pud+(1-$p)*$Pdd); $ANS=exp(-$r)*($p*$Pu+(1-$p)*$Pd)
+:Q: S=$50, K=$52, u=1.15, d=0.88, r=3%. What is the European put price?
+:A: Puu=$$Puu, Pud=$$Pud, Pdd=$$Pdd. p*=$p. Pu=$$Pu, Pd=$$Pd. P0=$$ANS.
+:T: 10
+:E:
+
+:N: American Put - Early Exercise at Node d
+:I: $S=50; $K=55; $u=1.12; $d=0.90; $r=0.03; $Sd=$S*$d; $Sud=$Sd*$u; $Sdd=$Sd*$d; $Pud=max($K-$Sud,0); $Pdd=max($K-$Sdd,0); $p=(exp($r)-$d)/($u-$d); $european_d=exp(-$r)*($p*$Pud+(1-$p)*$Pdd); $intrinsic_d=$K-$Sd; $ANS=max($european_d,$intrinsic_d)
+:Q: American put K=$55. At node d: Sd=$$Sd. European continuation=$$european_d, intrinsic=$$intrinsic_d. American put value at node d?
+:A: American = max(continuation, intrinsic) = max($european_d, $intrinsic_d) = $$ANS.
+:T: 10
+:E:
+
+:N: Delta at Time 0
+:I: $S=50; $K=50; $u=1.18; $d=0.86; $r=0.04; $Su=$S*$u; $Sd=$S*$d; $Suu=$Su*$u; $Sud=$Su*$d; $Sdd=$Sd*$d; $Cuu=max($Suu-$K,0); $Cud=max($Sud-$K,0); $Cdd=max($Sdd-$K,0); $p=(exp($r)-$d)/($u-$d); $Cu=exp(-$r)*($p*$Cuu+(1-$p)*$Cud); $Cd=exp(-$r)*($p*$Cud+(1-$p)*$Cdd); $ANS=($Cu-$Cd)/($Su-$Sd)
+:Q: Two-period tree: S=$50, K=$50, u=1.18, d=0.86, r=4%. Cu=$$Cu, Cd=$$Cd. What is delta at time 0?
+:A: Delta = (Cu - Cd)/(Su - Sd) = ($Cu - $Cd)/($Su - $Sd) = $ANS.
+:T: 10
+:E:
+
+:N: Delta at Node u
+:I: $S=50; $K=50; $u=1.18; $d=0.86; $Su=$S*$u; $Suu=$Su*$u; $Sud=$Su*$d; $Cuu=max($Suu-$K,0); $Cud=max($Sud-$K,0); $ANS=($Cuu-$Cud)/($Suu-$Sud)
+:Q: At node u: Suu=$$Suu, Sud=$$Sud, Cuu=$$Cuu, Cud=$$Cud. What is delta at node u?
+:A: Delta_u = (Cuu - Cud)/(Suu - Sud) = ($Cuu - $Cud)/($Suu - $Sud) = $ANS.
+:T: 10
+:E:
+
+:N: Gamma Approximation
+:I: $S=50; $K=50; $u=1.15; $d=0.87; $Su=$S*$u; $Sd=$S*$d; $Suu=$Su*$u; $Sud=$Su*$d; $Sdd=$Sd*$d; $Cuu=max($Suu-$K,0); $Cud=max($Sud-$K,0); $Cdd=max($Sdd-$K,0); $delta_u=($Cuu-$Cud)/($Suu-$Sud); $delta_d=($Cud-$Cdd)/($Sud-$Sdd); $ANS=($delta_u-$delta_d)/(($Suu+$Sud)/2-($Sud+$Sdd)/2)
+:Q: Delta at node u = $delta_u, delta at node d = $delta_d. Approximate gamma using average stock price change.
+:A: Gamma ≈ (delta_u - delta_d)/((Suu+Sud)/2 - (Sud+Sdd)/2) = $ANS.
+:T: 10
+:E:
+
+:N: Risk-Neutral Probability Path uu
+:I: $rp=rseq(3,6); $r=$rp/100; $up=rseq(112,118); $u=$up/100; $dp=rseq(85,92); $d=$dp/100; $p=(exp($r)-$d)/($u-$d); $ANS=$p*$p
+:Q: Risk-neutral probability p*=$p. What is the probability of reaching node uu (two up moves)?
+:A: P(uu) = p* × p* = $p × $p = $ANS.
+:T: 10
+:E:
+
+::END::

@@ -1,0 +1,99 @@
+::EQVERSION:: 1.0
+
+::NAME:: Option Payoffs and Basics
+
+::INSTRUCTOR:: Finance Department
+
+::AUTHOR:: SylSpace
+
+################################################################
+
+::START::
+
+################################################################
+
+:N: Call Option Payoff (ITM)
+:I: $S=rseq(50,60); $K=rseq(40,48); $ANS=$S-$K
+:Q: A call option has a strike price of $$K. At expiration, the stock price is $$S. What is the payoff of the call option?
+:A: The payoff of a call option at expiration is max(S-K, 0) = max($S-$K, 0) = $$ANS.
+:T: 10
+:E:
+
+:N: Call Option Payoff (OTM)
+:I: $S=rseq(35,45); $K=rseq(50,55); $ANS=0
+:Q: A call option has a strike price of $$K. At expiration, the stock price is $$S. What is the payoff of the call option?
+:A: The payoff of a call option at expiration is max(S-K, 0) = max($S-$K, 0) = $0. The option expires worthless.
+:T: 10
+:E:
+
+:N: Put Option Payoff (ITM)
+:I: $S=rseq(35,45); $K=rseq(50,55); $ANS=$K-$S
+:Q: A put option has a strike price of $$K. At expiration, the stock price is $$S. What is the payoff of the put option?
+:A: The payoff of a put option at expiration is max(K-S, 0) = max($K-$S, 0) = $$ANS.
+:T: 10
+:E:
+
+:N: Put Option Payoff (OTM)
+:I: $S=rseq(55,65); $K=rseq(45,50); $ANS=0
+:Q: A put option has a strike price of $$K. At expiration, the stock price is $$S. What is the payoff of the put option?
+:A: The payoff of a put option at expiration is max(K-S, 0) = max($K-$S, 0) = $0. The option expires worthless.
+:T: 10
+:E:
+
+:N: Call Option Profit
+:I: $S=rseq(55,65); $K=rseq(45,50); $premium=rseq(3,6); $payoff=$S-$K; $ANS=$payoff-$premium
+:Q: You bought a call option with strike $$K for a premium of $$premium. At expiration, the stock price is $$S. What is your profit (or loss)?
+:A: Payoff = max($S-$K, 0) = $$payoff. Profit = Payoff - Premium = $payoff - $premium = $$ANS.
+:T: 10
+:E:
+
+:N: Put Option Profit
+:I: $S=rseq(40,48); $K=rseq(50,55); $premium=rseq(2,5); $payoff=$K-$S; $ANS=$payoff-$premium
+:Q: You bought a put option with strike $$K for a premium of $$premium. At expiration, the stock price is $$S. What is your profit (or loss)?
+:A: Payoff = max($K-$S, 0) = $$payoff. Profit = Payoff - Premium = $payoff - $premium = $$ANS.
+:T: 10
+:E:
+
+:N: Short Call Profit
+:I: $S=rseq(55,65); $K=rseq(50,52); $premium=rseq(4,7); $payoff=$S-$K; $ANS=$premium-$payoff
+:Q: You wrote (sold) a call option with strike price $$K and received premium $$premium. At expiration, the stock price is $$S. What is your profit?
+:A: As the option writer, your payoff is premium - max(S-K, 0) = $premium - $payoff = $$ANS.
+:T: 10
+:E:
+
+:N: Breakeven for Long Call
+:I: $K=rseq(45,55); $premium=rseq(3,7); $ANS=$K+$premium
+:Q: You buy a call option with strike price $$K for a premium of $$premium. At what stock price at expiration do you break even?
+:A: Breakeven occurs when Payoff = Premium, i.e., S - K = Premium. So S = K + Premium = $K + $premium = $$ANS.
+:T: 10
+:E:
+
+:N: Breakeven for Long Put
+:I: $K=rseq(45,55); $premium=rseq(2,6); $ANS=$K-$premium
+:Q: You buy a put option with strike price $$K for a premium of $$premium. At what stock price at expiration do you break even?
+:A: Breakeven occurs when Payoff = Premium, i.e., K - S = Premium. So S = K - Premium = $K - $premium = $$ANS.
+:T: 10
+:E:
+
+:N: Intrinsic Value of Call
+:I: $S=rseq(52,58); $K=rseq(48,50); $ANS=$S-$K
+:Q: A call option has a strike price of $$K. The current stock price is $$S. What is the intrinsic value of the call?
+:A: Intrinsic value of a call = max(S-K, 0) = max($S-$K, 0) = $$ANS.
+:T: 10
+:E:
+
+:N: Time Value of Option
+:I: $S=rseq(52,58); $K=rseq(48,50); $premium=rseq(6,10); $intrinsic=$S-$K; $ANS=$premium-$intrinsic
+:Q: A call option with strike $$K is trading at $$premium. The current stock price is $$S. What is the time value of this option?
+:A: Intrinsic value = max($S-$K, 0) = $$intrinsic. Time value = Premium - Intrinsic = $premium - $intrinsic = $$ANS.
+:T: 10
+:E:
+
+:N: Maximum Loss on Long Call
+:I: $premium=rseq(3,8); $ANS=$premium
+:Q: You buy a call option for a premium of $$premium. What is your maximum possible loss?
+:A: The maximum loss on a long call is the premium paid = $$ANS.
+:T: 10
+:E:
+
+::END::
