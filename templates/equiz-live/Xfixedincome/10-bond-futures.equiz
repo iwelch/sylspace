@@ -15,35 +15,35 @@
 :N: Treasury Futures Price
 :I: $spot=rseq(98,102); $r=rseq(3,5)/100; $T=rseq(2,6)/12; $accrued=rseq(1,3); $ANS=($spot+$accrued)*exp($r*$T)-$accrued
 :Q: T-bond spot (clean) $$spot, accrued $$accrued, repo rate $r, $T years to delivery. Futures price (clean)?
-:A: F = (Spot + Accrued) × e^(rT) - Accrued at delivery ≈ $$ANS.
+:A: F = (Spot + Accrued) * e^(rT) - Accrued at delivery ~ $$ANS.
 :T: 10
 :E:
 
 :N: Conversion Factor
 :I: $coupon=rseq(4,8); $maturity=rseq(15,25); $cf=($coupon/6)*(1-1/1.03^($maturity*2))/0.03+1/1.03^($maturity*2); $ANS=$cf
 :Q: Bond: $coupon% coupon, $maturity years to maturity. Conversion factor (6% yield assumption)?
-:A: CF ≈ PV of bond at 6% yield per $1 face = $ANS.
+:A: CF ~ PV of bond at 6% yield per $1 face = $ANS.
 :T: 20
 :E:
 
 :N: Invoice Price
 :I: $futures=rseq(115,125); $cf=rseq(0.85,1.15); $accrued=rseq(1,3); $ANS=$futures*$cf+$accrued
 :Q: Futures price $futures, conversion factor $cf, accrued interest $$accrued. Invoice price?
-:A: Invoice = Futures × CF + Accrued = $futures × $cf + $accrued = $$ANS.
+:A: Invoice = Futures * CF + Accrued = $futures * $cf + $accrued = $$ANS.
 :T: 10
 :E:
 
 :N: Cheapest to Deliver
 :I: $bond_price1=rseq(105,115); $cf1=rseq(0.90,1.00); $bond_price2=rseq(118,128); $cf2=rseq(1.05,1.15); $futures=rseq(115,120); $basis1=$bond_price1-$futures*$cf1; $basis2=$bond_price2-$futures*$cf2; $ANS=min($basis1,$basis2)
 :Q: Bond 1: price $$bond_price1, CF $cf1. Bond 2: price $$bond_price2, CF $cf2. Futures $$futures. CTD has lowest basis?
-:A: Basis1 = $bond_price1 - $futures×$cf1 = $$basis1. Basis2 = $$basis2. CTD basis = $$ANS.
+:A: Basis1 = $bond_price1 - $futures*$cf1 = $$basis1. Basis2 = $$basis2. CTD basis = $$ANS.
 :T: 10
 :E:
 
 :N: Futures Hedge Ratio
 :I: $port_value=rseq(10,30)*1000000; $port_dur=rseq(5,8); $futures_dur=rseq(6,9); $futures_price=rseq(110,125); $contract_size=100000; $ANS=-($port_value*$port_dur)/($futures_price/100*$contract_size*$futures_dur)
 :Q: Portfolio $$port_value, duration $port_dur. Futures: duration $futures_dur, price $futures_price, $100K contract. Hedge ratio?
-:A: N = -(Port × Dur_p) / (Futures × Contract × Dur_f) = $ANS contracts.
+:A: N = -(Port * Dur_p) / (Futures * Contract * Dur_f) = $ANS contracts.
 :T: 10
 :E:
 
@@ -71,7 +71,7 @@
 :N: Eurodollar Futures DV01
 :I: $contracts=rseq(10,50); $ANS=$contracts*25
 :Q: You have $contracts Eurodollar futures contracts. DV01 (each contract = $25 per bp)?
-:A: DV01 = $contracts × $25 = $$ANS.
+:A: DV01 = $contracts * $25 = $$ANS.
 :T: 10
 :E:
 
