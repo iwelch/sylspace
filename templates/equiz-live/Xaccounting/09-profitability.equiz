@@ -29,7 +29,7 @@
 :N: DuPont ROE
 :I: $margin=rseq(5,12)/100; $turnover=rseq(0.8,1.5); $leverage=rseq(1.5,2.5); $ANS=$margin*$turnover*$leverage*100
 :Q: Net margin $margin, asset turnover $turnover, leverage $leverage. DuPont ROE?
-:A: ROE = Margin × Turnover × Leverage = $margin × $turnover × $leverage = $ANS%.
+:A: ROE = Margin * Turnover * Leverage = $margin * $turnover * $leverage = $ANS%.
 :T: 10
 :E:
 
@@ -43,7 +43,7 @@
 :N: NOPAT Calculation
 :I: $ebit=rseq(120,300)*1000; $tax_rate=rseq(20,30)/100; $ANS=$ebit*(1-$tax_rate)
 :Q: EBIT $$ebit, tax rate $tax_rate. What is NOPAT?
-:A: NOPAT = EBIT × (1 - tax rate) = $ebit × (1 - $tax_rate) = $$ANS.
+:A: NOPAT = EBIT * (1 - tax rate) = $ebit * (1 - $tax_rate) = $$ANS.
 :T: 10
 :E:
 
@@ -78,7 +78,7 @@
 :N: Sustainable Growth Rate
 :I: $roe=rseq(10,20)/100; $retention=rseq(50,80)/100; $ANS=$roe*$retention*100
 :Q: ROE $roe, retention ratio $retention. Sustainable growth rate?
-:A: SGR = ROE × Retention = $roe × $retention = $ANS%.
+:A: SGR = ROE * Retention = $roe * $retention = $ANS%.
 :T: 10
 :E:
 
