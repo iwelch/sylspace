@@ -71,7 +71,7 @@
 :N: Forward Volatility
 :I: $var1=rseq(5,8)/100; $T1=rseq(1,3)/12; $var2=rseq(6,10)/100; $T2=rseq(4,6)/12; $forward_var=($var2*$T2-$var1*$T1)/($T2-$T1); $ANS=sqrt($forward_var)
 :Q: 1-month variance $var1 (T1=$T1), 3-month variance $var2 (T2=$T2). Forward vol for month 2-3?
-:A: Forward variance = (\(\sigma\)₂^2T₂ - \(\sigma\)₁^2T₁)/(T₂-T₁) = $forward_var. Forward vol = sqrt($forward_var) = $ANS.
+:A: Forward variance = (\(\sigma\)_2^2T_2 - \(\sigma\)_1^2T_1)/(T_2-T_1) = $forward_var. Forward vol = sqrt($forward_var) = $ANS.
 :T: 20
 :E:
 
