@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Immunization Surplus
 :I: $assets=rseq(12,20)*1000000; $liabilities=rseq(10,16)*1000000; $ANS=$assets-$liabilities
 :Q: Asset portfolio $$assets, liability PV $$liabilities. Surplus?
 :A: Surplus = Assets - Liabilities = $assets - $liabilities = $$ANS.
 :T: 10
 :E:
+
 
 :N: Dollar Duration Match
 :I: $liab_dd=rseq(500,900)*1000; $asset_dur=rseq(5,8); $ANS=$liab_dd/$asset_dur*100
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Cash Flow Matching
 :I: $cf_year3=rseq(5,10)*1000000; $y3_rate=rseq(4,6)/100; $ANS=$cf_year3/(1+$y3_rate)^3
 :Q: Liability cash flow of $$cf_year3 due in 3 years. 3-year rate $y3_rate. Bond face value needed?
 :A: PV = CF / (1+r)^3 = $cf_year3 / (1+$y3_rate)^3 = $$ANS.
 :T: 10
 :E:
+
 
 :N: Rebalancing Threshold
 :I: $initial_dur=rseq(6,8); $current_dur=rseq(5.5,7.5); $liab_dur=rseq(6.5,8.5); $tolerance=0.5; $gap=abs($current_dur-$liab_dur); $ANS=$gap
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Contingent Immunization Cushion
 :I: $portfolio=rseq(100,150)*1000000; $immunized_value=rseq(90,130)*1000000; $ANS=$portfolio-$immunized_value
 :Q: Portfolio value $$portfolio. Minimum immunized value needed $$immunized_value. Cushion?
 :A: Cushion = Portfolio - Min value = $portfolio - $immunized_value = $$ANS.
 :T: 10
 :E:
+
 
 :N: Horizon Matching
 :I: $horizon=rseq(5,10); $liab_dur=$horizon; $asset_dur=rseq(4,9); $ANS=$liab_dur-$asset_dur
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Barbell vs Bullet Immunization
 :I: $bullet_dur=rseq(6,8); $short_dur=rseq(2,4); $long_dur=rseq(10,14); $w_short=rseq(40,60)/100; $w_long=1-$w_short; $barbell_dur=$w_short*$short_dur+$w_long*$long_dur; $ANS=$barbell_dur
 :Q: Bullet: duration $bullet_dur. Barbell: $w_short in $short_dur-year, $w_long in $long_dur-year. Barbell duration?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Duration Drift
 :I: $initial_dur=rseq(6,9); $years_passed=1; $ANS=$initial_dur-$years_passed
 :Q: Initial duration $initial_dur years. After $years_passed year (no rebalancing), approximate new duration?
 :A: New duration ~ Initial - Time passed = $initial_dur - $years_passed = $ANS years.
 :T: 10
 :E:
+
 
 :N: Surplus Duration
 :I: $asset_mv=rseq(110,150)*1000000; $asset_dur=rseq(6,9); $liab_pv=rseq(100,130)*1000000; $liab_dur=rseq(7,10); $surplus=$asset_mv-$liab_pv; $ANS=($asset_mv*$asset_dur-$liab_pv*$liab_dur)/$surplus
