@@ -74,7 +74,7 @@ __DATA__
 
 @@ instructorequizcenter.html.ep
 
-<% use SylSpace::Model::Controller qw( ifilehash2table fileuploadform); %>
+<% use SylSpace::Model::Controller qw( ifilehash2table fileuploadform dropzoneform); %>
 
 %title 'equiz center';
 %layout 'instructor';
@@ -89,6 +89,8 @@ __DATA__
        <div class="col-xs-3"><a href="/instructor/equizunpublishall" class="btn btn-warning btn-block">Unpublish All</a></div>
     </div>
   </div>
+
+  <%== dropzoneform() %>
 
   <%== fileuploadform() %>
 
@@ -130,5 +132,6 @@ __DATA__
 
 
 </main>
+
 
 
