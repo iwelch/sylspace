@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Put Delta
 :I: $S=50; $K=rseq(48,52); $r=0.05; $sigma=0.30; $T=0.5; $d1=(ln($S/$K)+($r+$sigma^2/2)*$T)/($sigma*sqrt($T)); $call_delta=CumNorm($d1); $ANS=$call_delta-1
 :Q: S=$50, K=$$K, r=5%, \(\sigma\)=30%, T=0.5. Call delta is $call_delta. What is the put delta?
 :A: \[ \Delta_{put} = \Delta_{call} - 1 = $call_delta - 1 = $ANS \]
 :T: 10
 :E:
+
 
 :N: Delta Hedge - Number of Shares
 :I: $delta=rseq(55,75)/100; $contracts=rseq(10,30); $multiplier=100; $ANS=$delta*$contracts*$multiplier
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Portfolio Delta
 :I: $shares=rseq(500,800); $call_delta=rseq(55,70)/100; $calls=rseq(5,10); $mult=100; $ANS=$shares+$call_delta*$calls*$mult
 :Q: You own $shares shares and $calls call contracts (\(\Delta\)=$call_delta each). What is your portfolio delta?
 :A: \[ \Delta_{portfolio} = \text{shares} + \Delta_{call} \cdot \text{calls} \cdot 100 = $shares + $call_delta \cdot $calls \cdot 100 = $ANS \]
 :T: 10
 :E:
+
 
 :N: Gamma Definition
 :I: $S=50; $K=50; $r=0.05; $sigma=0.30; $T=0.5; $d1=(ln($S/$K)+($r+$sigma^2/2)*$T)/($sigma*sqrt($T)); $ANS=Norm($d1)/($S*$sigma*sqrt($T))
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Delta Change from Gamma
 :I: $gamma=rseq(3,6)/100; $dS=rseq(1,3); $ANS=$gamma*$dS
 :Q: Gamma is $gamma. Stock price increases by $$dS. Approximately how much does delta change?
 :A: \[ \Delta\delta \approx \Gamma \cdot \Delta S = $gamma \cdot $dS = $ANS \]
 :T: 10
 :E:
+
 
 :N: Gamma Neutral Hedge
 :I: $port_gamma=rseq(-50,-20)/1000; $opt_gamma=rseq(3,5)/100; $ANS=-$port_gamma/$opt_gamma
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: ATM Delta Approximation
 :I: $T=rseq(3,12)/12; $r=rseq(3,6)/100; $sigma=rseq(25,35)/100; $adj=$r*$T/(2*$sigma*sqrt($T)); $ANS=0.5+$adj
 :Q: For an ATM call, \(\Delta \approx 0.5 + \frac{rT}{2\sigma\sqrt{T}}\). With r=$r, \(\sigma\)=$sigma, T=$T, what is delta?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Deep ITM Call Delta
 :I: $delta=rseq(92,98)/100; $ANS=$delta
 :Q: A deep in-the-money call has delta $delta. As it gets deeper ITM, what does delta approach?
 :A: Deep ITM call delta approaches 1.0. Current delta = $ANS.
 :T: 10
 :E:
+
 
 :N: Portfolio Value Change
 :I: $delta=rseq(300,500); $gamma=rseq(20,40); $dS=rseq(2,4); $ANS=$delta*$dS+0.5*$gamma*$dS^2
