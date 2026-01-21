@@ -15,14 +15,14 @@
 :N: APV - Base Case NPV
 :I: $fcf=rseq(50,120)*1000; $ru=rseq(10,14)/100; $g=rseq(2,4)/100; $ANS=$fcf*(1+$g)/($ru-$g)
 :Q: All-equity firm: FCF $$fcf, unlevered cost of equity $ru, growth $g. Base NPV?
-:A: Base NPV = FCF(1+g) / (ru - g) = $fcf×(1+$g) / ($ru - $g) = $$ANS.
+:A: Base NPV = FCF(1+g) / (ru - g) = $fcf*(1+$g) / ($ru - $g) = $$ANS.
 :T: 10
 :E:
 
 :N: Tax Shield Value (Perpetual Debt)
 :I: $debt=rseq(200,500)*1000; $tax=rseq(20,30)/100; $ANS=$debt*$tax
 :Q: Perpetual debt $$debt, tax rate $tax. PV of tax shield (assuming risk-free)?
-:A: PV(Tax shield) = Debt × Tax rate = $debt × $tax = $$ANS.
+:A: PV(Tax shield) = Debt * Tax rate = $debt * $tax = $$ANS.
 :T: 10
 :E:
 
@@ -36,7 +36,7 @@
 :N: Unlevered Cost of Equity
 :I: $rf=rseq(3,5)/100; $beta_u=rseq(80,120)/100; $mrp=rseq(5,7)/100; $ANS=($rf+$beta_u*$mrp)*100
 :Q: Risk-free $rf, unlevered beta $beta_u, MRP $mrp. Unlevered cost of equity?
-:A: ru = Rf + βu × MRP = $rf + $beta_u × $mrp = $ANS%.
+:A: ru = Rf + \(\beta\)u * MRP = $rf + $beta_u * $mrp = $ANS%.
 :T: 10
 :E:
 
@@ -50,7 +50,7 @@
 :N: Financial Distress Cost
 :I: $prob_distress=rseq(5,15)/100; $distress_cost=rseq(100,300)*1000; $ANS=$prob_distress*$distress_cost
 :Q: Probability of distress $prob_distress, expected distress cost $$distress_cost. Expected distress cost?
-:A: Expected cost = P(distress) × Cost = $prob_distress × $distress_cost = $$ANS.
+:A: Expected cost = P(distress) * Cost = $prob_distress * $distress_cost = $$ANS.
 :T: 10
 :E:
 
@@ -64,7 +64,7 @@
 :N: Annual Tax Shield
 :I: $debt=rseq(200,500)*1000; $rd=rseq(5,8)/100; $tax=rseq(20,30)/100; $ANS=$debt*$rd*$tax
 :Q: Debt $$debt, cost of debt $rd, tax rate $tax. Annual interest tax shield?
-:A: Tax shield = D × rd × T = $debt × $rd × $tax = $$ANS.
+:A: Tax shield = D * rd * T = $debt * $rd * $tax = $$ANS.
 :T: 10
 :E:
 
