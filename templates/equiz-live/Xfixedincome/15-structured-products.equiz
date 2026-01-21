@@ -21,8 +21,8 @@
 
 :N: Dual Floater Coupon
 :I: $multiplier=2; $libor=rseq(3,5); $ANS=$multiplier*$libor
-:Q: Dual floater pays 2 × LIBOR. LIBOR is $libor%. Coupon rate?
-:A: Coupon = 2 × LIBOR = 2 × $libor = $ANS%.
+:Q: Dual floater pays 2 * LIBOR. LIBOR is $libor%. Coupon rate?
+:A: Coupon = 2 * LIBOR = 2 * $libor = $ANS%.
 :T: 10
 :E:
 
@@ -36,7 +36,7 @@
 :N: Principal Protected Note Participation
 :I: $initial=1000; $index_return=rseq(10,25)/100; $participation=rseq(70,90)/100; $ANS=$initial*(1+$index_return*$participation)
 :Q: PPN: $1000 principal protected, $participation participation in index. Index up $index_return. Redemption?
-:A: Redemption = Principal × (1 + Return × Participation) = $initial × (1 + $index_return × $participation) = $$ANS.
+:A: Redemption = Principal * (1 + Return * Participation) = $initial * (1 + $index_return * $participation) = $$ANS.
 :T: 10
 :E:
 
@@ -57,14 +57,14 @@
 :N: IO Strip Value Change
 :I: $io_value=rseq(5,12); $rate_change=rseq(-100,-50); $io_duration=rseq(-3,-1); $ANS=$io_value*(-$io_duration)*$rate_change/10000*100
 :Q: IO strip worth $$io_value, duration $io_duration. Rates change $rate_change bps. Percentage value change?
-:A: %Change = -Duration × Δrate = -($io_duration) × $rate_change/10000 × 100 = $ANS%.
+:A: %Change = -Duration * \(\Delta\)rate = -($io_duration) * $rate_change/10000 * 100 = $ANS%.
 :T: 10
 :E:
 
 :N: Convertible Bond Parity
 :I: $stock=rseq(40,60); $conversion_ratio=rseq(20,30); $ANS=$stock*$conversion_ratio
 :Q: Convertible: conversion ratio $conversion_ratio shares. Stock at $$stock. Conversion (parity) value?
-:A: Parity = Stock × Conversion ratio = $stock × $conversion_ratio = $$ANS.
+:A: Parity = Stock * Conversion ratio = $stock * $conversion_ratio = $$ANS.
 :T: 10
 :E:
 
@@ -78,7 +78,7 @@
 :N: Credit-Linked Note Loss
 :I: $notional=rseq(5,15)*1000000; $recovery=rseq(30,50)/100; $ANS=$notional*(1-$recovery)
 :Q: CLN notional $$notional. Reference entity defaults with $recovery recovery. Investor loss?
-:A: Loss = Notional × (1 - Recovery) = $notional × (1 - $recovery) = $$ANS.
+:A: Loss = Notional * (1 - Recovery) = $notional * (1 - $recovery) = $$ANS.
 :T: 10
 :E:
 
