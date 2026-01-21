@@ -35,8 +35,8 @@
 
 :N: Portfolio Vega
 :I: $call_vega=rseq(0.12,0.20); $calls=rseq(30,60); $put_vega=rseq(0.12,0.20); $puts=rseq(20,40); $mult=100; $ANS=($call_vega*$calls+$put_vega*$puts)*$mult
-:Q: Long $calls calls (ν=$call_vega), long $puts puts (ν=$put_vega). Portfolio vega?
-:A: ν = (Callν*Calls + Putν*Puts) * 100 = $ANS per 1% vol change.
+:Q: Long $calls calls (\nu=$call_vega), long $puts puts (\nu=$put_vega). Portfolio vega?
+:A: \nu = (Call\nu*Calls + Put\nu*Puts) * 100 = $ANS per 1% vol change.
 :T: 10
 :E:
 
