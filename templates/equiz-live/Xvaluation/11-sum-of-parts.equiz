@@ -19,12 +19,14 @@
 :T: 10
 :E:
 
+
 :N: Segment Value from Multiple
 :I: $ebitda=rseq(50,150)*1000; $multiple=rseq(6,12); $ANS=$ebitda*$multiple
 :Q: Segment EBITDA $$ebitda, industry multiple $multiple*. Segment value?
 :A: Value = EBITDA * Multiple = $ebitda * $multiple = $$ANS.
 :T: 10
 :E:
+
 
 :N: Corporate Overhead Allocation
 :I: $gross_sotp=rseq(800,1500)*1000; $overhead=rseq(30,80)*1000; $overhead_multiple=rseq(6,10); $overhead_value=$overhead*$overhead_multiple; $ANS=$gross_sotp-$overhead_value
@@ -33,12 +35,14 @@
 :T: 10
 :E:
 
+
 :N: Conglomerate Discount
 :I: $sotp_value=rseq(900,1600)*1000; $market_value=rseq(700,1300)*1000; $ANS=($market_value/$sotp_value-1)*100
 :Q: SOTP value $$sotp_value, market value $$market_value. Conglomerate discount?
 :A: Discount = (Market / SOTP) - 1 = ($market_value / $sotp_value) - 1 = $ANS%.
 :T: 10
 :E:
+
 
 :N: Hidden Asset Value
 :I: $book_value=rseq(100,300)*1000; $market_value=rseq(200,500)*1000; $ANS=$market_value-$book_value
@@ -47,12 +51,14 @@
 :T: 10
 :E:
 
+
 :N: Equity Stakes Value
 :I: $stake_pct=rseq(15,40)/100; $subsidiary_value=rseq(400,900)*1000; $ANS=$stake_pct*$subsidiary_value
 :Q: Company owns $stake_pct of subsidiary worth $$subsidiary_value. Stake value?
 :A: Stake = % * Value = $stake_pct * $subsidiary_value = $$ANS.
 :T: 10
 :E:
+
 
 :N: Net Equity Value (SOTP)
 :I: $ev=rseq(900,1600)*1000; $debt=rseq(200,500)*1000; $minority=rseq(30,100)*1000; $cash=rseq(50,150)*1000; $ANS=$ev-$debt-$minority+$cash
@@ -61,6 +67,7 @@
 :T: 10
 :E:
 
+
 :N: Weighted Multiple
 :I: $seg1_ebitda=rseq(60,120)*1000; $mult1=rseq(6,9); $seg2_ebitda=rseq(40,80)*1000; $mult2=rseq(10,14); $total_ebitda=$seg1_ebitda+$seg2_ebitda; $weighted=($seg1_ebitda*$mult1+$seg2_ebitda*$mult2)/$total_ebitda; $ANS=$weighted
 :Q: Seg1 EBITDA $$seg1_ebitda at $mult1*, Seg2 EBITDA $$seg2_ebitda at $mult2*. Weighted average multiple?
@@ -68,12 +75,14 @@
 :T: 10
 :E:
 
+
 :N: Breakup Value Premium
 :I: $sotp=rseq(1000,1800)*1000; $current_price=rseq(700,1300)*1000; $ANS=($sotp/$current_price-1)*100
 :Q: SOTP value $$sotp, current market cap $$current_price. Breakup value premium?
 :A: Premium = (SOTP / Current) - 1 = ($sotp / $current_price) - 1 = $ANS%.
 :T: 10
 :E:
+
 
 :N: Tax Leakage on Sale
 :I: $sale_proceeds=rseq(300,600)*1000; $tax_basis=rseq(100,300)*1000; $tax_rate=rseq(20,30)/100; $gain=$sale_proceeds-$tax_basis; $ANS=$gain*$tax_rate
