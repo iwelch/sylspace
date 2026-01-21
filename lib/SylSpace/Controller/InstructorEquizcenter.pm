@@ -8,13 +8,9 @@ use Mojolicious::Lite;
 use lib qw(.. ../..); ## make syntax checking easier
 use strict;
 
-use feature ':5.20';
-use feature 'signatures';
-no warnings qw(experimental::signatures);
-
-use SylSpace::Model::Model qw(sudo tzi);
-use SylSpace::Model::Files qw(eqlisti eqsetdue listtemplates);
-use SylSpace::Model::Controller qw(global_redirect  standard);
+use SylSpace::Model::Model qw(sudo);
+use SylSpace::Model::Files qw(eqlistalifiles eqlisti cptemplate rmtemplatescmd listtemplates);
+use SylSpace::Model::Controller qw(global_redirect ifilehash2table  standard fileuploadform dropzoneform btn);
 
 ################################################################
 
@@ -24,49 +20,60 @@ get '/instructor/equizcenter' => sub {
 
   sudo( $course, $c->session->{uemail} );
 
-  $c->stash(
-	    filelist => eqlisti($course),
-	    templatelist => listtemplates(),
-	    tzi => tzi( $c->session->{uemail} ) );
+  my $tzi= $c->session->{tzi};
+
+  $c->stash( filelist => eqlisti($course), templatelist => listtemplates(), tzi => $tzi );
+};
+
+get '/instructor/cptemplate' => sub {
+  my $c = shift;
+  (my $course = standard( $c )) or return global_redirect($c);
+  sudo( $course, $c->session->{uemail} );
+  my $tname= $c->req->query_params->param('templatename');
+  my @r=cptemplate($course, $tname);
+  $c->flash( message => "copied @r" )->redirect_to('/instructor/equizcenter');
+};
+
+get '/instructor/rmtemplates' => sub {
+  my $c = shift;
+  (my $course = standard( $c )) or return global_redirect($c);
+  sudo( $course, $c->session->{uemail} );
+  my @r=rmtemplatescmd($course);
+  $c->flash( message => "deleted @r" )->redirect_to('/instructor/equizcenter');
 };
 
 get '/instructor/equizpublishall' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
-
   sudo( $course, $c->session->{uemail} );
-
+  
+  use SylSpace::Model::Files qw(eqsettimes);
   my $filelist = eqlisti($course);
   my $count = 0;
-  my $sixmonths = time() + 6*30*24*60*60;  ## 6 months from now
-
-  foreach my $f (@$filelist) {
-    eqsetdue($course, $f->{sfilename}, $sixmonths);
-    ++$count;
+  my $future = time() + 180*24*60*60;  # 6 months from now
+  foreach my $f (keys %$filelist) {
+    eqsettimes($course, $f, $future);
+    $count++;
   }
-
-  $c->flash(message => "Published $count equiz files (due in 6 months)")->redirect_to('equizcenter');
+  $c->flash( message => "Published all $count equizzes (due date set to 6 months from now)" )->redirect_to('/instructor/equizcenter');
 };
 
 get '/instructor/equizunpublishall' => sub {
   my $c = shift;
   (my $course = standard( $c )) or return global_redirect($c);
-
   sudo( $course, $c->session->{uemail} );
-
+  
+  use SylSpace::Model::Files qw(eqsettimes);
   my $filelist = eqlisti($course);
   my $count = 0;
-
-  foreach my $f (@$filelist) {
-    eqsetdue($course, $f->{sfilename}, 0);
-    ++$count;
+  foreach my $f (keys %$filelist) {
+    eqsettimes($course, $f, 0);
+    $count++;
   }
-
-  $c->flash(message => "Unpublished $count equiz files")->redirect_to('equizcenter');
+  $c->flash( message => "Unpublished all $count equizzes (due date set to 0)" )->redirect_to('/instructor/equizcenter');
 };
 
 1;
-
 
 ################################################################
 
@@ -74,12 +81,12 @@ __DATA__
 
 @@ instructorequizcenter.html.ep
 
-<% use SylSpace::Model::Controller qw( ifilehash2table fileuploadform dropzoneform); %>
-
 %title 'equiz center';
 %layout 'instructor';
 
 <main>
+
+  <h1> Equiz Center </h1>
 
   <%== ifilehash2table($filelist, [ 'equizrun', 'view', 'download', 'edit' ], 'equiz', $tzi) %>
 
@@ -87,6 +94,7 @@ __DATA__
     <div class="row" style="text-align:center;">
        <div class="col-xs-3"><a href="/instructor/equizpublishall" class="btn btn-success btn-block">Publish All</a></div>
        <div class="col-xs-3"><a href="/instructor/equizunpublishall" class="btn btn-warning btn-block">Unpublish All</a></div>
+       <div class="col-xs-6"><a href="/instructor/rmtemplates" class="btn btn-default btn-block">Remove All Unchanged Unpublished Template Files</a></div>
     </div>
   </div>
 
@@ -105,19 +113,12 @@ __DATA__
        <%
           my $rv= "";
           foreach (@$templatelist) {
-	    $rv .= '<div class="col-xs-2" style="margin-bottom:10px;"> <a href="/instructor/cptemplate?templatename='.$_.'" class="btn btn-default btn-block">'.$_.'</a></div>'."\n";
+	    $rv .= '<div class="col-xs-2" style="margin-bottom:10px;"> <a href="/instructor/cptemplate?templatename='.$_.'\" class="btn btn-default btn-block">'.$_.'</a></div>'."\n";
 	  }
        %>
        <%== $rv %>
     </div> <!--row-->
   </div> <!--formgroup-->
-
-  <div class="form-group" id="narrow">
-    <div class="row" style="text-align:center;color:black">
-       <div class="col-xs-6"><a href="/instructor/rmtemplates" class="btn btn-default btn-block">remove all unchanged unpublished template files</a></div>
-    </div> <!--row-->
-  </div> <!--formgroup-->
-
 
 
   <h4> Designing Your Own </h4>
@@ -128,11 +129,6 @@ __DATA__
     </div> <!--row-->
   </div> <!--formgroup-->
 
-  <p> To learn more about equizzes, please read the <a href="/aboutus"> intro </a>, and copy the set of sample templates into your directory for experimentation and examples.  </p>
-
 
 </main>
-
-
-
 
