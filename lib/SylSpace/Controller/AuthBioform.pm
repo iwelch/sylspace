@@ -35,6 +35,26 @@ __DATA__
 %title 'user bio';
 %layout 'auth';
 
+<style>
+  /* Two-column layout for bio form on larger screens */
+  @media (min-width: 992px) {
+    .bio-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 2em;
+    }
+    .bio-form-grid .form-group {
+      margin-bottom: 15px;
+    }
+  }
+  /* Single column on smaller screens */
+  @media (max-width: 991px) {
+    .bio-form-grid {
+      display: block;
+    }
+  }
+</style>
+
 <main>
 
   <form class="form-horizontal" method="POST" action="/auth/biosave">
@@ -46,14 +66,16 @@ __DATA__
        </div>
   </div>
 
+  <div class="bio-form-grid">
   <%== $udrawform %>
+  </div>
 
   <!-- div class="form-group" style="padding-top:2em">
     <label class="col-sm-2 control-label" for="directlogincode">[c] directlogincode</label>
     <div class="col-sm-6">[Super-Confidential, Not Changeable, Ever]<br />  <a href="auth/showdirectlogincode">click here to play with knives</a><br /> </div>
   </div -->
 
-  <div class="form-group">
+  <div class="form-group" style="clear:both; padding-top:1em;">
      <button class="btn btn-lg btn-default" type="submit" value="submit">Submit These Settings</button>
   </div>
 
@@ -175,4 +197,5 @@ document.getElementById('passkey-register-btn').addEventListener('click', async 
 </script>
 
 </main>
+
 
