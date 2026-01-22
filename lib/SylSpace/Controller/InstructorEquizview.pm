@@ -61,10 +61,6 @@ __DATA__
 
 <main>
 
-<div class="alert alert-info" style="font-size:1.2em; text-align:center;">
-  <strong>Preview Mode:</strong> Viewing equiz as if student had entered "0" as answer to every question
-</div>
-
 <h2>Quiz Preview: <%= $quizname %></h2>
 
 <%== $content %>
