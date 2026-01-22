@@ -8,7 +8,8 @@ use Mojolicious::Lite;
 use lib qw(.. ../..); ## make syntax checking easier
 use strict;
 
-use SylSpace::Model::Model qw(ciobuttons msgshownotread ismorphed isenrolled bioiscomplete showlasttweet);
+use SylSpace::Model::Model qw(ciobuttons msgshownotread ismorphed isenrolled bioiscomplete showlasttweet msgread);
+use SylSpace::Model::Grades qw(gradesashash);
 use SylSpace::Model::Controller qw(global_redirect  standard msghash2string);
 use SylSpace::Model::Files qw(eqlists hwlists filelists);
 
@@ -30,6 +31,14 @@ my $shm= sub {
   my $hwlist = eval { hwlists($course) } || [];
   my $filelist = eval { filelists($course) } || [];
 
+  # Check if there are grades for this student
+  my $gradedata = eval { gradesashash($course, $c->session->{uemail}) };
+  my $hasgradedata = (defined($gradedata) && defined($gradedata->{hw}) && scalar(@{$gradedata->{hw}}) > 0) ? 1 : 0;
+
+  # Check if there are any messages
+  my $msglist = eval { msgread($course) } || [];
+  my $hasmessages = (scalar(@$msglist) > 0) ? 1 : 0;
+
   $c->stash(
 	    msgstring => msghash2string(msgshownotread( $course, $c->session->{uemail} ), "/msgmarkasread"),
 	    btnptr => ciobuttons( $course )||undef,
@@ -39,6 +48,8 @@ my $shm= sub {
 	    haseq => scalar(@$eqlist) > 0,
 	    hashw => scalar(@$hwlist) > 0,
 	    hasfiles => scalar(@$filelist) > 0,
+	    hasgradedata => $hasgradedata,
+	    hasmessages => $hasmessages,
 	   );
 
 };
@@ -72,8 +83,8 @@ __DATA__
      <% if ($hashw) { %><%== btnblock("/student/hwcenter", '<i class="fa fa-folder-open"></i> HWork', 'Assignments') %><% } %>
      <% if ($hasfiles) { %><%== btnblock("/student/filecenter", '<i class="fa fa-files-o"></i> Files', 'Old Exams, etc') %><% } %>
 
-     <%== btnblock("/student/gradecenter", '<i class="fa fa-star"></i> Grades', 'Saved Scores') %>
-     <%== btnblock("/student/msgcenter", '<i class="fa fa-paper-plane"></i> Messages', 'From Instructor') %>
+     <% if ($hasgradedata) { %><%== btnblock("/student/gradecenter", '<i class="fa fa-star"></i> Grades', 'Saved Scores') %><% } %>
+     <% if ($hasmessages) { %><%== btnblock("/student/msgcenter", '<i class="fa fa-paper-plane"></i> Messages', 'From Instructor') %><% } %>
 
      <%== btnblock("/showseclog", '<i class="fa fa-lock"></i> Sec Log', 'Security Records') %>
      <%== btnblock("/showtweets", '<i class="fa fa-rss"></i> Class', 'Activity Monitor') %>
@@ -112,3 +123,4 @@ __DATA__
   }
   return $btnstring;
 } %>
+
