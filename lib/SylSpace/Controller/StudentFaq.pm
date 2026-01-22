@@ -20,22 +20,13 @@ get '/student/faq' => sub {
   my $isfaq= fileexistss($course, 'faq') ? filereads( $course, 'faq' ) : "<p>This instructor has not added a course-specific FAQ.</p>\n" ;
 
   use Perl6::Slurp;
-  my $body  = $c->app->home->child(qw/public html faq.html/)->slurp;
-  my $code= length($body) ? 404 : 200;
-
-#  my $allfaq = $c->ua->get("/html/faq.html");
-#  my $code= $allfaq->res->{code};
-#  my $body= $allfaq->res->{content}->{asset}->{content};
-#
-#  if ($code == 404) {
-#    $allfaq= "<p>There is no sitewide public /html/faq.html.</p>\n";
-#  } else {
-#    $body =~ s{.*(<body.*)}{$1}ms;
-#    $body =~ s{(.*)</body>.*}{$1}ms;
-#  }
-
-## use Mojolicious::Plugin::ContentManagement::Type::Markdown;
-## ($allfaq) or $allfaq = $markdown->translate(slurp("/faq.md"));
+  my $faqfile = $c->app->home->child(qw/static html faq.html/);
+  my $body = "";
+  if (-e $faqfile) {
+    $body = $faqfile->slurp;
+  } else {
+    $body = "<p>There is no sitewide FAQ file.</p>\n";
+  }
 
   $c->stash( allfaq => $body, isfaq => $isfaq, template => 'studentfaq' );
 };
@@ -78,4 +69,5 @@ __DATA__
   <%== $isfaq %>
 
 </main>
+
 
